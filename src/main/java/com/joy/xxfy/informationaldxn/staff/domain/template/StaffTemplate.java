@@ -1,4 +1,4 @@
-package com.joy.xxfy.informationaldxn.publish.template;
+package com.joy.xxfy.informationaldxn.staff.domain.template;
 
 public class StaffTemplate {
     public static final String ALREADY_IN_BLACKLIST = "该职工已在黑名单中";

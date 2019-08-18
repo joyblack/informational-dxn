@@ -14,7 +14,7 @@ import javax.validation.constraints.NotNull;
 @Entity
 @Table(name = "all_system_config")
 @Data
-@ToString
+@ToString(callSuper = true)
 @SQLDelete(sql = "update all_system_config set is_delete = 1 where id = ?")
 @Where(clause = "is_delete = 0")
 public class SystemConfigEntity extends BaseEntity {

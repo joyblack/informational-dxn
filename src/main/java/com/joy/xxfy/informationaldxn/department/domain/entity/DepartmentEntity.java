@@ -16,7 +16,7 @@ import java.util.List;
 
 @Entity(name = "all_department")
 @Data
-@ToString
+@ToString(callSuper = true)
 @SQLDelete(sql = "update all_department set is_delete = 1 where id = ?")
 @Where(clause = "is_delete = 0")
 public class DepartmentEntity extends BaseEntity implements Serializable {

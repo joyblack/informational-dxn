@@ -21,7 +21,7 @@ import com.joy.xxfy.informationaldxn.system.domain.repository.SystemConfigReposi
 import com.joy.xxfy.informationaldxn.system.enums.SystemConfigEnum;
 import com.joy.xxfy.informationaldxn.user.domain.entity.UserEntity;
 import com.joy.xxfy.informationaldxn.user.domain.enums.UserTypeEnum;
-import com.joy.xxfy.informationaldxn.user.repository.UserRepository;
+import com.joy.xxfy.informationaldxn.user.domain.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.jpa.domain.Specification;
@@ -154,7 +154,7 @@ public class CmPlatformService {
         cmPlatform.getUser().setIsDelete(true);
         cmPlatform.getUser().getDepartment().setIsDelete(true);
         // 测试只删除cm
-        cmPlatformRepository.delete(cmPlatform);
+        cmPlatformRepository.save(cmPlatform);
 
         return JoyResult.buildSuccessResult("删除成功");
     }

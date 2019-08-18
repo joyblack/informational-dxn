@@ -11,7 +11,7 @@ import com.joy.xxfy.informationaldxn.publish.utils.MD5Util;
 import com.joy.xxfy.informationaldxn.publish.utils.StringUtil;
 import com.joy.xxfy.informationaldxn.publish.utils.project.JpaPagerUtil;
 import com.joy.xxfy.informationaldxn.user.domain.entity.UserEntity;
-import com.joy.xxfy.informationaldxn.user.repository.UserRepository;
+import com.joy.xxfy.informationaldxn.user.domain.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;

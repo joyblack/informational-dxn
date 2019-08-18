@@ -65,6 +65,7 @@ public class JoyBeanUtil {
                 e.printStackTrace();
             }
         }
+        System.out.println(emptyName);
         String[] result = new String[emptyName.size()];
         return emptyName.toArray(result);
     }

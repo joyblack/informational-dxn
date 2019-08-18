@@ -14,7 +14,7 @@ import java.io.Serializable;
 @Entity
 @Table(name = "all_position")
 @Data
-@ToString
+@ToString(callSuper = true)
 @SQLDelete(sql = "update all_position set is_delete = 1 where id = ?")
 @Where(clause = "is_delete = 0")
 public class PositionEntity extends BaseEntity implements Serializable {
