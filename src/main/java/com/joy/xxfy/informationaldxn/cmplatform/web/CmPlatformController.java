@@ -147,7 +147,7 @@ public class CmPlatformController {
     @PostMapping(
             value = "/disable",
             produces = {"application/json;charset=UTF-8"})
-    public JoyResult disbale(@RequestBody @Valid IdReq idRequest, BindingResult bindingResult) {
+    public JoyResult disable(@RequestBody @Valid IdReq idRequest, BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
             return JoyResult.buildFailedResult(Notice.REQUEST_PARAMETER_IS_ERROR, bindingResult.getFieldError().getDefaultMessage());
         } else {

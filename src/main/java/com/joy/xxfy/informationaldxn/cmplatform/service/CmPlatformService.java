@@ -20,7 +20,6 @@ import com.joy.xxfy.informationaldxn.system.domain.entity.SystemConfigEntity;
 import com.joy.xxfy.informationaldxn.system.domain.repository.SystemConfigRepository;
 import com.joy.xxfy.informationaldxn.system.enums.SystemConfigEnum;
 import com.joy.xxfy.informationaldxn.user.domain.entity.UserEntity;
-import com.joy.xxfy.informationaldxn.user.domain.enums.UserStatusEnum;
 import com.joy.xxfy.informationaldxn.user.domain.enums.UserTypeEnum;
 import com.joy.xxfy.informationaldxn.user.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -150,14 +149,13 @@ public class CmPlatformService {
         if(cmPlatform == null){
             return JoyResult.buildFailedResult(Notice.CM_PLATFORM_NOT_EXIST);
         }
+        // 删除
+        cmPlatform.setIsDelete(true);
+        cmPlatform.getUser().setIsDelete(true);
+        cmPlatform.getUser().getDepartment().setIsDelete(true);
         // 测试只删除cm
         cmPlatformRepository.delete(cmPlatform);
 
-        //softDelete(cmPlatform);
-//        // soft delete user
-//        userMapper.softDeleteById(cmPlatform.getUserId());
-//        // soft delete department
-//        departmentMapper.softDeleteById(cmPlatform.getDepartmentId());
         return JoyResult.buildSuccessResult("删除成功");
     }
 
@@ -184,7 +182,11 @@ public class CmPlatformService {
                 if(!StringUtil.isEmpty(req.getCmName())){
                     predicates.add(builder.like(root.get("cmName"),"%" + req.getCmName() + "%"));
                 }
-                return  query.where(builder.or(predicates.toArray(new Predicate[predicates.size()]))).getRestriction();
+                if(predicates.size() == 0){
+                    return query.getRestriction();
+                }else{
+                    return query.where(builder.or(predicates.toArray(new Predicate[predicates.size()]))).getRestriction();
+                }
             }
         }));
     }
@@ -193,16 +195,17 @@ public class CmPlatformService {
      * 获取全部数据
      */
     public JoyResult getPagerList(GetCmPlatformListReq req) {
-        return JoyResult.buildSuccessResultWithData(cmPlatformRepository.findAll(new Specification<CmPlatformEntity>() {
-            @Override
-            public Predicate toPredicate(Root<CmPlatformEntity> root, CriteriaQuery<?> query, CriteriaBuilder builder) {
-                List<Predicate> predicates = new ArrayList<>();
-                if(!StringUtil.isEmpty(req.getLoginName())){
-                    predicates.add(builder.like(root.get("user").get("loginName"),"%" + req.getLoginName() + "%"));
-                }
-                if(!StringUtil.isEmpty(req.getCmName())){
-                    predicates.add(builder.like(root.get("cmName"),"%" + req.getCmName() + "%"));
-                }
+        return JoyResult.buildSuccessResultWithData(cmPlatformRepository.findAll((Specification<CmPlatformEntity>) (root, query, builder) -> {
+            List<Predicate> predicates = new ArrayList<>();
+            if(!StringUtil.isEmpty(req.getLoginName())){
+                predicates.add(builder.like(root.get("user").get("loginName"),"%" + req.getLoginName() + "%"));
+            }
+            if(!StringUtil.isEmpty(req.getCmName())){
+                predicates.add(builder.like(root.get("cmName"),"%" + req.getCmName() + "%"));
+            }
+            if(predicates.size() == 0){
+                return query.getRestriction();
+            }else{
                 return query.where(builder.or(predicates.toArray(new Predicate[predicates.size()]))).getRestriction();
             }
         },JpaPagerUtil.getPageable(req)));
@@ -218,7 +221,7 @@ public class CmPlatformService {
             return JoyResult.buildFailedResult(Notice.CM_PLATFORM_NOT_EXIST);
         }
         cmPlatformEntity.setStatus(CommonStatusEnum.STOP);
-        cmPlatformEntity.getUser().setUserStatus(UserStatusEnum.STOP);
+        cmPlatformEntity.getUser().setStatus(CommonStatusEnum.STOP);
         return JoyResult.buildSuccessResultWithData(cmPlatformRepository.save(cmPlatformEntity));
     }
 
@@ -232,7 +235,7 @@ public class CmPlatformService {
             return JoyResult.buildFailedResult(Notice.CM_PLATFORM_NOT_EXIST);
         }
         cmPlatformEntity.setStatus(CommonStatusEnum.START);
-        cmPlatformEntity.getUser().setUserStatus(UserStatusEnum.START);
+        cmPlatformEntity.getUser().setStatus(CommonStatusEnum.START);
         return JoyResult.buildSuccessResultWithData(cmPlatformRepository.save(cmPlatformEntity));
     }
 
@@ -308,7 +311,6 @@ public class CmPlatformService {
         user.setUsername(req.getUsername());
         // phone
         user.setPhone(req.getPhone());
-        user.setUserStatus(UserStatusEnum.START);
         // 类型：煤矿平台管理员
         user.setUserType(UserTypeEnum.CM_ADMIN);
         // 部门ID

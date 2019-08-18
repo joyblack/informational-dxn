@@ -1,8 +1,8 @@
 package com.joy.xxfy.informationaldxn.user.domain.entity;
 
 import com.joy.xxfy.informationaldxn.common.domain.entity.BaseEntity;
+import com.joy.xxfy.informationaldxn.common.enums.CommonStatusEnum;
 import com.joy.xxfy.informationaldxn.department.domain.entity.DepartmentEntity;
-import com.joy.xxfy.informationaldxn.user.domain.enums.UserStatusEnum;
 import com.joy.xxfy.informationaldxn.user.domain.enums.UserTypeEnum;
 import lombok.Data;
 import lombok.ToString;
@@ -52,7 +52,7 @@ public class UserEntity extends BaseEntity implements Serializable {
     /**
      * 用户状态
      */
-    private UserStatusEnum userStatus = UserStatusEnum.START;
+    private CommonStatusEnum status = CommonStatusEnum.START;
 
 
     /**
