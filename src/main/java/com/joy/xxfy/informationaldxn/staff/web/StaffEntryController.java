@@ -3,10 +3,9 @@ package com.joy.xxfy.informationaldxn.staff.web;
 import com.joy.xxfy.informationaldxn.common.web.req.IdReq;
 import com.joy.xxfy.informationaldxn.publish.result.JoyResult;
 import com.joy.xxfy.informationaldxn.publish.result.Notice;
-import com.joy.xxfy.informationaldxn.staff.domain.enetiy.StaffEntryEntity;
 import com.joy.xxfy.informationaldxn.staff.domain.service.StaffEntryService;
-import com.joy.xxfy.informationaldxn.staff.web.req.GetStaffEntryListReq;
 import com.joy.xxfy.informationaldxn.staff.web.req.StaffEntryAddReq;
+import com.joy.xxfy.informationaldxn.staff.web.req.StaffEntryGetListReq;
 import com.joy.xxfy.informationaldxn.staff.web.req.StaffEntryUpdateReq;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.BindingResult;
@@ -45,7 +44,7 @@ public class StaffEntryController {
     @PostMapping(
             value = "/getPagerList",
             produces = {"application/json;charset=UTF-8"})
-    public JoyResult getPagerList(@RequestBody @Valid GetStaffEntryListReq req, BindingResult bindingResult) {
+    public JoyResult getPagerList(@RequestBody @Valid StaffEntryGetListReq req, BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
             return JoyResult.buildFailedResult(Notice.REQUEST_PARAMETER_IS_ERROR, bindingResult.getFieldError().getDefaultMessage());
         } else {
@@ -60,7 +59,7 @@ public class StaffEntryController {
     @PostMapping(
             value = "/getAllList",
             produces = {"application/json;charset=UTF-8"})
-    public JoyResult getAllList(@RequestBody @Valid GetStaffEntryListReq req, BindingResult bindingResult) {
+    public JoyResult getAllList(@RequestBody @Valid StaffEntryGetListReq req, BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
             return JoyResult.buildFailedResult(Notice.REQUEST_PARAMETER_IS_ERROR, bindingResult.getFieldError().getDefaultMessage());
         } else {

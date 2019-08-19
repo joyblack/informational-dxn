@@ -9,7 +9,6 @@ import com.joy.xxfy.informationaldxn.position.domain.entity.PositionEntity;
 import com.joy.xxfy.informationaldxn.position.domain.repository.PositionRepository;
 import com.joy.xxfy.informationaldxn.publish.result.JoyResult;
 import com.joy.xxfy.informationaldxn.publish.result.Notice;
-import com.joy.xxfy.informationaldxn.publish.utils.JoyBeanUtil;
 import com.joy.xxfy.informationaldxn.publish.utils.LogUtil;
 import com.joy.xxfy.informationaldxn.publish.utils.PhoneUtil;
 import com.joy.xxfy.informationaldxn.publish.utils.StringUtil;
@@ -22,9 +21,8 @@ import com.joy.xxfy.informationaldxn.staff.domain.enums.StaffStatusEnum;
 import com.joy.xxfy.informationaldxn.staff.domain.repository.StaffEntryRepository;
 import com.joy.xxfy.informationaldxn.staff.domain.repository.StaffPersonalRepository;
 import com.joy.xxfy.informationaldxn.staff.domain.template.StaffTemplate;
-import com.joy.xxfy.informationaldxn.staff.web.req.GetStaffEntryListReq;
-import com.joy.xxfy.informationaldxn.staff.web.req.ReviewReq;
 import com.joy.xxfy.informationaldxn.staff.web.req.StaffEntryAddReq;
+import com.joy.xxfy.informationaldxn.staff.web.req.StaffEntryGetListReq;
 import com.joy.xxfy.informationaldxn.staff.web.req.StaffEntryUpdateReq;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.domain.Specification;
@@ -32,10 +30,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.criteria.Predicate;
-import javax.validation.constraints.NotNull;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 @Transactional
 @Service
@@ -320,21 +316,21 @@ public class StaffEntryService {
     /**
      * 获取分页数据
      */
-    public JoyResult getPagerList(GetStaffEntryListReq req) {
+    public JoyResult getPagerList(StaffEntryGetListReq req) {
         return JoyResult.buildSuccessResultWithData(staffEntryRepository.findAll(getPredicates(req), JpaPagerUtil.getPageable(req)));
     }
 
     /**
      * 获取全部
      */
-    public JoyResult getAllList(GetStaffEntryListReq req) {
+    public JoyResult getAllList(StaffEntryGetListReq req) {
         return JoyResult.buildSuccessResultWithData(staffEntryRepository.findAll(getPredicates(req)));
     }
 
     /**
      * 获取分页数据、全部数据的谓词条件
      */
-    private Specification<StaffEntryEntity> getPredicates(GetStaffEntryListReq req){
+    private Specification<StaffEntryEntity> getPredicates(StaffEntryGetListReq req){
         return (Specification<StaffEntryEntity>) (root, query, builder) -> {
             List<Predicate> predicates = new ArrayList<>();
             // username like
@@ -354,8 +350,8 @@ public class StaffEntryService {
                 predicates.add(builder.equal(root.get("staffPersonal").get("nationality"), req.getNationality()));
             }
             // department =
-            if(req.getDepartment() != null){
-                predicates.add(builder.equal(root.get("department"), req.getDepartment()));
+            if(req.getDepartmentId() != null){
+                predicates.add(builder.equal(root.get("department").get("id"), req.getDepartmentId()));
             }
             // education =
             if(req.getEducation() != null){
@@ -366,8 +362,8 @@ public class StaffEntryService {
                 predicates.add(builder.equal(root.get("reviewStatus"), req.getReviewStatus()));
             }
             // position =
-            if(req.getPosition() != null){
-                predicates.add(builder.equal(root.get("position"), req.getPosition()));
+            if(req.getPositionId() != null){
+                predicates.add(builder.equal(root.get("position").get("id"), req.getPositionId()));
             }
             // birth between
             if(req.getBirthDateStart() != null){

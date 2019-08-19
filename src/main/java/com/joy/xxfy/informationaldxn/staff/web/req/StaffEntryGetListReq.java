@@ -13,7 +13,7 @@ import java.util.Date;
 
 @Data
 @ToString(callSuper = true)
-public class GetStaffEntryListReq extends BasePageReq {
+public class StaffEntryGetListReq extends BasePageReq {
     /**
      * 姓名
      */
@@ -67,10 +67,10 @@ public class GetStaffEntryListReq extends BasePageReq {
     /**
      * 入职部门
      */
-    private DepartmentEntity department;
+    private Long departmentId;
 
     /**
      * 入职的职位
      */
-    private PositionEntity position;
+    private Long positionId;
 }

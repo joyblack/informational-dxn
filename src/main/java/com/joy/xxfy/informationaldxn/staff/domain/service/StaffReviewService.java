@@ -1,7 +1,5 @@
 package com.joy.xxfy.informationaldxn.staff.domain.service;
 
-import com.joy.xxfy.informationaldxn.department.domain.repository.DepartmentRepository;
-import com.joy.xxfy.informationaldxn.position.domain.repository.PositionRepository;
 import com.joy.xxfy.informationaldxn.publish.result.JoyResult;
 import com.joy.xxfy.informationaldxn.publish.result.Notice;
 import com.joy.xxfy.informationaldxn.publish.utils.StringUtil;
@@ -9,9 +7,8 @@ import com.joy.xxfy.informationaldxn.publish.utils.project.JpaPagerUtil;
 import com.joy.xxfy.informationaldxn.staff.domain.enetiy.StaffEntryEntity;
 import com.joy.xxfy.informationaldxn.staff.domain.enums.ReviewStatusEnum;
 import com.joy.xxfy.informationaldxn.staff.domain.repository.StaffEntryRepository;
-import com.joy.xxfy.informationaldxn.staff.domain.repository.StaffPersonalRepository;
-import com.joy.xxfy.informationaldxn.staff.web.req.GetStaffEntryListReq;
 import com.joy.xxfy.informationaldxn.staff.web.req.ReviewReq;
+import com.joy.xxfy.informationaldxn.staff.web.req.StaffEntryGetListReq;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
@@ -29,21 +26,21 @@ public class StaffReviewService {
     /**
      * 获取分页数据，相比较员工列表，这里只选取处于审核状态以及审核不通过的员工信息
      */
-    public JoyResult getPagerList(GetStaffEntryListReq req) {
+    public JoyResult getPagerList(StaffEntryGetListReq req) {
         return JoyResult.buildSuccessResultWithData(staffEntryRepository.findAll(getPredicates(req), JpaPagerUtil.getPageable(req)));
     }
 
     /**
      * 获取全部数据，相比较员工列表，这里只选取处于审核状态以及审核不通过的员工信息
      */
-    public JoyResult getAllList(GetStaffEntryListReq req) {
+    public JoyResult getAllList(StaffEntryGetListReq req) {
         return JoyResult.buildSuccessResultWithData(staffEntryRepository.findAll(getPredicates(req)));
     }
 
     /**
      * 获取分页数据、全部数据的谓词条件
      */
-    private Specification<StaffEntryEntity> getPredicates(GetStaffEntryListReq req){
+    private Specification<StaffEntryEntity> getPredicates(StaffEntryGetListReq req){
         return (Specification<StaffEntryEntity>) (root, query, builder) -> {
             List<Predicate> predicates = new ArrayList<>();
             // username like
@@ -63,8 +60,8 @@ public class StaffReviewService {
                 predicates.add(builder.equal(root.get("staffPersonal").get("nationality"), req.getNationality()));
             }
             // department =
-            if(req.getDepartment() != null){
-                predicates.add(builder.equal(root.get("department"), req.getDepartment()));
+            if(req.getDepartmentId() != null){
+                predicates.add(builder.equal(root.get("department").get("id"), req.getDepartmentId()));
             }
             // education =
             if(req.getEducation() != null){
@@ -80,8 +77,8 @@ public class StaffReviewService {
                 );
             }
             // position =
-            if(req.getPosition() != null){
-                predicates.add(builder.equal(root.get("position"), req.getPosition()));
+            if(req.getPositionId() != null){
+                predicates.add(builder.equal(root.get("position").get("id"), req.getPositionId()));
             }
             // birth between
             if(req.getBirthDateStart() != null){

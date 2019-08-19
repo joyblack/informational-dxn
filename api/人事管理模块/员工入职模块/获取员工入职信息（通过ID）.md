@@ -1,7 +1,7 @@
 # 简介
 
 # 访问地址
-staffentry/get
+staff-entry/get
 
 # 请求参数
 

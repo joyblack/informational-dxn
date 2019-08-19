@@ -22,7 +22,7 @@ import java.util.Date;
 @Entity
 @Data
 @ToString(callSuper = true)
-@Table(name = "all_staff_desert")//身份证设置唯一性约束
+@Table(name = "all_staff_leave")//身份证设置唯一性约束
 @Where(clause = "is_delete = 0")
 public class StaffLeaveEntity extends BaseEntity {
     /**

@@ -1,7 +1,5 @@
 package com.joy.xxfy.informationaldxn.staff.domain.service;
 
-import com.joy.xxfy.informationaldxn.department.domain.repository.DepartmentRepository;
-import com.joy.xxfy.informationaldxn.position.domain.repository.PositionRepository;
 import com.joy.xxfy.informationaldxn.publish.result.JoyResult;
 import com.joy.xxfy.informationaldxn.publish.result.Notice;
 import com.joy.xxfy.informationaldxn.publish.utils.JoyBeanUtil;
@@ -11,134 +9,80 @@ import com.joy.xxfy.informationaldxn.publish.utils.StringUtil;
 import com.joy.xxfy.informationaldxn.publish.utils.identity.IdNumberUtil;
 import com.joy.xxfy.informationaldxn.publish.utils.project.JpaPagerUtil;
 import com.joy.xxfy.informationaldxn.staff.domain.enetiy.StaffEntryEntity;
+import com.joy.xxfy.informationaldxn.staff.domain.enetiy.StaffLeaveEntity;
 import com.joy.xxfy.informationaldxn.staff.domain.enetiy.StaffPersonalEntity;
-import com.joy.xxfy.informationaldxn.staff.domain.enums.ReviewStatusEnum;
-import com.joy.xxfy.informationaldxn.staff.domain.enums.StaffStatusEnum;
 import com.joy.xxfy.informationaldxn.staff.domain.repository.StaffEntryRepository;
-import com.joy.xxfy.informationaldxn.staff.domain.repository.StaffPersonalRepository;
-import com.joy.xxfy.informationaldxn.staff.domain.template.StaffTemplate;
-import com.joy.xxfy.informationaldxn.staff.web.req.GetStaffEntryListReq;
+import com.joy.xxfy.informationaldxn.staff.domain.repository.StaffLeaveRepository;
+import com.joy.xxfy.informationaldxn.staff.web.req.StaffLeaveAddReq;
+import com.joy.xxfy.informationaldxn.staff.web.req.StaffLeaveGetListReq;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.criteria.Predicate;
 import java.util.ArrayList;
 import java.util.List;
 
 @Service
+@Transactional
 public class StaffLeaveService {
-
-    @Autowired
-    private PositionRepository positionRepository;
-
-    @Autowired
-    private DepartmentRepository departmentRepository;
 
     @Autowired
     private StaffEntryRepository staffEntryRepository;
 
     @Autowired
-    private StaffPersonalRepository staffPersonalRepository;
+    private StaffLeaveRepository staffLeaveRepository;
 
     /**
      * 添加员工入职信息
      */
-    public JoyResult add(StaffEntryEntity reqEntry) {
-        // 校验身份证号
-        StaffPersonalEntity reqPersonal = reqEntry.getStaffPersonal();
-        if(!IdNumberUtil.isIDNumber((reqPersonal.getIdNumber()))){
-            return JoyResult.buildFailedResult(Notice.IDENTITY_NUMBER_ERROR);
+    public JoyResult add(StaffLeaveAddReq req) {
+        List<Long> entryIds = req.getEntries();
+        LogUtil.info("入职信息ID列表：{}", entryIds);
+        // 一个职位一个职位的处理，不要批处理
+        List<StaffEntryEntity> entries = new ArrayList<>();
+        for (Long entryId : entryIds) {
+            entries.add(staffEntryRepository.findAllById(entryId));
         }
-        // 检验电话号码
-        if(!PhoneUtil.isMobile(reqEntry.getStaffPersonal().getPhone())){
-            return JoyResult.buildFailedResult(Notice.PHONE_ERROR);
-        }
-        StaffPersonalEntity personalEntity = staffPersonalRepository.findAllByIdNumber(reqPersonal.getIdNumber());
-        if(personalEntity == null){
-            LogUtil.info("This staff never appeared in system.");
-            // 新增Personal并设置entry实体
-            reqEntry.setStaffPersonal(staffPersonalRepository.save(reqEntry.getStaffPersonal()));
-            reqEntry.setReviewStatus(ReviewStatusEnum.PASS);
-        }else{
-            LogUtil.info("This staff has personal information in system: {}", personalEntity);
-            // 接下来检测该用户是否同部门同职位出现，这是不合法的。
-            StaffEntryEntity checkStaff = staffEntryRepository.findAllByStaffPersonalAndDepartmentAndPosition(personalEntity,
-                    reqEntry.getDepartment(),
-                    reqEntry.getPosition());
-            if(checkStaff != null){
-                return JoyResult.buildFailedResult(Notice.STAFF_ALREADY_IN_DEPARTMENT);
+
+        for (StaffEntryEntity entry : entries) {
+            if(entry == null){
+                continue;
             }
-            List<StaffEntryEntity> entryList = staffEntryRepository.findAllByStaffPersonal(personalEntity);
-            if(entryList.size() > 0){
-                LogUtil.info("This is a special staff, need change review status from `PASS`to `WAIT`.");
-                // 记录原因
-                StringBuilder reviewReasonBuilder = new StringBuilder();
-                // 黑名单校验、重复部门校验
-                for (StaffEntryEntity entry : entryList) {
-                    if(entry.getStaffStatus().equals(StaffStatusEnum.BLACKLIST)){
-                        reviewReasonBuilder.append(StaffTemplate.ALREADY_IN_BLACKLIST);
-                    }else{
-                        reviewReasonBuilder.append(StaffTemplate.ALREADY_ENTRY
-                                .replaceAll(StaffTemplate.TMP_DEPARTMENT_NAME, entry.getDepartment().getDepartmentName())
-                                .replaceAll(StaffTemplate.TMP_POSITION_NAME, entry.getPosition().getPositionName()));
-                    }
-                }
-                // 设置审核状态（等待审核）、原因等信息
-                reqEntry.setReviewReasons(reviewReasonBuilder.toString());
-                reqEntry.setReviewStatus(ReviewStatusEnum.WAIT);
-            }else{
-                // 说明已经没有任何职位了，不必审核
-                reqEntry.setReviewStatus(ReviewStatusEnum.PASS);
-            }
-            // 更新个人信息,暂时不允许修改个人信息，后期再此处进行修改。你要考虑审核问题
-            reqEntry.setStaffPersonal(personalEntity);
+            // 建立离职信息
+            StaffLeaveEntity leaveInfo = new StaffLeaveEntity();
+            // 离职时间
+            leaveInfo.setLeaveTime(req.getLeaveTime());
+            // 离职类型
+            leaveInfo.setLeaveType(req.getLeaveType());
+            leaveInfo.setCompany(entry.getCompany());
+            leaveInfo.setPosition(entry.getPosition());
+            leaveInfo.setStaffPersonal(entry.getStaffPersonal());
+            leaveInfo.setDepartment(entry.getDepartment());
+            // 删除入职信息
+            LogUtil.info("Delete entry info is: {} ", entry);
+            entry.setIsDelete(true);
+            staffEntryRepository.save(entry);
+            // 新建离职信息
+            StaffLeaveEntity save = staffLeaveRepository.save(leaveInfo);
+            LogUtil.info("New leave info is: {}", save);
         }
-        // 最后保存
-        LogUtil.info("Last compute information is: {}", reqEntry);
-        StaffEntryEntity save = staffEntryRepository.save(reqEntry);
-        return JoyResult.buildSuccessResultWithData(save);
+        // Delete staff entry information.
+        return JoyResult.buildSuccessResult("操作成功");
     }
 
-    public JoyResult update(StaffEntryEntity entry) {
-        // 校验身份证号
-        StaffPersonalEntity reqPersonal = entry.getStaffPersonal();
-        if(!IdNumberUtil.isIDNumber((reqPersonal.getIdNumber()))){
-            return JoyResult.buildFailedResult(Notice.IDENTITY_NUMBER_ERROR);
-        }
-        // 检验电话号码
-        if(!PhoneUtil.isMobile(entry.getStaffPersonal().getPhone())){
-            return JoyResult.buildFailedResult(Notice.PHONE_ERROR);
-        }
-        // 是否存在
-        StaffEntryEntity dbEntry = staffEntryRepository.findAllById(entry.getId());
-        if(dbEntry == null){
-            return JoyResult.buildFailedResult(Notice.STAFF_ENTRY_NOT_EXIST);
-        }
-        // 重复职位
-        StaffEntryEntity checkStaff = staffEntryRepository.findAllByStaffPersonalAndDepartmentAndPositionAndIdNot(dbEntry.getStaffPersonal(),
-                entry.getDepartment(),
-                entry.getPosition(), entry.getId());
-        if(checkStaff != null){
-            return JoyResult.buildFailedResult(Notice.STAFF_ALREADY_IN_DEPARTMENT);
-        }
-        // 拷贝信息
-        LogUtil.info("before copy : {}", dbEntry);
-//        // 拷贝基本信息
-        JoyBeanUtil.copyPropertiesIgnoreSourceNullProperties(entry.getStaffPersonal(), dbEntry.getStaffPersonal());
-        // 拷贝入职信息
-        JoyBeanUtil.copyPropertiesIgnoreSourceNullProperties(entry, dbEntry);;
-
-        return JoyResult.buildSuccessResultWithData(staffEntryRepository.save(dbEntry));
-    }
+//    public JoyResult update(StaffEntryEntity entry) {
+//
+//    }
 
     public JoyResult delete(Long id) {
-        StaffEntryEntity dbEntry = staffEntryRepository.findAllById(id);
+        StaffLeaveEntity dbEntry = staffLeaveRepository.findAllById(id);
         if(dbEntry == null){
-            return JoyResult.buildFailedResult(Notice.STAFF_ENTRY_NOT_EXIST);
+            return JoyResult.buildFailedResult(Notice.STAFF_LEAVE_NOT_EXIST);
         }
         dbEntry.setIsDelete(true);
-        return JoyResult.buildSuccessResultWithData(staffEntryRepository.save(dbEntry));
+        return JoyResult.buildSuccessResultWithData(staffLeaveRepository.save(dbEntry));
     }
 
     /**
@@ -146,75 +90,60 @@ public class StaffLeaveService {
      */
     public JoyResult get(Long id) {
         // get older
-        return JoyResult.buildSuccessResultWithData(staffEntryRepository.findAllById(id));
+        return JoyResult.buildSuccessResultWithData(staffLeaveRepository.findAllById(id));
     }
 
 
     /**
      * 获取分页数据
      */
-    public JoyResult getPagerList(GetStaffEntryListReq req) {
-        return JoyResult.buildSuccessResultWithData(staffEntryRepository.findAll(getPredicates(req), JpaPagerUtil.getPageable(req)));
+    public JoyResult getPagerList(StaffLeaveGetListReq req) {
+        return JoyResult.buildSuccessResultWithData(staffLeaveRepository.findAll(getPredicates(req), JpaPagerUtil.getPageable(req)));
     }
 
     /**
      * 获取全部
      */
-    public JoyResult getAllList(GetStaffEntryListReq req) {
-        return JoyResult.buildSuccessResultWithData(staffEntryRepository.findAll(getPredicates(req)));
+    public JoyResult getAllList(StaffLeaveGetListReq req) {
+        return JoyResult.buildSuccessResultWithData(staffLeaveRepository.findAll(getPredicates(req)));
     }
 
     /**
      * 获取分页数据、全部数据的谓词条件
      */
-    private Specification<StaffEntryEntity> getPredicates(GetStaffEntryListReq req){
-        return (Specification<StaffEntryEntity>) (root, query, builder) -> {
+    private Specification<StaffLeaveEntity> getPredicates(StaffLeaveGetListReq req){
+        return (Specification<StaffLeaveEntity>) (root, query, builder) -> {
             List<Predicate> predicates = new ArrayList<>();
             // username like
             if(!StringUtil.isEmpty(req.getUsername())){
                 predicates.add(builder.like(root.get("staffPersonal").get("username"), "%" + req.getUsername() +"%"));
             }
-            // phone like
-            if(!StringUtil.isEmpty(req.getPhone())){
-                predicates.add(builder.like(root.get("staffPersonal").get("phone"), "%" + req.getPhone() +"%"));
+            // insured
+            if(req.getInsured() != null){
+                predicates.add(builder.equal(root.get("staffPersonal").get("insured"), req.getInsured()));
             }
-            // idNumber like
-            if(!StringUtil.isEmpty(req.getIdNumber())){
-                predicates.add(builder.like(root.get("staffPersonal").get("idNumber"), "%" + req.getIdNumber() +"%"));
+            // leave_type =
+            if(req.getLeaveType() != null){
+                predicates.add(builder.equal(root.get("leaveType"), req.getLeaveType()));
             }
-            // nationality =
-            if(!StringUtil.isEmpty(req.getNationality())){
-                predicates.add(builder.equal(root.get("staffPersonal").get("nationality"), req.getNationality()));
+            // company =
+            if(req.getCompanyId() != null){
+                predicates.add(builder.equal(root.get("company").get("id"), req.getCompanyId()));
             }
             // department =
-            if(req.getDepartment() != null){
-                predicates.add(builder.equal(root.get("department"), req.getDepartment()));
-            }
-            // education =
-            if(req.getEducation() != null){
-                predicates.add(builder.equal(root.get("staffPersonal").get("education"), req.getEducation()));
-            }
-            // all or STOP AND PASS?
-            if(req.getReviewStatus() != null){
-                predicates.add(builder.equal(root.get("reviewStatus"), req.getReviewStatus()));
+            if(req.getDepartmentId() != null){
+                predicates.add(builder.equal(root.get("department").get("id"), req.getDepartmentId()));
             }
             // position =
-            if(req.getPosition() != null){
-                predicates.add(builder.equal(root.get("position"), req.getPosition()));
+            if(req.getPositionId() != null){
+                predicates.add(builder.equal(root.get("position").get("id"), req.getPositionId()));
             }
-            // birth between
-            if(req.getBirthDateStart() != null){
-                predicates.add(builder.greaterThanOrEqualTo(root.get("staffPersonal").get("birthDate"), req.getBirthDateStart()));
+            // leave_time between
+            if(req.getLeaveTimeStart() != null){
+                predicates.add(builder.greaterThanOrEqualTo(root.get("leaveTime"), req.getLeaveTimeStart()));
             }
-            if(req.getBirthDateEnd() != null){
-                predicates.add(builder.lessThanOrEqualTo(root.get("staffPersonal").get("birthDate"), req.getBirthDateEnd()));
-            }
-            // entry time
-            if(req.getEntryTimeStart() != null){
-                predicates.add(builder.greaterThanOrEqualTo(root.get("entryTime"), req.getEntryTimeStart()));
-            }
-            if(req.getEntryTimeEnd() != null){
-                predicates.add(builder.lessThanOrEqualTo(root.get("entryTime"), req.getEntryTimeEnd()));
+            if(req.getLeaveTimeEnd() != null){
+                predicates.add(builder.lessThanOrEqualTo(root.get("leaveTime"), req.getLeaveTimeEnd()));
             }
             return builder.and(predicates.toArray(new Predicate[predicates.size()]));
         };
