@@ -9,7 +9,6 @@ import com.joy.xxfy.informationaldxn.staff.domain.enums.StaffStatusEnum;
 import com.joy.xxfy.informationaldxn.user.domain.entity.UserEntity;
 import lombok.Data;
 import lombok.ToString;
-import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.Where;
 
 import javax.persistence.*;

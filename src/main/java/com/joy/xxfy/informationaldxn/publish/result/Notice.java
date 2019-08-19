@@ -34,7 +34,9 @@ public enum Notice{
     STAFF_REVIEW_STATUS_MUST_BE_SELECT("请选择审核通过或者不通过",103003),
     ID_NUMBER_PHOTO_IS_ILLEGAL("身份证照片非法", 103004 ),
     ONE_INCH_PHOTO_IS_ILLEGAL("一寸照片非法", 103005 ),
-    STAFF_LEAVE_NOT_EXIST("员工离职信息不存在", 103000 ),
+    STAFF_LEAVE_NOT_EXIST("员工离职信息不存在", 103006 ),
+    STAFF_PERSONAL_INFO_NOT_EXIST("员工个人信息不存在", 103007),
+    STAFF_INJURY_INFO_NOT_EXIST("员工工伤信息不存在", 103008),
 
 
     // position
