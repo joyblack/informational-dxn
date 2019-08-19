@@ -25,9 +25,11 @@ import com.joy.xxfy.informationaldxn.staff.domain.template.StaffTemplate;
 import com.joy.xxfy.informationaldxn.staff.web.req.GetStaffEntryListReq;
 import com.joy.xxfy.informationaldxn.staff.web.req.ReviewReq;
 import com.joy.xxfy.informationaldxn.staff.web.req.StaffEntryAddReq;
+import com.joy.xxfy.informationaldxn.staff.web.req.StaffEntryUpdateReq;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.criteria.Predicate;
 import javax.validation.constraints.NotNull;
@@ -35,6 +37,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+@Transactional
 @Service
 public class StaffEntryService {
 
@@ -82,6 +85,8 @@ public class StaffEntryService {
         personalInfo.setAccountCharacter(req.getAccountCharacter());
         // 文化程度
         personalInfo.setEducation(req.getEducation());
+        // 专业
+        personalInfo.setProfession(req.getProfession());
         // 联系电话
         if(!PhoneUtil.isMobile(req.getPhone())){
             return JoyResult.buildFailedResult(Notice.PHONE_ERROR);
@@ -191,43 +196,108 @@ public class StaffEntryService {
             personalInfo = staffPersonalRepository.save(personalInfo);
 
         }
-        // 设置新职位的个人信息
+        // 设置个人信息
         entryInfo.setStaffPersonal(personalInfo);
         // 最后保存
         LogUtil.info("Last compute information is: {}", entryInfo);
         return JoyResult.buildSuccessResultWithData(staffEntryRepository.save(entryInfo));
     }
 
-    public JoyResult update(StaffEntryEntity entry) {
-        // 校验身份证号
-        StaffPersonalEntity reqPersonal = entry.getStaffPersonal();
-        if(!IdNumberUtil.isIDNumber((reqPersonal.getIdNumber()))){
-            return JoyResult.buildFailedResult(Notice.IDENTITY_NUMBER_ERROR);
-        }
-        // 检验电话号码
-        if(!PhoneUtil.isMobile(entry.getStaffPersonal().getPhone())){
-            return JoyResult.buildFailedResult(Notice.PHONE_ERROR);
-        }
-        // 是否存在
-        StaffEntryEntity dbEntry = staffEntryRepository.findAllById(entry.getId());
-        if(dbEntry == null){
+    public JoyResult update(StaffEntryUpdateReq req) {
+        // 获取原来的信息
+        StaffEntryEntity entryInfo = staffEntryRepository.findAllById(req.getId());
+        if(entryInfo == null){
             return JoyResult.buildFailedResult(Notice.STAFF_ENTRY_NOT_EXIST);
         }
-        // 重复职位
-        StaffEntryEntity checkStaff = staffEntryRepository.findAllByStaffPersonalAndDepartmentAndPositionAndIdNot(dbEntry.getStaffPersonal(),
-                entry.getDepartment(),
-                entry.getPosition(), entry.getId());
-        if(checkStaff != null){
-            return JoyResult.buildFailedResult(Notice.STAFF_ALREADY_IN_DEPARTMENT);
-        }
-        // 拷贝信息
-        LogUtil.info("before copy : {}", dbEntry);
-//        // 拷贝基本信息
-        JoyBeanUtil.copyPropertiesIgnoreSourceNullProperties(entry.getStaffPersonal(), dbEntry.getStaffPersonal());
-        // 拷贝入职信息
-        JoyBeanUtil.copyPropertiesIgnoreSourceNullProperties(entry, dbEntry);;
 
-        return JoyResult.buildSuccessResultWithData(staffEntryRepository.save(dbEntry));
+        // 姓名
+        entryInfo.getStaffPersonal().setUsername(req.getUsername());
+        // 身份证号:暂时不允许修改,若允许修改，要验证唯一性。
+//        if(!IdNumberUtil.isIDNumber((req.getIdNumber()))){
+//            return JoyResult.buildFailedResult(Notice.IDENTITY_NUMBER_ERROR);
+//        }else{
+//            entryInfo.getStaffPersonal().setIdNumber(req.getIdNumber());
+//        }
+        // 出生日期
+        entryInfo.getStaffPersonal().setBirthDate(req.getBirthDate());
+        // 性别
+        entryInfo.getStaffPersonal().setSex(req.getSex());
+        // 民族
+        entryInfo.getStaffPersonal().setNationality(req.getNationality());
+        // 家庭住址
+        entryInfo.getStaffPersonal().setHomeAddress(req.getHomeAddress());
+        // 户口性质
+        entryInfo.getStaffPersonal().setAccountCharacter(req.getAccountCharacter());
+        // 文化程度
+        entryInfo.getStaffPersonal().setEducation(req.getEducation());
+        // 专业
+        entryInfo.getStaffPersonal().setProfession(req.getProfession());
+        // 联系电话
+        if(!PhoneUtil.isMobile(req.getPhone())){
+            return JoyResult.buildFailedResult(Notice.PHONE_ERROR);
+        }else{
+            entryInfo.getStaffPersonal().setPhone(req.getPhone());
+        }
+        // 入职公司、煤矿
+        DepartmentEntity company = departmentRepository.findAllById(req.getCompanyId());
+        if(company == null){
+            return JoyResult.buildFailedResult(Notice.COMPANY_NOT_EXIST);
+        }else{
+            entryInfo.setCompany(company);
+        }
+        // 入职部门
+        DepartmentEntity department = departmentRepository.findAllById(req.getDepartmentId());
+        if(department == null){
+            return JoyResult.buildFailedResult(Notice.DEPARTMENT_NOT_EXIST);
+        }else{
+            entryInfo.setDepartment(department);
+        }
+        // 入职职务、工种
+        PositionEntity position = positionRepository.findAllById(req.getPositionId());
+        if(position == null){
+            return JoyResult.buildFailedResult(Notice.POSITION_NOT_EXIST);
+        }else{
+            entryInfo.setPosition(position);
+        }
+        // 入职时间
+        entryInfo.setEntryTime(req.getEntryTime());
+        // 参保状态
+        entryInfo.getStaffPersonal().setInsured(req.getInsured());
+        // 体检时间
+        entryInfo.setPhysicalExaminationTime(req.getPhysicalExaminationTime());
+        // 体检医院
+        entryInfo.setPhysicalExaminationHospital(req.getPhysicalExaminationHospital());
+        // 身份证照片
+        if(req.getIdNumberPhotoId() != null){
+            SystemFileEntity file = systemFileRepository.findAllByIdAndUploadModule(req.getIdNumberPhotoId(), UploadModuleEnums.STAFF_ID_NUMBER_PHOTO);
+            if(file == null){
+                return JoyResult.buildFailedResult(Notice.ID_NUMBER_PHOTO_IS_ILLEGAL);
+            }else{
+                entryInfo.getStaffPersonal().setIdNumberPhoto(file);
+            }
+        }
+        // 一寸相
+        if(req.getOneInchPhotoId() != null){
+            SystemFileEntity file = systemFileRepository.findAllByIdAndUploadModule(req.getOneInchPhotoId(), UploadModuleEnums.STAFF_ONE_INCH_PHOTO);
+            if(file == null){
+                return JoyResult.buildFailedResult(Notice.ONE_INCH_PHOTO_IS_ILLEGAL);
+            }else{
+                entryInfo.getStaffPersonal().setOneInchPhoto(file);
+            }
+        }
+        // 银行卡号
+        entryInfo.setBankNumber(req.getBankNumber());
+        // 开户行
+        entryInfo.setOpenBank(req.getOpenBank());
+        // 工资待遇
+        entryInfo.setRemuneration(req.getRemuneration());
+        // 工资待遇：按量计算
+        entryInfo.setRemunerationL(req.getRemunerationL());
+        // 备注信息
+        entryInfo.setRemarks(req.getRemarks());
+        // 最后保存
+        LogUtil.info("Last compute information is: {}", entryInfo);
+        return JoyResult.buildSuccessResultWithData(staffEntryRepository.save(entryInfo));
     }
 
     public JoyResult delete(Long id) {
@@ -246,7 +316,6 @@ public class StaffEntryService {
         // get older
         return JoyResult.buildSuccessResultWithData(staffEntryRepository.findAllById(id));
     }
-
 
     /**
      * 获取分页数据
