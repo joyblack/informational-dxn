@@ -14,17 +14,11 @@ spring:
 
     show-sql: true
     generate-ddl: true
-    # org.hibernate.dialect.MySQL5InnoDBDialect  #不加这句则默认为myisam引擎
     database-platform: org.hibernate.dialect.MySQL5InnoDBDialect
     properties:
       hibernate:
         format_sql: true
 
-  #  redis:
-#    host: 127.0.0.1
-#    port: 6379
-#    password: 123456
-#    timeout: 1000ms
   jackson:
     date-format: yyyy-MM-dd HH:mm:ss
     time-zone: GMT+8
@@ -47,7 +41,6 @@ jwtparam:
   base64Security: JXU4RDM1JXU3MTY0JXU4QkJFJXU4QkEx1
 
 file.path: E:&&file
-# 图片类型判断
 image.format: jpg;JPG;bmp;BMP;png;PNG
 
 logging:
@@ -58,5 +51,4 @@ logging:
 
 system:
   config:
-    # 煤矿平台的默认密码
     cm-platform-default-password: 123456

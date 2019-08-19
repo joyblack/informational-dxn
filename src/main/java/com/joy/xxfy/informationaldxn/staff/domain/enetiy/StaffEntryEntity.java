@@ -97,6 +97,11 @@ public class StaffEntryEntity extends BaseEntity {
      */
     private String reviewReasons;
 
+    /**
+     * 审核备注
+     */
+    private String reviewRemarks;
+
 
     /**
      * 审核时间,初始状态是为空，审核员审核之后生成该时间

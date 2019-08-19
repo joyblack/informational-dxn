@@ -30,7 +30,10 @@ public enum Notice{
     COMPANY_NOT_EXIST("平台/公司信息不存在",102003),
 
     // staff
-    STAFF_NOT_EXIST("员工信息不存在", 103000 ),
+    STAFF_ENTRY_NOT_EXIST("员工入职信息不存在", 103000 ),
+    STAFF_REVIEW_STATUS_MUST_BE_SELECT("请选择审核通过或者不通过",103003),
+
+
 
     // position
     POSITION_NOT_EXIST("职位信息不存在", 104000),
@@ -50,9 +53,10 @@ public enum Notice{
     RESOURCE_PARENT_NOT_EXIST("父资源信息不存在", 107001),
     RESOURCE_NAME_ALREADY_EXIST("资源名称已存在", 107001),
 
-    // review staff
-    REVIEW_STAFF_STATUS_ERROR("审核状态有误（0-未审核 1-通过 2-不通过）", 108000 ),
-    REVIEW_STAFF_NOT_EXIST("审核信息已经不存在", 108001);
+
+    ;
+
+
 
     private String message;
     private int code;

@@ -5,7 +5,9 @@ import com.joy.xxfy.informationaldxn.publish.result.JoyResult;
 import com.joy.xxfy.informationaldxn.publish.result.Notice;
 import com.joy.xxfy.informationaldxn.staff.domain.enetiy.StaffEntryEntity;
 import com.joy.xxfy.informationaldxn.staff.domain.service.StaffEntryService;
+import com.joy.xxfy.informationaldxn.staff.domain.service.StaffReviewService;
 import com.joy.xxfy.informationaldxn.staff.web.req.GetStaffEntryListReq;
+import com.joy.xxfy.informationaldxn.staff.web.req.ReviewReq;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -16,26 +18,10 @@ import org.springframework.web.bind.annotation.RestController;
 import javax.validation.Valid;
 
 @RestController
-@RequestMapping("staff-entry")
-public class StaffEntryController {
+@RequestMapping("staff-review")
+public class StaffReviewController {
     @Autowired
-    private StaffEntryService staffEntryService;
-
-
-    /**
-     * 获取
-     */
-    @PostMapping(
-            value = "/get",
-            produces = {"application/json;charset=UTF-8"})
-    public JoyResult get(@RequestBody @Valid IdReq req, BindingResult bindingResult) {
-        if (bindingResult.hasErrors()) {
-            return JoyResult.buildFailedResult(Notice.REQUEST_PARAMETER_IS_ERROR, bindingResult.getFieldError().getDefaultMessage());
-        } else {
-            // copy
-            return staffEntryService.get(req.getId());
-        }
-    }
+    private StaffReviewService staffReviewService;
 
     /**
      * 获取分页数据
@@ -48,7 +34,7 @@ public class StaffEntryController {
             return JoyResult.buildFailedResult(Notice.REQUEST_PARAMETER_IS_ERROR, bindingResult.getFieldError().getDefaultMessage());
         } else {
             // copy
-            return staffEntryService.getPagerList(req);
+            return staffReviewService.getPagerList(req);
         }
     }
 
@@ -63,54 +49,24 @@ public class StaffEntryController {
             return JoyResult.buildFailedResult(Notice.REQUEST_PARAMETER_IS_ERROR, bindingResult.getFieldError().getDefaultMessage());
         } else {
             // copy
-            return staffEntryService.getAllList(req);
+            return staffReviewService.getAllList(req);
         }
     }
 
     /**
-     * 添加
+     * 进行审核
      */
     @PostMapping(
-            value = "/add",
+            value = "review",
             produces = {"application/json;charset=UTF-8"})
-    public JoyResult add(@RequestBody @Valid StaffEntryEntity staffEntry, BindingResult bindingResult) {
+    public JoyResult review(@RequestBody @Valid ReviewReq req, BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
             return JoyResult.buildFailedResult(Notice.REQUEST_PARAMETER_IS_ERROR, bindingResult.getFieldError().getDefaultMessage());
         } else {
             // copy
-            return staffEntryService.add(staffEntry);
+            return staffReviewService.review(req);
         }
     }
 
-    /**
-     * 更新
-     */
-    @PostMapping(
-            value = "/update",
-            produces = {"application/json;charset=UTF-8"})
-    public JoyResult update(@RequestBody @Valid StaffEntryEntity staffEntry, BindingResult bindingResult) {
-        if (bindingResult.hasErrors()) {
-            return JoyResult.buildFailedResult(Notice.REQUEST_PARAMETER_IS_ERROR, bindingResult.getFieldError().getDefaultMessage());
-        } else {
-            // copy
-            return staffEntryService.update(staffEntry);
-        }
-    }
-
-    /**
-     * 删除
-     */
-    @PostMapping(
-            value = "/delete",
-            produces = {"application/json;charset=UTF-8"})
-    public JoyResult update(@RequestBody @Valid IdReq req, BindingResult bindingResult) {
-        if (bindingResult.hasErrors()) {
-            return JoyResult.buildFailedResult(Notice.REQUEST_PARAMETER_IS_ERROR, bindingResult.getFieldError().getDefaultMessage());
-        } else {
-            // copy
-            return staffEntryService.delete(req.getId());
-        }
-    }
-
-
+    
 }

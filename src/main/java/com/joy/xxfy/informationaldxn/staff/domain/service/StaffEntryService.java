@@ -2,7 +2,6 @@ package com.joy.xxfy.informationaldxn.staff.domain.service;
 
 import com.joy.xxfy.informationaldxn.department.domain.repository.DepartmentRepository;
 import com.joy.xxfy.informationaldxn.position.domain.repository.PositionRepository;
-import com.joy.xxfy.informationaldxn.publish.constant.ResultDataConstant;
 import com.joy.xxfy.informationaldxn.publish.result.JoyResult;
 import com.joy.xxfy.informationaldxn.publish.result.Notice;
 import com.joy.xxfy.informationaldxn.publish.utils.JoyBeanUtil;
@@ -19,15 +18,14 @@ import com.joy.xxfy.informationaldxn.staff.domain.repository.StaffEntryRepositor
 import com.joy.xxfy.informationaldxn.staff.domain.repository.StaffPersonalRepository;
 import com.joy.xxfy.informationaldxn.staff.domain.template.StaffTemplate;
 import com.joy.xxfy.informationaldxn.staff.web.req.GetStaffEntryListReq;
-import org.springframework.beans.BeanUtils;
+import com.joy.xxfy.informationaldxn.staff.web.req.ReviewReq;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
 import javax.persistence.criteria.Predicate;
+import javax.validation.constraints.NotNull;
 import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
 
 @Service
@@ -117,7 +115,7 @@ public class StaffEntryService {
         // 是否存在
         StaffEntryEntity dbEntry = staffEntryRepository.findAllById(entry.getId());
         if(dbEntry == null){
-            return JoyResult.buildFailedResult(Notice.STAFF_NOT_EXIST);
+            return JoyResult.buildFailedResult(Notice.STAFF_ENTRY_NOT_EXIST);
         }
         // 重复职位
         StaffEntryEntity checkStaff = staffEntryRepository.findAllByStaffPersonalAndDepartmentAndPositionAndIdNot(dbEntry.getStaffPersonal(),
@@ -129,11 +127,10 @@ public class StaffEntryService {
         // 拷贝信息
         LogUtil.info("before copy : {}", dbEntry);
 //        // 拷贝基本信息
-        //JoyBeanUtil.copyPropertiesIgnoreSourceNullProperties(entry.getStaffPersonal(), dbEntry.getStaffPersonal());
+        JoyBeanUtil.copyPropertiesIgnoreSourceNullProperties(entry.getStaffPersonal(), dbEntry.getStaffPersonal());
         // 拷贝入职信息
         JoyBeanUtil.copyPropertiesIgnoreSourceNullProperties(entry, dbEntry);;
-        // 更新基本信息
-        JoyBeanUtil.copyPropertiesIgnoreTargetNotNullProperties(entry.getStaffPersonal(), dbEntry.getStaffPersonal());
+
         return JoyResult.buildSuccessResultWithData(staffEntryRepository.save(dbEntry));
     }
 
