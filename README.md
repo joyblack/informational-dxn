@@ -1,12 +1,12 @@
-# 参考模板
-http://192.168.30.170:3030/#/system/department/list  1
-
-http://117.187.16.82:8070/digitizationMine/sumbitLogin 账号:admin 密码：a123456 公司名：gyehj#
+# Introduce
+This is the first item on Guizhou, May I try my best to do it!
 
 
+* http://192.168.30.170:3030/#/system/department/list  1
+* http://117.187.16.82:8070/digitizationMine/sumbitLogin admin&a123456 公司名：gyehj#
 
-# 1、接口调用
-## 1.1、调用地址
+# 1、Service Call
+## 1.1、service path
 各接口的调用模板：**{server:port}/{project}/{version}/{module}/{method}**
 
 * server:port： 根据服务器环境进行设置，例如: 127.0.0.1:8090
