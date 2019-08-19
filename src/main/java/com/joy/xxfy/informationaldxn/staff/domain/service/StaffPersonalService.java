@@ -5,12 +5,14 @@ import com.joy.xxfy.informationaldxn.publish.result.JoyResult;
 import com.joy.xxfy.informationaldxn.publish.result.Notice;
 import com.joy.xxfy.informationaldxn.publish.utils.identity.IdNumberUtil;
 import com.joy.xxfy.informationaldxn.staff.domain.repository.StaffPersonalRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.HashMap;
 
 @Service
 public class StaffPersonalService {
+    @Autowired
     private StaffPersonalRepository staffPersonalRepository;
 
     /**
@@ -38,5 +40,9 @@ public class StaffPersonalService {
         data.put(ResultDataConstant.BIRTH_DATE,IdNumberUtil.getBirthday(idNumber));
         data.put(ResultDataConstant.SEX,IdNumberUtil.getSex(idNumber).ordinal());
         return JoyResult.buildSuccessResultWithData(data);
+    }
+
+    public JoyResult getByUsername(String username) {
+        return JoyResult.buildSuccessResultWithData(staffPersonalRepository.findAllByUsername(username));
     }
 }

@@ -6,6 +6,7 @@ import com.joy.xxfy.informationaldxn.publish.result.JoyResult;
 import com.joy.xxfy.informationaldxn.publish.result.Notice;
 import com.joy.xxfy.informationaldxn.staff.domain.service.StaffPersonalService;
 import com.joy.xxfy.informationaldxn.staff.web.req.IdNumberReq;
+import com.joy.xxfy.informationaldxn.staff.web.req.UsernameReq;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -61,6 +62,21 @@ public class StaffPersonalController {
         } else {
             // copy
             return staffPersonalService.get(req.getId());
+        }
+    }
+
+    /**
+     * 获取个人信息(username)
+     */
+    @RequestMapping(
+            value = "getByUsername",
+            produces = {"application/json;charset=UTF-8"})
+    public JoyResult getByUsername(@RequestBody @Valid UsernameReq req, BindingResult bindingResult) {
+        if (bindingResult.hasErrors()) {
+            return JoyResult.buildFailedResult(Notice.REQUEST_PARAMETER_IS_ERROR, bindingResult.getFieldError().getDefaultMessage());
+        } else {
+            // copy
+            return staffPersonalService.getByUsername(req.getUsername());
         }
     }
 
