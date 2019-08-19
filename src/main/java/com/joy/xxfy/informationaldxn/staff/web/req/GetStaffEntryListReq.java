@@ -20,6 +20,18 @@ public class GetStaffEntryListReq extends BasePageReq {
     private String username;
 
     /**
+     * 身份证
+     */
+    private String idNumber;
+
+    /**
+     * 联系方式
+     */
+    private String phone;
+
+
+
+    /**
      * 出生日期截止
      */
     private Date birthDateStart;

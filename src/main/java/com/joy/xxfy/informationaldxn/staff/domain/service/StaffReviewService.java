@@ -50,6 +50,14 @@ public class StaffReviewService {
             if(!StringUtil.isEmpty(req.getUsername())){
                 predicates.add(builder.like(root.get("staffPersonal").get("username"), "%" + req.getUsername() +"%"));
             }
+            // phone like
+            if(!StringUtil.isEmpty(req.getPhone())){
+                predicates.add(builder.like(root.get("staffPersonal").get("phone"), "%" + req.getPhone() +"%"));
+            }
+            // idNumber like
+            if(!StringUtil.isEmpty(req.getIdNumber())){
+                predicates.add(builder.like(root.get("staffPersonal").get("idNumber"), "%" + req.getIdNumber() +"%"));
+            }
             // nationality =
             if(!StringUtil.isEmpty(req.getNationality())){
                 predicates.add(builder.equal(root.get("staffPersonal").get("nationality"), req.getNationality()));
@@ -113,6 +121,8 @@ public class StaffReviewService {
         entryInfo.setReviewStatus(req.getReviewStatus());
         // 审核备注信息
         entryInfo.setReviewRemarks(req.getReviewRemarks());
+        // 设置审核人信息:SESSION_USER
+        entryInfo.setReviewUser(null);
         return JoyResult.buildSuccessResultWithData(staffEntryRepository.save(entryInfo));
     }
 }

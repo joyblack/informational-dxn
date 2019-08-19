@@ -1,8 +1,8 @@
 # 简介
-获取列表，支持分页获取。
+获取入职审核列表，支持分页获取。其实和员工列表的获取没有多大区别，只不过该接口默认情况下只会返回未审核和审核失败的两类员工数据。
 
 # 访问地址
-staff-entry/getPagerList
+staff-review/getPagerList
 
 # 请求参数
 
@@ -46,10 +46,10 @@ JSON
 	"education": 0,
 	"reviewStatus": 0,
     "department":{
-        "id": 2
+        "departmentId": 2
     },
     "position":{
-        "id": 11
+        "postionId": 11
     }
 }
 ```
@@ -63,83 +63,6 @@ JSON
     "detailMessage": "",
     "data": {
         "content": [
-            {
-                "id": 1,
-                "isDelete": false,
-                "createTime": "2019-08-18 18:42:25",
-                "updateTime": "2019-08-18 18:42:25",
-                "remarks": null,
-                "company": {
-                    "id": 1,
-                    "isDelete": false,
-                    "createTime": "2019-08-18 08:46:12",
-                    "updateTime": "2019-08-18 08:46:12",
-                    "remarks": null,
-                    "departmentName": "贵州采矿平台_change",
-                    "code": "",
-                    "parentId": 0,
-                    "responseUser": "赵小艺2_change",
-                    "phone": "13535565497",
-                    "departmentType": "CM_PLATFORM",
-                    "path": null,
-                    "children": null
-                },
-                "department": {
-                    "id": 3,
-                    "isDelete": false,
-                    "createTime": "2019-08-18 16:47:03",
-                    "updateTime": "2019-08-18 16:47:03",
-                    "remarks": null,
-                    "departmentName": "信息分院561",
-                    "code": "00",
-                    "parentId": 2,
-                    "responseUser": "jake",
-                    "phone": "13535565497",
-                    "departmentType": "CM_PLATFORM",
-                    "path": "null2-3-",
-                    "children": null
-                },
-                "position": {
-                    "id": 3,
-                    "isDelete": false,
-                    "createTime": "2019-08-17 14:06:58",
-                    "updateTime": "2019-08-17 14:06:58",
-                    "remarks": "备注信息...",
-                    "positionName": "业务员3",
-                    "describes": "测试职位数据"
-                },
-                "entryTime": "2015-06-06 16:04:04",
-                "physicalExaminationHospital": "贵阳医科院111122222",
-                "physicalExaminationTime": "2015-06-06 16:04:04",
-                "remuneration": 10000,
-                "staffStatus": "INCUMBENCY",
-                "staffPersonal": {
-                    "id": 1,
-                    "isDelete": false,
-                    "createTime": "2019-08-18 18:03:35",
-                    "updateTime": "2019-08-18 18:03:35",
-                    "remarks": null,
-                    "idNumber": "522401199401025931",
-                    "username": "赵小艺11111",
-                    "sex": "MAN",
-                    "nationality": "汉族11111111111111",
-                    "birthDate": "2015-06-06 16:04:04",
-                    "education": "MASTER",
-                    "accountCharacter": "CITY_CHARACTER",
-                    "phone": "13535565497",
-                    "homeAddress": "33333333333333333333333333",
-                    "insured": "YES",
-                    "insuredTime": "2011-09-06 16:04:04",
-                    "nativePlace": "贵州省毕节市",
-                    "graduationCollege": "贵州大学",
-                    "graduationTime": "2015-06-06 16:04:04",
-                    "profession": "电子商务111111"
-                },
-                "reviewStatus": "PASS",
-                "reviewReasons": null,
-                "reviewTime": null,
-                "reviewUser": null
-            },
             {
                 "id": 2,
                 "isDelete": false,
@@ -193,8 +116,8 @@ JSON
                 "staffPersonal": {
                     "id": 1,
                     "isDelete": false,
-                    "createTime": "2019-08-18 18:03:35",
-                    "updateTime": "2019-08-18 18:03:35",
+                    "createTime": "2019-08-19 08:32:41",
+                    "updateTime": "2019-08-19 08:32:41",
                     "remarks": null,
                     "idNumber": "522401199401025931",
                     "username": "赵小艺11111",
@@ -204,7 +127,7 @@ JSON
                     "education": "MASTER",
                     "accountCharacter": "CITY_CHARACTER",
                     "phone": "13535565497",
-                    "homeAddress": "33333333333333333333333333",
+                    "homeAddress": "777777777777777777777777",
                     "insured": "YES",
                     "insuredTime": "2011-09-06 16:04:04",
                     "nativePlace": "贵州省毕节市",
@@ -214,6 +137,7 @@ JSON
                 },
                 "reviewStatus": "WAIT",
                 "reviewReasons": "已在贵州采矿平台_change入职，职务为业务员1\r\n",
+                "reviewRemarks": null,
                 "reviewTime": null,
                 "reviewUser": null
             }
@@ -225,14 +149,14 @@ JSON
                 "empty": true
             },
             "offset": 0,
-            "pageSize": 10,
             "pageNumber": 0,
+            "pageSize": 10,
             "paged": true,
             "unpaged": false
         },
         "last": true,
         "totalPages": 1,
-        "totalElements": 2,
+        "totalElements": 1,
         "size": 10,
         "number": 0,
         "sort": {
@@ -240,7 +164,7 @@ JSON
             "unsorted": true,
             "empty": true
         },
-        "numberOfElements": 2,
+        "numberOfElements": 1,
         "first": true,
         "empty": false
     },
