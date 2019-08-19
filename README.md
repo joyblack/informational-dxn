@@ -5,8 +5,8 @@ This is the first item on Guizhou, May I try my best to do it!
 * http://192.168.30.170:3030/#/system/department/list  1
 * http://117.187.16.82:8070/digitizationMine/sumbitLogin admin&a123456 公司名：gyehj#
 
-# 1、Service Call
-## 1.1、service path
+# Service Call
+## service path
 各接口的调用模板：**{server:port}/{project}/{version}/{module}/{method}**
 
 * server:port： 根据服务器环境进行设置，例如: 127.0.0.1:8090
@@ -21,6 +21,9 @@ This is the first item on Guizhou, May I try my best to do it!
 ```
 前半部分除了端口意外其他不会变动，因此，接口文档中的调用地址，只会写调用接口的 **{module}/{method}** 部分，请留意。
 
+## return parameter
+如果是获取数据的接口，若提供不存在的查询条件或者ID，返回也是成功提示，但是data属性中的属性值为空。
+
 # TimeLine
 **2019-8-12 -> 2019-8-16**
 
@@ -32,8 +35,7 @@ This is the first item on Guizhou, May I try my best to do it!
 
 4. 完善项目的员工模块：员工入职相关管理后台接口
 
-## 1.2、返回参数
-如果是获取数据的接口，若提供不存在的查询条件或者ID，返回也是成功提示，但是data属性中的属性值为空。
+
 
 
 
