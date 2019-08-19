@@ -66,15 +66,30 @@ public class StaffEntryEntity extends BaseEntity {
     private Date physicalExaminationTime;
 
     /**
-     * 薪酬
+     * 薪酬(元/月)
      */
     private Long remuneration;
+
+    /**
+     * 薪酬（元/量）
+     */
+    private Long remunerationL;
 
 
     /**
      * 员工状态
      */
     private StaffStatusEnum staffStatus = StaffStatusEnum.INCUMBENCY;
+
+    /**
+     * 银行卡号
+     */
+    private String bankNumber;
+
+    /**
+     * 开户行
+     */
+    private String openBank;
 
 
     /**
