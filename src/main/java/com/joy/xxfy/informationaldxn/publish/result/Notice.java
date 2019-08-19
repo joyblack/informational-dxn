@@ -32,6 +32,8 @@ public enum Notice{
     // staff
     STAFF_ENTRY_NOT_EXIST("员工入职信息不存在", 103000 ),
     STAFF_REVIEW_STATUS_MUST_BE_SELECT("请选择审核通过或者不通过",103003),
+    ID_NUMBER_PHOTO_IS_ILLEGAL("身份证照片非法", 103004 ),
+    ONE_INCH_PHOTO_IS_ILLEGAL("一寸照片非法", 103005 ),
 
 
 

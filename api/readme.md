@@ -51,3 +51,6 @@ http://117.187.16.82:8070/digitizationMine/sumbitLogin 账号:admin 密码：a12
 1. 完善职工模块。
 
 2. 开始安全管理、设备管理制作。
+
+# 问题
+1. 部门表路径会出现null。

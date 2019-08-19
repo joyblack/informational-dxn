@@ -6,6 +6,7 @@ import com.joy.xxfy.informationaldxn.publish.result.Notice;
 import com.joy.xxfy.informationaldxn.staff.domain.enetiy.StaffEntryEntity;
 import com.joy.xxfy.informationaldxn.staff.domain.service.StaffEntryService;
 import com.joy.xxfy.informationaldxn.staff.web.req.GetStaffEntryListReq;
+import com.joy.xxfy.informationaldxn.staff.web.req.StaffEntryAddReq;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -73,12 +74,12 @@ public class StaffEntryController {
     @PostMapping(
             value = "/add",
             produces = {"application/json;charset=UTF-8"})
-    public JoyResult add(@RequestBody @Valid StaffEntryEntity staffEntry, BindingResult bindingResult) {
+    public JoyResult add(@RequestBody @Valid StaffEntryAddReq req, BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
             return JoyResult.buildFailedResult(Notice.REQUEST_PARAMETER_IS_ERROR, bindingResult.getFieldError().getDefaultMessage());
         } else {
             // copy
-            return staffEntryService.add(staffEntry);
+            return staffEntryService.add(req);
         }
     }
 

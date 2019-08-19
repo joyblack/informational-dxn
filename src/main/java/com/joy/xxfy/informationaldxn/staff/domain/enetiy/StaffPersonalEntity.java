@@ -2,6 +2,7 @@ package com.joy.xxfy.informationaldxn.staff.domain.enetiy;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.joy.xxfy.informationaldxn.common.domain.entity.BaseEntity;
+import com.joy.xxfy.informationaldxn.file.domain.entity.SystemFileEntity;
 import com.joy.xxfy.informationaldxn.staff.domain.enums.AccountCharacterEnum;
 import com.joy.xxfy.informationaldxn.staff.domain.enums.EducationEnum;
 import com.joy.xxfy.informationaldxn.staff.domain.enums.InsuredEnum;
@@ -11,10 +12,7 @@ import lombok.ToString;
 import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.Where;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Table;
-import javax.persistence.UniqueConstraint;
+import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import java.util.Date;
@@ -110,4 +108,18 @@ public class StaffPersonalEntity extends BaseEntity {
      * 专业
      */
     private String profession;
+
+    /**
+     * 身份证照片
+     */
+    @ManyToOne(cascade = {},fetch = FetchType.EAGER)
+    @JoinColumn(name = "id_number_photo_id")
+    private SystemFileEntity idNumberPhoto;
+
+    /**
+     * 身份证照片
+     */
+    @ManyToOne(cascade = {},fetch = FetchType.EAGER)
+    @JoinColumn(name = "one_inch_photo_id")
+    private SystemFileEntity oneInchPhoto;
 }
