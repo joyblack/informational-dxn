@@ -110,9 +110,12 @@ public class DepartmentService{
      * 删除部门信息
      */
     public JoyResult delete(Long id) {
-        // 获取部门信息
-        departmentRepository.deleteById(id);
-        return JoyResult.buildSuccessResult("删除成功");
+        DepartmentEntity oldDept = departmentRepository.findAllById(id);
+        if(oldDept == null){
+            return JoyResult.buildFailedResult(Notice.DEPARTMENT_NOT_EXIST);
+        }
+        oldDept.setIsDelete(true);
+        return JoyResult.buildSuccessResultWithData(departmentRepository.save(oldDept));
     }
 
     /**

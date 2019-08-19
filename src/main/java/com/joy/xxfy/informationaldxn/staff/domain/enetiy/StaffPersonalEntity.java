@@ -22,7 +22,6 @@ import java.util.Date;
 @Entity
 @Data
 @ToString(callSuper = true)
-@SQLDelete(sql = "update all_staff_personal set is_delete = 1 where id = ?")
 @Where(clause = "is_delete = 0")
 @Table(name = "all_staff_personal", uniqueConstraints = {@UniqueConstraint(columnNames="idNumber")})//身份证设置唯一性约束
 public class StaffPersonalEntity extends BaseEntity {

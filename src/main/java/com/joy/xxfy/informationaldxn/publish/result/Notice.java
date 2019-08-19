@@ -53,7 +53,12 @@ public enum Notice{
     RESOURCE_PARENT_NOT_EXIST("父资源信息不存在", 107001),
     RESOURCE_NAME_ALREADY_EXIST("资源名称已存在", 107001),
 
-
+    // file
+    UPLOAD_FILE_IS_NULL("上传文件为空", 108000),
+    UPLOAD_FILE_MODULE_IS_NULL("上传文件模块为空", 108001),
+    UPLOAD_FILE_MODULE_ERROR("上传文件模块错误，不存在此模块", 108002),
+    UPLOAD_FILE_ERROR("上传文件错误", 108003),
+    UPLOAD_FILE_FAILED("上传文件失败", 108004),
     ;
 
 

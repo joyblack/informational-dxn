@@ -1,23 +1,20 @@
 package com.joy.xxfy.informationaldxn.staff.domain.enums;
 
-public enum StaffStatusEnum {
+public enum LeaveTypeEnum {
 
-    LEAVE("离职"),
+    NORMAL("正常离职"),
 
-    INCUMBENCY("在职"),
+    UN_AUTHORIZED("擅自离职"),
 
-    HAVE_HOLIDAY("休假"),
-
-    BLACKLIST("黑名单");
-
+    ILLNESS("因病离职");
 
     private String name;
 
-    StaffStatusEnum(String name) {
+    LeaveTypeEnum(String name) {
         this.name = name;
     }
 
-    StaffStatusEnum() {
+    LeaveTypeEnum() {
     }
 
     public String getName() {

@@ -56,9 +56,10 @@ public class PositionService {
         if(position == null){
             return JoyResult.buildFailedResult(Notice.POSITION_NOT_EXIST);
         }
+        position.setIsDelete(true);
         // soft delete.
-        positionRepository.deleteById(id);
-        return JoyResult.buildSuccessResult("删除成功");
+
+        return JoyResult.buildSuccessResultWithData(positionRepository.save(position));
     }
 
     /**

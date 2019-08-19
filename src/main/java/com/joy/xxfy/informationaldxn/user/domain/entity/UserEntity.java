@@ -18,7 +18,6 @@ import java.io.Serializable;
 @Table(name = "all_user")
 @Data
 @ToString
-@SQLDelete(sql = "update all_user set is_delete = 1 where id = ?")
 @Where(clause = "is_delete = 0")
 public class UserEntity extends BaseEntity implements Serializable {
 

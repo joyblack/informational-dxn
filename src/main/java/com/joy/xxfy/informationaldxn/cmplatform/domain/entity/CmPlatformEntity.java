@@ -16,7 +16,6 @@ import javax.validation.constraints.NotNull;
 @Table(name = "all_cm_platform")
 @Data
 @ToString(callSuper = true)
-@SQLDelete(sql = "update all_cm_platform set is_delete = 1 where id = ?")
 @Where(clause = "is_delete = 0")
 public class CmPlatformEntity extends BaseEntity {
     /**

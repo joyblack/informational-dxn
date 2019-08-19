@@ -18,18 +18,16 @@ import com.joy.xxfy.informationaldxn.staff.domain.repository.StaffEntryRepositor
 import com.joy.xxfy.informationaldxn.staff.domain.repository.StaffPersonalRepository;
 import com.joy.xxfy.informationaldxn.staff.domain.template.StaffTemplate;
 import com.joy.xxfy.informationaldxn.staff.web.req.GetStaffEntryListReq;
-import com.joy.xxfy.informationaldxn.staff.web.req.ReviewReq;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
 import javax.persistence.criteria.Predicate;
-import javax.validation.constraints.NotNull;
 import java.util.ArrayList;
 import java.util.List;
 
 @Service
-public class StaffEntryService {
+public class StaffLeaveService {
 
     @Autowired
     private PositionRepository positionRepository;

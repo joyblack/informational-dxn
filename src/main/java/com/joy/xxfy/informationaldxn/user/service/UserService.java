@@ -73,8 +73,12 @@ public class UserService {
     }
 
     public JoyResult delete(Long id) {
-        userRepository.deleteById(id);
-        return JoyResult.buildSuccessResult("删除成功");
+        UserEntity dbUser = userRepository.findAllById(id);
+        if(dbUser == null){
+            return JoyResult.buildFailedResult(Notice.USER_NOT_EXIST);
+        }
+        dbUser.setIsDelete(true);
+        return JoyResult.buildSuccessResultWithData(userRepository.save(dbUser));
     }
 
 
