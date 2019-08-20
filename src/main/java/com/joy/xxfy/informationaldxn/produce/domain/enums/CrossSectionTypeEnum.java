@@ -1,4 +1,4 @@
-package com.joy.xxfy.informationaldxn.domain.enums;
+package com.joy.xxfy.informationaldxn.produce.domain.enums;
 
 /**
  * 断面形式

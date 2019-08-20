@@ -1,7 +1,10 @@
 package com.joy.xxfy.informationaldxn.produce.domain.entity;
 
 import com.joy.xxfy.informationaldxn.common.domain.entity.BaseEntity;
-import com.joy.xxfy.informationaldxn.domain.enums.CrossSectionTypeEnum;
+import com.joy.xxfy.informationaldxn.produce.domain.enums.CrossSectionTypeEnum;
+import com.joy.xxfy.informationaldxn.produce.domain.enums.DrivingTechnologyTypeEnum;
+import com.joy.xxfy.informationaldxn.produce.domain.enums.RockCharacterEnum;
+import com.joy.xxfy.informationaldxn.produce.domain.enums.SupportMethodEnum;
 import lombok.Data;
 import lombok.ToString;
 import org.hibernate.annotations.Where;
@@ -20,7 +23,7 @@ import java.util.Date;
 @Data
 @ToString(callSuper = true)
 @Where(clause = "is_delete = 0")
-public class DrivingFace extends BaseEntity {
+public class DrivingFaceEntity extends BaseEntity {
 
     /**
      * 名称
@@ -56,12 +59,12 @@ public class DrivingFace extends BaseEntity {
     /**
      * 掘进高度
      */
-    private BigDecimal high;
+    private BigDecimal drivingHigh;
 
     /**
      * 掘进坡度
      */
-    private BigDecimal slope;
+    private BigDecimal drivingSlope;
 
 
     /**
@@ -84,13 +87,16 @@ public class DrivingFace extends BaseEntity {
     /**
      * 掘进工艺
      */
+    private DrivingTechnologyTypeEnum drivingTechnologyType;
 
+    /**
+     * 支护方式
+     */
+    private SupportMethodEnum supportMethod;
 
-
-
-
-
-
-
+    /**
+     * 岩性
+     */
+    private RockCharacterEnum rockCharacter;
 
 }

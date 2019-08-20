@@ -1,4 +1,4 @@
-package com.joy.xxfy.informationaldxn.staff.domain.service;
+package com.joy.xxfy.informationaldxn.staff.service;
 
 import com.joy.xxfy.informationaldxn.department.domain.entity.DepartmentEntity;
 import com.joy.xxfy.informationaldxn.department.domain.repository.DepartmentRepository;
@@ -6,8 +6,6 @@ import com.joy.xxfy.informationaldxn.position.domain.entity.PositionEntity;
 import com.joy.xxfy.informationaldxn.position.domain.repository.PositionRepository;
 import com.joy.xxfy.informationaldxn.publish.result.JoyResult;
 import com.joy.xxfy.informationaldxn.publish.result.Notice;
-import com.joy.xxfy.informationaldxn.publish.utils.DateOperationUtil;
-import com.joy.xxfy.informationaldxn.publish.utils.JoyBeanUtil;
 import com.joy.xxfy.informationaldxn.publish.utils.LogUtil;
 import com.joy.xxfy.informationaldxn.publish.utils.StringUtil;
 import com.joy.xxfy.informationaldxn.publish.utils.identity.IdNumberUtil;
@@ -17,14 +15,12 @@ import com.joy.xxfy.informationaldxn.staff.domain.repository.*;
 import com.joy.xxfy.informationaldxn.staff.web.req.*;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.criteria.Predicate;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 @Service

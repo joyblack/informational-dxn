@@ -1,10 +1,9 @@
 package com.joy.xxfy.informationaldxn.staff.web;
 
-import com.joy.xxfy.informationaldxn.common.web.req.BasePageReq;
 import com.joy.xxfy.informationaldxn.common.web.req.IdReq;
 import com.joy.xxfy.informationaldxn.publish.result.JoyResult;
 import com.joy.xxfy.informationaldxn.publish.result.Notice;
-import com.joy.xxfy.informationaldxn.staff.domain.service.StaffPersonalService;
+import com.joy.xxfy.informationaldxn.staff.service.StaffPersonalService;
 import com.joy.xxfy.informationaldxn.staff.web.req.IdNumberReq;
 import com.joy.xxfy.informationaldxn.staff.web.req.UsernameReq;
 import org.springframework.beans.factory.annotation.Autowired;

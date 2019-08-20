@@ -69,7 +69,15 @@ public enum Notice{
     UPLOAD_FILE_FAILED("上传文件失败", 108004),
 
 
+    // 掘进工作面
+    DRIVING_FACE_NOT_EXIST("掘进工作面信息不存在", 109000),
+    DRIVING_FACE_ALREADY_EXIST("掘进工作面信息已存在", 109001),
+    DRIVING_FACE_NAME_ALREADY_EXIST("掘进工作面名称已存在", 109002),
 
+    // 回采工作面
+    BACK_MINING_NAME_ALREADY_EXIST("回采工作面名称已存在", 110000),
+    BACK_MINING_ALREADY_EXIST("回采工作面已存在", 110001),
+    BACK_MINING_NOT_EXIST("回采工作面信息不存在", 110002),
 
     ;
 

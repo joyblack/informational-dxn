@@ -1,9 +1,8 @@
-package com.joy.xxfy.informationaldxn.staff.domain.service;
+package com.joy.xxfy.informationaldxn.staff.service;
 
 import com.joy.xxfy.informationaldxn.publish.result.JoyResult;
 import com.joy.xxfy.informationaldxn.publish.result.Notice;
 import com.joy.xxfy.informationaldxn.publish.utils.*;
-import com.joy.xxfy.informationaldxn.publish.utils.identity.IdNumberUtil;
 import com.joy.xxfy.informationaldxn.publish.utils.project.JpaPagerUtil;
 import com.joy.xxfy.informationaldxn.staff.domain.enetiy.StaffBlacklistEntity;
 import com.joy.xxfy.informationaldxn.staff.domain.enetiy.StaffEntryEntity;
@@ -23,7 +22,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.criteria.Predicate;
-import javax.validation.constraints.NotEmpty;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;

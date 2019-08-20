@@ -2,7 +2,7 @@ package com.joy.xxfy.informationaldxn.staff.web;
 
 import com.joy.xxfy.informationaldxn.publish.result.JoyResult;
 import com.joy.xxfy.informationaldxn.publish.result.Notice;
-import com.joy.xxfy.informationaldxn.staff.domain.service.StaffReviewService;
+import com.joy.xxfy.informationaldxn.staff.service.StaffReviewService;
 import com.joy.xxfy.informationaldxn.staff.web.req.ReviewReq;
 import com.joy.xxfy.informationaldxn.staff.web.req.StaffEntryGetListReq;
 import org.springframework.beans.factory.annotation.Autowired;

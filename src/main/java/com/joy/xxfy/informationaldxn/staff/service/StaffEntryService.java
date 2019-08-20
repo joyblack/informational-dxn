@@ -1,4 +1,4 @@
-package com.joy.xxfy.informationaldxn.staff.domain.service;
+package com.joy.xxfy.informationaldxn.staff.service;
 
 import com.joy.xxfy.informationaldxn.department.domain.entity.DepartmentEntity;
 import com.joy.xxfy.informationaldxn.department.domain.repository.DepartmentRepository;
@@ -18,7 +18,6 @@ import com.joy.xxfy.informationaldxn.staff.domain.enetiy.StaffBlacklistEntity;
 import com.joy.xxfy.informationaldxn.staff.domain.enetiy.StaffEntryEntity;
 import com.joy.xxfy.informationaldxn.staff.domain.enetiy.StaffPersonalEntity;
 import com.joy.xxfy.informationaldxn.staff.domain.enums.ReviewStatusEnum;
-import com.joy.xxfy.informationaldxn.staff.domain.enums.StaffStatusEnum;
 import com.joy.xxfy.informationaldxn.staff.domain.repository.StaffBlacklistRepository;
 import com.joy.xxfy.informationaldxn.staff.domain.repository.StaffEntryRepository;
 import com.joy.xxfy.informationaldxn.staff.domain.repository.StaffPersonalRepository;
@@ -30,7 +29,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import sun.rmi.runtime.Log;
 
 import javax.persistence.criteria.Predicate;
 import java.util.ArrayList;

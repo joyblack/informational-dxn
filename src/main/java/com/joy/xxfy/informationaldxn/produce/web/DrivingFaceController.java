@@ -1,12 +1,16 @@
-package com.joy.xxfy.informationaldxn.staff.web;
+package com.joy.xxfy.informationaldxn.produce.web;
 
 import com.joy.xxfy.informationaldxn.common.web.req.IdReq;
+import com.joy.xxfy.informationaldxn.produce.service.DrivingFaceService;
+import com.joy.xxfy.informationaldxn.produce.web.req.DrivingFaceAddReq;
+import com.joy.xxfy.informationaldxn.produce.web.req.DrivingFaceGetListReq;
+import com.joy.xxfy.informationaldxn.produce.web.req.DrivingFaceUpdateReq;
 import com.joy.xxfy.informationaldxn.publish.result.JoyResult;
 import com.joy.xxfy.informationaldxn.publish.result.Notice;
-import com.joy.xxfy.informationaldxn.staff.service.StaffEntryService;
-import com.joy.xxfy.informationaldxn.staff.web.req.StaffEntryAddReq;
-import com.joy.xxfy.informationaldxn.staff.web.req.StaffEntryGetListReq;
-import com.joy.xxfy.informationaldxn.staff.web.req.StaffEntryUpdateReq;
+import com.joy.xxfy.informationaldxn.staff.service.StaffBlacklistService;
+import com.joy.xxfy.informationaldxn.staff.web.req.StaffBlacklistAddReq;
+import com.joy.xxfy.informationaldxn.staff.web.req.StaffBlacklistGetListReq;
+import com.joy.xxfy.informationaldxn.staff.web.req.StaffBlacklistUpdateReq;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -17,56 +21,10 @@ import org.springframework.web.bind.annotation.RestController;
 import javax.validation.Valid;
 
 @RestController
-@RequestMapping("staff-entry")
-public class StaffEntryController {
+@RequestMapping("produce-driving-face")
+public class DrivingFaceController {
     @Autowired
-    private StaffEntryService staffEntryService;
-
-
-    /**
-     * 获取
-     */
-    @PostMapping(
-            value = "/get",
-            produces = {"application/json;charset=UTF-8"})
-    public JoyResult get(@RequestBody @Valid IdReq req, BindingResult bindingResult) {
-        if (bindingResult.hasErrors()) {
-            return JoyResult.buildFailedResult(Notice.REQUEST_PARAMETER_IS_ERROR, bindingResult.getFieldError().getDefaultMessage());
-        } else {
-            // copy
-            return staffEntryService.get(req.getId());
-        }
-    }
-
-    /**
-     * 获取分页数据
-     */
-    @PostMapping(
-            value = "/getPagerList",
-            produces = {"application/json;charset=UTF-8"})
-    public JoyResult getPagerList(@RequestBody @Valid StaffEntryGetListReq req, BindingResult bindingResult) {
-        if (bindingResult.hasErrors()) {
-            return JoyResult.buildFailedResult(Notice.REQUEST_PARAMETER_IS_ERROR, bindingResult.getFieldError().getDefaultMessage());
-        } else {
-            // copy
-            return staffEntryService.getPagerList(req);
-        }
-    }
-
-    /**
-     * 获取所有数据
-     */
-    @PostMapping(
-            value = "/getAllList",
-            produces = {"application/json;charset=UTF-8"})
-    public JoyResult getAllList(@RequestBody @Valid StaffEntryGetListReq req, BindingResult bindingResult) {
-        if (bindingResult.hasErrors()) {
-            return JoyResult.buildFailedResult(Notice.REQUEST_PARAMETER_IS_ERROR, bindingResult.getFieldError().getDefaultMessage());
-        } else {
-            // copy
-            return staffEntryService.getAllList(req);
-        }
-    }
+    private DrivingFaceService drivingFaceService;
 
     /**
      * 添加
@@ -74,27 +32,12 @@ public class StaffEntryController {
     @PostMapping(
             value = "/add",
             produces = {"application/json;charset=UTF-8"})
-    public JoyResult add(@RequestBody @Valid StaffEntryAddReq req, BindingResult bindingResult) {
+    public JoyResult add(@RequestBody @Valid DrivingFaceAddReq req, BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
             return JoyResult.buildFailedResult(Notice.REQUEST_PARAMETER_IS_ERROR, bindingResult.getFieldError().getDefaultMessage());
         } else {
             // copy
-            return staffEntryService.add(req);
-        }
-    }
-
-    /**
-     * 更新
-     */
-    @PostMapping(
-            value = "/update",
-            produces = {"application/json;charset=UTF-8"})
-    public JoyResult update(@RequestBody @Valid StaffEntryUpdateReq req, BindingResult bindingResult) {
-        if (bindingResult.hasErrors()) {
-            return JoyResult.buildFailedResult(Notice.REQUEST_PARAMETER_IS_ERROR, bindingResult.getFieldError().getDefaultMessage());
-        } else {
-            // copy
-            return staffEntryService.update(req);
+            return drivingFaceService.add(req);
         }
     }
 
@@ -109,9 +52,65 @@ public class StaffEntryController {
             return JoyResult.buildFailedResult(Notice.REQUEST_PARAMETER_IS_ERROR, bindingResult.getFieldError().getDefaultMessage());
         } else {
             // copy
-            return staffEntryService.delete(req.getId());
+            return drivingFaceService.delete(req.getId());
         }
     }
 
+    /**
+     * 获取
+     */
+    @PostMapping(
+            value = "/get",
+            produces = {"application/json;charset=UTF-8"})
+    public JoyResult get(@RequestBody @Valid IdReq req, BindingResult bindingResult) {
+        if (bindingResult.hasErrors()) {
+            return JoyResult.buildFailedResult(Notice.REQUEST_PARAMETER_IS_ERROR, bindingResult.getFieldError().getDefaultMessage());
+        } else {
+            // copy
+            return drivingFaceService.get(req.getId());
+        }
+    }
 
+    /**
+     * 更新
+     */
+    @PostMapping(
+            value = "/update",
+            produces = {"application/json;charset=UTF-8"})
+    public JoyResult update(@RequestBody @Valid DrivingFaceUpdateReq req, BindingResult bindingResult) {
+        if (bindingResult.hasErrors()) {
+            return JoyResult.buildFailedResult(Notice.REQUEST_PARAMETER_IS_ERROR, bindingResult.getFieldError().getDefaultMessage());
+        } else {
+            // copy
+            return drivingFaceService.update(req);
+        }
+    }
+
+    /**
+     * 获取分页数据
+     */
+    @PostMapping(
+            value = "/getPagerList",
+            produces = {"application/json;charset=UTF-8"})
+    public JoyResult getPagerList(@RequestBody @Valid DrivingFaceGetListReq req, BindingResult bindingResult) {
+        if (bindingResult.hasErrors()) {
+            return JoyResult.buildFailedResult(Notice.REQUEST_PARAMETER_IS_ERROR, bindingResult.getFieldError().getDefaultMessage());
+        } else {
+            return drivingFaceService.getPagerList(req);
+        }
+    }
+
+    /**
+     * 获取所有数据
+     */
+    @PostMapping(
+            value = "/getAllList",
+            produces = {"application/json;charset=UTF-8"})
+    public JoyResult getAllList(@RequestBody @Valid DrivingFaceGetListReq req, BindingResult bindingResult) {
+        if (bindingResult.hasErrors()) {
+            return JoyResult.buildFailedResult(Notice.REQUEST_PARAMETER_IS_ERROR, bindingResult.getFieldError().getDefaultMessage());
+        } else {
+            return drivingFaceService.getAllList(req);
+        }
+    }
 }

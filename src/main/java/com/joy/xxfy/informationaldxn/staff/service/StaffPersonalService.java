@@ -1,4 +1,4 @@
-package com.joy.xxfy.informationaldxn.staff.domain.service;
+package com.joy.xxfy.informationaldxn.staff.service;
 
 import com.joy.xxfy.informationaldxn.publish.constant.ResultDataConstant;
 import com.joy.xxfy.informationaldxn.publish.result.JoyResult;

@@ -3,7 +3,7 @@ package com.joy.xxfy.informationaldxn.staff.web;
 import com.joy.xxfy.informationaldxn.common.web.req.IdReq;
 import com.joy.xxfy.informationaldxn.publish.result.JoyResult;
 import com.joy.xxfy.informationaldxn.publish.result.Notice;
-import com.joy.xxfy.informationaldxn.staff.domain.service.StaffLeaveService;
+import com.joy.xxfy.informationaldxn.staff.service.StaffLeaveService;
 import com.joy.xxfy.informationaldxn.staff.web.req.StaffLeaveAddReq;
 import com.joy.xxfy.informationaldxn.staff.web.req.StaffLeaveGetListReq;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -1,4 +1,4 @@
-package com.joy.xxfy.informationaldxn.staff.domain.service;
+package com.joy.xxfy.informationaldxn.staff.service;
 
 import com.joy.xxfy.informationaldxn.publish.result.JoyResult;
 import com.joy.xxfy.informationaldxn.publish.result.Notice;
@@ -6,13 +6,9 @@ import com.joy.xxfy.informationaldxn.publish.utils.LogUtil;
 import com.joy.xxfy.informationaldxn.publish.utils.StringUtil;
 import com.joy.xxfy.informationaldxn.publish.utils.identity.IdNumberUtil;
 import com.joy.xxfy.informationaldxn.publish.utils.project.JpaPagerUtil;
-import com.joy.xxfy.informationaldxn.staff.domain.enetiy.StaffEntryEntity;
 import com.joy.xxfy.informationaldxn.staff.domain.enetiy.StaffInjuryEntity;
-import com.joy.xxfy.informationaldxn.staff.domain.enetiy.StaffLeaveEntity;
 import com.joy.xxfy.informationaldxn.staff.domain.enetiy.StaffPersonalEntity;
-import com.joy.xxfy.informationaldxn.staff.domain.repository.StaffEntryRepository;
 import com.joy.xxfy.informationaldxn.staff.domain.repository.StaffInjuryRepository;
-import com.joy.xxfy.informationaldxn.staff.domain.repository.StaffLeaveRepository;
 import com.joy.xxfy.informationaldxn.staff.domain.repository.StaffPersonalRepository;
 import com.joy.xxfy.informationaldxn.staff.web.req.*;
 import org.springframework.beans.factory.annotation.Autowired;
