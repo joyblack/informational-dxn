@@ -2,26 +2,30 @@ package com.joy.xxfy.informationaldxn.staff.domain.service;
 
 import com.joy.xxfy.informationaldxn.publish.result.JoyResult;
 import com.joy.xxfy.informationaldxn.publish.result.Notice;
-import com.joy.xxfy.informationaldxn.publish.utils.JoyBeanUtil;
-import com.joy.xxfy.informationaldxn.publish.utils.LogUtil;
-import com.joy.xxfy.informationaldxn.publish.utils.PhoneUtil;
-import com.joy.xxfy.informationaldxn.publish.utils.StringUtil;
+import com.joy.xxfy.informationaldxn.publish.utils.*;
 import com.joy.xxfy.informationaldxn.publish.utils.identity.IdNumberUtil;
 import com.joy.xxfy.informationaldxn.publish.utils.project.JpaPagerUtil;
+import com.joy.xxfy.informationaldxn.staff.domain.enetiy.StaffBlacklistEntity;
 import com.joy.xxfy.informationaldxn.staff.domain.enetiy.StaffEntryEntity;
 import com.joy.xxfy.informationaldxn.staff.domain.enetiy.StaffLeaveEntity;
 import com.joy.xxfy.informationaldxn.staff.domain.enetiy.StaffPersonalEntity;
+import com.joy.xxfy.informationaldxn.staff.domain.repository.StaffBlacklistRepository;
 import com.joy.xxfy.informationaldxn.staff.domain.repository.StaffEntryRepository;
 import com.joy.xxfy.informationaldxn.staff.domain.repository.StaffLeaveRepository;
+import com.joy.xxfy.informationaldxn.staff.domain.repository.StaffPersonalRepository;
+import com.joy.xxfy.informationaldxn.staff.domain.template.StaffTemplate;
 import com.joy.xxfy.informationaldxn.staff.web.req.StaffLeaveAddReq;
 import com.joy.xxfy.informationaldxn.staff.web.req.StaffLeaveGetListReq;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.criteria.Predicate;
+import javax.validation.constraints.NotEmpty;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 @Service
@@ -34,22 +38,38 @@ public class StaffLeaveService {
     @Autowired
     private StaffLeaveRepository staffLeaveRepository;
 
+    @Autowired
+    private StaffPersonalRepository staffPersonalRepository;
+
+    @Autowired
+    private StaffBlacklistRepository staffBlacklistRepository;
+
+    @Value("${system.config.staff-black-list-over-month}")
+    private Integer overMonth;
+
     /**
      * 添加员工入职信息
      */
     public JoyResult add(StaffLeaveAddReq req) {
         List<Long> entryIds = req.getEntries();
-        LogUtil.info("入职信息ID列表：{}", entryIds);
+        // 获取员工个人信息
+        String idNumber = req.getIdNumber();
+        StaffPersonalEntity personalInfo = staffPersonalRepository.findAllByIdNumber(idNumber);
+        if(personalInfo == null){
+            return JoyResult.buildFailedResult(Notice.STAFF_PERSONAL_INFO_NOT_EXIST);
+        }
         // 一个职位一个职位的处理，不要批处理
         List<StaffEntryEntity> entries = new ArrayList<>();
         for (Long entryId : entryIds) {
             entries.add(staffEntryRepository.findAllById(entryId));
         }
-
+        // 是否执行了离职操作
+        boolean executeLeaveOpt = false;
         for (StaffEntryEntity entry : entries) {
             if(entry == null){
                 continue;
             }
+            executeLeaveOpt = true;
             // 建立离职信息
             StaffLeaveEntity leaveInfo = new StaffLeaveEntity();
             // 离职时间
@@ -65,11 +85,44 @@ public class StaffLeaveService {
             entry.setIsDelete(true);
             staffEntryRepository.save(entry);
             // 新建离职信息
-            StaffLeaveEntity save = staffLeaveRepository.save(leaveInfo);
-            LogUtil.info("New leave info is: {}", save);
+            staffLeaveRepository.save(leaveInfo);
         }
+        // 若是最后一个职位，则自动加入黑名单。
+        if(executeLeaveOpt == true){
+            // 检测员工是否还有职位信息
+            List<StaffEntryEntity> entities = staffEntryRepository.findAllByStaffPersonal(personalInfo);
+            // 若没有职位，开始加入黑名单
+            if(entities.size() == 0){
+                // 查找离职信息表中员工最后一条离职的信息
+                StaffLeaveEntity lastLeaveInfo = staffLeaveRepository.findFirstByStaffPersonalOrderByCreateTimeDesc(personalInfo);
+                if(lastLeaveInfo != null){
+                    LogUtil.info("The last leave job info: {}", lastLeaveInfo);
+                    // 加入黑名单
+                    StaffBlacklistEntity staffBlacklistInfo = new StaffBlacklistEntity();
+                    // 黑名单信息设置
+                    // 公司：即最后一个离职所在公司
+                    staffBlacklistInfo.setCompany(lastLeaveInfo.getCompany());
+                    // 解禁时间，取项目时间配置，此处可考虑写入系统配置表
+                    staffBlacklistInfo.setOverTime(DateOperationUtil.addMonth(new Date(), overMonth));
+                    // 原因
+                    staffBlacklistInfo.setBlacklistReasons(StaffTemplate.LEAVE_THEN_ADD_IN_BLACKLIST_REASONS);
+                    // 个人信息
+                    staffBlacklistInfo.setStaffPersonal(personalInfo);
+                    // 备注
+                    staffBlacklistInfo.setRemarks(StaffTemplate.SYSTEM_OPERATE_REMARK);
+                    LogUtil.info("Generated blacklist info is : {}", staffBlacklistInfo);
+                    staffBlacklistRepository.save(staffBlacklistInfo);
+                }else{
+                    LogUtil.info("Can't fina leave job info.");
+                }
+            }
+        }
+
+
+
+
         // Delete staff entry information.
-        return JoyResult.buildSuccessResult("操作成功");
+        return JoyResult.buildSuccessResult("Success.");
     }
 
 //    public JoyResult update(StaffEntryEntity entry) {

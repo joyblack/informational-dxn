@@ -96,7 +96,7 @@ public class StaffInjuryService {
     public JoyResult delete(Long id) {
         StaffInjuryEntity injuryInfo = staffInjuryRepository.findAllById(id);
         if(injuryInfo == null){
-            return JoyResult.buildFailedResult(Notice.STAFF_LEAVE_NOT_EXIST);
+            return JoyResult.buildFailedResult(Notice.STAFF_INJURY_INFO_NOT_EXIST);
         }
         injuryInfo.setIsDelete(true);
         return JoyResult.buildSuccessResultWithData(staffInjuryRepository.save(injuryInfo));
@@ -146,7 +146,7 @@ public class StaffInjuryService {
 
             // injury_reasons like
             if(req.getInjuryReasons() != null){
-                predicates.add(builder.equal(root.get("injuryReasons"), req.getInjuryReasons()));
+                predicates.add(builder.like(root.get("injuryReasons"), "%" + req.getInjuryReasons() + "%"));
             }
             // injury_time between
             if(req.getInjuryTimeStart() != null){

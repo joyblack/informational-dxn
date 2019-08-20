@@ -164,7 +164,7 @@ public class StaffBlacklistService {
             }
             // blacklist_reasons like
             if(req.getBlacklistReasons() != null){
-                predicates.add(builder.equal(root.get("blacklistReasons"), req.getBlacklistReasons()));
+                predicates.add(builder.like(root.get("blacklistReasons"), "%" + req.getBlacklistReasons() + "%"));
             }
             // injury_time between
             if(req.getOverTimeStart() != null){
