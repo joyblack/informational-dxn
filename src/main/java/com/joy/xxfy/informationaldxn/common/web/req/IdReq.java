@@ -4,10 +4,11 @@ import lombok.Data;
 import lombok.ToString;
 
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 
 @Data
 @ToString
 public class IdReq {
-    @NotBlank(message = "ID不能为空")
+    @NotNull(message = "ID不能为空")
     private Long id;
 }

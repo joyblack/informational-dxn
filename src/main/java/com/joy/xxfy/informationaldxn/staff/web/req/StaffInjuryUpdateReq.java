@@ -1,6 +1,7 @@
 package com.joy.xxfy.informationaldxn.staff.web.req;
 
 import com.joy.xxfy.informationaldxn.common.domain.entity.BaseEntity;
+import com.joy.xxfy.informationaldxn.common.web.req.BaseUpdateReq;
 import lombok.Data;
 import lombok.ToString;
 import org.hibernate.annotations.Where;
@@ -14,13 +15,7 @@ import java.util.Date;
 
 @Data
 @ToString(callSuper = true)
-public class StaffInjuryUpdateReq extends BaseEntity {
-    /**
-     * 身份证号码
-     */
-    @NotNull(message = "id不能为空")
-    private Long id;
-
+public class StaffInjuryUpdateReq extends BaseUpdateReq {
     /**
      * 工伤原因
      */

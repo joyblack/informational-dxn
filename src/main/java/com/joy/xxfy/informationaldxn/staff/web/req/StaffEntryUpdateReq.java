@@ -2,6 +2,7 @@ package com.joy.xxfy.informationaldxn.staff.web.req;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.joy.xxfy.informationaldxn.common.web.req.BaseAddReq;
+import com.joy.xxfy.informationaldxn.common.web.req.BaseUpdateReq;
 import com.joy.xxfy.informationaldxn.staff.domain.enums.*;
 import lombok.Data;
 import lombok.ToString;
@@ -13,12 +14,8 @@ import java.util.Date;
 
 @Data
 @ToString
-public class StaffEntryUpdateReq extends BaseAddReq {
+public class StaffEntryUpdateReq extends BaseUpdateReq {
 
-    /**
-     * 入职信息ID
-     */
-    private Long id;
 
     /**
      * 所属公司、平台，其实也是一个部门信息

@@ -3,6 +3,8 @@ package com.joy.xxfy.informationaldxn.department.service;
 import com.joy.xxfy.informationaldxn.department.domain.entity.DepartmentEntity;
 import com.joy.xxfy.informationaldxn.department.domain.enums.DepartmentTypeEnum;
 import com.joy.xxfy.informationaldxn.department.domain.repository.DepartmentRepository;
+import com.joy.xxfy.informationaldxn.department.web.req.DepartmentAddReq;
+import com.joy.xxfy.informationaldxn.department.web.req.DepartmentUpdateReq;
 import com.joy.xxfy.informationaldxn.publish.constant.SystemConstant;
 import com.joy.xxfy.informationaldxn.publish.constant.TestConstant;
 import com.joy.xxfy.informationaldxn.publish.result.JoyResult;
@@ -12,13 +14,10 @@ import com.joy.xxfy.informationaldxn.publish.utils.LogUtil;
 import com.joy.xxfy.informationaldxn.publish.utils.SqlUtil;
 import com.joy.xxfy.informationaldxn.publish.utils.project.TreeUtil;
 import com.joy.xxfy.informationaldxn.user.domain.entity.UserEntity;
-import com.joy.xxfy.informationaldxn.user.domain.enums.UserTypeEnum;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 @Service
@@ -29,77 +28,98 @@ public class DepartmentService{
     private DepartmentRepository departmentRepository;
 
     /**
-     * 测试
-     */
-    public JoyResult test(Integer times) {
-        int i = 0;
-        while(++ i <= times){
-            DepartmentEntity d = new DepartmentEntity();
-            d.setDepartmentName("测试部门" + i);
-            d.setDepartmentType(DepartmentTypeEnum.CM_PLATFORM);
-            d.setPhone(TestConstant.PHONE);
-            d.setResponseUser("赵义");
-            d.setParentId(0L);
-            d.setCode("01");
-            System.out.println(add(d));
-        }
-        return JoyResult.buildSuccessResult("插入测试数据成功");
-    }
-
-    /**
      * 新增
      */
-    public JoyResult add(DepartmentEntity department) {
+    public JoyResult add(DepartmentAddReq req) {
         // check parent dept info.
-        DepartmentEntity parent = departmentRepository.findAllById(department.getParentId());
-        if(!department.getParentId().equals(SystemConstant.TOP_NODE_ID)){
-            if(parent == null){
-                return JoyResult.buildFailedResult(Notice.DEPARTMENT_PARENT_NOT_EXIST);
-            }
+        DepartmentEntity parent = departmentRepository.findAllById(req.getParentId());
+        if(!req.getParentId().equals(SystemConstant.TOP_NODE_ID) && parent == null){
+            return JoyResult.buildFailedResult(Notice.DEPARTMENT_PARENT_NOT_EXIST);
         }
         // check same name on common level.
-        DepartmentEntity checkDepartment = departmentRepository.findAllByParentIdAndDepartmentName(department.getParentId(), department.getDepartmentName());
+        DepartmentEntity checkDepartment = departmentRepository.findAllByParentIdAndDepartmentName(req.getParentId(), req.getDepartmentName());
         if(checkDepartment != null){
             return JoyResult.buildFailedResult(Notice.DEPARTMENT_NAME_ALREADY_EXIST);
         }
+        // entity
+        DepartmentEntity department = new DepartmentEntity();
+        // 类型：默认为煤矿平台部门
+        department.setDepartmentType(req.getDepartmentType() == null? DepartmentTypeEnum.CM_PLATFORM : req.getDepartmentType());
+        // 名称
+        department.setDepartmentName(req.getDepartmentName());
+        // 电话
+        department.setPhone(req.getPhone());
+        // 负责人
+        department.setResponseUser(req.getResponseUser());
+        // 编码
+        department.setCode(req.getCode());
+        // 备注
+        department.setRemarks(req.getRemarks());
+        // 父部门信息
+        department.setParentId(req.getParentId());
         DepartmentEntity save = departmentRepository.save(department);
-        // Set path
-        save.setPath(getSuitPath(parent, department));
-        LogUtil.info("Joy: Repeat update the department [path]:");
-        return JoyResult.buildSuccessResultWithData(departmentRepository.save(department));
+        // 通过ID回写路径信息
+        String path = getSuitPath(parent, department);
+        save.setPath(path);
+        LogUtil.info("Joy: Repeat update the department [path]:", path);
+        return JoyResult.buildSuccessResultWithData(departmentRepository.save(save));
     }
 
     /**
      * 更新
      */
-    public JoyResult update(DepartmentEntity department) {
+    public JoyResult update(DepartmentUpdateReq req) {
         // 获取部门信息
-        DepartmentEntity oldDept = departmentRepository.findAllById(department.getId());
-        if(oldDept == null){
+        DepartmentEntity departmentInfo = departmentRepository.findAllById(req.getId());
+        if(departmentInfo == null){
             return JoyResult.buildFailedResult(Notice.DEPARTMENT_NOT_EXIST);
         }
         // check parent dept info.
-        DepartmentEntity parent = departmentRepository.findAllById(department.getParentId());
-        if(!department.getParentId().equals(SystemConstant.TOP_NODE_ID)){
-            if(parent == null){
-                return JoyResult.buildFailedResult(Notice.DEPARTMENT_PARENT_NOT_EXIST);
-            }
+        DepartmentEntity parent = departmentRepository.findAllById(req.getParentId());
+        if(!req.getParentId().equals(SystemConstant.TOP_NODE_ID) && parent == null){
+            return JoyResult.buildFailedResult(Notice.DEPARTMENT_PARENT_NOT_EXIST);
         }
         // 检查是否有重名部门
-        DepartmentEntity checkDepartment = departmentRepository.findAllByParentIdAndDepartmentNameAndIdNot(department.getParentId(), department.getDepartmentName(),department.getId());
+        DepartmentEntity checkDepartment = departmentRepository.findAllByParentIdAndDepartmentNameAndIdNot(req.getParentId(), req.getDepartmentName(),req.getId());
         if(checkDepartment != null){
             return JoyResult.buildFailedResult(Notice.DEPARTMENT_NAME_ALREADY_EXIST);
         }
-        // 将数据库的数据对应拷贝到目标对象的空值属性上，其余的保持目标属性的不变。
-        JoyBeanUtil.copyPropertiesIgnoreSourceNullProperties(department, oldDept);
-        DepartmentEntity save = departmentRepository.save(oldDept);
-        // 更新所有相关节点的路径
-        String oldPath = save.getPath();
-        String newPath = getSuitPath(parent, department);
-        save.setPath(newPath);
-        departmentRepository.updateAllDepartmentPath(oldPath,newPath);
+
+        // 类型
+        if(req.getDepartmentType() != null){
+            departmentInfo.setDepartmentType(req.getDepartmentType());
+        }
+        if(req.getDepartmentName() != null){
+            departmentInfo.setDepartmentName(req.getDepartmentName());
+        }
+        if(req.getPhone() != null){
+            departmentInfo.setPhone(req.getPhone());
+        }
+        // 负责人
+        if(req.getResponseUser() != null){
+            departmentInfo.setResponseUser(req.getResponseUser());
+        }
+        // 编码
+        if(req.getCode() != null){
+            departmentInfo.setCode(req.getCode());
+        }
+        // 备注
+        if(req.getRemarks() != null){
+            departmentInfo.setRemarks(req.getRemarks());
+        }
+        // 父部门信息,暂时不允许修改
+//        department.setParentId(req.getParentId());
+//
+//        // 将数据库的数据对应拷贝到目标对象的空值属性上，其余的保持目标属性的不变。
+//        JoyBeanUtil.copyPropertiesIgnoreSourceNullProperties(department, oldDept);
+//        DepartmentEntity save = departmentRepository.save(oldDept);
+//        // 更新所有相关节点的路径
+//        String oldPath = save.getPath();
+//        String newPath = getSuitPath(parent, department);
+//        save.setPath(newPath);
+//        departmentRepository.updateAllDepartmentPath(oldPath,newPath);
         // 更新所有的之前的路径开头的数据
-        return JoyResult.buildSuccessResultWithData(save);
+        return JoyResult.buildSuccessResultWithData(departmentInfo);
     }
 
     /**

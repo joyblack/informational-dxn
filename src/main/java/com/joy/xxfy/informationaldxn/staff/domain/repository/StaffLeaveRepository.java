@@ -12,5 +12,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import java.util.List;
 
 public interface StaffLeaveRepository extends BaseRepository<StaffLeaveEntity>, JpaRepository<StaffLeaveEntity, Long> {
-
+    // staff_personal_id = ? order by create_time limit 1.
+    StaffLeaveEntity findFirstByStaffPersonalOrderByCreateTimeDesc(StaffPersonalEntity staffPersonalEntity);
 }

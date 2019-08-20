@@ -1,31 +1,17 @@
 package com.joy.xxfy.informationaldxn.staff.web.req;
 
 import com.joy.xxfy.informationaldxn.common.domain.entity.BaseEntity;
-import com.joy.xxfy.informationaldxn.common.web.req.BaseAddReq;
+import com.joy.xxfy.informationaldxn.common.web.req.BaseUpdateReq;
 import lombok.Data;
 import lombok.ToString;
 
 import javax.persistence.Lob;
 import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
 import java.util.Date;
 
 @Data
 @ToString(callSuper = true)
-public class StaffBlacklistAddReq extends BaseAddReq {
-    /**
-     * 姓名
-     */
-    @NotBlank(message = "姓名不能为空")
-    private String username;
-
-    /**
-     * 身份证号码
-     */
-    @NotBlank(message = "身份证号码不能为空")
-    private String idNumber;
-
-
+public class StaffBlacklistUpdateReq extends BaseUpdateReq {
     /**
      * 工伤原因
      */

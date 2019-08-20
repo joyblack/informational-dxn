@@ -1,14 +1,11 @@
-package com.joy.xxfy.informationaldxn.department.web;
+package com.joy.xxfy.informationaldxn.staff.web;
 
 import com.joy.xxfy.informationaldxn.common.web.req.IdReq;
-import com.joy.xxfy.informationaldxn.common.web.req.TestReq;
-import com.joy.xxfy.informationaldxn.department.domain.entity.DepartmentEntity;
-import com.joy.xxfy.informationaldxn.department.service.DepartmentService;
-import com.joy.xxfy.informationaldxn.department.web.req.DepartmentAddReq;
-import com.joy.xxfy.informationaldxn.department.web.req.DepartmentUpdateReq;
 import com.joy.xxfy.informationaldxn.publish.result.JoyResult;
 import com.joy.xxfy.informationaldxn.publish.result.Notice;
-import com.joy.xxfy.informationaldxn.user.domain.entity.UserEntity;
+import com.joy.xxfy.informationaldxn.staff.domain.service.StaffBlacklistService;
+import com.joy.xxfy.informationaldxn.staff.domain.service.StaffInjuryService;
+import com.joy.xxfy.informationaldxn.staff.web.req.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -19,60 +16,28 @@ import org.springframework.web.bind.annotation.RestController;
 import javax.validation.Valid;
 
 @RestController
-@RequestMapping("department")
-public class DepartmentController {
+@RequestMapping("staff-blacklist")
+public class StaffBlacklistController {
     @Autowired
-    private DepartmentService departmentService;
-
-
-    /**
-     * 获取部门
-     */
-    @PostMapping(
-            value = "/get",
-            produces = {"application/json;charset=UTF-8"})
-    public JoyResult get(@RequestBody @Valid IdReq req, BindingResult bindingResult) {
-        if (bindingResult.hasErrors()) {
-            return JoyResult.buildFailedResult(Notice.REQUEST_PARAMETER_IS_ERROR, bindingResult.getFieldError().getDefaultMessage());
-        } else {
-            // copy
-            return departmentService.get(req.getId());
-        }
-    }
-
+    private StaffBlacklistService staffBlacklistService;
 
     /**
-     * 添加部门
+     * 添加
      */
     @PostMapping(
             value = "/add",
             produces = {"application/json;charset=UTF-8"})
-    public JoyResult add(@RequestBody @Valid DepartmentAddReq req, BindingResult bindingResult) {
+    public JoyResult add(@RequestBody @Valid StaffBlacklistAddReq req, BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
             return JoyResult.buildFailedResult(Notice.REQUEST_PARAMETER_IS_ERROR, bindingResult.getFieldError().getDefaultMessage());
         } else {
             // copy
-            return departmentService.add(req);
+            return staffBlacklistService.add(req);
         }
     }
 
     /**
-     * 更新部门
-     */
-    @PostMapping(
-            value = "/update",
-            produces = {"application/json;charset=UTF-8"})
-    public JoyResult update(@RequestBody @Valid DepartmentUpdateReq req, BindingResult bindingResult) {
-        if (bindingResult.hasErrors()) {
-            return JoyResult.buildFailedResult(Notice.REQUEST_PARAMETER_IS_ERROR, bindingResult.getFieldError().getDefaultMessage());
-        } else {
-            // copy
-            return departmentService.update(req);
-        }
-    }
-
-    /**
-     * 删除部门
+     * 删除
      */
     @PostMapping(
             value = "/delete",
@@ -82,46 +47,66 @@ public class DepartmentController {
             return JoyResult.buildFailedResult(Notice.REQUEST_PARAMETER_IS_ERROR, bindingResult.getFieldError().getDefaultMessage());
         } else {
             // copy
-            return departmentService.delete(req.getId());
+            return staffBlacklistService.delete(req.getId());
         }
     }
 
     /**
-     * 获取子部门
+     * 获取
      */
     @PostMapping(
-            value = "/getChildren",
+            value = "/get",
             produces = {"application/json;charset=UTF-8"})
-    public JoyResult getChildren(@RequestBody @Valid IdReq req, BindingResult bindingResult) {
+    public JoyResult get(@RequestBody @Valid IdReq req, BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
             return JoyResult.buildFailedResult(Notice.REQUEST_PARAMETER_IS_ERROR, bindingResult.getFieldError().getDefaultMessage());
         } else {
             // copy
-            return departmentService.getChildren(req.getId());
+            return staffBlacklistService.get(req.getId());
         }
     }
 
     /**
-     * 获取子部门树
+     * 更新
      */
     @PostMapping(
-            value = "/getTree",
+            value = "/update",
             produces = {"application/json;charset=UTF-8"})
-    public JoyResult getTree(@RequestBody @Valid IdReq req, BindingResult bindingResult) {
+    public JoyResult update(@RequestBody @Valid StaffBlacklistUpdateReq req, BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
             return JoyResult.buildFailedResult(Notice.REQUEST_PARAMETER_IS_ERROR, bindingResult.getFieldError().getDefaultMessage());
         } else {
             // copy
-            return departmentService.getTree(req.getId());
+            return staffBlacklistService.update(req);
         }
     }
 
-    // 获取当前用户权限范围内所能展示的公司/平台列表
-    @RequestMapping(
-            value = "/getCompanyList")
-    public JoyResult getCompanyList() {
-        // SESSION : 查询用户信息作为参数
-        UserEntity user = null;
-        return departmentService.getCompanyList(user);
+    /**
+     * 获取分页数据
+     */
+    @PostMapping(
+            value = "/getPagerList",
+            produces = {"application/json;charset=UTF-8"})
+    public JoyResult getPagerList(@RequestBody @Valid StaffBlacklistGetListReq req, BindingResult bindingResult) {
+        if (bindingResult.hasErrors()) {
+            return JoyResult.buildFailedResult(Notice.REQUEST_PARAMETER_IS_ERROR, bindingResult.getFieldError().getDefaultMessage());
+        } else {
+            return staffBlacklistService.getPagerList(req);
+        }
     }
+
+    /**
+     * 获取所有数据
+     */
+    @PostMapping(
+            value = "/getAllList",
+            produces = {"application/json;charset=UTF-8"})
+    public JoyResult getAllList(@RequestBody @Valid StaffBlacklistGetListReq req, BindingResult bindingResult) {
+        if (bindingResult.hasErrors()) {
+            return JoyResult.buildFailedResult(Notice.REQUEST_PARAMETER_IS_ERROR, bindingResult.getFieldError().getDefaultMessage());
+        } else {
+            return staffBlacklistService.getAllList(req);
+        }
+    }
+
 }

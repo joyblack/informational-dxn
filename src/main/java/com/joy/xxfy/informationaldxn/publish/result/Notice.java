@@ -38,6 +38,8 @@ public enum Notice{
     STAFF_PERSONAL_INFO_NOT_EXIST("员工个人信息不存在", 103007),
     STAFF_INJURY_INFO_NOT_EXIST("员工工伤信息不存在", 103008),
     STAFF_BLACKLIST_ALREADY_EXIST("该员工已处于黑名单中", 103008),
+    STAFF_STILL_ENTRY("该员工还处于在职状态", 103009),
+    STAFF_BLACKLIST_NOT_EXIST("黑名单信息不存在", 103010),
 
 
     // position
@@ -64,8 +66,11 @@ public enum Notice{
     UPLOAD_FILE_MODULE_ERROR("上传文件模块错误，不存在此模块", 108002),
     UPLOAD_FILE_ERROR("上传文件错误", 108003),
     UPLOAD_FILE_FAILED("上传文件失败", 108004),
-    ;
 
+
+
+
+    ;
 
 
     private String message;

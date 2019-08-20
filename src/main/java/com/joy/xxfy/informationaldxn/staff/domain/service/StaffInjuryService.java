@@ -139,6 +139,10 @@ public class StaffInjuryService {
             if(!StringUtil.isEmpty(req.getIdNumber())){
                 predicates.add(builder.like(root.get("staffPersonal").get("idNumber"), "%" + req.getIdNumber() +"%"));
             }
+            // phone like
+            if(!StringUtil.isEmpty(req.getPhone())){
+                predicates.add(builder.like(root.get("staffPersonal").get("phone"), "%" + req.getPhone() +"%"));
+            }
 
             // injury_reasons like
             if(req.getInjuryReasons() != null){
