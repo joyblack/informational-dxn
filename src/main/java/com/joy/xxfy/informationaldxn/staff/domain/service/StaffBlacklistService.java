@@ -1,0 +1,161 @@
+package com.joy.xxfy.informationaldxn.staff.domain.service;
+
+import cn.hutool.core.date.DateUtil;
+import com.joy.xxfy.informationaldxn.publish.result.JoyResult;
+import com.joy.xxfy.informationaldxn.publish.result.Notice;
+import com.joy.xxfy.informationaldxn.publish.utils.DateOperationUtil;
+import com.joy.xxfy.informationaldxn.publish.utils.LogUtil;
+import com.joy.xxfy.informationaldxn.publish.utils.StringUtil;
+import com.joy.xxfy.informationaldxn.publish.utils.identity.IdNumberUtil;
+import com.joy.xxfy.informationaldxn.publish.utils.project.JpaPagerUtil;
+import com.joy.xxfy.informationaldxn.staff.domain.enetiy.StaffBlacklistEntity;
+import com.joy.xxfy.informationaldxn.staff.domain.enetiy.StaffInjuryEntity;
+import com.joy.xxfy.informationaldxn.staff.domain.enetiy.StaffPersonalEntity;
+import com.joy.xxfy.informationaldxn.staff.domain.repository.StaffBlacklistRepository;
+import com.joy.xxfy.informationaldxn.staff.domain.repository.StaffInjuryRepository;
+import com.joy.xxfy.informationaldxn.staff.domain.repository.StaffPersonalRepository;
+import com.joy.xxfy.informationaldxn.staff.web.req.StaffBlacklistAddReq;
+import com.joy.xxfy.informationaldxn.staff.web.req.StaffInjuryAddReq;
+import com.joy.xxfy.informationaldxn.staff.web.req.StaffInjuryGetListReq;
+import com.joy.xxfy.informationaldxn.staff.web.req.StaffInjuryUpdateReq;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.data.jpa.domain.Specification;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import javax.persistence.criteria.Predicate;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+
+@Service
+@Transactional
+public class StaffBlacklistService {
+
+    @Autowired
+    private StaffPersonalRepository staffPersonalRepository;
+
+    @Autowired
+    private StaffBlacklistRepository staffBlacklistRepository;
+
+    @Value("${system.config.staff-black-list-over-month}")
+    private Integer overMonth;
+
+    /**
+     * 添加
+     */
+    public JoyResult add(StaffBlacklistAddReq req) {
+        StaffBlacklistEntity staffBlacklistInfo = new StaffBlacklistEntity();
+         // 验证身份证
+        if(!IdNumberUtil.isIDNumber((req.getIdNumber()))){
+            return JoyResult.buildFailedResult(Notice.IDENTITY_NUMBER_ERROR);
+        }
+        // 个人信息
+        StaffPersonalEntity personalInfo = staffPersonalRepository.findAllByIdNumber(req.getIdNumber());
+        if(personalInfo == null){
+            return JoyResult.buildFailedResult(Notice.STAFF_PERSONAL_INFO_NOT_EXIST);
+        }else {
+            staffBlacklistInfo.setStaffPersonal(personalInfo);
+        }
+        // 查找黑名单中是否存在该员工
+        StaffBlacklistEntity checkResult = staffBlacklistRepository.findAllByStaffPersonal(personalInfo);
+        if(checkResult != null){
+            return JoyResult.buildFailedResult(Notice.STAFF_BLACKLIST_ALREADY_EXIST);
+        }
+        // 查找员工是否在职，若在职，不允许添加黑名单
+
+        LogUtil.info("Last save info is：{}", staffBlacklistInfo);
+        // save.
+        return JoyResult.buildSuccessResultWithData(staffBlacklistRepository.save(staffBlacklistInfo));
+    }
+//
+//    /**
+//     * 改
+//     */
+//    public JoyResult update(StaffInjuryUpdateReq req) {
+//        StaffInjuryEntity injuryInfo = staffInjuryRepository.findAllById(req.getId());
+//        if(injuryInfo == null){
+//            return JoyResult.buildFailedResult(Notice.STAFF_INJURY_INFO_NOT_EXIST);
+//        }
+//        // 主治医院
+//        injuryInfo.setHospital(req.getHospital());
+//        // 医治时间
+//        injuryInfo.setTreatTime(req.getTreatTime());
+//        // 工伤描述
+//        injuryInfo.setInjuryDescribes(req.getInjuryDescribes());
+//        // 工伤时间
+//        injuryInfo.setInjuryTime(req.getInjuryTime());
+//        // 备注信息
+//        injuryInfo.setRemarks(req.getRemarks());
+//        LogUtil.info("New Injury info is：{}", injuryInfo);
+//        // save.
+//        return JoyResult.buildSuccessResultWithData(staffInjuryRepository.save(injuryInfo));
+//    }
+//
+//    /**
+//     * 删除
+//     */
+//    public JoyResult delete(Long id) {
+//        StaffInjuryEntity injuryInfo = staffInjuryRepository.findAllById(id);
+//        if(injuryInfo == null){
+//            return JoyResult.buildFailedResult(Notice.STAFF_LEAVE_NOT_EXIST);
+//        }
+//        injuryInfo.setIsDelete(true);
+//        return JoyResult.buildSuccessResultWithData(staffInjuryRepository.save(injuryInfo));
+//    }
+//
+//    /**
+//     * 获取数据
+//     */
+//    public JoyResult get(Long id) {
+//        // get older
+//        return JoyResult.buildSuccessResultWithData(staffInjuryRepository.findAllById(id));
+//    }
+//
+//
+//    /**
+//     * 获取分页数据
+//     */
+//    public JoyResult getPagerList(StaffInjuryGetListReq req) {
+//        return JoyResult.buildSuccessResultWithData(staffInjuryRepository.findAll(getPredicates(req), JpaPagerUtil.getPageable(req)));
+//    }
+//
+//    /**
+//     * 获取全部
+//     */
+//    public JoyResult getAllList(StaffInjuryGetListReq req) {
+//        return JoyResult.buildSuccessResultWithData(staffInjuryRepository.findAll(getPredicates(req)));
+//    }
+//
+//    /**
+//     * 获取分页数据、全部数据的谓词条件
+//     */
+//    private Specification<StaffInjuryEntity> getPredicates(StaffInjuryGetListReq req){
+//        return (Specification<StaffInjuryEntity>) (root, query, builder) -> {
+//            List<Predicate> predicates = new ArrayList<>();
+//            // username like
+//            if(!StringUtil.isEmpty(req.getUsername())){
+//                predicates.add(builder.like(root.get("staffPersonal").get("username"), "%" + req.getUsername() +"%"));
+//            }
+//            // idNumber like
+//            if(!StringUtil.isEmpty(req.getIdNumber())){
+//                predicates.add(builder.like(root.get("staffPersonal").get("idNumber"), "%" + req.getIdNumber() +"%"));
+//            }
+//
+//            // injury_reasons like
+//            if(req.getInjuryReasons() != null){
+//                predicates.add(builder.equal(root.get("injuryReasons"), req.getInjuryReasons()));
+//            }
+//            // injury_time between
+//            if(req.getInjuryTimeStart() != null){
+//                predicates.add(builder.greaterThanOrEqualTo(root.get("injuryTime"), req.getInjuryTimeStart()));
+//            }
+//            if(req.getInjuryTimeEnd() != null){
+//                predicates.add(builder.lessThanOrEqualTo(root.get("injuryTime"), req.getInjuryTimeEnd()));
+//            }
+//            return builder.and(predicates.toArray(new Predicate[predicates.size()]));
+//        };
+//    }
+
+}

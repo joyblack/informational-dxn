@@ -52,3 +52,4 @@ logging:
 system:
   config:
     cm-platform-default-password: 123456
+    staff-black-list-over-month: 6

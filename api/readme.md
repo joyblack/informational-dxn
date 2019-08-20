@@ -58,3 +58,5 @@ http://117.187.16.82:8070/digitizationMine/sumbitLogin 账号:admin 密码：a12
 2. 离职添加处未处理参保状态信息。
 
 3. 离职更新该怎么做，有待商榷。
+
+4. 需要考虑到Session的地方 都会通过大写的SESSION标注。

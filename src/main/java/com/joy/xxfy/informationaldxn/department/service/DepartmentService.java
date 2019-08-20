@@ -11,10 +11,13 @@ import com.joy.xxfy.informationaldxn.publish.utils.JoyBeanUtil;
 import com.joy.xxfy.informationaldxn.publish.utils.LogUtil;
 import com.joy.xxfy.informationaldxn.publish.utils.SqlUtil;
 import com.joy.xxfy.informationaldxn.publish.utils.project.TreeUtil;
+import com.joy.xxfy.informationaldxn.user.domain.entity.UserEntity;
+import com.joy.xxfy.informationaldxn.user.domain.enums.UserTypeEnum;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -142,5 +145,18 @@ public class DepartmentService{
         }else{
             return parent.getPath()  + child.getId() + SystemConstant.DEPARTMENT_PATH_SEPARATOR;
         }
+    }
+
+    // 获取当前用户权限范围内所能展示的公司/平台列表
+    public JoyResult getCompanyList(UserEntity user) {
+        // SESSION : 打开注释
+        // 集团用户可以管理所有煤矿平台，煤矿平台只能管理自己所属的平台
+//        List<DepartmentEntity> companyList = new ArrayList<>();
+//        if(user.getUserType().equals(UserTypeEnum.CM_ADMIN) || user.getUserType().equals(UserTypeEnum.CM_COMMON)){
+//            companyList.add(user.getDepartment());
+//        }else{// 集团用户获取所有
+//            companyList = departmentRepository.findAllByParentId(0L);
+//        }
+        return JoyResult.buildSuccessResultWithData(departmentRepository.findAllByParentId(0L));
     }
 }

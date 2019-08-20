@@ -11,10 +11,10 @@ public class LogUtil{
     }
 
     public static void info(String content, Object obj){
-        log.info(content, obj);
+        log.info("(joy) " + content, obj);
     }
 
     public static void info(String content, Object... obj){
-        log.info(content, obj);
+        log.info("(joy)" + content, obj);
     }
 }

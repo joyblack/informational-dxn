@@ -12,9 +12,6 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import java.util.Date;
 
-/**
- * 工伤
- */
 @Data
 @ToString(callSuper = true)
 public class StaffInjuryUpdateReq extends BaseEntity {

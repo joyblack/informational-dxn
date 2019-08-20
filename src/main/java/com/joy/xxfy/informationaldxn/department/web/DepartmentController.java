@@ -6,6 +6,7 @@ import com.joy.xxfy.informationaldxn.department.domain.entity.DepartmentEntity;
 import com.joy.xxfy.informationaldxn.department.service.DepartmentService;
 import com.joy.xxfy.informationaldxn.publish.result.JoyResult;
 import com.joy.xxfy.informationaldxn.publish.result.Notice;
+import com.joy.xxfy.informationaldxn.user.domain.entity.UserEntity;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -125,5 +126,14 @@ public class DepartmentController {
             // copy
             return departmentService.getTree(req.getId());
         }
+    }
+
+    // 获取当前用户权限范围内所能展示的公司/平台列表
+    @RequestMapping(
+            value = "/getCompanyList")
+    public JoyResult getCompanyList() {
+        // SESSION : 查询用户信息作为参数
+        UserEntity user = null;
+        return departmentService.getCompanyList(user);
     }
 }
