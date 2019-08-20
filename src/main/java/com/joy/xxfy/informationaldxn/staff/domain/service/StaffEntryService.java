@@ -14,10 +14,12 @@ import com.joy.xxfy.informationaldxn.publish.utils.PhoneUtil;
 import com.joy.xxfy.informationaldxn.publish.utils.StringUtil;
 import com.joy.xxfy.informationaldxn.publish.utils.identity.IdNumberUtil;
 import com.joy.xxfy.informationaldxn.publish.utils.project.JpaPagerUtil;
+import com.joy.xxfy.informationaldxn.staff.domain.enetiy.StaffBlacklistEntity;
 import com.joy.xxfy.informationaldxn.staff.domain.enetiy.StaffEntryEntity;
 import com.joy.xxfy.informationaldxn.staff.domain.enetiy.StaffPersonalEntity;
 import com.joy.xxfy.informationaldxn.staff.domain.enums.ReviewStatusEnum;
 import com.joy.xxfy.informationaldxn.staff.domain.enums.StaffStatusEnum;
+import com.joy.xxfy.informationaldxn.staff.domain.repository.StaffBlacklistRepository;
 import com.joy.xxfy.informationaldxn.staff.domain.repository.StaffEntryRepository;
 import com.joy.xxfy.informationaldxn.staff.domain.repository.StaffPersonalRepository;
 import com.joy.xxfy.informationaldxn.staff.domain.template.StaffTemplate;
@@ -28,6 +30,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import sun.rmi.runtime.Log;
 
 import javax.persistence.criteria.Predicate;
 import java.util.ArrayList;
@@ -52,6 +55,9 @@ public class StaffEntryService {
     @Autowired
     private SystemFileRepository systemFileRepository;
 
+    @Autowired
+    private StaffBlacklistRepository staffBlacklistRepository;
+
     /**
      * 添加员工入职信息
      */
@@ -60,15 +66,20 @@ public class StaffEntryService {
         StaffPersonalEntity personalInfo = new StaffPersonalEntity();
         // 员工入职信息对象
         StaffEntryEntity entryInfo = new StaffEntryEntity();
-
-        // 姓名
-        personalInfo.setUsername(req.getUsername());
+        // 联系电话
+        if(!PhoneUtil.isMobile(req.getPhone())){
+            return JoyResult.buildFailedResult(Notice.PHONE_ERROR);
+        }else{
+            personalInfo.setPhone(req.getPhone());
+        }
         // 身份证号
         if(!IdNumberUtil.isIDNumber((req.getIdNumber()))){
             return JoyResult.buildFailedResult(Notice.IDENTITY_NUMBER_ERROR);
         }else{
             personalInfo.setIdNumber(req.getIdNumber());
         }
+        // 姓名
+        personalInfo.setUsername(req.getUsername());
         // 出生日期
         personalInfo.setBirthDate(req.getBirthDate());
         // 性别
@@ -83,12 +94,7 @@ public class StaffEntryService {
         personalInfo.setEducation(req.getEducation());
         // 专业
         personalInfo.setProfession(req.getProfession());
-        // 联系电话
-        if(!PhoneUtil.isMobile(req.getPhone())){
-            return JoyResult.buildFailedResult(Notice.PHONE_ERROR);
-        }else{
-            personalInfo.setPhone(req.getPhone());
-        }
+
         // 入职公司、煤矿
         DepartmentEntity company = departmentRepository.findAllById(req.getCompanyId());
         if(company == null){
@@ -148,7 +154,7 @@ public class StaffEntryService {
         entryInfo.setRemarks(req.getRemarks());
 
 
-        // 查看用户是否在系统中存在关联信息
+        // 查看用户是否在系统中
         StaffPersonalEntity personalCheck= staffPersonalRepository.findAllByIdNumber(personalInfo.getIdNumber());
         if(personalCheck == null){
             LogUtil.info("个人信息第一次录入.");
@@ -157,7 +163,7 @@ public class StaffEntryService {
             // 审核状态为通过，可能以后需要查找黑名单
             entryInfo.setReviewStatus(ReviewStatusEnum.PASS);
         }else{
-            LogUtil.info("系统中存在该员工的信息: {}", personalCheck);
+            LogUtil.info("System already have this personal information: {}", personalCheck);
             // 检测该用户是否同部门同职位出现，这是不合法的
             StaffEntryEntity checkStaff = staffEntryRepository.findAllByStaffPersonalAndDepartmentAndPosition(personalCheck,
                     entryInfo.getDepartment(),
@@ -165,32 +171,38 @@ public class StaffEntryService {
             if(checkStaff != null){
                 return JoyResult.buildFailedResult(Notice.STAFF_ALREADY_IN_DEPARTMENT);
             }
-            // 检测该员工是否有重复的职位出现
-            List<StaffEntryEntity> entryList = staffEntryRepository.findAllByStaffPersonal(personalCheck);
-            if(entryList.size() > 0){
-                // 记录原因
+            // 记录审核的原因
+
+            // 黑名单校验
+            StaffBlacklistEntity blacklist = staffBlacklistRepository.findAllByStaffPersonal(personalCheck);
+            if(blacklist != null){
+                LogUtil.info("This is a blacklist staff: {}", blacklist);
+                // 设置审核状态（等待审核）、原因等信息
+                entryInfo.setReviewReasons(StaffTemplate.ALREADY_IN_BLACKLIST);
+                entryInfo.setReviewStatus(ReviewStatusEnum.WAIT);
+            }else{
                 StringBuilder reviewReasonBuilder = new StringBuilder();
-                // 黑名单校验、重复部门校验
-                for (StaffEntryEntity entry : entryList) {
-                    if(entry.getStaffStatus().equals(StaffStatusEnum.BLACKLIST)){
-                        reviewReasonBuilder.append(StaffTemplate.ALREADY_IN_BLACKLIST);
-                    }else{
+                // 检测该员工是否有重复的职位出现
+                List<StaffEntryEntity> entryList = staffEntryRepository.findAllByStaffPersonal(personalCheck);
+                if(entryList.size() > 0){
+                    // 重复部门校验
+                    for (StaffEntryEntity entry : entryList) {
                         reviewReasonBuilder.append(StaffTemplate.ALREADY_ENTRY
                                 .replaceAll(StaffTemplate.TMP_DEPARTMENT_NAME, entry.getDepartment().getDepartmentName())
                                 .replaceAll(StaffTemplate.TMP_POSITION_NAME, entry.getPosition().getPositionName()));
                     }
+                    // 设置审核状态（等待审核）、原因等信息
+                    entryInfo.setReviewReasons(reviewReasonBuilder.toString());
+                    entryInfo.setReviewStatus(ReviewStatusEnum.WAIT);
+
+                }else{
+                    // 说明已经没有任何职位了，不必审核
+                    entryInfo.setReviewStatus(ReviewStatusEnum.PASS);
                 }
-                // 设置审核状态（等待审核）、原因等信息
-                entryInfo.setReviewReasons(reviewReasonBuilder.toString());
-                entryInfo.setReviewStatus(ReviewStatusEnum.WAIT);
-            }else{
-                // 说明已经没有任何职位了，不必审核
-                entryInfo.setReviewStatus(ReviewStatusEnum.PASS);
             }
             // 更新旧个人信息，以新的替换
             personalInfo.setId(personalCheck.getId());
             personalInfo = staffPersonalRepository.save(personalInfo);
-
         }
         // 设置个人信息
         entryInfo.setStaffPersonal(personalInfo);

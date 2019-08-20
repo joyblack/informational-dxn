@@ -1,13 +1,11 @@
-package com.joy.xxfy.informationaldxn.position.web;
+package com.joy.xxfy.informationaldxn.staff.web;
 
-import com.joy.xxfy.informationaldxn.common.web.req.BasePageReq;
 import com.joy.xxfy.informationaldxn.common.web.req.IdReq;
-import com.joy.xxfy.informationaldxn.position.domain.entity.PositionEntity;
-import com.joy.xxfy.informationaldxn.position.service.PositionService;
-import com.joy.xxfy.informationaldxn.position.web.req.PositionAddReq;
-import com.joy.xxfy.informationaldxn.position.web.req.PositionUpdateReq;
 import com.joy.xxfy.informationaldxn.publish.result.JoyResult;
 import com.joy.xxfy.informationaldxn.publish.result.Notice;
+import com.joy.xxfy.informationaldxn.staff.domain.service.StaffBlacklistService;
+import com.joy.xxfy.informationaldxn.staff.domain.service.StaffShiftService;
+import com.joy.xxfy.informationaldxn.staff.web.req.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -18,40 +16,23 @@ import org.springframework.web.bind.annotation.RestController;
 import javax.validation.Valid;
 
 @RestController
-@RequestMapping("position")
-public class PositionController {
-
+@RequestMapping("staff-shift")
+public class StaffShiftController {
     @Autowired
-    private PositionService positionService;
-
+    private StaffShiftService staffShiftService;
 
     /**
-     * 用户添加
+     * 添加
      */
     @PostMapping(
             value = "/add",
             produces = {"application/json;charset=UTF-8"})
-    public JoyResult add(@RequestBody @Valid PositionAddReq req, BindingResult bindingResult) {
+    public JoyResult add(@RequestBody @Valid StaffShiftAddReq req, BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
             return JoyResult.buildFailedResult(Notice.REQUEST_PARAMETER_IS_ERROR, bindingResult.getFieldError().getDefaultMessage());
         } else {
             // copy
-            return positionService.add(req);
-        }
-    }
-
-    /**
-     * 更新
-     */
-    @PostMapping(
-            value = "/update",
-            produces = {"application/json;charset=UTF-8"})
-    public JoyResult update(@RequestBody @Valid PositionUpdateReq req, BindingResult bindingResult) {
-        if (bindingResult.hasErrors()) {
-            return JoyResult.buildFailedResult(Notice.REQUEST_PARAMETER_IS_ERROR, bindingResult.getFieldError().getDefaultMessage());
-        } else {
-            // copy
-            return positionService.update(req);
+            return staffShiftService.add(req);
         }
     }
 
@@ -61,12 +42,12 @@ public class PositionController {
     @PostMapping(
             value = "/delete",
             produces = {"application/json;charset=UTF-8"})
-    public JoyResult update(@RequestBody @Valid IdReq idRequest, BindingResult bindingResult) {
+    public JoyResult update(@RequestBody @Valid IdReq req, BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
             return JoyResult.buildFailedResult(Notice.REQUEST_PARAMETER_IS_ERROR, bindingResult.getFieldError().getDefaultMessage());
         } else {
             // copy
-            return positionService.delete(idRequest.getId());
+            return staffShiftService.delete(req.getId());
         }
     }
 
@@ -76,42 +57,42 @@ public class PositionController {
     @PostMapping(
             value = "/get",
             produces = {"application/json;charset=UTF-8"})
-    public JoyResult get(@RequestBody @Valid IdReq idRequest, BindingResult bindingResult) {
+    public JoyResult get(@RequestBody @Valid IdReq req, BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
             return JoyResult.buildFailedResult(Notice.REQUEST_PARAMETER_IS_ERROR, bindingResult.getFieldError().getDefaultMessage());
         } else {
             // copy
-            return positionService.get(idRequest.getId());
+            return staffShiftService.get(req.getId());
+        }
+    }
+
+
+    /**
+     * 获取分页数据
+     */
+    @PostMapping(
+            value = "/getPagerList",
+            produces = {"application/json;charset=UTF-8"})
+    public JoyResult getPagerList(@RequestBody @Valid StaffShiftGetListReq req, BindingResult bindingResult) {
+        if (bindingResult.hasErrors()) {
+            return JoyResult.buildFailedResult(Notice.REQUEST_PARAMETER_IS_ERROR, bindingResult.getFieldError().getDefaultMessage());
+        } else {
+            return staffShiftService.getPagerList(req);
         }
     }
 
     /**
-     * 获取全部列表
+     * 获取所有数据
      */
-    @RequestMapping(
-            value = "getAllList",
+    @PostMapping(
+            value = "/getAllList",
             produces = {"application/json;charset=UTF-8"})
-    public JoyResult getAllList(@RequestBody @Valid BasePageReq req, BindingResult bindingResult) {
+    public JoyResult getAllList(@RequestBody @Valid StaffShiftGetListReq req, BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
             return JoyResult.buildFailedResult(Notice.REQUEST_PARAMETER_IS_ERROR, bindingResult.getFieldError().getDefaultMessage());
         } else {
-            // copy
-            return positionService.getAllList(req);
+            return staffShiftService.getAllList(req);
         }
     }
 
-    /**
-     * 分页
-     */
-    @RequestMapping(
-            value = "getPagerList",
-            produces = {"application/json;charset=UTF-8"})
-    public JoyResult getPagerList(@RequestBody @Valid BasePageReq req, BindingResult bindingResult) {
-        if (bindingResult.hasErrors()) {
-            return JoyResult.buildFailedResult(Notice.REQUEST_PARAMETER_IS_ERROR, bindingResult.getFieldError().getDefaultMessage());
-        } else {
-            // copy
-            return positionService.getPagerList(req);
-        }
-    }
 }

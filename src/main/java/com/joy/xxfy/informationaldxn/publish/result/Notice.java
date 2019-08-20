@@ -40,6 +40,7 @@ public enum Notice{
     STAFF_BLACKLIST_ALREADY_EXIST("该员工已处于黑名单中", 103008),
     STAFF_STILL_ENTRY("该员工还处于在职状态", 103009),
     STAFF_BLACKLIST_NOT_EXIST("黑名单信息不存在", 103010),
+    STAFF_SHIFT_INFO_NOT_EXIST("职位调动信息不存在", 103011),
 
 
     // position

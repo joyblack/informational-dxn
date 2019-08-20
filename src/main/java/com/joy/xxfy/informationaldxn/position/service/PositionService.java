@@ -3,6 +3,8 @@ package com.joy.xxfy.informationaldxn.position.service;
 import com.joy.xxfy.informationaldxn.common.web.req.BasePageReq;
 import com.joy.xxfy.informationaldxn.position.domain.entity.PositionEntity;
 import com.joy.xxfy.informationaldxn.position.domain.repository.PositionRepository;
+import com.joy.xxfy.informationaldxn.position.web.req.PositionAddReq;
+import com.joy.xxfy.informationaldxn.position.web.req.PositionUpdateReq;
 import com.joy.xxfy.informationaldxn.publish.result.JoyResult;
 import com.joy.xxfy.informationaldxn.publish.result.Notice;
 import com.joy.xxfy.informationaldxn.publish.utils.JoyBeanUtil;
@@ -25,18 +27,23 @@ public class PositionService {
     @Autowired
     private PositionRepository positionRepository;
 
-    public JoyResult add(PositionEntity position) {
+    public JoyResult add(PositionAddReq req) {
         // check name repeat.
-        PositionEntity checkPosition = positionRepository.findAllByPositionName(position.getPositionName());
+        PositionEntity checkPosition = positionRepository.findAllByPositionName(req.getPositionName());
         if(checkPosition != null){
             return JoyResult.buildFailedResult(Notice.POSITION_NAME_ALREADY_EXIST);
         }
-        return JoyResult.buildSuccessResultWithData(positionRepository.save(position));
+        // name
+        PositionEntity positionInfo = new PositionEntity();
+        positionInfo.setDescribes(req.getDescribes());
+        positionInfo.setPositionName(req.getPositionName());
+        positionInfo.setRemarks(req.getRemarks());
+        return JoyResult.buildSuccessResultWithData(positionRepository.save(positionInfo));
     }
 
-    public JoyResult update(PositionEntity positionEntity) {
+    public JoyResult update(PositionUpdateReq req) {
         // get older
-        PositionEntity position = positionRepository.findAllById(positionEntity.getId());
+        PositionEntity position = positionRepository.findAllById(req.getId());
         if(position == null){
             return JoyResult.buildFailedResult(Notice.POSITION_NOT_EXIST);
         }
@@ -45,8 +52,10 @@ public class PositionService {
         if(checkPosition != null){
             return JoyResult.buildFailedResult(Notice.POSITION_NAME_ALREADY_EXIST);
         }
-        // copy
-        JoyBeanUtil.copyPropertiesIgnoreSourceNullProperties(positionEntity,position);
+        //
+        position.setPositionName(req.getPositionName());
+        position.setDescribes(req.getDescribes());
+        position.setRemarks(req.getRemarks());
         return JoyResult.buildSuccessResultWithData(positionRepository.save(position));
     }
 
@@ -69,20 +78,6 @@ public class PositionService {
         return JoyResult.buildSuccessResultWithData(positionRepository.findAllById(id));
     }
 
-    /**
-     * 测试数据录入
-     */
-    public JoyResult test(){
-        int times = 0;
-        while( ++ times <= 100){
-            PositionEntity position = new PositionEntity();
-            position.setDescribes("测试职位数据");
-            position.setPositionName("业务员" + times);
-            position.setRemarks("备注信息...");
-            add(position);
-        }
-        return JoyResult.buildSuccessResult("测试数据录入完成...");
-    }
 
     /**
      * 分页获取

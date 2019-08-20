@@ -118,9 +118,6 @@ public class StaffLeaveService {
             }
         }
 
-
-
-
         // Delete staff entry information.
         return JoyResult.buildSuccessResult("Success.");
     }

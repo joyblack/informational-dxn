@@ -26,5 +26,4 @@ public interface StaffEntryRepository extends BaseRepository<StaffEntryEntity>, 
      */
     List<StaffEntryEntity> findAllByStaffPersonal(StaffPersonalEntity staffPersonalEntity);
 
-
 }
