@@ -1,6 +1,7 @@
 package com.joy.xxfy.informationaldxn.produce.domain.entity;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.joy.xxfy.informationaldxn.common.domain.entity.BaseEntity;
 import com.joy.xxfy.informationaldxn.produce.domain.enums.DrillCategoryEnum;
 import com.joy.xxfy.informationaldxn.produce.domain.enums.DrillRockCharacterEnum;
@@ -72,7 +73,8 @@ public class DrillWorkDetailEntity extends BaseEntity {
      * 关联的钻孔工作
      */
     @ManyToOne(cascade = {},fetch = FetchType.EAGER)
-    @JoinColumn(name = "drill_work_id", nullable = false)
+    @JoinColumn(name = "drill_work_id")
+    @JsonIgnore
     private DrillWorkEntity drillWork;
 
 }

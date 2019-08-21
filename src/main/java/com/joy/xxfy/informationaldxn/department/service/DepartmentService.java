@@ -17,10 +17,12 @@ import com.joy.xxfy.informationaldxn.user.domain.entity.UserEntity;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.StringUtils;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @Transactional
@@ -196,5 +198,21 @@ public class DepartmentService{
         Collections.reverse(departments);
 
         return JoyResult.buildSuccessResultWithData(departments);
+    }
+
+    // 获取父部门遍历树字符串（包含自身）
+    public JoyResult getParentTreeString(Long id) {
+        List<DepartmentEntity> departments = new ArrayList<>();
+        while(id != 0){
+            DepartmentEntity department = departmentRepository.findAllById(id);
+            departments.add(department);
+            id = department.getParentId();
+        }
+        // 移除顶层节点
+        departments.remove(departments.size() - 1);
+        // 导入插入结果
+        Collections.reverse(departments);
+        return JoyResult.buildSuccessResultWithData(departments.stream().map(d -> d.getId()).collect(Collectors.toList()).toString()
+        .replaceAll("\\[","").replaceAll("\\]",""));
     }
 }

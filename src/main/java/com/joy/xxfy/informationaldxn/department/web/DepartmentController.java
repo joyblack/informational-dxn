@@ -137,4 +137,17 @@ public class DepartmentController {
             return departmentService.getParentTree(req.getId());
         }
     }
+
+    // 获取父部门遍历树（包含自身）字符串
+    @PostMapping(
+            value = "/getParentNodesString",
+            produces = {"application/json;charset=UTF-8"})
+    public JoyResult getParentTreeString(@RequestBody @Valid IdReq req, BindingResult bindingResult) {
+        if (bindingResult.hasErrors()) {
+            return JoyResult.buildFailedResult(Notice.REQUEST_PARAMETER_IS_ERROR, bindingResult.getFieldError().getDefaultMessage());
+        } else {
+            // copy
+            return departmentService.getParentTreeString(req.getId());
+        }
+    }
 }

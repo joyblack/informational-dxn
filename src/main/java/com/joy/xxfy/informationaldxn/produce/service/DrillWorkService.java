@@ -1,5 +1,6 @@
 package com.joy.xxfy.informationaldxn.produce.service;
 
+import com.joy.xxfy.informationaldxn.produce.domain.entity.DrillWorkDetailEntity;
 import com.joy.xxfy.informationaldxn.produce.domain.entity.DrillWorkEntity;
 import com.joy.xxfy.informationaldxn.produce.domain.repository.DrillWorkRepository;
 import com.joy.xxfy.informationaldxn.produce.web.req.BackMiningFaceGetListReq;
@@ -40,7 +41,11 @@ public class DrillWorkService {
         // copy properties
         DrillWorkEntity info = new DrillWorkEntity();
         JoyBeanUtil.copyPropertiesIgnoreTargetNotNullProperties(req, info);
-        info.setDrillWorkDetail(req.getDrillWorkDetail());
+
+
+        for (DrillWorkDetailEntity drillWorkDetailEntity : req.getDrillWorkDetail()) {
+            drillWorkDetailEntity.setDrillWork(info);
+        }
         // 已采长度：设计长度-已掘长度
         LogUtil.info("Last info is: {}", info);
         // save.
