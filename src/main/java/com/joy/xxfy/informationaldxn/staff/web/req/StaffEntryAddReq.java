@@ -37,7 +37,6 @@ public class StaffEntryAddReq extends BaseAddReq {
      * 入职时间
      */
     @NotNull(message = "入职时间不能为空")
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
     private Date entryTime;
 
 
@@ -49,7 +48,6 @@ public class StaffEntryAddReq extends BaseAddReq {
     /**
      * 体检时间
      */
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
     private Date physicalExaminationTime;
 
     /**
@@ -135,7 +133,6 @@ public class StaffEntryAddReq extends BaseAddReq {
      * 出生日期
      */
     @NotNull(message = "出生日期不能为空")
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
     private Date birthDate;
 
     /**
@@ -168,7 +165,6 @@ public class StaffEntryAddReq extends BaseAddReq {
     /**
      * 参保时间
      */
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
     private Date insuredTime;
 
     /**
@@ -184,7 +180,6 @@ public class StaffEntryAddReq extends BaseAddReq {
     /**
      * 毕业时间
      */
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
     private Date graduationTime;
 
     /**

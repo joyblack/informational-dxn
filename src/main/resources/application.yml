@@ -18,9 +18,9 @@ spring:
       hibernate:
         format_sql: true
     open-in-view: false
-
   jackson:
-    date-format: yyyy-MM-dd HH:mm:ss
+    #date-format: yyyy-MM-dd HH:mm:ss
+    date-format: yyyy-MM-dd
     time-zone: GMT+8
   transaction:
     rollback-on-commit-failure: true
@@ -46,8 +46,6 @@ image.format: jpg;JPG;bmp;BMP;png;PNG
 logging:
   level:
       org.hibernate.type.descriptor.sql.BasicBinder: trace
-
-
 
 system:
   config:

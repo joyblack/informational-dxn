@@ -17,8 +17,9 @@ import org.springframework.web.bind.annotation.RestController;
 import javax.validation.Valid;
 
 @RestController
-@RequestMapping("produce-driving-face")
+@RequestMapping("produce-back-mining-face")
 public class BackMiningFaceController {
+
     @Autowired
     private DrivingFaceService drivingFaceService;
 
