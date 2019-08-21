@@ -7,6 +7,8 @@ import com.joy.xxfy.informationaldxn.position.domain.entity.PositionEntity;
 import com.joy.xxfy.informationaldxn.staff.domain.enetiy.StaffEntryEntity;
 import com.joy.xxfy.informationaldxn.staff.domain.enetiy.StaffPersonalEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 
 import java.util.List;
 
@@ -26,4 +28,7 @@ public interface StaffEntryRepository extends BaseRepository<StaffEntryEntity>, 
      */
     List<StaffEntryEntity> findAllByStaffPersonal(StaffPersonalEntity staffPersonalEntity);
 
+    // 通过身份证查找所有入职信息
+    @Query("from StaffEntryEntity s where s.staffPersonal.idNumber = :idNumber")
+    List<StaffEntryEntity> findAllByIdNumber(@Param("idNumber") String idNumber);
 }

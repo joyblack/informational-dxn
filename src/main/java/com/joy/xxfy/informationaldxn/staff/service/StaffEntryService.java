@@ -324,6 +324,14 @@ public class StaffEntryService {
     }
 
     /**
+     * 获取数据
+     */
+    public JoyResult getByIdNumber(String idNumber) {
+        // get older
+        return JoyResult.buildSuccessResultWithData(staffEntryRepository.findAllByIdNumber(idNumber));
+    }
+
+    /**
      * 获取分页数据
      */
     public JoyResult getPagerList(StaffEntryGetListReq req) {

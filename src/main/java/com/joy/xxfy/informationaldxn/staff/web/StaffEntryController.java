@@ -4,6 +4,7 @@ import com.joy.xxfy.informationaldxn.common.web.req.IdReq;
 import com.joy.xxfy.informationaldxn.publish.result.JoyResult;
 import com.joy.xxfy.informationaldxn.publish.result.Notice;
 import com.joy.xxfy.informationaldxn.staff.service.StaffEntryService;
+import com.joy.xxfy.informationaldxn.staff.web.req.IdNumberReq;
 import com.joy.xxfy.informationaldxn.staff.web.req.StaffEntryAddReq;
 import com.joy.xxfy.informationaldxn.staff.web.req.StaffEntryGetListReq;
 import com.joy.xxfy.informationaldxn.staff.web.req.StaffEntryUpdateReq;
@@ -35,6 +36,21 @@ public class StaffEntryController {
         } else {
             // copy
             return staffEntryService.get(req.getId());
+        }
+    }
+
+    /**
+     * 获取（通过身份证）
+     */
+    @PostMapping(
+            value = "/getByIdNumber",
+            produces = {"application/json;charset=UTF-8"})
+    public JoyResult getByIdNumber(@RequestBody @Valid IdNumberReq req, BindingResult bindingResult) {
+        if (bindingResult.hasErrors()) {
+            return JoyResult.buildFailedResult(Notice.REQUEST_PARAMETER_IS_ERROR, bindingResult.getFieldError().getDefaultMessage());
+        } else {
+            // copy
+            return staffEntryService.getByIdNumber(req.getIdNumber());
         }
     }
 

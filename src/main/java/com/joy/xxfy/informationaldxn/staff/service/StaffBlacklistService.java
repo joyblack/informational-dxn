@@ -10,6 +10,7 @@ import com.joy.xxfy.informationaldxn.publish.utils.project.JpaPagerUtil;
 import com.joy.xxfy.informationaldxn.staff.domain.enetiy.*;
 import com.joy.xxfy.informationaldxn.staff.domain.repository.*;
 import com.joy.xxfy.informationaldxn.staff.web.req.*;
+import org.hibernate.criterion.Example;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.jpa.domain.Specification;
@@ -130,6 +131,14 @@ public class StaffBlacklistService {
     public JoyResult get(Long id) {
         // get older
         return JoyResult.buildSuccessResultWithData(staffBlacklistRepository.findAllById(id));
+    }
+
+    /**
+     * 通过身份证获取数据
+     */
+    public JoyResult getByIdNumber(String idNumber) {
+        // get older
+        return JoyResult.buildSuccessResultWithData(staffBlacklistRepository.findAllByIdNumber(idNumber));
     }
 
 

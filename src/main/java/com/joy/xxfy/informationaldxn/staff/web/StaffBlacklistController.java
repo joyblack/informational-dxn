@@ -66,6 +66,21 @@ public class StaffBlacklistController {
     }
 
     /**
+     * 获取（通过身份证）
+     */
+    @PostMapping(
+            value = "/getByIdNumber",
+            produces = {"application/json;charset=UTF-8"})
+    public JoyResult getByIdNumber(@RequestBody @Valid IdNumberReq req, BindingResult bindingResult) {
+        if (bindingResult.hasErrors()) {
+            return JoyResult.buildFailedResult(Notice.REQUEST_PARAMETER_IS_ERROR, bindingResult.getFieldError().getDefaultMessage());
+        } else {
+            // copy
+            return staffBlacklistService.getByIdNumber(req.getIdNumber());
+        }
+    }
+
+    /**
      * 更新
      */
     @PostMapping(

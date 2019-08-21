@@ -1,5 +1,6 @@
 package com.joy.xxfy.informationaldxn.produce.domain.entity;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.joy.xxfy.informationaldxn.common.domain.entity.BaseEntity;
 import com.joy.xxfy.informationaldxn.produce.domain.enums.*;
 import lombok.Data;
@@ -61,6 +62,7 @@ public class BackMiningFaceEntity extends BaseEntity {
     /**
      * 开采日期
      */
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private Date startTime;
 
     /**

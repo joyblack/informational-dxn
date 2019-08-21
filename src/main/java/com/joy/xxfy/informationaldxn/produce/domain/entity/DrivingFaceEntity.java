@@ -1,5 +1,6 @@
 package com.joy.xxfy.informationaldxn.produce.domain.entity;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.joy.xxfy.informationaldxn.common.domain.entity.BaseEntity;
 import com.joy.xxfy.informationaldxn.produce.domain.enums.CrossSectionTypeEnum;
 import com.joy.xxfy.informationaldxn.produce.domain.enums.DrivingTechnologyTypeEnum;
@@ -54,6 +55,7 @@ public class DrivingFaceEntity extends BaseEntity {
     /**
      * 开掘日期
      */
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private Date startTime;
 
     /**
