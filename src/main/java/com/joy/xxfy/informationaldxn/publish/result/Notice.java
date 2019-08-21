@@ -1,9 +1,6 @@
 package com.joy.xxfy.informationaldxn.publish.result;
 
 public enum Notice{
-
-
-
     EXECUTE_IS_SUCCESS("操作成功", 200),
     EXECUTE_IS_FAILED("操作失败", 234),
 
@@ -83,6 +80,11 @@ public enum Notice{
     DRILL_WORK_NAME_ALREADY_EXIST("钻孔工作名称已存在", 111000),
     DRILL_WORK_ALREADY_EXIST("钻孔工作信息已存在", 111001),
     DRILL_WORK_NOT_EXIST("钻孔工作信息不存在", 111002),
+
+    // 培训
+    TRAINING_NAME_ALREADY_EXIST("培训名称已存在", 111000),
+    TRAINING_ALREADY_EXIST("培训信息已存在", 111001),
+    TRAINING_NOT_EXIST("培训信息不存在", 111002),
 
     ;
 

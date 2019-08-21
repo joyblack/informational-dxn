@@ -1,10 +1,17 @@
-package com.joy.xxfy.informationaldxn.staff.web;
+package com.joy.xxfy.informationaldxn.train.web;
+
 
 import com.joy.xxfy.informationaldxn.common.web.req.IdReq;
 import com.joy.xxfy.informationaldxn.publish.result.JoyResult;
 import com.joy.xxfy.informationaldxn.publish.result.Notice;
 import com.joy.xxfy.informationaldxn.staff.service.StaffInjuryService;
-import com.joy.xxfy.informationaldxn.staff.web.req.*;
+import com.joy.xxfy.informationaldxn.staff.web.req.StaffInjuryAddReq;
+import com.joy.xxfy.informationaldxn.staff.web.req.StaffInjuryGetListReq;
+import com.joy.xxfy.informationaldxn.staff.web.req.StaffInjuryUpdateReq;
+import com.joy.xxfy.informationaldxn.train.service.TrainingService;
+import com.joy.xxfy.informationaldxn.train.web.req.TrainingAddReq;
+import com.joy.xxfy.informationaldxn.train.web.req.TrainingGetListReq;
+import com.joy.xxfy.informationaldxn.train.web.req.TrainingUpdateReq;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -15,10 +22,10 @@ import org.springframework.web.bind.annotation.RestController;
 import javax.validation.Valid;
 
 @RestController
-@RequestMapping("staff-injury")
-public class StaffInjuryController {
+@RequestMapping("train-training")
+public class TrainingController {
     @Autowired
-    private StaffInjuryService staffInjuryService;
+    private TrainingService trainingService;
 
     /**
      * 添加
@@ -26,12 +33,12 @@ public class StaffInjuryController {
     @PostMapping(
             value = "/add",
             produces = {"application/json;charset=UTF-8"})
-    public JoyResult add(@RequestBody @Valid StaffInjuryAddReq req, BindingResult bindingResult) {
+    public JoyResult add(@RequestBody @Valid TrainingAddReq req, BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
             return JoyResult.buildFailedResult(Notice.REQUEST_PARAMETER_IS_ERROR, bindingResult.getFieldError().getDefaultMessage());
         } else {
             // copy
-            return staffInjuryService.add(req);
+            return trainingService.add(req);
         }
     }
 
@@ -46,7 +53,7 @@ public class StaffInjuryController {
             return JoyResult.buildFailedResult(Notice.REQUEST_PARAMETER_IS_ERROR, bindingResult.getFieldError().getDefaultMessage());
         } else {
             // copy
-            return staffInjuryService.delete(req.getId());
+            return trainingService.delete(req.getId());
         }
     }
 
@@ -61,7 +68,7 @@ public class StaffInjuryController {
             return JoyResult.buildFailedResult(Notice.REQUEST_PARAMETER_IS_ERROR, bindingResult.getFieldError().getDefaultMessage());
         } else {
             // copy
-            return staffInjuryService.get(req.getId());
+            return trainingService.get(req.getId());
         }
     }
 
@@ -71,12 +78,12 @@ public class StaffInjuryController {
     @PostMapping(
             value = "/update",
             produces = {"application/json;charset=UTF-8"})
-    public JoyResult update(@RequestBody @Valid StaffInjuryUpdateReq req, BindingResult bindingResult) {
+    public JoyResult update(@RequestBody @Valid TrainingUpdateReq req, BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
             return JoyResult.buildFailedResult(Notice.REQUEST_PARAMETER_IS_ERROR, bindingResult.getFieldError().getDefaultMessage());
         } else {
             // copy
-            return staffInjuryService.update(req);
+            return trainingService.update(req);
         }
     }
 
@@ -86,11 +93,11 @@ public class StaffInjuryController {
     @PostMapping(
             value = "/getPagerList",
             produces = {"application/json;charset=UTF-8"})
-    public JoyResult getPagerList(@RequestBody @Valid StaffInjuryGetListReq req, BindingResult bindingResult) {
+    public JoyResult getPagerList(@RequestBody @Valid TrainingGetListReq req, BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
             return JoyResult.buildFailedResult(Notice.REQUEST_PARAMETER_IS_ERROR, bindingResult.getFieldError().getDefaultMessage());
         } else {
-            return staffInjuryService.getPagerList(req);
+            return trainingService.getPagerList(req);
         }
     }
 
@@ -100,12 +107,11 @@ public class StaffInjuryController {
     @PostMapping(
             value = "/getAllList",
             produces = {"application/json;charset=UTF-8"})
-    public JoyResult getAllList(@RequestBody @Valid StaffInjuryGetListReq req, BindingResult bindingResult) {
+    public JoyResult getAllList(@RequestBody @Valid TrainingGetListReq req, BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
             return JoyResult.buildFailedResult(Notice.REQUEST_PARAMETER_IS_ERROR, bindingResult.getFieldError().getDefaultMessage());
         } else {
-            return staffInjuryService.getAllList(req);
+            return trainingService.getAllList(req);
         }
     }
-
 }

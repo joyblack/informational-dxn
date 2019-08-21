@@ -63,15 +63,12 @@ public class DrillWorkService {
         if(checkRepeat != null){
             return JoyResult.buildFailedResult(Notice.DRILL_WORK_NAME_ALREADY_EXIST);
         }
-
         // 删除旧数据
         info.getDrillWorkDetail().forEach(d -> d.setIsDelete(true));
         DrillWorkEntity save = drillWorkRepository.save(info);
         JoyBeanUtil.copyPropertiesIgnoreSourceNullProperties(req, save);
         save.getDrillWorkDetail().forEach(d -> d.setDrillWork(save));
 
-        //info.getDrillWorkDetail().forEach(d -> d.setDrillWork(info));
-    //    System.out.println(info.getDrillWorkDetail().size());
         // save.
         return JoyResult.buildSuccessResultWithData(drillWorkRepository.save(save));
     }
@@ -84,12 +81,10 @@ public class DrillWorkService {
         if(info == null){
             return JoyResult.buildFailedResult(Notice.DRILL_WORK_NOT_EXIST);
         }
-        // ....
         info.setIsDelete(true);
         // 详细信息
         info.getDrillWorkDetail().forEach(d -> d.setIsDelete(true));
-        drillWorkRepository.save(info);
-        return JoyResult.buildSuccessResultWithData(info);
+        return JoyResult.buildSuccessResultWithData(drillWorkRepository.save(info));
     }
 
     /**
