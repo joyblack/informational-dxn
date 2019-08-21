@@ -76,8 +76,13 @@ public enum Notice{
 
     // 回采工作面
     BACK_MINING_NAME_ALREADY_EXIST("回采工作面名称已存在", 110000),
-    BACK_MINING_ALREADY_EXIST("回采工作面已存在", 110001),
+    BACK_MINING_ALREADY_EXIST("回采工作面信息已存在", 110001),
     BACK_MINING_NOT_EXIST("回采工作面信息不存在", 110002),
+
+    // 钻孔工作
+    DRILL_WORK_NAME_ALREADY_EXIST("钻孔工作名称已存在", 111000),
+    DRILL_WORK_ALREADY_EXIST("钻孔工作信息已存在", 111001),
+    DRILL_WORK_NOT_EXIST("钻孔工作信息不存在", 111002),
 
     ;
 

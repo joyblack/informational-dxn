@@ -21,7 +21,7 @@ import java.util.Date;
 @Data
 @ToString(callSuper = true)
 @Where(clause = "is_delete = 0")
-@Table(name = "all_staff_personal", uniqueConstraints = {@UniqueConstraint(columnNames="idNumber")})//身份证设置唯一性约束
+@Table(name = "personal_staff_personal", uniqueConstraints = {@UniqueConstraint(columnNames="idNumber")})//身份证设置唯一性约束
 public class StaffPersonalEntity extends BaseEntity {
 
     /**

@@ -17,7 +17,7 @@ import java.util.Date;
  * 回采工作面
  */
 @Entity
-@Table(name = "all_back_mining_face")
+@Table(name = "produce_back_mining_face")
 @Data
 @ToString(callSuper = true)
 @Where(clause = "is_delete = 0")

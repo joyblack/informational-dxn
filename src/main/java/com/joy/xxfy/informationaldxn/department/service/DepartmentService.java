@@ -18,6 +18,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 @Service
@@ -178,5 +180,21 @@ public class DepartmentService{
 //            companyList = departmentRepository.findAllByParentId(0L);
 //        }
         return JoyResult.buildSuccessResultWithData(departmentRepository.findAllByParentId(0L));
+    }
+
+    // 获取父部门遍历树（包含自身）
+    public JoyResult getParentTree(Long id) {
+        List<DepartmentEntity> departments = new ArrayList<>();
+        while(id != 0){
+            DepartmentEntity department = departmentRepository.findAllById(id);
+            departments.add(department);
+            id = department.getParentId();
+        }
+        // 移除顶层节点
+        departments.remove(departments.size() - 1);
+        // 导入插入结果
+        Collections.reverse(departments);
+
+        return JoyResult.buildSuccessResultWithData(departments);
     }
 }

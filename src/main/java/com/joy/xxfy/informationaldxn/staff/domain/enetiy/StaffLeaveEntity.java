@@ -22,7 +22,7 @@ import java.util.Date;
 @Entity
 @Data
 @ToString(callSuper = true)
-@Table(name = "all_staff_leave")
+@Table(name = "personal_staff_leave")
 @Where(clause = "is_delete = 0")
 public class StaffLeaveEntity extends BaseEntity {
     /**

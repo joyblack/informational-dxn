@@ -18,7 +18,7 @@ import java.util.Date;
 @Entity
 @Data
 @ToString(callSuper = true)
-@Table(name = "all_staff_entry")//身份证设置唯一性约束
+@Table(name = "personal_staff_entry")//身份证设置唯一性约束
 @Where(clause = "is_delete = 0")
 public class StaffEntryEntity extends BaseEntity {
     /**

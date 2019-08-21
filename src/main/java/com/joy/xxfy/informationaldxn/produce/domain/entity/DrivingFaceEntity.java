@@ -20,7 +20,7 @@ import java.util.Date;
  * 掘进工作面
  */
 @Entity
-@Table(name = "all_driving_face")
+@Table(name = "produce_driving_face")
 @Data
 @ToString(callSuper = true)
 @Where(clause = "is_delete = 0")

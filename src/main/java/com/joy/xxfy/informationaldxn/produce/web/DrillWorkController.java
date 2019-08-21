@@ -1,14 +1,12 @@
-package com.joy.xxfy.informationaldxn.department.web;
+package com.joy.xxfy.informationaldxn.produce.web;
 
 import com.joy.xxfy.informationaldxn.common.web.req.IdReq;
-import com.joy.xxfy.informationaldxn.common.web.req.TestReq;
-import com.joy.xxfy.informationaldxn.department.domain.entity.DepartmentEntity;
-import com.joy.xxfy.informationaldxn.department.service.DepartmentService;
-import com.joy.xxfy.informationaldxn.department.web.req.DepartmentAddReq;
-import com.joy.xxfy.informationaldxn.department.web.req.DepartmentUpdateReq;
+import com.joy.xxfy.informationaldxn.common.web.req.NameReq;
+import com.joy.xxfy.informationaldxn.produce.service.DrillWorkService;
+import com.joy.xxfy.informationaldxn.produce.service.DrivingFaceService;
+import com.joy.xxfy.informationaldxn.produce.web.req.*;
 import com.joy.xxfy.informationaldxn.publish.result.JoyResult;
 import com.joy.xxfy.informationaldxn.publish.result.Notice;
-import com.joy.xxfy.informationaldxn.user.domain.entity.UserEntity;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -19,60 +17,28 @@ import org.springframework.web.bind.annotation.RestController;
 import javax.validation.Valid;
 
 @RestController
-@RequestMapping("department")
-public class DepartmentController {
+@RequestMapping("produce-drill-work")
+public class DrillWorkController {
     @Autowired
-    private DepartmentService departmentService;
-
-
-    /**
-     * 获取部门
-     */
-    @PostMapping(
-            value = "/get",
-            produces = {"application/json;charset=UTF-8"})
-    public JoyResult get(@RequestBody @Valid IdReq req, BindingResult bindingResult) {
-        if (bindingResult.hasErrors()) {
-            return JoyResult.buildFailedResult(Notice.REQUEST_PARAMETER_IS_ERROR, bindingResult.getFieldError().getDefaultMessage());
-        } else {
-            // copy
-            return departmentService.get(req.getId());
-        }
-    }
-
+    private DrillWorkService drillWorkService;
 
     /**
-     * 添加部门
+     * 添加
      */
     @PostMapping(
             value = "/add",
             produces = {"application/json;charset=UTF-8"})
-    public JoyResult add(@RequestBody @Valid DepartmentAddReq req, BindingResult bindingResult) {
+    public JoyResult add(@RequestBody @Valid DrillWorkAddReq req, BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
             return JoyResult.buildFailedResult(Notice.REQUEST_PARAMETER_IS_ERROR, bindingResult.getFieldError().getDefaultMessage());
         } else {
             // copy
-            return departmentService.add(req);
+            return drillWorkService.add(req);
         }
     }
 
     /**
-     * 更新部门
-     */
-    @PostMapping(
-            value = "/update",
-            produces = {"application/json;charset=UTF-8"})
-    public JoyResult update(@RequestBody @Valid DepartmentUpdateReq req, BindingResult bindingResult) {
-        if (bindingResult.hasErrors()) {
-            return JoyResult.buildFailedResult(Notice.REQUEST_PARAMETER_IS_ERROR, bindingResult.getFieldError().getDefaultMessage());
-        } else {
-            // copy
-            return departmentService.update(req);
-        }
-    }
-
-    /**
-     * 删除部门
+     * 删除
      */
     @PostMapping(
             value = "/delete",
@@ -82,59 +48,80 @@ public class DepartmentController {
             return JoyResult.buildFailedResult(Notice.REQUEST_PARAMETER_IS_ERROR, bindingResult.getFieldError().getDefaultMessage());
         } else {
             // copy
-            return departmentService.delete(req.getId());
+            return drillWorkService.delete(req.getId());
         }
     }
 
     /**
-     * 获取子部门
+     * 获取
      */
     @PostMapping(
-            value = "/getChildren",
+            value = "/get",
             produces = {"application/json;charset=UTF-8"})
-    public JoyResult getChildren(@RequestBody @Valid IdReq req, BindingResult bindingResult) {
+    public JoyResult get(@RequestBody @Valid IdReq req, BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
             return JoyResult.buildFailedResult(Notice.REQUEST_PARAMETER_IS_ERROR, bindingResult.getFieldError().getDefaultMessage());
         } else {
             // copy
-            return departmentService.getChildren(req.getId());
+            return drillWorkService.get(req.getId());
         }
     }
 
     /**
-     * 获取子部门树
+     * 获取（通过名称）
      */
     @PostMapping(
-            value = "/getTree",
+            value = "/getByName",
             produces = {"application/json;charset=UTF-8"})
-    public JoyResult getTree(@RequestBody @Valid IdReq req, BindingResult bindingResult) {
+    public JoyResult getByName(@RequestBody @Valid NameReq req, BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
             return JoyResult.buildFailedResult(Notice.REQUEST_PARAMETER_IS_ERROR, bindingResult.getFieldError().getDefaultMessage());
         } else {
             // copy
-            return departmentService.getTree(req.getId());
+            return drillWorkService.getByName(req.getName());
         }
     }
 
-    // 获取当前用户权限范围内所能展示的公司/平台列表
-    @RequestMapping(
-            value = "/getCompanyList")
-    public JoyResult getCompanyList() {
-        // SESSION : 查询用户信息作为参数
-        UserEntity user = null;
-        return departmentService.getCompanyList(user);
-    }
-
-    // 获取父部门遍历树（包含自身）
+    /**
+     * 更新
+     */
     @PostMapping(
-            value = "/getParentNodes",
+            value = "/update",
             produces = {"application/json;charset=UTF-8"})
-    public JoyResult getParentTree(@RequestBody @Valid IdReq req, BindingResult bindingResult) {
+    public JoyResult update(@RequestBody @Valid DrillWorkUpdateReq req, BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
             return JoyResult.buildFailedResult(Notice.REQUEST_PARAMETER_IS_ERROR, bindingResult.getFieldError().getDefaultMessage());
         } else {
             // copy
-            return departmentService.getParentTree(req.getId());
+            return drillWorkService.update(req);
+        }
+    }
+
+    /**
+     * 获取分页数据
+     */
+    @PostMapping(
+            value = "/getPagerList",
+            produces = {"application/json;charset=UTF-8"})
+    public JoyResult getPagerList(@RequestBody @Valid DrillWorkGetListReq req, BindingResult bindingResult) {
+        if (bindingResult.hasErrors()) {
+            return JoyResult.buildFailedResult(Notice.REQUEST_PARAMETER_IS_ERROR, bindingResult.getFieldError().getDefaultMessage());
+        } else {
+            return drillWorkService.getPagerList(req);
+        }
+    }
+
+    /**
+     * 获取所有数据
+     */
+    @PostMapping(
+            value = "/getAllList",
+            produces = {"application/json;charset=UTF-8"})
+    public JoyResult getAllList(@RequestBody @Valid DrillWorkGetListReq req, BindingResult bindingResult) {
+        if (bindingResult.hasErrors()) {
+            return JoyResult.buildFailedResult(Notice.REQUEST_PARAMETER_IS_ERROR, bindingResult.getFieldError().getDefaultMessage());
+        } else {
+            return drillWorkService.getAllList(req);
         }
     }
 }
