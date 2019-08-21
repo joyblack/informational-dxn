@@ -1,10 +1,10 @@
 package com.joy.xxfy.informationaldxn.produce.service;
 
 import com.joy.xxfy.informationaldxn.produce.domain.entity.BackMiningFaceEntity;
-import com.joy.xxfy.informationaldxn.produce.domain.entity.DrivingFaceEntity;
 import com.joy.xxfy.informationaldxn.produce.domain.repository.BackMiningFaceRepository;
-import com.joy.xxfy.informationaldxn.produce.domain.repository.DrivingFaceRepository;
-import com.joy.xxfy.informationaldxn.produce.web.req.*;
+import com.joy.xxfy.informationaldxn.produce.web.req.BackMiningFaceAddReq;
+import com.joy.xxfy.informationaldxn.produce.web.req.BackMiningFaceGetListReq;
+import com.joy.xxfy.informationaldxn.produce.web.req.BackMiningFaceUpdateReq;
 import com.joy.xxfy.informationaldxn.publish.result.JoyResult;
 import com.joy.xxfy.informationaldxn.publish.result.Notice;
 import com.joy.xxfy.informationaldxn.publish.utils.JoyBeanUtil;
@@ -52,6 +52,12 @@ public class BackMiningFaceService {
         if(info == null){
             return JoyResult.buildFailedResult(Notice.BACK_MINING_NOT_EXIST);
         }
+        // 名称合法
+        BackMiningFaceEntity checkRepeat = backMiningFaceRepository.findAllByBackMiningFaceNameAndIdNot(req.getBackMiningFaceName(), req.getId());
+        if(checkRepeat != null){
+            return JoyResult.buildFailedResult(Notice.BACK_MINING_NAME_ALREADY_EXIST);
+        }
+
         JoyBeanUtil.copyPropertiesIgnoreSourceNullProperties(req, info);
         // save.
         return JoyResult.buildSuccessResultWithData(backMiningFaceRepository.save(info));
@@ -75,8 +81,14 @@ public class BackMiningFaceService {
      * 获取数据
      */
     public JoyResult get(Long id) {
-        // get older
         return JoyResult.buildSuccessResultWithData(backMiningFaceRepository.findAllById(id));
+    }
+
+    /**
+     * 获取数据(name)
+     */
+    public JoyResult getByName(String name) {
+        return JoyResult.buildSuccessResultWithData(backMiningFaceRepository.findAllByBackMiningFaceName(name));
     }
 
 
@@ -100,7 +112,7 @@ public class BackMiningFaceService {
     private Specification<BackMiningFaceEntity> getPredicates(BackMiningFaceGetListReq req){
         return (Specification<BackMiningFaceEntity>) (root, query, builder) -> {
             List<Predicate> predicates = new ArrayList<>();
-            // driving_face_name like
+            // name like
             if(!StringUtil.isEmpty(req.getBackMiningFaceName())){
                 predicates.add(builder.like(root.get("backMiningFaceName"), "%" + req.getBackMiningFaceName() +"%"));
             }

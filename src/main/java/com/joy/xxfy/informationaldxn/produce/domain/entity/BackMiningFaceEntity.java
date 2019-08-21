@@ -65,10 +65,6 @@ public class BackMiningFaceEntity extends BaseEntity {
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private Date startTime;
 
-    /**
-     * 剩余长度
-     */
-    private BigDecimal leftLength;
 
     /**
      * 煤层厚度

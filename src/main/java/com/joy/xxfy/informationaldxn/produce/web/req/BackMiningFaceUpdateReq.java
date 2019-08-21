@@ -59,11 +59,6 @@ public class BackMiningFaceUpdateReq extends BaseUpdateReq {
     private Date startTime;
 
     /**
-     * 剩余长度
-     */
-    private BigDecimal leftLength;
-
-    /**
      * 煤层厚度
      */
     private BigDecimal coalSeamThickness;

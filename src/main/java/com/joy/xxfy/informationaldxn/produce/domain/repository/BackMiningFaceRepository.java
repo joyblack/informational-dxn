@@ -8,4 +8,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 public interface BackMiningFaceRepository extends BaseRepository<BackMiningFaceEntity>, JpaRepository<BackMiningFaceEntity, Long> {
     // back_mining_face_name = ?
     BackMiningFaceEntity findAllByBackMiningFaceName(String name);
+    // id != and name = ?
+    BackMiningFaceEntity findAllByBackMiningFaceNameAndIdNot(String name, Long id);
 }

@@ -1,10 +1,11 @@
 package com.joy.xxfy.informationaldxn.produce.web;
 
 import com.joy.xxfy.informationaldxn.common.web.req.IdReq;
-import com.joy.xxfy.informationaldxn.produce.service.DrivingFaceService;
-import com.joy.xxfy.informationaldxn.produce.web.req.DrivingFaceAddReq;
-import com.joy.xxfy.informationaldxn.produce.web.req.DrivingFaceGetListReq;
-import com.joy.xxfy.informationaldxn.produce.web.req.DrivingFaceUpdateReq;
+import com.joy.xxfy.informationaldxn.common.web.req.NameReq;
+import com.joy.xxfy.informationaldxn.produce.service.BackMiningFaceService;
+import com.joy.xxfy.informationaldxn.produce.web.req.BackMiningFaceAddReq;
+import com.joy.xxfy.informationaldxn.produce.web.req.BackMiningFaceGetListReq;
+import com.joy.xxfy.informationaldxn.produce.web.req.BackMiningFaceUpdateReq;
 import com.joy.xxfy.informationaldxn.publish.result.JoyResult;
 import com.joy.xxfy.informationaldxn.publish.result.Notice;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,7 +22,7 @@ import javax.validation.Valid;
 public class BackMiningFaceController {
 
     @Autowired
-    private DrivingFaceService drivingFaceService;
+    private BackMiningFaceService backMiningFaceService;
 
     /**
      * 添加
@@ -29,12 +30,12 @@ public class BackMiningFaceController {
     @PostMapping(
             value = "/add",
             produces = {"application/json;charset=UTF-8"})
-    public JoyResult add(@RequestBody @Valid DrivingFaceAddReq req, BindingResult bindingResult) {
+    public JoyResult add(@RequestBody @Valid BackMiningFaceAddReq req, BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
             return JoyResult.buildFailedResult(Notice.REQUEST_PARAMETER_IS_ERROR, bindingResult.getFieldError().getDefaultMessage());
         } else {
             // copy
-            return drivingFaceService.add(req);
+            return backMiningFaceService.add(req);
         }
     }
 
@@ -49,7 +50,7 @@ public class BackMiningFaceController {
             return JoyResult.buildFailedResult(Notice.REQUEST_PARAMETER_IS_ERROR, bindingResult.getFieldError().getDefaultMessage());
         } else {
             // copy
-            return drivingFaceService.delete(req.getId());
+            return backMiningFaceService.delete(req.getId());
         }
     }
 
@@ -64,7 +65,22 @@ public class BackMiningFaceController {
             return JoyResult.buildFailedResult(Notice.REQUEST_PARAMETER_IS_ERROR, bindingResult.getFieldError().getDefaultMessage());
         } else {
             // copy
-            return drivingFaceService.get(req.getId());
+            return backMiningFaceService.get(req.getId());
+        }
+    }
+
+    /**
+     * 获取（通过名称）
+     */
+    @PostMapping(
+            value = "/getByName",
+            produces = {"application/json;charset=UTF-8"})
+    public JoyResult getByName(@RequestBody @Valid NameReq req, BindingResult bindingResult) {
+        if (bindingResult.hasErrors()) {
+            return JoyResult.buildFailedResult(Notice.REQUEST_PARAMETER_IS_ERROR, bindingResult.getFieldError().getDefaultMessage());
+        } else {
+            // copy
+            return backMiningFaceService.getByName(req.getName());
         }
     }
 
@@ -74,12 +90,12 @@ public class BackMiningFaceController {
     @PostMapping(
             value = "/update",
             produces = {"application/json;charset=UTF-8"})
-    public JoyResult update(@RequestBody @Valid DrivingFaceUpdateReq req, BindingResult bindingResult) {
+    public JoyResult update(@RequestBody @Valid BackMiningFaceUpdateReq req, BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
             return JoyResult.buildFailedResult(Notice.REQUEST_PARAMETER_IS_ERROR, bindingResult.getFieldError().getDefaultMessage());
         } else {
             // copy
-            return drivingFaceService.update(req);
+            return backMiningFaceService.update(req);
         }
     }
 
@@ -89,11 +105,11 @@ public class BackMiningFaceController {
     @PostMapping(
             value = "/getPagerList",
             produces = {"application/json;charset=UTF-8"})
-    public JoyResult getPagerList(@RequestBody @Valid DrivingFaceGetListReq req, BindingResult bindingResult) {
+    public JoyResult getPagerList(@RequestBody @Valid BackMiningFaceGetListReq req, BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
             return JoyResult.buildFailedResult(Notice.REQUEST_PARAMETER_IS_ERROR, bindingResult.getFieldError().getDefaultMessage());
         } else {
-            return drivingFaceService.getPagerList(req);
+            return backMiningFaceService.getPagerList(req);
         }
     }
 
@@ -103,11 +119,11 @@ public class BackMiningFaceController {
     @PostMapping(
             value = "/getAllList",
             produces = {"application/json;charset=UTF-8"})
-    public JoyResult getAllList(@RequestBody @Valid DrivingFaceGetListReq req, BindingResult bindingResult) {
+    public JoyResult getAllList(@RequestBody @Valid BackMiningFaceGetListReq req, BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
             return JoyResult.buildFailedResult(Notice.REQUEST_PARAMETER_IS_ERROR, bindingResult.getFieldError().getDefaultMessage());
         } else {
-            return drivingFaceService.getAllList(req);
+            return backMiningFaceService.getAllList(req);
         }
     }
 }

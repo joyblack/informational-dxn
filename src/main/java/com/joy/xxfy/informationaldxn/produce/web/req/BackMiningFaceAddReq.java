@@ -58,10 +58,6 @@ public class BackMiningFaceAddReq extends BaseAddReq {
      */
     private Date startTime;
 
-    /**
-     * 剩余长度
-     */
-    private BigDecimal leftLength;
 
     /**
      * 煤层厚度
