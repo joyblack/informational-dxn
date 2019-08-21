@@ -15,20 +15,21 @@ JSON
 ## 请求数据
 |参数名|类型|必填|说明|
 |-|-|-|-|
-|drivingFaceName|[string]|是|名称|
-|startTimeStart|[date]||开采日期起始时间|
-|startTimeEnd|[date]||开采日期截止时间|
-|ventilationMode|[enum]||通风方式：参考 **参数参考表：回采工作面**|
-|backMiningMode|[enum]||回采方式：参考 **参数参考表：回采工作面**|
+|drillWorkName|[string]|是|名称|
+|drillTimeStart|[date]||开孔日期起始时间|
+|drillTimeEnd|[date]||开孔日期截止时间|
+|drillCategory|[enum]||钻孔类别：参考参数参考表 **4.3、钻孔工作**|
+|drillType|[enum]||钻孔类型：参考参数参考表 **4.3、钻孔工作**|
+|drillRockCharacter|[enum]||钻孔岩性：参考参数参考表 **4.3、钻孔工作**|
 
 ## 请求示例
 ```json
 {
-	"backMiningFaceName": "回采工作面B_change",
-    "startTimeStart": "2019-09-20",
-    "startTimeEnd": "2019-09-25",
-    "ventilationMode": "Z",
-    "backMiningMode": "INTEGRATION_MACHINE"
+	"drillWorkName": "钻孔工作A",
+    "drillTime": "2019-09-20",
+	"drillCategory": "GEOLOGY",
+    "drillType": "GAS",
+    "drillRockCharacter": "COAL_LAYER",
 }
 ```
 
@@ -41,24 +42,46 @@ JSON
     "detailMessage": "",
     "data": [
         {
-            "id": 2,
+            "id": 1,
             "isDelete": false,
-            "createTime": "2019-08-21 11:16:57",
-            "updateTime": "2019-08-21 11:16:57",
+            "createTime": "2019-08-21 18:00:45",
+            "updateTime": "2019-08-21 18:00:45",
             "remarks": null,
-            "backMiningFaceName": "回采工作面B_change",
-            "slopeLength": 2800.51,
-            "returnAirChute": 100.51,
-            "transportChute": 100.51,
-            "doneLength": 200.41,
-            "trendLength": 50.41,
-            "startTime": "2019-09-20 00:00:00",
-            "coalSeamThickness": 4000.10,
-            "coalSeamDipAngle": 21.00,
-            "miningHigh": 20.10,
-            "ventilationMode": "Z",
-            "backMiningMode": "INTEGRATION_MACHINE",
-            "recoverReserves": 42.00
+            "drillWorkName": "钻孔工作AB",
+            "drillTime": "2019-09-20 00:00:00",
+            "drillCategory": "GEOLOGY",
+            "drillType": "GAS",
+            "drillRockCharacter": "COAL_LAYER",
+            "drillWorkDetail": [
+                {
+                    "id": 2,
+                    "isDelete": false,
+                    "createTime": "2019-08-21 18:53:44",
+                    "updateTime": "2019-08-21 18:53:44",
+                    "remarks": null,
+                    "orderNumber": 2,
+                    "code": "AES-002",
+                    "totalLength": 3000.60,
+                    "dipAngle": 80.00,
+                    "predicateAppearCoal": 40.00,
+                    "predicateDisappearCoal": 20.10,
+                    "predicateCoalThickness": 100.00
+                },
+                {
+                    "id": 5,
+                    "isDelete": false,
+                    "createTime": "2019-08-21 18:53:44",
+                    "updateTime": "2019-08-21 18:53:44",
+                    "remarks": null,
+                    "orderNumber": 2,
+                    "code": "AES-002",
+                    "totalLength": 3000.60,
+                    "dipAngle": 80.00,
+                    "predicateAppearCoal": 40.00,
+                    "predicateDisappearCoal": 20.10,
+                    "predicateCoalThickness": 100.00
+                }
+            ]
         }
     ],
     "code": 200

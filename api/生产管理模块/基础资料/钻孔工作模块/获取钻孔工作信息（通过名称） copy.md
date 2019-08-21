@@ -1,7 +1,7 @@
 # 简介
 
 # 访问地址
-produce-back-mining-face/getByName
+produce-drill-work/getByName
 
 # 请求参数
 
@@ -14,12 +14,12 @@ JSON
 ## 请求数据
 |参数名|类型|必填|说明|
 |-|-|-|-|
-|name|[string]|是|工作面的名称|
+|name|[string]|是|名称|
 
 ## 请求示例
 ```json
 {
-	"name": "回采工作面A"
+	"name": "钻孔工作AB"
 }
 ```
 
@@ -33,22 +33,44 @@ JSON
     "data": {
         "id": 1,
         "isDelete": false,
-        "createTime": "2019-08-21 11:16:06",
-        "updateTime": "2019-08-21 11:16:06",
+        "createTime": "2019-08-21 18:00:45",
+        "updateTime": "2019-08-21 18:00:45",
         "remarks": null,
-        "backMiningFaceName": "回采工作面A",
-        "slopeLength": 2800.50,
-        "returnAirChute": 100.50,
-        "transportChute": 100.50,
-        "doneLength": 200.40,
-        "trendLength": 50.40,
-        "startTime": "2019-09-10 00:00:00",
-        "coalSeamThickness": 4000.00,
-        "coalSeamDipAngle": 20.00,
-        "miningHigh": 20.00,
-        "ventilationMode": "U",
-        "backMiningMode": "INTEGRATION_MACHINE",
-        "recoverReserves": null
+        "drillWorkName": "钻孔工作AB",
+        "drillTime": "2019-09-20 00:00:00",
+        "drillCategory": "GEOLOGY",
+        "drillType": "GAS",
+        "drillRockCharacter": "COAL_LAYER",
+        "drillWorkDetail": [
+            {
+                "id": 2,
+                "isDelete": false,
+                "createTime": "2019-08-21 18:53:44",
+                "updateTime": "2019-08-21 18:53:44",
+                "remarks": null,
+                "orderNumber": 2,
+                "code": "AES-002",
+                "totalLength": 3000.60,
+                "dipAngle": 80.00,
+                "predicateAppearCoal": 40.00,
+                "predicateDisappearCoal": 20.10,
+                "predicateCoalThickness": 100.00
+            },
+            {
+                "id": 5,
+                "isDelete": false,
+                "createTime": "2019-08-21 18:53:44",
+                "updateTime": "2019-08-21 18:53:44",
+                "remarks": null,
+                "orderNumber": 2,
+                "code": "AES-002",
+                "totalLength": 3000.60,
+                "dipAngle": 80.00,
+                "predicateAppearCoal": 40.00,
+                "predicateDisappearCoal": 20.10,
+                "predicateCoalThickness": 100.00
+            }
+        ]
     },
     "code": 200
 }

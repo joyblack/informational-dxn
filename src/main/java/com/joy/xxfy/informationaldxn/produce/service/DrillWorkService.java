@@ -41,8 +41,6 @@ public class DrillWorkService {
         // copy properties
         DrillWorkEntity info = new DrillWorkEntity();
         JoyBeanUtil.copyPropertiesIgnoreTargetNotNullProperties(req, info);
-
-
         for (DrillWorkDetailEntity drillWorkDetailEntity : req.getDrillWorkDetail()) {
             drillWorkDetailEntity.setDrillWork(info);
         }
@@ -65,9 +63,17 @@ public class DrillWorkService {
         if(checkRepeat != null){
             return JoyResult.buildFailedResult(Notice.DRILL_WORK_NAME_ALREADY_EXIST);
         }
-        JoyBeanUtil.copyPropertiesIgnoreSourceNullProperties(req, info);
+
+        // 删除旧数据
+        info.getDrillWorkDetail().forEach(d -> d.setIsDelete(true));
+        DrillWorkEntity save = drillWorkRepository.save(info);
+        JoyBeanUtil.copyPropertiesIgnoreSourceNullProperties(req, save);
+        save.getDrillWorkDetail().forEach(d -> d.setDrillWork(save));
+
+        //info.getDrillWorkDetail().forEach(d -> d.setDrillWork(info));
+    //    System.out.println(info.getDrillWorkDetail().size());
         // save.
-        return JoyResult.buildSuccessResultWithData(drillWorkRepository.save(info));
+        return JoyResult.buildSuccessResultWithData(drillWorkRepository.save(save));
     }
 
     /**
@@ -80,7 +86,10 @@ public class DrillWorkService {
         }
         // ....
         info.setIsDelete(true);
-        return JoyResult.buildSuccessResultWithData(drillWorkRepository.save(info));
+        // 详细信息
+        info.getDrillWorkDetail().forEach(d -> d.setIsDelete(true));
+        drillWorkRepository.save(info);
+        return JoyResult.buildSuccessResultWithData(info);
     }
 
     /**
