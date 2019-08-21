@@ -1,6 +1,7 @@
 package com.joy.xxfy.informationaldxn.produce.web;
 
 import com.joy.xxfy.informationaldxn.common.web.req.IdReq;
+import com.joy.xxfy.informationaldxn.common.web.req.NameReq;
 import com.joy.xxfy.informationaldxn.produce.service.DrivingFaceService;
 import com.joy.xxfy.informationaldxn.produce.web.req.DrivingFaceAddReq;
 import com.joy.xxfy.informationaldxn.produce.web.req.DrivingFaceGetListReq;
@@ -68,6 +69,21 @@ public class DrivingFaceController {
         } else {
             // copy
             return drivingFaceService.get(req.getId());
+        }
+    }
+
+    /**
+     * 获取（通过名称）
+     */
+    @PostMapping(
+            value = "/getByName",
+            produces = {"application/json;charset=UTF-8"})
+    public JoyResult getByName(@RequestBody @Valid NameReq req, BindingResult bindingResult) {
+        if (bindingResult.hasErrors()) {
+            return JoyResult.buildFailedResult(Notice.REQUEST_PARAMETER_IS_ERROR, bindingResult.getFieldError().getDefaultMessage());
+        } else {
+            // copy
+            return drivingFaceService.getByName(req.getName());
         }
     }
 

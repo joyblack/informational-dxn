@@ -29,7 +29,7 @@ JSON
 |departmentId|[number]||部门ID|
 |positionId|[number]||职位ID|
 
-**分页参数参考《参数参考表》中分页参数模块。**
+* 其他参数参考 **参数参考表：分页通用参数**
 
 ## 请求示例
 ```json

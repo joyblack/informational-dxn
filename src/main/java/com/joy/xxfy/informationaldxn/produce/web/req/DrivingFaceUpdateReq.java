@@ -47,15 +47,16 @@ public class DrivingFaceUpdateReq extends BaseUpdateReq {
      */
     private Date startTime;
 
+
     /**
      * 掘进高度
      */
-    private BigDecimal high;
+    private BigDecimal drivingHigh;
 
     /**
      * 掘进坡度
      */
-    private BigDecimal slope;
+    private BigDecimal drivingSlope;
 
 
     /**

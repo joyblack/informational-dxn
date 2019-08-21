@@ -1,0 +1,90 @@
+# 简介
+获取职位列表，分页查询。
+
+# 访问地址
+produce-driving-face/getAllList
+
+# 请求参数
+
+## 请求方式
+POST
+
+## 请求格式
+JSON
+
+## 请求数据
+|参数名|类型|必填|说明|
+|-|-|-|-|
+|drivingFaceName|[string]|是|名称|
+|startTimeStart|[date]||开掘日期起始时间|
+|startTimeEnd|[date]||开掘日期截止时间|
+|crossSectionType|[enum]||断面形式：参考 **参数参考表：掘进工作面**|
+|drivingTechnologyType|[enum]||掘进工艺：参考 **参数参考表：掘进工作面**|
+|supportMethod|[enum]||支护方式：参考 **参数参考表：掘进工作面**|
+|rockCharacter|[enum]||岩性：参考 **参数参考表：掘进工作面**|
+
+## 请求示例
+```json
+{
+	"drivingFaceName": "工作面B",
+    "startTimeStart": "2019-09-10",
+    "drivingHigh": "20.1",
+    "drivingSlope": "35.1",
+    "crossSection": "15.1",
+    "coalSeamThickness": "2000.1",
+    "crossSectionType": "TRAPEZIUM",
+    "drivingTechnologyType": "FULLY",
+    "supportMethod": "COMBINED_SUPPORT",
+    "rockCharacter": "ALL_COAL"
+}
+```
+
+# 返回结果
+**成功**
+```json
+{
+    "state": true,
+    "message": "操作成功",
+    "detailMessage": "",
+    "data": [
+        {
+            "id": 2,
+            "isDelete": false,
+            "createTime": "2019-08-21 10:14:28",
+            "updateTime": "2019-08-21 10:14:28",
+            "remarks": null,
+            "drivingFaceName": "工作面B_change",
+            "totalLength": 2800.51,
+            "doneLength": 200.41,
+            "leftLength": 2600.10,
+            "startTime": "2019-09-11 00:00:00",
+            "drivingHigh": 20.10,
+            "drivingSlope": 35.10,
+            "crossSection": 15.10,
+            "crossSectionType": "TRAPEZIUM",
+            "coalSeamThickness": 2000.10,
+            "drivingTechnologyType": "FULLY",
+            "supportMethod": "COMBINED_SUPPORT",
+            "rockCharacter": "ALL_COAL"
+        }
+    ],
+    "code": 200
+}
+```
+
+**失败**
+
+若传递非法参数，则会出现查询异常。
+
+```json
+{
+    "code": 406,
+    "detailMessage": "\r\n### Error querying...",
+    "state": false,
+    "data": null,
+    "message": "服务器繁忙，请稍后再试"
+}
+```
+
+# 备注
+错误码参见错误码对照表。

@@ -59,10 +59,14 @@ public class DrivingFaceService {
      * 改
      */
     public JoyResult update(DrivingFaceUpdateReq req) {
-        // 只允许修改解禁时间以及原因
         DrivingFaceEntity drivingFaceInfo = drivingFaceRepository.findAllById(req.getId());
         if(drivingFaceInfo == null){
             return JoyResult.buildFailedResult(Notice.DRIVING_FACE_NOT_EXIST);
+        }
+        // 名称合法
+        DrivingFaceEntity checkRepeat = drivingFaceRepository.findAllByDrivingFaceNameAndIdNot(req.getDrivingFaceName(), req.getId());
+        if(checkRepeat != null){
+            return JoyResult.buildFailedResult(Notice.DRIVING_FACE_NAME_ALREADY_EXIST);
         }
         JoyBeanUtil.copyPropertiesIgnoreSourceNullProperties(req, drivingFaceInfo);
         // save.
@@ -90,6 +94,14 @@ public class DrivingFaceService {
     public JoyResult get(Long id) {
         // get older
         return JoyResult.buildSuccessResultWithData(drivingFaceRepository.findAllById(id));
+    }
+
+    /**
+     * 获取数据(name)
+     */
+    public JoyResult getByName(String name) {
+        // get older
+        return JoyResult.buildSuccessResultWithData(drivingFaceRepository.findAllByDrivingFaceName(name));
     }
 
 
