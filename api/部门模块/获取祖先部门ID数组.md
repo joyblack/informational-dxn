@@ -2,7 +2,7 @@
 返回当前节点的所有祖先节点的信息，同时包含自身的信息。
 
 # 访问地址
-department/getParentNodesString
+department/getParentTreeJustIds
 
 # 请求参数
 
@@ -32,7 +32,7 @@ JSON
     "state": true,
     "message": "操作成功",
     "detailMessage": "",
-    "data": "3, 4",
+    "data": [3,4],
     "code": 200
 }
 ```
@@ -50,8 +50,6 @@ JSON
     "code": 10201
 }
 ```
-
-
 
 # 备注
 错误码参见错误码对照表。

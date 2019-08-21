@@ -129,25 +129,25 @@ public class DepartmentController {
     @PostMapping(
             value = "/getParentNodes",
             produces = {"application/json;charset=UTF-8"})
-    public JoyResult getParentTree(@RequestBody @Valid IdReq req, BindingResult bindingResult) {
+    public JoyResult getParentNodes(@RequestBody @Valid IdReq req, BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
             return JoyResult.buildFailedResult(Notice.REQUEST_PARAMETER_IS_ERROR, bindingResult.getFieldError().getDefaultMessage());
         } else {
             // copy
-            return departmentService.getParentTree(req.getId());
+            return departmentService.getParentNodes(req.getId());
         }
     }
 
     // 获取父部门遍历树（包含自身）字符串
     @PostMapping(
-            value = "/getParentNodesString",
+            value = "/getParentNodesJustIds",
             produces = {"application/json;charset=UTF-8"})
-    public JoyResult getParentTreeString(@RequestBody @Valid IdReq req, BindingResult bindingResult) {
+    public JoyResult getParentNodesJustIds(@RequestBody @Valid IdReq req, BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
             return JoyResult.buildFailedResult(Notice.REQUEST_PARAMETER_IS_ERROR, bindingResult.getFieldError().getDefaultMessage());
         } else {
             // copy
-            return departmentService.getParentTreeString(req.getId());
+            return departmentService.getParentNodesJustIds(req.getId());
         }
     }
 }

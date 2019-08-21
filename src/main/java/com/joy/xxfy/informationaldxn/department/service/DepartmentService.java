@@ -185,7 +185,7 @@ public class DepartmentService{
     }
 
     // 获取父部门遍历树（包含自身）
-    public JoyResult getParentTree(Long id) {
+    public JoyResult getParentNodes(Long id) {
         List<DepartmentEntity> departments = new ArrayList<>();
         while(id != 0){
             DepartmentEntity department = departmentRepository.findAllById(id);
@@ -201,18 +201,8 @@ public class DepartmentService{
     }
 
     // 获取父部门遍历树字符串（包含自身）
-    public JoyResult getParentTreeString(Long id) {
-        List<DepartmentEntity> departments = new ArrayList<>();
-        while(id != 0){
-            DepartmentEntity department = departmentRepository.findAllById(id);
-            departments.add(department);
-            id = department.getParentId();
-        }
-        // 移除顶层节点
-        departments.remove(departments.size() - 1);
-        // 导入插入结果
-        Collections.reverse(departments);
-        return JoyResult.buildSuccessResultWithData(departments.stream().map(d -> d.getId()).collect(Collectors.toList()).toString()
-        .replaceAll("\\[","").replaceAll("\\]",""));
+    public JoyResult getParentNodesJustIds(Long id) {
+        List<DepartmentEntity> departments = (List<DepartmentEntity>)getParentNodes(id).getData();
+        return JoyResult.buildSuccessResultWithData(departments.stream().map(d -> d.getId()).collect(Collectors.toList()));
     }
 }
