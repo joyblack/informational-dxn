@@ -33,8 +33,8 @@ public class TrainingAttachmentService extends BaseService {
         if(trainingEntity == null){
             return JoyResult.buildFailedResult(Notice.TRAINING_NOT_EXIST);
         }
-        // 保存文件:验证格式为图片
-        JoyResult result = saveModuleFile(file, StoreFilePathConstant.TRAINING_ATTACHMENT, true);
+        // 保存文件
+        JoyResult result = saveModuleFile(file, StoreFilePathConstant.TRAINING_ATTACHMENT, false);
         if(result.getState().equals(Boolean.FALSE)){
             return result;
         }

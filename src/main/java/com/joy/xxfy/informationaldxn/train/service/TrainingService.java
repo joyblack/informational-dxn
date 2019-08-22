@@ -3,6 +3,7 @@ package com.joy.xxfy.informationaldxn.train.service;
 import com.joy.xxfy.informationaldxn.department.domain.entity.DepartmentEntity;
 import com.joy.xxfy.informationaldxn.department.domain.repository.DepartmentRepository;
 import com.joy.xxfy.informationaldxn.produce.domain.entity.DrillWorkEntity;
+import com.joy.xxfy.informationaldxn.publish.constant.ResultDataConstant;
 import com.joy.xxfy.informationaldxn.publish.result.JoyResult;
 import com.joy.xxfy.informationaldxn.publish.result.Notice;
 import com.joy.xxfy.informationaldxn.publish.utils.JoyBeanUtil;
@@ -112,15 +113,39 @@ public class TrainingService {
             return JoyResult.buildFailedResult(Notice.TRAINING_NOT_EXIST);
         }
         trainingInfo.setIsDelete(true);
-        return JoyResult.buildSuccessResultWithData(trainingRepository.save(trainingInfo));
+        // 删除培训相关文件
+        trainingPhotoRepository.softDeleteByTraining(trainingInfo);
+        trainingAttachmentRepository.softDeleteByTraining(trainingInfo);
+        trainingRepository.save(trainingInfo);
+        return JoyResult.buildSuccessResult(ResultDataConstant.MESSAGE_DELETE_SUCCESS);
     }
 
     /**
      * 获取数据
      */
     public JoyResult get(Long id) {
-        // get older
-        return JoyResult.buildSuccessResultWithData(trainingRepository.findAllById(id));
+        TrainingRes res = new TrainingRes();
+        TrainingEntity trainingEntity = trainingRepository.findAllById(id);
+        if(trainingEntity != null){
+            JoyBeanUtil.copyProperties(trainingEntity, res);
+            res.setTrainingAttachments(trainingAttachmentRepository.findAllByTraining(trainingEntity));
+            res.setTrainingPhotos(trainingPhotoRepository.findAllByTraining(trainingEntity));
+        }
+        return JoyResult.buildSuccessResultWithData(res);
+    }
+
+    /**
+     * 获取数据(name)
+     */
+    public JoyResult getByName(String name) {
+        TrainingRes res = new TrainingRes();
+        TrainingEntity trainingEntity = trainingRepository.findAllByTrainingName(name);
+        if(trainingEntity != null){
+            JoyBeanUtil.copyProperties(trainingEntity, res);
+            res.setTrainingAttachments(trainingAttachmentRepository.findAllByTraining(trainingEntity));
+            res.setTrainingPhotos(trainingPhotoRepository.findAllByTraining(trainingEntity));
+        }
+        return JoyResult.buildSuccessResultWithData(res);
     }
 
 

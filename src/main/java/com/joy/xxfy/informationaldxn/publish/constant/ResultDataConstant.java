@@ -9,4 +9,7 @@ public class ResultDataConstant {
      * 嵌套列表的key
      */
     public static final String CHILD_KEY = "children";
+
+
+    public static final String MESSAGE_DELETE_SUCCESS = "删除成功";
 }

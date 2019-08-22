@@ -121,7 +121,7 @@ public class StaffPersonalController {
             value = "/downloadOneInchPhoto/{id}",
             method = RequestMethod.GET)
     public void downloadOneInchPhoto(@PathVariable("id")Long id, HttpServletRequest req, HttpServletResponse resp) {
-        staffPersonalService.downloadIdentityPhoto(id, req, resp);
+        staffPersonalService.downloadOneInchPhoto(id, req, resp);
     }
 
 

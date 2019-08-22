@@ -2,6 +2,7 @@ package com.joy.xxfy.informationaldxn.train.web;
 
 
 import com.joy.xxfy.informationaldxn.common.web.req.IdReq;
+import com.joy.xxfy.informationaldxn.common.web.req.NameReq;
 import com.joy.xxfy.informationaldxn.publish.result.JoyResult;
 import com.joy.xxfy.informationaldxn.publish.result.Notice;
 import com.joy.xxfy.informationaldxn.train.service.TrainingService;
@@ -65,6 +66,21 @@ public class TrainingController {
         } else {
             // copy
             return trainingService.get(req.getId());
+        }
+    }
+
+    /**
+     * 获取
+     */
+    @PostMapping(
+            value = "/getByName",
+            produces = {"application/json;charset=UTF-8"})
+    public JoyResult get(@RequestBody @Valid NameReq req, BindingResult bindingResult) {
+        if (bindingResult.hasErrors()) {
+            return JoyResult.buildFailedResult(Notice.REQUEST_PARAMETER_IS_ERROR, bindingResult.getFieldError().getDefaultMessage());
+        } else {
+            // copy
+            return trainingService.getByName(req.getName());
         }
     }
 
