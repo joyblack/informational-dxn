@@ -19,7 +19,7 @@ import java.util.UUID;
 
 @Service
 public class FileService {
-    @Value("${file.path}")
+    @Value("${system.upload.store-path}")
     private String storeDictionary;
 
     private final static String FILE_SPLIT = "&&";
@@ -35,7 +35,7 @@ public class FileService {
             // 设置实体: upload_module
             systemFileEntity.setUploadModule(UploadModuleEnums.valueOf(module));
         }catch (Exception e){
-            return JoyResult.buildFailedResult(Notice.UPLOAD_FILE_MODULE_ERROR);
+
         }
 
         // 处理上传文件

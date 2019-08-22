@@ -8,10 +8,11 @@ import com.joy.xxfy.informationaldxn.staff.web.req.IdNumberReq;
 import com.joy.xxfy.informationaldxn.staff.web.req.UsernameReq;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 
 @RestController
@@ -78,5 +79,50 @@ public class StaffPersonalController {
             return staffPersonalService.getByUsername(req.getUsername());
         }
     }
+
+    /**
+     * 上传文件
+     */
+    @RequestMapping(value = "/uploadIdentityPhoto", method = RequestMethod.POST)
+    public JoyResult uploadIdentityPhoto(@RequestParam("file") MultipartFile file, String module) {
+        if (null == file) {
+            return JoyResult.buildFailedResult(Notice.UPLOAD_FILE_IS_NULL);
+        } else {
+            return staffPersonalService.uploadIdentityPhoto(file);
+        }
+    }
+
+    /**
+     * 上传文件
+     */
+    @RequestMapping(value = "/uploadOneInchPhoto", method = RequestMethod.POST)
+    public JoyResult uploadFile(@RequestParam("file") MultipartFile file, String module) {
+        if (null == file) {
+            return JoyResult.buildFailedResult(Notice.UPLOAD_FILE_IS_NULL);
+        } else {
+            return staffPersonalService.uploadOneInchPhoto(file);
+        }
+    }
+
+    /**
+     * 下载文件
+     */
+    @RequestMapping(
+            value = "/downloadIdentityPhoto/{id}",
+            method = RequestMethod.GET)
+    public void downloadFile(@PathVariable("id")Long id, HttpServletRequest req, HttpServletResponse resp) {
+        staffPersonalService.downloadIdentityPhoto(id, req, resp);
+    }
+
+    /**
+     * 下载文件
+     */
+    @RequestMapping(
+            value = "/downloadOneInchPhoto/{id}",
+            method = RequestMethod.GET)
+    public void downloadOneInchPhoto(@PathVariable("id")Long id, HttpServletRequest req, HttpServletResponse resp) {
+        staffPersonalService.downloadIdentityPhoto(id, req, resp);
+    }
+
 
 }

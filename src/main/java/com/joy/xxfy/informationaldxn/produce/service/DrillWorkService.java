@@ -63,6 +63,10 @@ public class DrillWorkService {
         if(checkRepeat != null){
             return JoyResult.buildFailedResult(Notice.DRILL_WORK_NAME_ALREADY_EXIST);
         }
+        // 至少拥有一条详细信息记录
+        if(req.getDrillWorkDetail().size() == 0){
+            return JoyResult.buildFailedResult(Notice.DRILL_WORK_DETAIL_AT_LEAST_ONE);
+        }
         // 删除旧数据
         info.getDrillWorkDetail().forEach(d -> d.setIsDelete(true));
         DrillWorkEntity save = drillWorkRepository.save(info);

@@ -1,17 +1,35 @@
 package com.joy.xxfy.informationaldxn.staff.service;
 
+import com.joy.xxfy.informationaldxn.common.service.BaseService;
+import com.joy.xxfy.informationaldxn.common.web.res.FileInfoRes;
 import com.joy.xxfy.informationaldxn.publish.constant.ResultDataConstant;
+import com.joy.xxfy.informationaldxn.publish.constant.StoreFilePathConstant;
 import com.joy.xxfy.informationaldxn.publish.result.JoyResult;
 import com.joy.xxfy.informationaldxn.publish.result.Notice;
+import com.joy.xxfy.informationaldxn.publish.utils.FileUtil;
 import com.joy.xxfy.informationaldxn.publish.utils.identity.IdNumberUtil;
+import com.joy.xxfy.informationaldxn.staff.domain.enetiy.StaffPersonalIdentityPhotoEntity;
+import com.joy.xxfy.informationaldxn.staff.domain.enetiy.StaffPersonalOneInchPhotoEntity;
+import com.joy.xxfy.informationaldxn.staff.domain.repository.StaffPersonalIdentityPhotoRepository;
+import com.joy.xxfy.informationaldxn.staff.domain.repository.StaffPersonalOneInchPhotoRepository;
 import com.joy.xxfy.informationaldxn.staff.domain.repository.StaffPersonalRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.File;
 import java.util.HashMap;
 
 @Service
-public class StaffPersonalService {
+public class StaffPersonalService extends BaseService {
+    @Autowired
+    private StaffPersonalOneInchPhotoRepository staffPersonalOneInchPhotoRepository;
+
+    @Autowired
+    private StaffPersonalIdentityPhotoRepository staffPersonalIdentityPhotoRepository;
+
     @Autowired
     private StaffPersonalRepository staffPersonalRepository;
 
@@ -44,5 +62,54 @@ public class StaffPersonalService {
 
     public JoyResult getByUsername(String username) {
         return JoyResult.buildSuccessResultWithData(staffPersonalRepository.findAllByUsername(username));
+    }
+
+    public JoyResult uploadIdentityPhoto(MultipartFile file) {
+        // 保存文件:验证格式为图片
+        JoyResult result = saveModuleFile(file, StoreFilePathConstant.TRAINING_PHOTO, true);
+        if(result.getState().equals(Boolean.FALSE)){
+            return result;
+        }
+        FileInfoRes fileInfo = (FileInfoRes)result.getData();
+        // 装配信息
+        StaffPersonalIdentityPhotoEntity info = new StaffPersonalIdentityPhotoEntity();
+        // 存储路径
+        info.setStorePath(fileInfo.getFilePath()+ File.separator + fileInfo.getFilename());
+        // 文件名
+        info.setFileName(fileInfo.getFilename());
+        // 大小
+        info.setFileSize(file.getSize());
+        // save
+        return JoyResult.buildSuccessResultWithData(staffPersonalIdentityPhotoRepository.save(info));
+    }
+
+    public JoyResult uploadOneInchPhoto(MultipartFile file) {
+        // 保存文件:验证格式为图片
+        JoyResult result = saveModuleFile(file, StoreFilePathConstant.TRAINING_PHOTO, true);
+        if(result.getState().equals(Boolean.FALSE)){
+            return result;
+        }
+        FileInfoRes fileInfo = (FileInfoRes)result.getData();
+        // 装配信息
+        StaffPersonalOneInchPhotoEntity info = new StaffPersonalOneInchPhotoEntity();
+        // 存储路径
+        info.setStorePath(fileInfo.getFilePath()+ File.separator + fileInfo.getFilename());
+        // 文件名
+        info.setFileName(fileInfo.getFilename());
+        // 大小
+        info.setFileSize(file.getSize());
+        // save
+        return JoyResult.buildSuccessResultWithData(staffPersonalOneInchPhotoRepository.save(info));
+    }
+
+
+    public void downloadOneInchPhoto(Long id, HttpServletRequest req, HttpServletResponse resp) {
+        StaffPersonalOneInchPhotoEntity info = staffPersonalOneInchPhotoRepository.findAllById(id);
+        FileUtil.downloadFile(info.getFileName(),info.getStorePath(), req, resp);
+    }
+
+    public void downloadIdentityPhoto(Long id, HttpServletRequest req, HttpServletResponse resp) {
+        StaffPersonalIdentityPhotoEntity info = staffPersonalIdentityPhotoRepository.findAllById(id);
+        FileUtil.downloadFile(info.getFileName(),info.getStorePath(), req, resp);
     }
 }

@@ -1,0 +1,106 @@
+# 简介
+获取职位列表，分页查询。
+
+# 访问地址
+produce-back-mining-face/getAllList
+
+# 请求参数
+
+## 请求方式
+POST
+
+## 请求格式
+JSON
+
+## 请求数据
+|参数名|类型|必填|说明|
+|-|-|-|-|
+|drillWorkName|[string]|是|名称|
+|drillTimeStart|[date]||开孔日期起始时间|
+|drillTimeEnd|[date]||开孔日期截止时间|
+|drillCategory|[enum]||钻孔类别：参考参数参考表 **4.3、钻孔工作**|
+|drillType|[enum]||钻孔类型：参考参数参考表 **4.3、钻孔工作**|
+|drillRockCharacter|[enum]||钻孔岩性：参考参数参考表 **4.3、钻孔工作**|
+
+## 请求示例
+```json
+{
+	"drillWorkName": "钻孔工作A",
+    "drillTime": "2019-09-20",
+	"drillCategory": "GEOLOGY",
+    "drillType": "GAS",
+    "drillRockCharacter": "COAL_LAYER",
+}
+```
+
+# 返回结果
+**成功**
+```json
+{
+    "state": true,
+    "message": "操作成功",
+    "detailMessage": "",
+    "data": [
+        {
+            "id": 1,
+            "isDelete": false,
+            "createTime": "2019-08-21 18:00:45",
+            "updateTime": "2019-08-21 18:00:45",
+            "remarks": null,
+            "drillWorkName": "钻孔工作AB",
+            "drillTime": "2019-09-20 00:00:00",
+            "drillCategory": "GEOLOGY",
+            "drillType": "GAS",
+            "drillRockCharacter": "COAL_LAYER",
+            "drillWorkDetail": [
+                {
+                    "id": 2,
+                    "isDelete": false,
+                    "createTime": "2019-08-21 18:53:44",
+                    "updateTime": "2019-08-21 18:53:44",
+                    "remarks": null,
+                    "orderNumber": 2,
+                    "code": "AES-002",
+                    "totalLength": 3000.60,
+                    "dipAngle": 80.00,
+                    "predicateAppearCoal": 40.00,
+                    "predicateDisappearCoal": 20.10,
+                    "predicateCoalThickness": 100.00
+                },
+                {
+                    "id": 5,
+                    "isDelete": false,
+                    "createTime": "2019-08-21 18:53:44",
+                    "updateTime": "2019-08-21 18:53:44",
+                    "remarks": null,
+                    "orderNumber": 2,
+                    "code": "AES-002",
+                    "totalLength": 3000.60,
+                    "dipAngle": 80.00,
+                    "predicateAppearCoal": 40.00,
+                    "predicateDisappearCoal": 20.10,
+                    "predicateCoalThickness": 100.00
+                }
+            ]
+        }
+    ],
+    "code": 200
+}
+```
+
+**失败**
+
+若传递非法参数，则会出现查询异常。
+
+```json
+{
+    "code": 406,
+    "detailMessage": "\r\n### Error querying...",
+    "state": false,
+    "data": null,
+    "message": "服务器繁忙，请稍后再试"
+}
+```
+
+# 备注
+错误码参见错误码对照表。

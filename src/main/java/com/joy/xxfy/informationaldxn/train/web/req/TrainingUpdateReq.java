@@ -43,15 +43,4 @@ public class TrainingUpdateReq extends BaseUpdateReq {
     @NotBlank(message = "培训内容不能为空")
     private String trainingContent;
 
-    /**
-     * 培训照片ID
-     */
-    private List<Long> trainingPhotoIds;
-
-
-    /**
-     * 培训附件
-     */
-    private List<Long> trainingAttachmentIds;
-
 }

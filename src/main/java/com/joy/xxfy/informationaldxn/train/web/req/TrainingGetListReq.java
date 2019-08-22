@@ -36,6 +36,4 @@ public class TrainingGetListReq extends BasePageReq {
     private Long departmentId;
 
 
-
-
 }

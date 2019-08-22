@@ -60,10 +60,9 @@ public enum Notice{
 
     // file
     UPLOAD_FILE_IS_NULL("上传文件为空", 108000),
-    UPLOAD_FILE_MODULE_IS_NULL("上传文件模块为空", 108001),
-    UPLOAD_FILE_MODULE_ERROR("上传文件模块错误，不存在此模块", 108002),
-    UPLOAD_FILE_ERROR("上传文件错误", 108003),
-    UPLOAD_FILE_FAILED("上传文件失败", 108004),
+    UPLOAD_FILE_ERROR("上传文件错误", 108001),
+    UPLOAD_FILE_FAILED("上传文件失败", 108002),
+    UPLOAD_FILE_TYPE_ERROR("文件类型错误", 108003),
 
 
     // 掘进工作面
@@ -80,6 +79,7 @@ public enum Notice{
     DRILL_WORK_NAME_ALREADY_EXIST("钻孔工作名称已存在", 111000),
     DRILL_WORK_ALREADY_EXIST("钻孔工作信息已存在", 111001),
     DRILL_WORK_NOT_EXIST("钻孔工作信息不存在", 111002),
+    DRILL_WORK_DETAIL_AT_LEAST_ONE("钻孔工作详细信息至少需要保留一条", 111003),
 
     // 培训
     TRAINING_NAME_ALREADY_EXIST("培训名称已存在", 111000),

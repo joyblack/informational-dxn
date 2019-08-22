@@ -21,7 +21,7 @@ import java.util.Date;
 @Data
 @ToString(callSuper = true)
 @Where(clause = "is_delete = 0")
-@Table(name = "personal_staff_personal", uniqueConstraints = {@UniqueConstraint(columnNames="idNumber")})//身份证设置唯一性约束
+@Table(name = "staff_personal", uniqueConstraints = {@UniqueConstraint(columnNames="idNumber")})//身份证设置唯一性约束
 public class StaffPersonalEntity extends BaseEntity {
 
     /**
@@ -114,12 +114,12 @@ public class StaffPersonalEntity extends BaseEntity {
      */
     @ManyToOne(cascade = {},fetch = FetchType.EAGER)
     @JoinColumn(name = "id_number_photo_id")
-    private SystemFileEntity idNumberPhoto;
+    private StaffPersonalIdentityPhotoEntity idNumberPhoto;
 
     /**
      * 身份证照片
      */
     @ManyToOne(cascade = {},fetch = FetchType.EAGER)
     @JoinColumn(name = "one_inch_photo_id")
-    private SystemFileEntity oneInchPhoto;
+    private StaffPersonalOneInchPhotoEntity oneInchPhoto;
 }

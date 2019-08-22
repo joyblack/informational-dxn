@@ -40,14 +40,17 @@ jwtparam:
   TTLMillis: 3600000
   base64Security: JXU4RDM1JXU3MTY0JXU4QkJFJXU4QkEx1
 
-file.path: E:&&informational_dxn
-image.format: jpg;JPG;bmp;BMP;png;PNG
+
 
 logging:
   level:
       org.hibernate.type.descriptor.sql.BasicBinder: trace
-
+# 业务配置
 system:
   config:
     cm-platform-default-password: 123456
     staff-black-list-over-month: 6
+# 上传配置
+  upload:
+    store-path: E:&&informational_dxn
+    image-format: jpg;JPG;bmp;BMP;png;PNG

@@ -55,6 +55,21 @@ public class StaffEntryController {
     }
 
     /**
+     * 获取（通过身份证）
+     */
+    @PostMapping(
+            value = "/getPassListByIdNumber",
+            produces = {"application/json;charset=UTF-8"})
+    public JoyResult getPassListByIdNumber(@RequestBody @Valid IdNumberReq req, BindingResult bindingResult) {
+        if (bindingResult.hasErrors()) {
+            return JoyResult.buildFailedResult(Notice.REQUEST_PARAMETER_IS_ERROR, bindingResult.getFieldError().getDefaultMessage());
+        } else {
+            // copy
+            return staffEntryService.getPassListByIdNumber(req.getIdNumber());
+        }
+    }
+
+    /**
      * 获取分页数据
      */
     @PostMapping(

@@ -17,7 +17,7 @@ import java.util.Date;
 @Entity
 @Data
 @ToString(callSuper = true)
-@Table(name = "personal_staff_blacklist")
+@Table(name = "staff_blacklist")
 @Where(clause = "is_delete = 0")
 public class StaffBlacklistEntity extends BaseEntity {
     /**

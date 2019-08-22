@@ -1,5 +1,7 @@
 package com.joy.xxfy.informationaldxn.train.service;
 
+import com.joy.xxfy.informationaldxn.department.domain.entity.DepartmentEntity;
+import com.joy.xxfy.informationaldxn.department.domain.repository.DepartmentRepository;
 import com.joy.xxfy.informationaldxn.produce.domain.entity.DrillWorkEntity;
 import com.joy.xxfy.informationaldxn.publish.result.JoyResult;
 import com.joy.xxfy.informationaldxn.publish.result.Notice;
@@ -24,6 +26,7 @@ import com.joy.xxfy.informationaldxn.train.domain.repository.TrainingRepository;
 import com.joy.xxfy.informationaldxn.train.web.req.TrainingAddReq;
 import com.joy.xxfy.informationaldxn.train.web.req.TrainingGetListReq;
 import com.joy.xxfy.informationaldxn.train.web.req.TrainingUpdateReq;
+import com.joy.xxfy.informationaldxn.train.web.res.TrainingRes;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
@@ -46,6 +49,9 @@ public class TrainingService {
     @Autowired
     private TrainingAttachmentRepository trainingAttachmentRepository;
 
+    @Autowired
+    private DepartmentRepository departmentRepository;
+
     /**
      * 添加
      */
@@ -53,26 +59,23 @@ public class TrainingService {
         TrainingEntity addTrainingInfo = new TrainingEntity();
         // 验证名称
         TrainingEntity checkInfo = trainingRepository.findAllByTrainingName(req.getTrainingName());
-        if(checkInfo == null){
+        if(checkInfo != null){
             return JoyResult.buildFailedResult(Notice.TRAINING_NAME_ALREADY_EXIST);
+        }
+        // 验证部门信息
+        DepartmentEntity departmentEntity = departmentRepository.findAllById(req.getDepartmentId());
+        if(departmentEntity == null){
+            return JoyResult.buildFailedResult(Notice.DEPARTMENT_NOT_EXIST);
         }
         // 装配数据
         JoyBeanUtil.copyPropertiesIgnoreSourceNullProperties(req, addTrainingInfo);
-        // 设置图片、附件
-        req.getTrainingPhotoIds().forEach(photoId -> {
-            TrainingPhotoEntity photo = trainingPhotoRepository.findAllById(photoId);
-            if(photo != null){
-                addTrainingInfo.getTrainingPhotos().add(photo);
-            }
-        });
-        req.getTrainingPhotoIds().forEach(photoId -> {
-            TrainingAttachmentEntity attachment = trainingAttachmentRepository.findAllById(photoId);
-            if(attachment != null){
-                addTrainingInfo.getTrainingAttachments().add(attachment);
-            }
-        });
+        addTrainingInfo.setDepartment(departmentEntity);
+        TrainingEntity saveResult = trainingRepository.save(addTrainingInfo);
+        // 设置返回结果，此时虽然没有关联的文件信息，但是还是要标准返回格式
+        TrainingRes res = new TrainingRes();
+        JoyBeanUtil.copyProperties(saveResult, res);
         // save.
-        return JoyResult.buildSuccessResultWithData(trainingRepository.save(addTrainingInfo));
+        return JoyResult.buildSuccessResultWithData(res);
     }
 
     /**
@@ -85,31 +88,19 @@ public class TrainingService {
         }
         // 验证名称
         TrainingEntity checkInfo = trainingRepository.findAllByTrainingNameAndIdNot(req.getTrainingName(), req.getId());
-        if(checkInfo == null){
+        if(checkInfo != null){
             return JoyResult.buildFailedResult(Notice.TRAINING_NAME_ALREADY_EXIST);
         }
-        // 删除旧图片、附件信息
-        trainingInfo.getTrainingAttachments().forEach(f -> f.setIsDelete(true));
-        trainingInfo.getTrainingPhotos().forEach(f -> f.setIsDelete(true));
-        TrainingEntity save = trainingRepository.save(trainingInfo);
-
-        JoyBeanUtil.copyPropertiesIgnoreSourceNullProperties(req, save);
-        // 填入新的图片、附件信息
-        // 设置图片、附件
-        req.getTrainingPhotoIds().forEach(photoId -> {
-            TrainingPhotoEntity photo = trainingPhotoRepository.findAllById(photoId);
-            if(photo != null){
-                save.getTrainingPhotos().add(photo);
-            }
-        });
-        req.getTrainingPhotoIds().forEach(photoId -> {
-            TrainingAttachmentEntity attachment = trainingAttachmentRepository.findAllById(photoId);
-            if(attachment != null){
-                save.getTrainingAttachments().add(attachment);
-            }
-        });
+        // 验证部门信息
+        DepartmentEntity departmentEntity = departmentRepository.findAllById(req.getDepartmentId());
+        if(departmentEntity == null){
+            return JoyResult.buildFailedResult(Notice.DEPARTMENT_NOT_EXIST);
+        }
+        // 装配数据
+        JoyBeanUtil.copyPropertiesIgnoreSourceNullProperties(req, trainingInfo);
+        trainingInfo.setDepartment(departmentEntity);
         // save.
-        return JoyResult.buildSuccessResultWithData(trainingRepository.save(save));
+        return JoyResult.buildSuccessResultWithData(trainingRepository.save(trainingInfo));
     }
 
     /**
@@ -121,9 +112,6 @@ public class TrainingService {
             return JoyResult.buildFailedResult(Notice.TRAINING_NOT_EXIST);
         }
         trainingInfo.setIsDelete(true);
-        // 详细信息
-        trainingInfo.getTrainingPhotos().forEach(d -> d.setIsDelete(true));
-        trainingInfo.getTrainingAttachments().forEach(d -> d.setIsDelete(true));
         return JoyResult.buildSuccessResultWithData(trainingRepository.save(trainingInfo));
     }
 
@@ -165,7 +153,6 @@ public class TrainingService {
             if(req.getDepartmentId() != null){
                 predicates.add(builder.equal(root.get("department").get("id"), req.getDepartmentId()));
             }
-
             // injury_time between
             if(req.getTrainingTimeStart() != null){
                 predicates.add(builder.greaterThanOrEqualTo(root.get("trainingTime"), req.getTrainingTimeStart()));

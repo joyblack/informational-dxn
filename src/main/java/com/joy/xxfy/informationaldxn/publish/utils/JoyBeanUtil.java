@@ -18,6 +18,17 @@ import java.util.Set;
 public class JoyBeanUtil {
 
     /**
+     * SpringBoot的拷贝
+     */
+    public static void copyProperties(Object source, Object target) {
+        if (source == null) {
+            return;
+        }
+        BeanUtils.copyProperties(source, target);
+    }
+
+
+    /**
      * 拷贝source到target，不覆盖target中有值的属性,相等于只覆盖target中的空值属性
      */
     public static void copyPropertiesIgnoreTargetNotNullProperties(Object source, Object target) {

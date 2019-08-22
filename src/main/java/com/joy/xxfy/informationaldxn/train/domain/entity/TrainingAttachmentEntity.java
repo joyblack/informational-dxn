@@ -14,7 +14,7 @@ import javax.persistence.*;
 @Entity
 @Data
 @ToString(callSuper = true)
-@Table(name = "train_training_photo")
+@Table(name = "train_training_attachment")
 @Where(clause = "is_delete = 0")
 public class TrainingAttachmentEntity extends BaseEntity {
     /**

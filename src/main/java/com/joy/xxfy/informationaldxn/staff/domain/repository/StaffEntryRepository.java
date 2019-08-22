@@ -6,6 +6,7 @@ import com.joy.xxfy.informationaldxn.department.domain.entity.DepartmentEntity;
 import com.joy.xxfy.informationaldxn.position.domain.entity.PositionEntity;
 import com.joy.xxfy.informationaldxn.staff.domain.enetiy.StaffEntryEntity;
 import com.joy.xxfy.informationaldxn.staff.domain.enetiy.StaffPersonalEntity;
+import com.joy.xxfy.informationaldxn.staff.domain.enums.ReviewStatusEnum;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -31,4 +32,8 @@ public interface StaffEntryRepository extends BaseRepository<StaffEntryEntity>, 
     // 通过身份证查找所有入职信息
     @Query("from StaffEntryEntity s where s.staffPersonal.idNumber = :idNumber")
     List<StaffEntryEntity> findAllByIdNumber(@Param("idNumber") String idNumber);
+
+    // 通过身份证查找（审核通过）的入职信息
+    @Query("from StaffEntryEntity s where s.reviewStatus = :reviewStatus and s.staffPersonal.idNumber = :idNumber")
+    List<StaffEntryEntity> getByIdNumberAAndReviewStatus(@Param("idNumber") String idNumber, ReviewStatusEnum reviewStatus);
 }

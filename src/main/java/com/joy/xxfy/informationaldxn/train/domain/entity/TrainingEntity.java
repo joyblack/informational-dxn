@@ -53,17 +53,4 @@ public class TrainingEntity extends BaseEntity {
     @Column(nullable = false)
     private String trainingContent;
 
-    /**
-     * 培训照片
-     */
-    @OneToMany(mappedBy = "training", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-    private List<TrainingPhotoEntity> trainingPhotos;
-
-
-    /**
-     * 培训附件
-     */
-    @OneToMany(mappedBy = "training", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-    private List<TrainingAttachmentEntity> trainingAttachments;
-
 }

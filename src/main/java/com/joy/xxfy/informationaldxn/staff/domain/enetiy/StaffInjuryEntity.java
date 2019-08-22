@@ -16,7 +16,7 @@ import java.util.Date;
 @Entity
 @Data
 @ToString(callSuper = true)
-@Table(name = "personal_staff_injury")
+@Table(name = "staff_injury")
 @Where(clause = "is_delete = 0")
 public class StaffInjuryEntity extends BaseEntity {
     /**

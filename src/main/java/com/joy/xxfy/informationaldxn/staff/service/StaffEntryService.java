@@ -14,13 +14,9 @@ import com.joy.xxfy.informationaldxn.publish.utils.PhoneUtil;
 import com.joy.xxfy.informationaldxn.publish.utils.StringUtil;
 import com.joy.xxfy.informationaldxn.publish.utils.identity.IdNumberUtil;
 import com.joy.xxfy.informationaldxn.publish.utils.project.JpaPagerUtil;
-import com.joy.xxfy.informationaldxn.staff.domain.enetiy.StaffBlacklistEntity;
-import com.joy.xxfy.informationaldxn.staff.domain.enetiy.StaffEntryEntity;
-import com.joy.xxfy.informationaldxn.staff.domain.enetiy.StaffPersonalEntity;
+import com.joy.xxfy.informationaldxn.staff.domain.enetiy.*;
 import com.joy.xxfy.informationaldxn.staff.domain.enums.ReviewStatusEnum;
-import com.joy.xxfy.informationaldxn.staff.domain.repository.StaffBlacklistRepository;
-import com.joy.xxfy.informationaldxn.staff.domain.repository.StaffEntryRepository;
-import com.joy.xxfy.informationaldxn.staff.domain.repository.StaffPersonalRepository;
+import com.joy.xxfy.informationaldxn.staff.domain.repository.*;
 import com.joy.xxfy.informationaldxn.staff.domain.template.StaffTemplate;
 import com.joy.xxfy.informationaldxn.staff.web.req.StaffEntryAddReq;
 import com.joy.xxfy.informationaldxn.staff.web.req.StaffEntryGetListReq;
@@ -51,7 +47,11 @@ public class StaffEntryService {
     private StaffPersonalRepository staffPersonalRepository;
 
     @Autowired
-    private SystemFileRepository systemFileRepository;
+    private StaffPersonalIdentityPhotoRepository staffPersonalIdentityPhotoRepository;
+
+    @Autowired
+    private StaffPersonalOneInchPhotoRepository staffPersonalOneInchPhotoRepository;
+
 
     @Autowired
     private StaffBlacklistRepository staffBlacklistRepository;
@@ -124,7 +124,7 @@ public class StaffEntryService {
         entryInfo.setPhysicalExaminationHospital(req.getPhysicalExaminationHospital());
         // 身份证照片
         if(req.getIdNumberPhotoId() != null){
-            SystemFileEntity file = systemFileRepository.findAllByIdAndUploadModule(req.getIdNumberPhotoId(), UploadModuleEnums.STAFF_ID_NUMBER_PHOTO);
+            StaffPersonalIdentityPhotoEntity file = staffPersonalIdentityPhotoRepository.findAllById(req.getIdNumberPhotoId());
             if(file == null){
                 return JoyResult.buildFailedResult(Notice.ID_NUMBER_PHOTO_IS_ILLEGAL);
             }else{
@@ -133,7 +133,7 @@ public class StaffEntryService {
         }
         // 一寸相
         if(req.getOneInchPhotoId() != null){
-            SystemFileEntity file = systemFileRepository.findAllByIdAndUploadModule(req.getOneInchPhotoId(), UploadModuleEnums.STAFF_ONE_INCH_PHOTO);
+            StaffPersonalOneInchPhotoEntity file = staffPersonalOneInchPhotoRepository.findAllById(req.getOneInchPhotoId());
             if(file == null){
                 return JoyResult.buildFailedResult(Notice.ONE_INCH_PHOTO_IS_ILLEGAL);
             }else{
@@ -275,7 +275,7 @@ public class StaffEntryService {
         entryInfo.setPhysicalExaminationHospital(req.getPhysicalExaminationHospital());
         // 身份证照片
         if(req.getIdNumberPhotoId() != null){
-            SystemFileEntity file = systemFileRepository.findAllByIdAndUploadModule(req.getIdNumberPhotoId(), UploadModuleEnums.STAFF_ID_NUMBER_PHOTO);
+            StaffPersonalIdentityPhotoEntity file = staffPersonalIdentityPhotoRepository.findAllById(req.getIdNumberPhotoId());
             if(file == null){
                 return JoyResult.buildFailedResult(Notice.ID_NUMBER_PHOTO_IS_ILLEGAL);
             }else{
@@ -284,7 +284,7 @@ public class StaffEntryService {
         }
         // 一寸相
         if(req.getOneInchPhotoId() != null){
-            SystemFileEntity file = systemFileRepository.findAllByIdAndUploadModule(req.getOneInchPhotoId(), UploadModuleEnums.STAFF_ONE_INCH_PHOTO);
+            StaffPersonalOneInchPhotoEntity file = staffPersonalOneInchPhotoRepository.findAllById(req.getOneInchPhotoId());
             if(file == null){
                 return JoyResult.buildFailedResult(Notice.ONE_INCH_PHOTO_IS_ILLEGAL);
             }else{
@@ -324,11 +324,19 @@ public class StaffEntryService {
     }
 
     /**
-     * 获取数据
+     * 获取数据（通过）
      */
     public JoyResult getByIdNumber(String idNumber) {
         // get older
         return JoyResult.buildSuccessResultWithData(staffEntryRepository.findAllByIdNumber(idNumber));
+    }
+
+    /**
+     * 获取审核通过的数据
+     */
+    public JoyResult getPassListByIdNumber(String idNumber) {
+        // get older
+        return JoyResult.buildSuccessResultWithData(staffEntryRepository.getByIdNumberAAndReviewStatus(idNumber, ReviewStatusEnum.PASS));
     }
 
     /**
