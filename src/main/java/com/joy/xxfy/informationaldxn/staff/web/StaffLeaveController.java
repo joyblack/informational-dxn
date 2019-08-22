@@ -6,6 +6,7 @@ import com.joy.xxfy.informationaldxn.publish.result.Notice;
 import com.joy.xxfy.informationaldxn.staff.service.StaffLeaveService;
 import com.joy.xxfy.informationaldxn.staff.web.req.StaffLeaveAddReq;
 import com.joy.xxfy.informationaldxn.staff.web.req.StaffLeaveGetListReq;
+import com.joy.xxfy.informationaldxn.staff.web.req.StaffLeaveUpdateReq;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -37,12 +38,27 @@ public class StaffLeaveController {
     }
 
     /**
+     * 修改
+     */
+    @PostMapping(
+            value = "/update",
+            produces = {"application/json;charset=UTF-8"})
+    public JoyResult update(@RequestBody @Valid StaffLeaveUpdateReq req, BindingResult bindingResult) {
+        if (bindingResult.hasErrors()) {
+            return JoyResult.buildFailedResult(Notice.REQUEST_PARAMETER_IS_ERROR, bindingResult.getFieldError().getDefaultMessage());
+        } else {
+            // copy
+            return staffLeaveService.update(req);
+        }
+    }
+
+    /**
      * 删除
      */
     @PostMapping(
             value = "/delete",
             produces = {"application/json;charset=UTF-8"})
-    public JoyResult update(@RequestBody @Valid IdReq req, BindingResult bindingResult) {
+    public JoyResult delete(@RequestBody @Valid IdReq req, BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
             return JoyResult.buildFailedResult(Notice.REQUEST_PARAMETER_IS_ERROR, bindingResult.getFieldError().getDefaultMessage());
         } else {

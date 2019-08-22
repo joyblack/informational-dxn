@@ -15,6 +15,7 @@ import com.joy.xxfy.informationaldxn.staff.domain.repository.StaffPersonalReposi
 import com.joy.xxfy.informationaldxn.staff.domain.template.StaffTemplate;
 import com.joy.xxfy.informationaldxn.staff.web.req.StaffLeaveAddReq;
 import com.joy.xxfy.informationaldxn.staff.web.req.StaffLeaveGetListReq;
+import com.joy.xxfy.informationaldxn.staff.web.req.StaffLeaveUpdateReq;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.jpa.domain.Specification;
@@ -46,7 +47,7 @@ public class StaffLeaveService {
     private Integer overMonth;
 
     /**
-     * 添加员工入职信息
+     * 添加员工离职信息
      */
     public JoyResult add(StaffLeaveAddReq req) {
         List<Long> entryIds = req.getEntries();
@@ -85,7 +86,16 @@ public class StaffLeaveService {
             // 新建离职信息
             staffLeaveRepository.save(leaveInfo);
         }
-        // 若是最后一个职位，则自动加入黑名单。
+
+        // 参保信息处理，若设置并存在修改，则进行更新
+        if(req.getInsured() != null){
+            if(!personalInfo.getInsured().equals(req.getInsured())){
+                personalInfo.setInsured(req.getInsured());
+                staffPersonalRepository.save(personalInfo);
+            }
+        }
+
+        // 黑名单处理
         if(executeLeaveOpt == true){
             // 检测员工是否还有职位信息
             List<StaffEntryEntity> entities = staffEntryRepository.findAllByStaffPersonal(personalInfo);
@@ -120,9 +130,27 @@ public class StaffLeaveService {
         return JoyResult.buildSuccessResult("Success.");
     }
 
-//    public JoyResult update(StaffEntryEntity entry) {
-//
-//    }
+    /**
+     * 添加员工入职信息
+     */
+    public JoyResult update(StaffLeaveUpdateReq req) {
+        // 获取信息
+        StaffLeaveEntity leaveInfo = staffLeaveRepository.findAllById(req.getId());
+        if(leaveInfo == null){
+            return JoyResult.buildFailedResult(Notice.STAFF_LEAVE_NOT_EXIST);
+        }
+        // 类型
+        leaveInfo.setLeaveType(req.getLeaveType());
+        leaveInfo.setLeaveTime(req.getLeaveTime());
+        leaveInfo.setRemarks(req.getRemarks());
+        // 参保状态
+        if(req.getInsured() != null){
+            leaveInfo.getStaffPersonal().setInsured(req.getInsured());
+        }
+        return JoyResult.buildSuccessResultWithData(staffLeaveRepository.save(leaveInfo));
+    }
+
+
 
     public JoyResult delete(Long id) {
         StaffLeaveEntity dbEntry = staffLeaveRepository.findAllById(id);
