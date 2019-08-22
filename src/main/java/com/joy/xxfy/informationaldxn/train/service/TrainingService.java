@@ -114,8 +114,8 @@ public class TrainingService {
         }
         trainingInfo.setIsDelete(true);
         // 删除培训相关文件
-        trainingPhotoRepository.softDeleteByTraining(trainingInfo);
-        trainingAttachmentRepository.softDeleteByTraining(trainingInfo);
+        trainingPhotoRepository.updateIsDeleteByTraining(trainingInfo,true);
+        trainingAttachmentRepository.updateIsDeleteByTraining(trainingInfo, true);
         trainingRepository.save(trainingInfo);
         return JoyResult.buildSuccessResult(ResultDataConstant.MESSAGE_DELETE_SUCCESS);
     }

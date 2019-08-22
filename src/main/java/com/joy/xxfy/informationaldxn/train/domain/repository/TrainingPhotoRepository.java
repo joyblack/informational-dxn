@@ -8,6 +8,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -19,6 +20,6 @@ public interface TrainingPhotoRepository extends BaseRepository<TrainingPhotoEnt
 
     // delete by train
     @Modifying
-    @Query("update TrainingPhotoEntity t set t.isDelete = ture where t.training = :training")
-    void softDeleteByTraining(@Param("train") TrainingEntity trainingEntity);
+    @Query("update TrainingPhotoEntity t set t.isDelete = :isDelete where t.training = :training")
+    void updateIsDeleteByTraining(@Param("training") TrainingEntity trainingEntity, @Param("isDelete") Boolean isDelete);
 }
