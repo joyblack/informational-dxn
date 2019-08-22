@@ -2,25 +2,13 @@ package com.joy.xxfy.informationaldxn.train.service;
 
 import com.joy.xxfy.informationaldxn.department.domain.entity.DepartmentEntity;
 import com.joy.xxfy.informationaldxn.department.domain.repository.DepartmentRepository;
-import com.joy.xxfy.informationaldxn.produce.domain.entity.DrillWorkEntity;
 import com.joy.xxfy.informationaldxn.publish.constant.ResultDataConstant;
 import com.joy.xxfy.informationaldxn.publish.result.JoyResult;
 import com.joy.xxfy.informationaldxn.publish.result.Notice;
 import com.joy.xxfy.informationaldxn.publish.utils.JoyBeanUtil;
-import com.joy.xxfy.informationaldxn.publish.utils.LogUtil;
 import com.joy.xxfy.informationaldxn.publish.utils.StringUtil;
-import com.joy.xxfy.informationaldxn.publish.utils.identity.IdNumberUtil;
 import com.joy.xxfy.informationaldxn.publish.utils.project.JpaPagerUtil;
-import com.joy.xxfy.informationaldxn.staff.domain.enetiy.StaffInjuryEntity;
-import com.joy.xxfy.informationaldxn.staff.domain.enetiy.StaffPersonalEntity;
-import com.joy.xxfy.informationaldxn.staff.domain.repository.StaffInjuryRepository;
-import com.joy.xxfy.informationaldxn.staff.domain.repository.StaffPersonalRepository;
-import com.joy.xxfy.informationaldxn.staff.web.req.StaffInjuryAddReq;
-import com.joy.xxfy.informationaldxn.staff.web.req.StaffInjuryGetListReq;
-import com.joy.xxfy.informationaldxn.staff.web.req.StaffInjuryUpdateReq;
-import com.joy.xxfy.informationaldxn.train.domain.entity.TrainingAttachmentEntity;
 import com.joy.xxfy.informationaldxn.train.domain.entity.TrainingEntity;
-import com.joy.xxfy.informationaldxn.train.domain.entity.TrainingPhotoEntity;
 import com.joy.xxfy.informationaldxn.train.domain.repository.TrainingAttachmentRepository;
 import com.joy.xxfy.informationaldxn.train.domain.repository.TrainingPhotoRepository;
 import com.joy.xxfy.informationaldxn.train.domain.repository.TrainingRepository;
@@ -35,6 +23,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.criteria.Predicate;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 @Service
@@ -100,6 +89,7 @@ public class TrainingService {
         // 装配数据
         JoyBeanUtil.copyPropertiesIgnoreSourceNullProperties(req, trainingInfo);
         trainingInfo.setDepartment(departmentEntity);
+        trainingInfo.setUpdateTime(new Date());
         // save.
         return JoyResult.buildSuccessResultWithData(trainingRepository.save(trainingInfo));
     }
@@ -130,6 +120,8 @@ public class TrainingService {
             JoyBeanUtil.copyProperties(trainingEntity, res);
             res.setTrainingAttachments(trainingAttachmentRepository.findAllByTraining(trainingEntity));
             res.setTrainingPhotos(trainingPhotoRepository.findAllByTraining(trainingEntity));
+        }else{
+            res = null;
         }
         return JoyResult.buildSuccessResultWithData(res);
     }
@@ -144,6 +136,8 @@ public class TrainingService {
             JoyBeanUtil.copyProperties(trainingEntity, res);
             res.setTrainingAttachments(trainingAttachmentRepository.findAllByTraining(trainingEntity));
             res.setTrainingPhotos(trainingPhotoRepository.findAllByTraining(trainingEntity));
+        }else{
+            res = null;
         }
         return JoyResult.buildSuccessResultWithData(res);
     }

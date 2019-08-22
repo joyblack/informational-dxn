@@ -6,12 +6,13 @@ import com.joy.xxfy.informationaldxn.train.domain.entity.TrainingPhotoEntity;
 import lombok.Data;
 import lombok.ToString;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Data
 @ToString
 public class TrainingRes extends TrainingEntity {
-    private List<TrainingPhotoEntity> trainingPhotos;
+    private List<TrainingPhotoEntity> trainingPhotos = new ArrayList<>();
 
-    private List<TrainingAttachmentEntity> trainingAttachments;
+    private List<TrainingAttachmentEntity> trainingAttachments = new ArrayList<>();
 }

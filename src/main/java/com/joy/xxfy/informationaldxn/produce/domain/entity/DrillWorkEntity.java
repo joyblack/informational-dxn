@@ -51,10 +51,5 @@ public class DrillWorkEntity extends BaseEntity {
      */
     private DrillRockCharacterEnum drillRockCharacter;
 
-    /**
-     * 关联的钻孔工作详情
-     */
-    @OneToMany(mappedBy = "drillWork",fetch = FetchType.EAGER, cascade=CascadeType.ALL)
-    private List<DrillWorkDetailEntity> drillWorkDetail;
 
 }

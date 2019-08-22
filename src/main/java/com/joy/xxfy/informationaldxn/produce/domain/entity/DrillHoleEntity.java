@@ -21,11 +21,11 @@ import java.util.Date;
  * 钻孔工作详情
  */
 @Entity
-@Table(name = "produce_drill_work_detail")
+@Table(name = "produce_drill_hole")
 @Data
 @ToString(callSuper = true)
 @Where(clause = "is_delete = 0")
-public class DrillWorkDetailEntity extends BaseEntity {
+public class DrillHoleEntity extends BaseEntity {
 
     /**
      * 钻孔序号
@@ -74,7 +74,6 @@ public class DrillWorkDetailEntity extends BaseEntity {
      */
     @ManyToOne(cascade = {},fetch = FetchType.EAGER)
     @JoinColumn(name = "drill_work_id")
-    @JsonIgnore
     private DrillWorkEntity drillWork;
 
 }

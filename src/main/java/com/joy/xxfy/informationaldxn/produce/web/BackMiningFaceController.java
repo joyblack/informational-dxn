@@ -45,7 +45,7 @@ public class BackMiningFaceController {
     @PostMapping(
             value = "/delete",
             produces = {"application/json;charset=UTF-8"})
-    public JoyResult update(@RequestBody @Valid IdReq req, BindingResult bindingResult) {
+    public JoyResult delete(@RequestBody @Valid IdReq req, BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
             return JoyResult.buildFailedResult(Notice.REQUEST_PARAMETER_IS_ERROR, bindingResult.getFieldError().getDefaultMessage());
         } else {

@@ -1,12 +1,13 @@
 package com.joy.xxfy.informationaldxn.produce.service;
 
-import com.joy.xxfy.informationaldxn.produce.domain.entity.DrillWorkDetailEntity;
 import com.joy.xxfy.informationaldxn.produce.domain.entity.DrillWorkEntity;
+import com.joy.xxfy.informationaldxn.produce.domain.repository.DrillWorkDetailRepository;
 import com.joy.xxfy.informationaldxn.produce.domain.repository.DrillWorkRepository;
-import com.joy.xxfy.informationaldxn.produce.web.req.BackMiningFaceGetListReq;
 import com.joy.xxfy.informationaldxn.produce.web.req.DrillWorkAddReq;
 import com.joy.xxfy.informationaldxn.produce.web.req.DrillWorkGetListReq;
 import com.joy.xxfy.informationaldxn.produce.web.req.DrillWorkUpdateReq;
+import com.joy.xxfy.informationaldxn.produce.web.res.DrillWorkRes;
+import com.joy.xxfy.informationaldxn.publish.constant.ResultDataConstant;
 import com.joy.xxfy.informationaldxn.publish.result.JoyResult;
 import com.joy.xxfy.informationaldxn.publish.result.Notice;
 import com.joy.xxfy.informationaldxn.publish.utils.JoyBeanUtil;
@@ -29,6 +30,9 @@ public class DrillWorkService {
     @Autowired
     private DrillWorkRepository drillWorkRepository;
 
+    @Autowired
+    private DrillWorkDetailRepository drillWorkDetailRepository;
+
     /**
      * 添加
      */
@@ -41,13 +45,13 @@ public class DrillWorkService {
         // copy properties
         DrillWorkEntity info = new DrillWorkEntity();
         JoyBeanUtil.copyPropertiesIgnoreTargetNotNullProperties(req, info);
-        for (DrillWorkDetailEntity drillWorkDetailEntity : req.getDrillWorkDetail()) {
-            drillWorkDetailEntity.setDrillWork(info);
-        }
-        // 已采长度：设计长度-已掘长度
         LogUtil.info("Last info is: {}", info);
-        // save.
-        return JoyResult.buildSuccessResultWithData(drillWorkRepository.save(info));
+
+        DrillWorkEntity save = drillWorkRepository.save(info);
+        // set return data.
+        DrillWorkRes result = new DrillWorkRes();
+        JoyBeanUtil.copyProperties(save, result);
+        return JoyResult.buildSuccessResultWithData(result);
     }
 
     /**
@@ -63,18 +67,14 @@ public class DrillWorkService {
         if(checkRepeat != null){
             return JoyResult.buildFailedResult(Notice.DRILL_WORK_NAME_ALREADY_EXIST);
         }
-        // 至少拥有一条详细信息记录
-        if(req.getDrillWorkDetail().size() == 0){
-            return JoyResult.buildFailedResult(Notice.DRILL_WORK_DETAIL_AT_LEAST_ONE);
-        }
-        // 删除旧数据
-        info.getDrillWorkDetail().forEach(d -> d.setIsDelete(true));
+        JoyBeanUtil.copyPropertiesIgnoreSourceNullProperties(req, info);
         DrillWorkEntity save = drillWorkRepository.save(info);
-        JoyBeanUtil.copyPropertiesIgnoreSourceNullProperties(req, save);
-        save.getDrillWorkDetail().forEach(d -> d.setDrillWork(save));
-
+        // 装配返回信息
+        DrillWorkRes result = new DrillWorkRes();
+        JoyBeanUtil.copyProperties(save, result);
+        result.setDrillHole(drillWorkDetailRepository.findAllByDrillWork(save));
         // save.
-        return JoyResult.buildSuccessResultWithData(drillWorkRepository.save(save));
+        return JoyResult.buildSuccessResultWithData(result);
     }
 
     /**
@@ -85,24 +85,44 @@ public class DrillWorkService {
         if(info == null){
             return JoyResult.buildFailedResult(Notice.DRILL_WORK_NOT_EXIST);
         }
+        // 先删除详细工作的信息
+        drillWorkDetailRepository.updateIsDeleteByDrillWork(info, true);
+        // 再删除工作信息
         info.setIsDelete(true);
-        // 详细信息
-        info.getDrillWorkDetail().forEach(d -> d.setIsDelete(true));
-        return JoyResult.buildSuccessResultWithData(drillWorkRepository.save(info));
+        drillWorkRepository.save(info);
+        return JoyResult.buildSuccessResult(ResultDataConstant.MESSAGE_DELETE_SUCCESS);
     }
 
     /**
      * 获取数据
      */
     public JoyResult get(Long id) {
-        return JoyResult.buildSuccessResultWithData(drillWorkRepository.findAllById(id));
+        DrillWorkRes res = new DrillWorkRes();
+        DrillWorkEntity info = drillWorkRepository.findAllById(id);
+        if(info != null){
+            JoyBeanUtil.copyProperties(info, res);
+            // 获取详细信息
+            res.setDrillHole(drillWorkDetailRepository.findAllByDrillWork(info));
+        }else{
+            res = null;
+        }
+        return JoyResult.buildSuccessResultWithData(res);
     }
 
     /**
      * 获取数据(name)
      */
     public JoyResult getByName(String name) {
-        return JoyResult.buildSuccessResultWithData(drillWorkRepository.findAllByDrillWorkName(name));
+        DrillWorkRes res = new DrillWorkRes();
+        DrillWorkEntity info = drillWorkRepository.findAllByDrillWorkName(name);
+        if(info != null){
+            JoyBeanUtil.copyProperties(info, res);
+            // 获取详细信息
+            res.setDrillHole(drillWorkDetailRepository.findAllByDrillWork(info));
+        }else{
+            res = null;
+        }
+        return JoyResult.buildSuccessResultWithData(res);
     }
 
 
