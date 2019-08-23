@@ -1,7 +1,7 @@
 package com.joy.xxfy.informationaldxn.module.backmining.domain.entity;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import com.joy.xxfy.informationaldxn.common.domain.entity.BaseEntity;
+import com.joy.xxfy.informationaldxn.module.common.domain.entity.BaseEntity;
 import com.joy.xxfy.informationaldxn.module.backmining.domain.enums.BackMiningModeEnum;
 import com.joy.xxfy.informationaldxn.module.backmining.domain.enums.VentilationModeEnum;
 import lombok.Data;

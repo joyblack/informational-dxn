@@ -1,8 +1,8 @@
 package com.joy.xxfy.informationaldxn.module.train.web;
 
 
-import com.joy.xxfy.informationaldxn.common.web.req.IdReq;
-import com.joy.xxfy.informationaldxn.common.web.req.NameReq;
+import com.joy.xxfy.informationaldxn.module.common.web.req.IdReq;
+import com.joy.xxfy.informationaldxn.module.common.web.req.NameReq;
 import com.joy.xxfy.informationaldxn.publish.result.JoyResult;
 import com.joy.xxfy.informationaldxn.publish.result.Notice;
 import com.joy.xxfy.informationaldxn.module.train.service.TrainingService;

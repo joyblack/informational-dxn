@@ -1,7 +1,7 @@
 package com.joy.xxfy.informationaldxn.module.driving.web;
 
-import com.joy.xxfy.informationaldxn.common.web.req.IdReq;
-import com.joy.xxfy.informationaldxn.common.web.req.NameReq;
+import com.joy.xxfy.informationaldxn.module.common.web.req.IdReq;
+import com.joy.xxfy.informationaldxn.module.common.web.req.NameReq;
 import com.joy.xxfy.informationaldxn.module.driving.service.DrivingFaceService;
 import com.joy.xxfy.informationaldxn.module.driving.web.req.DrivingFaceAddReq;
 import com.joy.xxfy.informationaldxn.module.driving.web.req.DrivingFaceGetListReq;

@@ -1,4 +1,4 @@
-package com.joy.xxfy.informationaldxn.common.web.res;
+package com.joy.xxfy.informationaldxn.module.common.web.res;
 
 import lombok.Data;
 import lombok.ToString;

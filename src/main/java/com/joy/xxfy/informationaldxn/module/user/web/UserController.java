@@ -1,8 +1,8 @@
 package com.joy.xxfy.informationaldxn.module.user.web;
 
-import com.joy.xxfy.informationaldxn.common.web.req.BasePageReq;
-import com.joy.xxfy.informationaldxn.common.web.req.IdReq;
-import com.joy.xxfy.informationaldxn.common.web.req.TestReq;
+import com.joy.xxfy.informationaldxn.module.common.web.req.BasePageReq;
+import com.joy.xxfy.informationaldxn.module.common.web.req.IdReq;
+import com.joy.xxfy.informationaldxn.module.common.web.req.TestReq;
 import com.joy.xxfy.informationaldxn.publish.result.JoyResult;
 import com.joy.xxfy.informationaldxn.publish.result.Notice;
 import com.joy.xxfy.informationaldxn.module.user.domain.entity.UserEntity;

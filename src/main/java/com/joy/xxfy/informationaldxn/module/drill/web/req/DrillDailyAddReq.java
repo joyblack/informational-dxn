@@ -1,7 +1,7 @@
 package com.joy.xxfy.informationaldxn.module.drill.web.req;
 
-import com.joy.xxfy.informationaldxn.common.enums.DailyShiftEnum;
-import com.joy.xxfy.informationaldxn.common.web.req.BaseAddReq;
+import com.joy.xxfy.informationaldxn.module.common.enums.DailyShiftEnum;
+import com.joy.xxfy.informationaldxn.module.common.web.req.BaseAddReq;
 import lombok.Data;
 import lombok.ToString;
 

@@ -1,7 +1,7 @@
 package com.joy.xxfy.informationaldxn.module.train.service;
 
-import com.joy.xxfy.informationaldxn.common.service.BaseService;
-import com.joy.xxfy.informationaldxn.common.web.res.FileInfoRes;
+import com.joy.xxfy.informationaldxn.module.common.service.BaseService;
+import com.joy.xxfy.informationaldxn.module.common.web.res.FileInfoRes;
 import com.joy.xxfy.informationaldxn.publish.constant.StoreFilePathConstant;
 import com.joy.xxfy.informationaldxn.publish.result.JoyResult;
 import com.joy.xxfy.informationaldxn.publish.result.Notice;

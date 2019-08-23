@@ -1,6 +1,6 @@
 package com.joy.xxfy.informationaldxn.module.drill.web.req;
 
-import com.joy.xxfy.informationaldxn.common.web.req.BaseAddReq;
+import com.joy.xxfy.informationaldxn.module.common.web.req.BaseAddReq;
 import com.joy.xxfy.informationaldxn.module.drill.domain.enums.DrillCategoryEnum;
 import com.joy.xxfy.informationaldxn.module.drill.domain.enums.DrillRockCharacterEnum;
 import com.joy.xxfy.informationaldxn.module.drill.domain.enums.DrillTypeEnum;

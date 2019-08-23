@@ -333,7 +333,7 @@ public class StaffEntryService {
      */
     public JoyResult getPassListByIdNumber(String idNumber) {
         // get older
-        return JoyResult.buildSuccessResultWithData(staffEntryRepository.getByIdNumberAAndReviewStatus(idNumber, ReviewStatusEnum.PASS));
+        return JoyResult.buildSuccessResultWithData(staffEntryRepository.getByIdNumberAndReviewStatus(idNumber, ReviewStatusEnum.PASS));
     }
 
     /**

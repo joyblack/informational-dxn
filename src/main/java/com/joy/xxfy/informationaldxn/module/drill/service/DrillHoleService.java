@@ -1,6 +1,6 @@
 package com.joy.xxfy.informationaldxn.module.drill.service;
 
-import com.joy.xxfy.informationaldxn.common.web.req.BasePageReq;
+import com.joy.xxfy.informationaldxn.module.common.web.req.BasePageReq;
 import com.joy.xxfy.informationaldxn.module.drill.domain.entity.DrillHoleEntity;
 import com.joy.xxfy.informationaldxn.module.drill.domain.entity.DrillWorkEntity;
 import com.joy.xxfy.informationaldxn.module.drill.domain.repository.DrillHoleRepository;
@@ -10,6 +10,7 @@ import com.joy.xxfy.informationaldxn.module.drill.web.req.DrillHoleUpdateReq;
 import com.joy.xxfy.informationaldxn.publish.constant.ResultDataConstant;
 import com.joy.xxfy.informationaldxn.publish.result.JoyResult;
 import com.joy.xxfy.informationaldxn.publish.result.Notice;
+import com.joy.xxfy.informationaldxn.publish.utils.ComputeUtils;
 import com.joy.xxfy.informationaldxn.publish.utils.JoyBeanUtil;
 import com.joy.xxfy.informationaldxn.publish.utils.project.JpaPagerUtil;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,6 +19,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.criteria.Predicate;
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -43,6 +45,10 @@ public class DrillHoleService {
         // 添加信息
         DrillHoleEntity drillHoleEntity = new DrillHoleEntity();
         JoyBeanUtil.copyPropertiesIgnoreSourceNullProperties(req, drillHoleEntity);
+        // 已打长度初始化为0
+        drillHoleEntity.setDoneLength(BigDecimal.ZERO);
+        // 剩余长度
+        drillHoleEntity.setLeftLength(ComputeUtils.sub(drillHoleEntity.getTotalLength(), drillHoleEntity.getDoneLength()));
         // 设置工作信息
         drillHoleEntity.setDrillWork(drillWork);
         // save

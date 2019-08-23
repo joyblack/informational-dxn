@@ -1,7 +1,7 @@
 package com.joy.xxfy.informationaldxn.module.drill.domain.entity;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import com.joy.xxfy.informationaldxn.common.domain.entity.BaseEntity;
+import com.joy.xxfy.informationaldxn.module.common.domain.entity.BaseEntity;
 import com.joy.xxfy.informationaldxn.module.drill.domain.enums.DrillCategoryEnum;
 import com.joy.xxfy.informationaldxn.module.drill.domain.enums.DrillRockCharacterEnum;
 import com.joy.xxfy.informationaldxn.module.drill.domain.enums.DrillTypeEnum;
@@ -10,6 +10,7 @@ import lombok.ToString;
 import org.hibernate.annotations.Where;
 
 import javax.persistence.*;
+import java.math.BigDecimal;
 import java.util.Date;
 
 /**
@@ -49,6 +50,8 @@ public class DrillWorkEntity extends BaseEntity {
      * 钻孔岩性
      */
     private DrillRockCharacterEnum drillRockCharacter;
+
+
 
 
 }

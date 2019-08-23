@@ -1,11 +1,12 @@
 package com.joy.xxfy.informationaldxn.module.drill.domain.entity;
 
-import com.joy.xxfy.informationaldxn.common.domain.entity.BaseEntity;
+import com.joy.xxfy.informationaldxn.module.common.domain.entity.BaseEntity;
 import lombok.Data;
 import lombok.ToString;
 import org.hibernate.annotations.Where;
 
 import javax.persistence.*;
+import java.math.BigDecimal;
 
 /**
  * 钻孔日报详情信息（打钻信息）
@@ -26,7 +27,7 @@ public class DrillDailyDetailEntity extends BaseEntity {
      * 打孔长度
      */
     @Column(nullable = false)
-    private Long doneLength;
+    private BigDecimal doneLength;
 
     /**
      * 钻孔信息(钻孔工作详情)

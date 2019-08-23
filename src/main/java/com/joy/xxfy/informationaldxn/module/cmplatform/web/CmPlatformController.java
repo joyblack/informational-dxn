@@ -4,9 +4,9 @@ import com.joy.xxfy.informationaldxn.module.cmplatform.service.CmPlatformService
 import com.joy.xxfy.informationaldxn.module.cmplatform.web.req.AddCmPlatformReq;
 import com.joy.xxfy.informationaldxn.module.cmplatform.web.req.GetCmPlatformListReq;
 import com.joy.xxfy.informationaldxn.module.cmplatform.web.req.UpdateCmPlatformReq;
-import com.joy.xxfy.informationaldxn.common.web.req.BasePermissionReq;
-import com.joy.xxfy.informationaldxn.common.web.req.ChangePasswordReq;
-import com.joy.xxfy.informationaldxn.common.web.req.IdReq;
+import com.joy.xxfy.informationaldxn.module.common.web.req.BasePermissionReq;
+import com.joy.xxfy.informationaldxn.module.common.web.req.ChangePasswordReq;
+import com.joy.xxfy.informationaldxn.module.common.web.req.IdReq;
 import com.joy.xxfy.informationaldxn.publish.result.JoyResult;
 import com.joy.xxfy.informationaldxn.publish.result.Notice;
 import org.springframework.beans.factory.annotation.Autowired;

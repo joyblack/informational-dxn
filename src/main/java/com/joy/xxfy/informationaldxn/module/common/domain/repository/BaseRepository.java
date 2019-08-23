@@ -1,4 +1,4 @@
-package com.joy.xxfy.informationaldxn.common.domain.repository;
+package com.joy.xxfy.informationaldxn.module.common.domain.repository;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;

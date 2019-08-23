@@ -1,9 +1,8 @@
-package com.joy.xxfy.informationaldxn.common.domain.entity;
+package com.joy.xxfy.informationaldxn.module.common.domain.entity;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
 import lombok.ToString;
-import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;

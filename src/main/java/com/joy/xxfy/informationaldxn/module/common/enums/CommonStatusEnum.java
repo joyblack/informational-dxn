@@ -1,4 +1,4 @@
-package com.joy.xxfy.informationaldxn.common.enums;
+package com.joy.xxfy.informationaldxn.module.common.enums;
 
 public enum CommonStatusEnum {
     STOP("STOP","停用"),START("START","启用");

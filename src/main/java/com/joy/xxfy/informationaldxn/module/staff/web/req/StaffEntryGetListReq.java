@@ -1,6 +1,6 @@
 package com.joy.xxfy.informationaldxn.module.staff.web.req;
 
-import com.joy.xxfy.informationaldxn.common.web.req.BasePageReq;
+import com.joy.xxfy.informationaldxn.module.common.web.req.BasePageReq;
 import com.joy.xxfy.informationaldxn.module.staff.domain.enums.EducationEnum;
 import com.joy.xxfy.informationaldxn.module.staff.domain.enums.ReviewStatusEnum;
 import com.joy.xxfy.informationaldxn.module.staff.domain.enums.SexEnum;

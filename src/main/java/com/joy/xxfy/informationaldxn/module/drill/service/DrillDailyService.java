@@ -25,6 +25,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.criteria.Predicate;
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -59,10 +60,12 @@ public class DrillDailyService {
         if(drillTeam == null){
             return JoyResult.buildFailedResult(Notice.DEPARTMENT_NOT_EXIST);
         }
-
         // 装配信息
         DrillDailyEntity drillDailyEntity = new DrillDailyEntity();
         JoyBeanUtil.copyPropertiesIgnoreSourceNullProperties(req, drillDailyEntity);
+        // 当日打钻总量
+        drillDailyEntity.setDoneTotalLength(BigDecimal.ZERO
+        );
         drillDailyEntity.setDrillTeam(drillTeam);
         drillDailyEntity.setDrillWork(drillWorkInfo);
         // 添加信息

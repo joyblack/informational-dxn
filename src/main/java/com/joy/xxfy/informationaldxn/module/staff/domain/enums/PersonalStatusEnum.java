@@ -4,11 +4,13 @@ public enum PersonalStatusEnum {
 
     NEVER("不存在系统之中"),
 
-    LEAVE("离职"),
-
     INCUMBENCY("在职"),
 
-    HAVE_HOLIDAY("休假"),
+    REVIEW_WAIT("未审核"),
+
+    REVIEW_NOT_PASS("审核未通过"),
+
+    LEAVE("离职"),
 
     BLACKLIST("黑名单");
 

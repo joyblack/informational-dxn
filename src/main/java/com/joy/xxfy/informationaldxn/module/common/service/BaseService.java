@@ -1,7 +1,6 @@
-package com.joy.xxfy.informationaldxn.common.service;
+package com.joy.xxfy.informationaldxn.module.common.service;
 
-import com.joy.xxfy.informationaldxn.common.web.res.FileInfoRes;
-import com.joy.xxfy.informationaldxn.publish.constant.StoreFilePathConstant;
+import com.joy.xxfy.informationaldxn.module.common.web.res.FileInfoRes;
 import com.joy.xxfy.informationaldxn.publish.result.JoyResult;
 import com.joy.xxfy.informationaldxn.publish.result.Notice;
 import com.joy.xxfy.informationaldxn.publish.utils.FileUtil;

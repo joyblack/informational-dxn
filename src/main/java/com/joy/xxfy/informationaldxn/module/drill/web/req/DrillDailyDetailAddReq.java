@@ -1,18 +1,12 @@
 package com.joy.xxfy.informationaldxn.module.drill.web.req;
 
-import com.joy.xxfy.informationaldxn.common.enums.DailyShiftEnum;
-import com.joy.xxfy.informationaldxn.common.web.req.BaseAddReq;
-import com.joy.xxfy.informationaldxn.module.drill.domain.entity.DrillDailyEntity;
-import com.joy.xxfy.informationaldxn.module.drill.domain.entity.DrillHoleEntity;
+import com.joy.xxfy.informationaldxn.module.common.web.req.BaseAddReq;
 import lombok.Data;
 import lombok.ToString;
 
 import javax.persistence.Column;
-import javax.persistence.FetchType;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
 import javax.validation.constraints.NotNull;
-import java.util.Date;
+import java.math.BigDecimal;
 
 @Data
 @ToString(callSuper = true)
@@ -32,8 +26,8 @@ public class DrillDailyDetailAddReq extends BaseAddReq {
     /**
      * 打孔长度
      */
-    @Column(nullable = false)
-    private Long doneLength;
+    @NotNull(message = "打孔长度不能为空")
+    private BigDecimal doneLength;
 
 
 

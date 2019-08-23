@@ -1,9 +1,10 @@
 package com.joy.xxfy.informationaldxn.module.staff.service;
 
-import com.joy.xxfy.informationaldxn.common.service.BaseService;
-import com.joy.xxfy.informationaldxn.common.web.res.FileInfoRes;
+import com.joy.xxfy.informationaldxn.module.common.service.BaseService;
+import com.joy.xxfy.informationaldxn.module.common.web.res.FileInfoRes;
 import com.joy.xxfy.informationaldxn.module.staff.domain.enetiy.*;
 import com.joy.xxfy.informationaldxn.module.staff.domain.enums.PersonalStatusEnum;
+import com.joy.xxfy.informationaldxn.module.staff.domain.enums.ReviewStatusEnum;
 import com.joy.xxfy.informationaldxn.module.staff.domain.repository.*;
 import com.joy.xxfy.informationaldxn.publish.constant.ResultDataConstant;
 import com.joy.xxfy.informationaldxn.publish.constant.StoreFilePathConstant;
@@ -134,10 +135,21 @@ public class StaffPersonalService extends BaseService {
             return JoyResult.buildSuccessResultWithData(PersonalStatusEnum.NEVER);
         }
         // 入职状态
-        List<StaffEntryEntity> entryInfo = staffEntryRepository.findAllByStaffPersonal(personal);
+        List<StaffEntryEntity> entryInfo = staffEntryRepository.findAllByStaffPersonalAndReviewStatus(personal, ReviewStatusEnum.PASS);
         if(entryInfo.size() > 0){
             return JoyResult.buildSuccessResultWithData(PersonalStatusEnum.INCUMBENCY);
         }
+        // 待审核
+        List<StaffEntryEntity> waitEntryInfo = staffEntryRepository.findAllByStaffPersonalAndReviewStatus(personal, ReviewStatusEnum.PASS);
+        if(waitEntryInfo.size() > 0){
+            return JoyResult.buildSuccessResultWithData(PersonalStatusEnum.REVIEW_WAIT);
+        }
+        // 审核未通过
+        List<StaffEntryEntity> notPassEntryInfo = staffEntryRepository.findAllByStaffPersonalAndReviewStatus(personal, ReviewStatusEnum.NOT_PASS);
+        if(notPassEntryInfo.size() > 0){
+            return JoyResult.buildSuccessResultWithData(PersonalStatusEnum.REVIEW_NOT_PASS);
+        }
+
         // 黑名单
         StaffBlacklistEntity staffPersonal = staffBlacklistRepository.findAllByStaffPersonal(personal);
         if(staffPersonal != null){

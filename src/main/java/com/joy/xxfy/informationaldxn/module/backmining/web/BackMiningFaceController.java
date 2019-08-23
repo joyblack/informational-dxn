@@ -1,7 +1,7 @@
 package com.joy.xxfy.informationaldxn.module.backmining.web;
 
-import com.joy.xxfy.informationaldxn.common.web.req.IdReq;
-import com.joy.xxfy.informationaldxn.common.web.req.NameReq;
+import com.joy.xxfy.informationaldxn.module.common.web.req.IdReq;
+import com.joy.xxfy.informationaldxn.module.common.web.req.NameReq;
 import com.joy.xxfy.informationaldxn.module.backmining.service.BackMiningFaceService;
 import com.joy.xxfy.informationaldxn.module.backmining.web.req.BackMiningFaceAddReq;
 import com.joy.xxfy.informationaldxn.module.backmining.web.req.BackMiningFaceGetListReq;

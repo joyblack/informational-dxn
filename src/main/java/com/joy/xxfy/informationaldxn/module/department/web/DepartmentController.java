@@ -1,6 +1,6 @@
 package com.joy.xxfy.informationaldxn.module.department.web;
 
-import com.joy.xxfy.informationaldxn.common.web.req.IdReq;
+import com.joy.xxfy.informationaldxn.module.common.web.req.IdReq;
 import com.joy.xxfy.informationaldxn.module.department.service.DepartmentService;
 import com.joy.xxfy.informationaldxn.module.department.web.req.DepartmentAddReq;
 import com.joy.xxfy.informationaldxn.module.department.web.req.DepartmentUpdateReq;

@@ -1,6 +1,6 @@
 package com.joy.xxfy.informationaldxn.module.backmining.web.req;
 
-import com.joy.xxfy.informationaldxn.common.web.req.BasePageReq;
+import com.joy.xxfy.informationaldxn.module.common.web.req.BasePageReq;
 import com.joy.xxfy.informationaldxn.module.backmining.domain.enums.BackMiningModeEnum;
 import com.joy.xxfy.informationaldxn.module.backmining.domain.enums.VentilationModeEnum;
 import lombok.Data;

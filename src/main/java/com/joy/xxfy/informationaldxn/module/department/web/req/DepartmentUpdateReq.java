@@ -1,6 +1,6 @@
 package com.joy.xxfy.informationaldxn.module.department.web.req;
 
-import com.joy.xxfy.informationaldxn.common.web.req.BaseUpdateReq;
+import com.joy.xxfy.informationaldxn.module.common.web.req.BaseUpdateReq;
 import com.joy.xxfy.informationaldxn.module.department.domain.enums.DepartmentTypeEnum;
 import lombok.Data;
 import lombok.ToString;

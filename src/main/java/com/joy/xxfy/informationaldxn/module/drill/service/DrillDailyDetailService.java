@@ -10,23 +10,24 @@ import com.joy.xxfy.informationaldxn.module.drill.domain.repository.DrillDailyDe
 import com.joy.xxfy.informationaldxn.module.drill.domain.repository.DrillDailyRepository;
 import com.joy.xxfy.informationaldxn.module.drill.domain.repository.DrillHoleRepository;
 import com.joy.xxfy.informationaldxn.module.drill.domain.repository.DrillWorkRepository;
-import com.joy.xxfy.informationaldxn.module.drill.web.req.DrillDailyAddReq;
-import com.joy.xxfy.informationaldxn.module.drill.web.req.DrillDailyDetailAddReq;
-import com.joy.xxfy.informationaldxn.module.drill.web.req.DrillDailyGetListReq;
-import com.joy.xxfy.informationaldxn.module.drill.web.req.DrillDailyUpdateReq;
+import com.joy.xxfy.informationaldxn.module.drill.web.req.*;
 import com.joy.xxfy.informationaldxn.module.drill.web.res.DrillDailyRes;
 import com.joy.xxfy.informationaldxn.publish.constant.ResultDataConstant;
 import com.joy.xxfy.informationaldxn.publish.result.JoyResult;
 import com.joy.xxfy.informationaldxn.publish.result.Notice;
+import com.joy.xxfy.informationaldxn.publish.utils.ComputeUtils;
 import com.joy.xxfy.informationaldxn.publish.utils.JoyBeanUtil;
+import com.joy.xxfy.informationaldxn.publish.utils.LogUtil;
 import com.joy.xxfy.informationaldxn.publish.utils.StringUtil;
 import com.joy.xxfy.informationaldxn.publish.utils.project.JpaPagerUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import sun.rmi.runtime.Log;
 
 import javax.persistence.criteria.Predicate;
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -52,128 +53,121 @@ public class DrillDailyDetailService {
     /**
      * 添加打钻详情
      */
-//    public JoyResult add(DrillDailyDetailAddReq req) {
-//        DrillDailyDetailEntity detail = new DrillDailyDetailEntity();
-//        // 验证钻孔是否存在
-//        DrillHoleEntity drillHole = drillHoleRepository.findAllById(req.getDrillHoleId());
-//        if(drillHole == null){
-//            return JoyResult.buildFailedResult(Notice.DRILL_HOLE_NOT_EXIST);
-//        }
-//        // 验证所属日报信息是否存在
-//        DrillDailyEntity drillDaily = drillDailyRepository.findAllById(req.getDrillDailyId());
-//        if(drillDaily == null){
-//            return JoyResult.buildFailedResult(Notice.DRILL_DAILY_NOT_EXIST);
-//        }
-//        // 验证打孔长度是否超标，获取钻孔的剩余长度
-//        drillHole.getTotalLength()
+    public JoyResult add(DrillDailyDetailAddReq req) {
+        // 验证钻孔是否存在
+        DrillHoleEntity drillHole = drillHoleRepository.findAllById(req.getDrillHoleId());
+        if(drillHole == null){
+            return JoyResult.buildFailedResult(Notice.DRILL_HOLE_NOT_EXIST);
+        }
+        // 验证所属日报信息是否存在
+        DrillDailyEntity drillDaily = drillDailyRepository.findAllById(req.getDrillDailyId());
+        if(drillDaily == null){
+            return JoyResult.buildFailedResult(Notice.DRILL_DAILY_NOT_EXIST);
+        }
+        // 验证打孔长度是否超标，获取钻孔的剩余长度
+        LogUtil.info("hole total length is: {}",drillHole.getTotalLength());
+        LogUtil.info("done length is: {}", drillHole.getDoneLength());
+        LogUtil.info("left length is: {}", drillHole.getLeftLength());
+        LogUtil.info("now post handler length is : {}", req.getDoneLength());
+        // 若当前提交的长度为0，不合法
+        if(req.getDoneLength().equals(BigDecimal.ZERO)){
+            return JoyResult.buildFailedResult(Notice.LENGTH_NOT_BE_ZERO);
+        }
+        // 若当前提交的长度大于钻孔的剩余长度，不合法
+        if(ComputeUtils.more(req.getDoneLength(),drillHole.getLeftLength())){
+            return JoyResult.buildFailedResult(Notice.DRILL_HOLE_LENGTH_MORE_LEFT_LENGTH,
+                    ResultDataConstant.MESSAGE_LEFT_LENGTH + drillHole.getLeftLength());
+        }
+
+        // == 修改钻孔信息
+        // 已打长度
+        drillHole.setDoneLength(ComputeUtils.add(drillHole.getDoneLength(), req.getDoneLength()));
+        // 剩余长度
+        drillHole.setLeftLength(ComputeUtils.sub(drillHole.getTotalLength(), drillHole.getDoneLength()));
+
+//        // == 修改日报信息（当日打钻总量）
+//        drillDaily.
 //
-//
-//
-//
-//
-//        DrillWorkEntity drillWorkInfo = drillWorkRepository.findAllById(req.getDrillWorkId());
-//        if(drillWorkInfo == null){
-//            return JoyResult.buildFailedResult(Notice.DRILL_WORK_NOT_EXIST);
-//        }
-//        // 验证（打钻队伍）部门是否存在
-//        DepartmentEntity drillTeam = departmentRepository.findAllById(req.getDrillTeamId());
-//        if(drillTeam == null){
-//            return JoyResult.buildFailedResult(Notice.DEPARTMENT_NOT_EXIST);
-//        }
-//
-//        // 装配信息
-//        DrillDailyEntity drillDailyEntity = new DrillDailyEntity();
-//        JoyBeanUtil.copyPropertiesIgnoreSourceNullProperties(req, drillDailyEntity);
-//        drillDailyEntity.setDrillTeam(drillTeam);
-//        drillDailyEntity.setDrillWork(drillWorkInfo);
-//        // 添加信息
-//        return JoyResult.buildSuccessResultWithData(drillDailyRepository.save(drillDailyEntity));
-//    }
-//
-//    /**
-//     * 改:待定
-//     */
-//    public JoyResult update(DrillDailyUpdateReq req) {
-//        DrillDailyEntity drillDaily = drillDailyRepository.findAllById(req.getId());
-//        if(drillDaily == null){
-//            return JoyResult.buildFailedResult(Notice.DAILY_DRILL_NOT_EXIST);
-//        }
-//        // save.
-//        return JoyResult.buildSuccessResultWithData(drillDailyRepository.save(drillDaily));
-//    }
-//
-//    /**
-//     * 删除
-//     */
-//    public JoyResult delete(Long id) {
-//        // 获取日报信息
-//        DrillDailyEntity info = drillDailyRepository.findAllById(id);
-//        if(info == null){
-//            return JoyResult.buildFailedResult(Notice.DAILY_DRILL_NOT_EXIST);
-//        }
-//        // 删除该日报的打钻详情信息
-//        drillDailyDetailRepository.updateIsDeleteByDrillDaily(info, true);
-//        // 最后删除日报信息
-//        info.setIsDelete(true);
-//        drillDailyRepository.save(info);
-//        return JoyResult.buildSuccessResult(ResultDataConstant.MESSAGE_DELETE_SUCCESS);
-//    }
-//
-//    /**
-//     * 获取数据
-//     */
-//    public JoyResult get(Long id) {
-//        DrillDailyRes res = new DrillDailyRes();
-//        DrillDailyEntity info = drillDailyRepository.findAllById(id);
-//        if(info != null){
-//            JoyBeanUtil.copyProperties(info, res);
-//            // 设置打钻详情信息
-//            res.setDrillDailyDetail(drillDailyDetailRepository.findAllByDrillDaily(info));
-//        }else{
-//            res = null;
-//        }
-//        return JoyResult.buildSuccessResultWithData(res);
-//    }
-//
-//
-//    /**
-//     * 获取分页数据
-//     */
-//    public JoyResult getPagerList(DrillDailyGetListReq req) {
-//        return JoyResult.buildSuccessResultWithData(drillDailyRepository.findAll(getPredicates(req), JpaPagerUtil.getPageable(req)));
-//    }
-//
-//    /**
-//     * 获取全部
-//     */
-//    public JoyResult getAllList(DrillDailyGetListReq req) {
-//        return JoyResult.buildSuccessResultWithData(drillDailyRepository.findAll(getPredicates(req)));
-//    }
-//
-//    /**
-//     * 获取分页数据、全部数据的谓词条件
-//     */
-//    private Specification<DrillDailyEntity> getPredicates(DrillDailyGetListReq req){
-//        return (Specification<DrillDailyEntity>) (root, query, builder) -> {
-//            List<Predicate> predicates = new ArrayList<>();
-//            // name like
-//            if(!StringUtil.isEmpty(req.getDrillWorkName())){
-//                predicates.add(builder.like(root.get("drillWork").get("drillWorkName"), "%" + req.getDrillWorkName() +"%"));
-//            }
-//            // drill_time between
-//            if(req.getDailyTimeStart() != null){
-//                predicates.add(builder.greaterThanOrEqualTo(root.get("dailyTime"), req.getDailyTimeStart()));
-//            }
-//            if(req.getDailyTimeEnd() != null){
-//                predicates.add(builder.lessThanOrEqualTo(root.get("dailyTime"), req.getDailyTimeEnd()));
-//            }
-//            if(req.getShifts() != null){
-//                predicates.add(builder.equal(root.get("shifts"), req.getShifts()));
-//            }
-//            if(req.getDrillTeamId() != null){
-//                predicates.add(builder.equal(root.get("department").get("id"), req.getDrillTeamId()));
-//            }
-//            return builder.and(predicates.toArray(new Predicate[predicates.size()]));
-//        };
-//    }
+        // == 添加钻孔日报详情（注意关联钻孔信息，是否级联修改）
+        DrillDailyDetailEntity detail = new DrillDailyDetailEntity();
+//        // 工作长度
+//        detail.setDoneLength(req.getDoneLength());
+//        // 关联的日报信息
+//        detail.setDrillDaily(drillDaily);
+//        // 关联的钻孔
+//        detail.setDrillHole(drillHole);
+//        // 序号
+//        detail.setOrderNumber(req.getOrderNumber());
+//        // 备注信息
+//        detail.setRemarks(req.getRemarks());
+        // 添加信息
+        return JoyResult.buildSuccessResultWithData(drillDailyDetailRepository.save(detail));
+    }
+
+    /**
+     * 改:修改长度
+     */
+    public JoyResult update(DrillDailyDetailUpdateReq req) {
+        // 获取日报详情信息
+        DrillDailyDetailEntity detail = drillDailyDetailRepository.findAllById(req.getId());
+        if(detail == null){
+            return JoyResult.buildFailedResult(Notice.DRILL_DAILY_DETAIL_NOT_EXIST);
+        }
+        // 若当前提交的长度为0，不合法
+        if(req.getDoneLength().equals(BigDecimal.ZERO)){
+            return JoyResult.buildFailedResult(Notice.LENGTH_NOT_BE_ZERO);
+        }
+        // 若当前提交的长度大于钻孔的剩余长度，不合法
+        if(ComputeUtils.more(req.getDoneLength(),detail.getDrillHole().getLeftLength())){
+            return JoyResult.buildFailedResult(Notice.DRILL_HOLE_LENGTH_MORE_LEFT_LENGTH,
+                    ResultDataConstant.MESSAGE_LEFT_LENGTH + detail.getDrillHole().getLeftLength());
+        }
+        // == 修改钻孔信息
+        // 已打长度 = 旧已打长度 + （已打长度的变化值）
+        detail.getDrillHole().setDoneLength(ComputeUtils.add(detail.getDrillHole().getDoneLength(),
+                ComputeUtils.sub(req.getDoneLength(),detail.getDrillHole().getDoneLength())));
+        // 剩余长度
+        detail.getDrillHole().setLeftLength(ComputeUtils.sub(detail.getDrillHole().getTotalLength(), detail.getDrillHole().getDoneLength()));
+
+        // == 修改打钻详情信息
+        // 工作长度
+        detail.setDoneLength(req.getDoneLength());
+        // 序号
+        detail.setOrderNumber(req.getOrderNumber());
+        // 备注信息
+        detail.setRemarks(req.getRemarks());
+        // save.
+        return JoyResult.buildSuccessResultWithData(drillDailyDetailRepository.save(detail));
+    }
+
+    /**
+     * 删除
+     */
+    public JoyResult delete(Long id) {
+        // 获取日报详情信息
+        DrillDailyDetailEntity detail = drillDailyDetailRepository.findAllById(id);
+        if(detail == null){
+            return JoyResult.buildFailedResult(Notice.DRILL_DAILY_DETAIL_NOT_EXIST);
+        }
+        // == 修改钻孔信息,将钻孔长度进行回溯(还原删除数据处理掉的长度)
+        // 已打长度：钻孔已打长度 - 日报详情已打长度
+        detail.getDrillHole().setDoneLength(ComputeUtils.sub(detail.getDrillHole().getDoneLength(), detail.getDoneLength()));
+        // 剩余长度: 重新计算
+        detail.getDrillHole().setLeftLength(ComputeUtils.sub(detail.getDrillHole().getTotalLength(), detail.getDrillHole().getDoneLength()));
+
+        // 软删除
+        detail.setIsDelete(true);
+        drillDailyDetailRepository.save(detail);
+        return JoyResult.buildSuccessResult(ResultDataConstant.MESSAGE_DELETE_SUCCESS);
+    }
+
+    /**
+     * 获取数据
+     */
+    public JoyResult get(Long id) {
+        return JoyResult.buildSuccessResultWithData(drillDailyDetailRepository.findAllById(id));
+    }
+
+
+
 }

@@ -1,6 +1,6 @@
 package com.joy.xxfy.informationaldxn.module.staff.web;
 
-import com.joy.xxfy.informationaldxn.common.web.req.IdReq;
+import com.joy.xxfy.informationaldxn.module.common.web.req.IdReq;
 import com.joy.xxfy.informationaldxn.publish.result.JoyResult;
 import com.joy.xxfy.informationaldxn.publish.result.Notice;
 import com.joy.xxfy.informationaldxn.module.staff.service.StaffPersonalService;

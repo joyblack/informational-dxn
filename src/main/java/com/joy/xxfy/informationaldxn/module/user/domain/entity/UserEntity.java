@@ -1,7 +1,7 @@
 package com.joy.xxfy.informationaldxn.module.user.domain.entity;
 
-import com.joy.xxfy.informationaldxn.common.domain.entity.BaseEntity;
-import com.joy.xxfy.informationaldxn.common.enums.CommonStatusEnum;
+import com.joy.xxfy.informationaldxn.module.common.domain.entity.BaseEntity;
+import com.joy.xxfy.informationaldxn.module.common.enums.CommonStatusEnum;
 import com.joy.xxfy.informationaldxn.module.department.domain.entity.DepartmentEntity;
 import com.joy.xxfy.informationaldxn.module.user.domain.enums.UserTypeEnum;
 import lombok.Data;

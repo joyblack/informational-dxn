@@ -1,8 +1,7 @@
-package com.joy.xxfy.informationaldxn.common.web.req;
+package com.joy.xxfy.informationaldxn.module.common.web.req;
 
 import lombok.Data;
 import lombok.ToString;
-import org.springframework.data.domain.Sort.Direction;
 
 /**
  * 分页列表基础参数

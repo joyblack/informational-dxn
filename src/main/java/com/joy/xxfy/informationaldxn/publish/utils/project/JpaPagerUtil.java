@@ -1,6 +1,6 @@
 package com.joy.xxfy.informationaldxn.publish.utils.project;
 
-import com.joy.xxfy.informationaldxn.common.web.req.BasePageReq;
+import com.joy.xxfy.informationaldxn.module.common.web.req.BasePageReq;
 import com.joy.xxfy.informationaldxn.publish.utils.StringUtil;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;

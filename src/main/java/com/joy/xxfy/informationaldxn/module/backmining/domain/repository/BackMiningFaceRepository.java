@@ -1,6 +1,6 @@
 package com.joy.xxfy.informationaldxn.module.backmining.domain.repository;
 
-import com.joy.xxfy.informationaldxn.common.domain.repository.BaseRepository;
+import com.joy.xxfy.informationaldxn.module.common.domain.repository.BaseRepository;
 import com.joy.xxfy.informationaldxn.module.backmining.domain.entity.BackMiningFaceEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 

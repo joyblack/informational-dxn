@@ -1,6 +1,6 @@
 package com.joy.xxfy.informationaldxn.publish.utils;
 
-import com.joy.xxfy.informationaldxn.common.domain.entity.BaseEntity;
+import com.joy.xxfy.informationaldxn.module.common.domain.entity.BaseEntity;
 
 import java.util.Date;
 

@@ -1,7 +1,7 @@
 package com.joy.xxfy.informationaldxn.module.drill.web;
 
-import com.joy.xxfy.informationaldxn.common.web.req.BasePageReq;
-import com.joy.xxfy.informationaldxn.common.web.req.IdReq;
+import com.joy.xxfy.informationaldxn.module.common.web.req.BasePageReq;
+import com.joy.xxfy.informationaldxn.module.common.web.req.IdReq;
 import com.joy.xxfy.informationaldxn.module.drill.service.DrillHoleService;
 import com.joy.xxfy.informationaldxn.module.drill.web.req.DrillHoleAddReq;
 import com.joy.xxfy.informationaldxn.module.drill.web.req.DrillHoleUpdateReq;

@@ -1,9 +1,8 @@
-package com.joy.xxfy.informationaldxn.common.web.req;
+package com.joy.xxfy.informationaldxn.module.common.web.req;
 
 import lombok.Data;
 import lombok.ToString;
 
-import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
 @Data

@@ -1,6 +1,6 @@
 package com.joy.xxfy.informationaldxn.module.drill.domain.entity;
 
-import com.joy.xxfy.informationaldxn.common.domain.entity.BaseEntity;
+import com.joy.xxfy.informationaldxn.module.common.domain.entity.BaseEntity;
 import lombok.Data;
 import lombok.ToString;
 import org.hibernate.annotations.Where;
@@ -35,19 +35,23 @@ public class DrillHoleEntity extends BaseEntity {
     private String code;
 
     /**
-     * 钻孔已打长度
-     */
-    @Column(nullable = false)
-    private BigDecimal doneLength;
-
-
-    /**
      * 钻孔设计长度
      */
     @NotNull(message = "钻孔设计长度不能为空")
     @Column(nullable = false)
     private BigDecimal totalLength;
 
+    /**
+     * 钻孔已打长度
+     */
+    @Column(nullable = false)
+    private BigDecimal doneLength;
+
+    /**
+     * 钻孔剩余长度
+     */
+    @Column(nullable = false)
+    private BigDecimal leftLength;
 
     /**
      * 倾角

@@ -1,5 +1,6 @@
 package com.joy.xxfy.informationaldxn.module.staff.service;
 
+import com.joy.xxfy.informationaldxn.module.staff.domain.enums.ReviewStatusEnum;
 import com.joy.xxfy.informationaldxn.publish.result.JoyResult;
 import com.joy.xxfy.informationaldxn.publish.result.Notice;
 import com.joy.xxfy.informationaldxn.publish.utils.DateOperationUtil;
@@ -60,11 +61,11 @@ public class StaffBlacklistService {
             return JoyResult.buildFailedResult(Notice.STAFF_BLACKLIST_ALREADY_EXIST);
         }
         // 查找员工是否在职，若在职，不允许添加黑名单
-        List<StaffEntryEntity> allByStaffPersonal = staffEntryRepository.findAllByStaffPersonal(personalInfo);
-        if(allByStaffPersonal.size() > 0){
+        List<StaffEntryEntity>entryInfo = staffEntryRepository.findAllByStaffPersonalAndReviewStatus(personalInfo, ReviewStatusEnum.PASS);
+        if(entryInfo.size() > 0){
             return JoyResult.buildFailedResult(Notice.STAFF_STILL_ENTRY);
         }
-        // 查找离职信息表中员工最后一条离职的信息
+        // 查找离职信息表中员工最后一条离职的信息，以此作为添加黑名单的一些信息的填充依据
         StaffLeaveEntity lastLeaveInfo = staffLeaveRepository.findFirstByStaffPersonalOrderByCreateTimeDesc(personalInfo);
         if(lastLeaveInfo == null){
             return JoyResult.buildFailedResult(Notice.STAFF_LEAVE_NOT_EXIST);
@@ -85,6 +86,8 @@ public class StaffBlacklistService {
         staffBlacklistInfo.setStaffPersonal(personalInfo);
         // 备注
         staffBlacklistInfo.setRemarks(req.getRemarks());
+        // 删除此人所有待审核信息（整体更新一下）
+        staffEntryRepository.softDeleteAllByStaffPersonal(personalInfo, true);
         // save.
         return JoyResult.buildSuccessResultWithData(staffBlacklistRepository.save(staffBlacklistInfo));
     }

@@ -1,6 +1,6 @@
 package com.joy.xxfy.informationaldxn.module.driving.web.req;
 
-import com.joy.xxfy.informationaldxn.common.web.req.BaseAddReq;
+import com.joy.xxfy.informationaldxn.module.common.web.req.BaseAddReq;
 import com.joy.xxfy.informationaldxn.module.driving.domain.enums.CrossSectionTypeEnum;
 import com.joy.xxfy.informationaldxn.module.driving.domain.enums.DrivingTechnologyTypeEnum;
 import com.joy.xxfy.informationaldxn.module.driving.domain.enums.RockCharacterEnum;

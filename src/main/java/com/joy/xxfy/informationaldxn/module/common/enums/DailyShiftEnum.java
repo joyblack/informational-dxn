@@ -1,4 +1,4 @@
-package com.joy.xxfy.informationaldxn.common.enums;
+package com.joy.xxfy.informationaldxn.module.common.enums;
 
 /**
  *  钻孔类型

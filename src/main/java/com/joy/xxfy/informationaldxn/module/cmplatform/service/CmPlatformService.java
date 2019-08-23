@@ -5,9 +5,9 @@ import com.joy.xxfy.informationaldxn.module.cmplatform.domain.repository.CmPlatf
 import com.joy.xxfy.informationaldxn.module.cmplatform.web.req.AddCmPlatformReq;
 import com.joy.xxfy.informationaldxn.module.cmplatform.web.req.GetCmPlatformListReq;
 import com.joy.xxfy.informationaldxn.module.cmplatform.web.req.UpdateCmPlatformReq;
-import com.joy.xxfy.informationaldxn.common.enums.CommonStatusEnum;
-import com.joy.xxfy.informationaldxn.common.web.req.BasePermissionReq;
-import com.joy.xxfy.informationaldxn.common.web.req.ChangePasswordReq;
+import com.joy.xxfy.informationaldxn.module.common.enums.CommonStatusEnum;
+import com.joy.xxfy.informationaldxn.module.common.web.req.BasePermissionReq;
+import com.joy.xxfy.informationaldxn.module.common.web.req.ChangePasswordReq;
 import com.joy.xxfy.informationaldxn.module.department.domain.entity.DepartmentEntity;
 import com.joy.xxfy.informationaldxn.module.department.domain.enums.DepartmentTypeEnum;
 import com.joy.xxfy.informationaldxn.module.department.domain.repository.DepartmentRepository;

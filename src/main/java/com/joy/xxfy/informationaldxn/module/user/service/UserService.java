@@ -1,7 +1,7 @@
 package com.joy.xxfy.informationaldxn.module.user.service;
 
-import com.joy.xxfy.informationaldxn.common.web.req.BasePageReq;
-import com.joy.xxfy.informationaldxn.common.web.req.TestReq;
+import com.joy.xxfy.informationaldxn.module.common.web.req.BasePageReq;
+import com.joy.xxfy.informationaldxn.module.common.web.req.TestReq;
 import com.joy.xxfy.informationaldxn.module.department.domain.entity.DepartmentEntity;
 import com.joy.xxfy.informationaldxn.publish.result.JoyResult;
 import com.joy.xxfy.informationaldxn.publish.result.Notice;

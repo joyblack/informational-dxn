@@ -1,7 +1,7 @@
 package com.joy.xxfy.informationaldxn.module.position.web;
 
-import com.joy.xxfy.informationaldxn.common.web.req.BasePageReq;
-import com.joy.xxfy.informationaldxn.common.web.req.IdReq;
+import com.joy.xxfy.informationaldxn.module.common.web.req.BasePageReq;
+import com.joy.xxfy.informationaldxn.module.common.web.req.IdReq;
 import com.joy.xxfy.informationaldxn.module.position.service.PositionService;
 import com.joy.xxfy.informationaldxn.module.position.web.req.PositionAddReq;
 import com.joy.xxfy.informationaldxn.module.position.web.req.PositionUpdateReq;

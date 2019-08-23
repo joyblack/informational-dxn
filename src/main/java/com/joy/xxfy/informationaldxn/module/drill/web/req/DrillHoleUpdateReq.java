@@ -1,6 +1,6 @@
 package com.joy.xxfy.informationaldxn.module.drill.web.req;
 
-import com.joy.xxfy.informationaldxn.common.web.req.BaseUpdateReq;
+import com.joy.xxfy.informationaldxn.module.common.web.req.BaseUpdateReq;
 import lombok.Data;
 import lombok.ToString;
 

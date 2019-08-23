@@ -82,6 +82,9 @@ public enum Notice{
     DRILL_HOLE_AT_LEAST_ONE("钻孔信息至少需要一条", 111003),
     DRILL_HOLE_NOT_EXIST("钻孔工作详细信息至不存在", 111004),
     DRILL_DAILY_NOT_EXIST("钻孔日报信息至不存在", 111005),
+    DRILL_HOLE_LENGTH_MORE_LEFT_LENGTH("打孔长度大于剩余长度", 111006),
+    LENGTH_NOT_BE_ZERO("长度不能为0", 111007),
+    DRILL_DAILY_DETAIL_NOT_EXIST("打钻详情不存在", 111008),
 
 
     // 培训
