@@ -15,4 +15,5 @@ public class ResultDataConstant {
 
 
     public static final String MESSAGE_LEFT_LENGTH = "剩余长度：";
+    public static final String MESSAGE_DRILL_DAILY_EXIST = "该日期该班次下，该打钻队伍在该打钻工作下的打钻日报已存在";
 }

@@ -30,12 +30,12 @@ public class ComputeUtils {
 
     // 大于
     public static boolean more(BigDecimal a, BigDecimal b){
-        return a.compareTo(b) == 1;
+        return a.compareTo(b) > 0;
     }
 
     // 大于等于
     public static boolean moreThan(BigDecimal a, BigDecimal b){
-        return a.compareTo(b) == -1;
+        return a.compareTo(b) < 0;
     }
 
     // 比较大小：

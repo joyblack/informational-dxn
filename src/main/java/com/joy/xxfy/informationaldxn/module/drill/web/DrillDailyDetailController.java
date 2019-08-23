@@ -81,32 +81,5 @@ public class DrillDailyDetailController {
             return drillDailyDetailService.update(req);
         }
     }
-//
-//    /**
-//     * 获取分页数据
-//     */
-//    @PostMapping(
-//            value = "/getPagerList",
-//            produces = {"application/json;charset=UTF-8"})
-//    public JoyResult getPagerList(@RequestBody @Valid DrillDailyGetListReq req, BindingResult bindingResult) {
-//        if (bindingResult.hasErrors()) {
-//            return JoyResult.buildFailedResult(Notice.REQUEST_PARAMETER_IS_ERROR, bindingResult.getFieldError().getDefaultMessage());
-//        } else {
-//            return drillDailyService.getPagerList(req);
-//        }
-//    }
-//
-//    /**
-//     * 获取所有数据
-//     */
-//    @PostMapping(
-//            value = "/getAllList",
-//            produces = {"application/json;charset=UTF-8"})
-//    public JoyResult getAllList(@RequestBody @Valid DrillDailyGetListReq req, BindingResult bindingResult) {
-//        if (bindingResult.hasErrors()) {
-//            return JoyResult.buildFailedResult(Notice.REQUEST_PARAMETER_IS_ERROR, bindingResult.getFieldError().getDefaultMessage());
-//        } else {
-//            return drillDailyService.getAllList(req);
-//        }
-//    }
+
 }

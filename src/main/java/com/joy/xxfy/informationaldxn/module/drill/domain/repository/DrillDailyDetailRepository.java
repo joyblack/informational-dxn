@@ -22,4 +22,5 @@ public interface DrillDailyDetailRepository extends BaseRepository<DrillDailyDet
 
     // 通过日报、钻孔信息获取具体的打钻信息，这个信息一定的是唯一的
     DrillDailyDetailEntity findAllByDrillDailyAndDrillHole(DrillDailyEntity drillDailyEntity, DrillHoleEntity drillHoleEntity);
+
 }

@@ -54,11 +54,16 @@ public class DrillDailyService {
         if(drillWorkInfo == null){
             return JoyResult.buildFailedResult(Notice.DRILL_WORK_NOT_EXIST);
         }
-
         // 验证（打钻队伍）部门是否存在
         DepartmentEntity drillTeam = departmentRepository.findAllById(req.getDrillTeamId());
         if(drillTeam == null){
             return JoyResult.buildFailedResult(Notice.DEPARTMENT_NOT_EXIST);
+        }
+        // 验证是否重复的日报信息（打钻工作、日期、班次、打钻队伍联合唯一）
+        DrillDailyEntity checkRepeat = drillDailyRepository.findAllByDrillWorkAndDrillTeamAndDailyTimeAndShifts(drillWorkInfo,
+                drillTeam, req.getDailyTime(), req.getShifts());
+        if(checkRepeat != null){
+            return JoyResult.buildFailedResult(Notice.DRILL_DAILY_ALREADY_EXIST, ResultDataConstant.MESSAGE_DRILL_DAILY_EXIST);
         }
         // 装配信息
         DrillDailyEntity drillDailyEntity = new DrillDailyEntity();

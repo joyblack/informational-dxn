@@ -19,22 +19,10 @@ public class DrillDailyDetailUpdateReq extends BaseUpdateReq {
     private Long orderNumber;
 
     /**
-     * 钻孔信息(钻孔工作详情)
-     */
-    @NotNull(message = "钻孔ID不能为空")
-    private Long drillHoleId;
-
-    /**
      * 打孔长度
      */
     @NotNull(message = "打孔长度不能为空")
     private BigDecimal doneLength;
 
-
-    /**
-     * 所属的日报信息
-     */
-    @NotNull(message = "所属日报信息不能为空")
-    private Long drillDailyId;
 
 }
