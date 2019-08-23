@@ -1,6 +1,6 @@
 package com.joy.xxfy.informationaldxn;
 
-import com.joy.xxfy.informationaldxn.produce.domain.repository.DrillWorkRepository;
+import com.joy.xxfy.informationaldxn.module.drill.domain.repository.DrillWorkRepository;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;

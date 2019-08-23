@@ -23,7 +23,7 @@ public class ApplicationAop {
     /**
      * 定义切入点，切割所有的service方法
      */
-    @Pointcut("execution(public * com.joy.informationdxn.module.*.service..*.*(..))")
+    @Pointcut("execution(public * com.joy.xxfy.informationaldxn.module.*.service..*.*(..))")
     public void cutPointer(){}
 
     /**

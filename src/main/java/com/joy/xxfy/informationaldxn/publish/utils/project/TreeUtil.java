@@ -1,6 +1,6 @@
 package com.joy.xxfy.informationaldxn.publish.utils.project;
 
-import com.joy.xxfy.informationaldxn.department.domain.entity.DepartmentEntity;
+import com.joy.xxfy.informationaldxn.module.department.domain.entity.DepartmentEntity;
 import com.joy.xxfy.informationaldxn.publish.utils.JoyBeanUtil;
 
 import java.util.ArrayList;

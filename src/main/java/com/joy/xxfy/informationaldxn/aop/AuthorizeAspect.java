@@ -28,9 +28,9 @@ public class AuthorizeAspect {
     private JwtParamConfig jwtParamConfig;
 
     @Pointcut("execution(public * com.joy.xxfy.informationaldxn.*.web.*Controller.*(..))"
-            + "&&!execution(public * com.joy.xxfy.informationaldxn.login.web.LoginController.*(..))"
-            + "&&!execution(public * com.joy.xxfy.informationaldxn.login..web.UserController.*(..))"
-            + "&&!execution(public * com.joy.xxfy.informationaldxn.system.web.HeartController.*(..))"
+            + "&&!execution(public * com.joy.xxfy.informationaldxn.module.login.web.LoginController.*(..))"
+            + "&&!execution(public * com.joy.xxfy.informationaldxn.module.login..web.UserController.*(..))"
+            + "&&!execution(public * com.joy.xxfy.informationaldxn.module.system.web.HeartController.*(..))"
            )
     public void auth() {
     }

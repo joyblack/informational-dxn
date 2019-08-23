@@ -82,6 +82,9 @@ public enum Notice{
     DRILL_WORK_DETAIL_AT_LEAST_ONE("钻孔工作详细信息至少需要保留一条", 111003),
     DRILL_WORK_DETAIL_NOT_EXIST("钻孔工作详细信息至不存在", 111004),
 
+    DAILY_DRILL_NOT_EXIST("钻孔日报信息至不存在", 111005),
+
+
     // 培训
     TRAINING_NAME_ALREADY_EXIST("培训名称已存在", 111000),
     TRAINING_ALREADY_EXIST("培训信息已存在", 111001),

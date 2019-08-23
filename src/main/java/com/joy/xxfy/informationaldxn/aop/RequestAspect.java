@@ -24,7 +24,7 @@ public class RequestAspect {
     private static Logger log = LoggerFactory.getLogger(RequestAspect.class);
 
 
-    @Around("within(com.joy.xxfy.informationaldxn.*.web.*)")
+    @Around("within(com.joy.xxfy.informationaldxn.module.*.web.*)")
     public Object around(ProceedingJoinPoint joinPoint) throws Throwable{
         // Get Request URI
         HttpServletRequest request = getRequest(joinPoint);
