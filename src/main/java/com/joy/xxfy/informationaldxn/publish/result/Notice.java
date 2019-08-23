@@ -85,6 +85,7 @@ public enum Notice{
     DRILL_HOLE_LENGTH_MORE_LEFT_LENGTH("打孔长度大于剩余长度", 111006),
     LENGTH_NOT_BE_ZERO("长度不能为0", 111007),
     DRILL_DAILY_DETAIL_NOT_EXIST("打钻详情不存在", 111008),
+    DRILL_DAILY_DETAIL_ALREADY_EXIST("打钻详情已存在", 111009),
 
 
     // 培训

@@ -1,0 +1,1516 @@
+<!DOCTYPE html><html><head>
+      <title>&#x53C2;&#x6570;&#x53C2;&#x8003;&#x8868;</title>
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      
+      <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.10.2/dist/katex.min.css">
+      
+      
+
+      
+      
+      
+      
+      
+      
+
+      <style>
+      /**
+ * prism.js Github theme based on GitHub's theme.
+ * @author Sam Clarke
+ */
+code[class*="language-"],
+pre[class*="language-"] {
+  color: #333;
+  background: none;
+  font-family: Consolas, "Liberation Mono", Menlo, Courier, monospace;
+  text-align: left;
+  white-space: pre;
+  word-spacing: normal;
+  word-break: normal;
+  word-wrap: normal;
+  line-height: 1.4;
+
+  -moz-tab-size: 8;
+  -o-tab-size: 8;
+  tab-size: 8;
+
+  -webkit-hyphens: none;
+  -moz-hyphens: none;
+  -ms-hyphens: none;
+  hyphens: none;
+}
+
+/* Code blocks */
+pre[class*="language-"] {
+  padding: .8em;
+  overflow: auto;
+  /* border: 1px solid #ddd; */
+  border-radius: 3px;
+  /* background: #fff; */
+  background: #f5f5f5;
+}
+
+/* Inline code */
+:not(pre) > code[class*="language-"] {
+  padding: .1em;
+  border-radius: .3em;
+  white-space: normal;
+  background: #f5f5f5;
+}
+
+.token.comment,
+.token.blockquote {
+  color: #969896;
+}
+
+.token.cdata {
+  color: #183691;
+}
+
+.token.doctype,
+.token.punctuation,
+.token.variable,
+.token.macro.property {
+  color: #333;
+}
+
+.token.operator,
+.token.important,
+.token.keyword,
+.token.rule,
+.token.builtin {
+  color: #a71d5d;
+}
+
+.token.string,
+.token.url,
+.token.regex,
+.token.attr-value {
+  color: #183691;
+}
+
+.token.property,
+.token.number,
+.token.boolean,
+.token.entity,
+.token.atrule,
+.token.constant,
+.token.symbol,
+.token.command,
+.token.code {
+  color: #0086b3;
+}
+
+.token.tag,
+.token.selector,
+.token.prolog {
+  color: #63a35c;
+}
+
+.token.function,
+.token.namespace,
+.token.pseudo-element,
+.token.class,
+.token.class-name,
+.token.pseudo-class,
+.token.id,
+.token.url-reference .token.variable,
+.token.attr-name {
+  color: #795da3;
+}
+
+.token.entity {
+  cursor: help;
+}
+
+.token.title,
+.token.title .token.punctuation {
+  font-weight: bold;
+  color: #1d3e81;
+}
+
+.token.list {
+  color: #ed6a43;
+}
+
+.token.inserted {
+  background-color: #eaffea;
+  color: #55a532;
+}
+
+.token.deleted {
+  background-color: #ffecec;
+  color: #bd2c00;
+}
+
+.token.bold {
+  font-weight: bold;
+}
+
+.token.italic {
+  font-style: italic;
+}
+
+
+/* JSON */
+.language-json .token.property {
+  color: #183691;
+}
+
+.language-markup .token.tag .token.punctuation {
+  color: #333;
+}
+
+/* CSS */
+code.language-css,
+.language-css .token.function {
+  color: #0086b3;
+}
+
+/* YAML */
+.language-yaml .token.atrule {
+  color: #63a35c;
+}
+
+code.language-yaml {
+  color: #183691;
+}
+
+/* Ruby */
+.language-ruby .token.function {
+  color: #333;
+}
+
+/* Markdown */
+.language-markdown .token.url {
+  color: #795da3;
+}
+
+/* Makefile */
+.language-makefile .token.symbol {
+  color: #795da3;
+}
+
+.language-makefile .token.variable {
+  color: #183691;
+}
+
+.language-makefile .token.builtin {
+  color: #0086b3;
+}
+
+/* Bash */
+.language-bash .token.keyword {
+  color: #0086b3;
+}
+
+/* highlight */
+pre[data-line] {
+  position: relative;
+  padding: 1em 0 1em 3em;
+}
+pre[data-line] .line-highlight-wrapper {
+  position: absolute;
+  top: 0;
+  left: 0;
+  background-color: transparent;
+  display: block;
+  width: 100%;
+}
+
+pre[data-line] .line-highlight {
+  position: absolute;
+  left: 0;
+  right: 0;
+  padding: inherit 0;
+  margin-top: 1em;
+  background: hsla(24, 20%, 50%,.08);
+  background: linear-gradient(to right, hsla(24, 20%, 50%,.1) 70%, hsla(24, 20%, 50%,0));
+  pointer-events: none;
+  line-height: inherit;
+  white-space: pre;
+}
+
+pre[data-line] .line-highlight:before, 
+pre[data-line] .line-highlight[data-end]:after {
+  content: attr(data-start);
+  position: absolute;
+  top: .4em;
+  left: .6em;
+  min-width: 1em;
+  padding: 0 .5em;
+  background-color: hsla(24, 20%, 50%,.4);
+  color: hsl(24, 20%, 95%);
+  font: bold 65%/1.5 sans-serif;
+  text-align: center;
+  vertical-align: .3em;
+  border-radius: 999px;
+  text-shadow: none;
+  box-shadow: 0 1px white;
+}
+
+pre[data-line] .line-highlight[data-end]:after {
+  content: attr(data-end);
+  top: auto;
+  bottom: .4em;
+}html body{font-family:"Helvetica Neue",Helvetica,"Segoe UI",Arial,freesans,sans-serif;font-size:16px;line-height:1.6;color:#333;background-color:#fff;overflow:initial;box-sizing:border-box;word-wrap:break-word}html body>:first-child{margin-top:0}html body h1,html body h2,html body h3,html body h4,html body h5,html body h6{line-height:1.2;margin-top:1em;margin-bottom:16px;color:#000}html body h1{font-size:2.25em;font-weight:300;padding-bottom:.3em}html body h2{font-size:1.75em;font-weight:400;padding-bottom:.3em}html body h3{font-size:1.5em;font-weight:500}html body h4{font-size:1.25em;font-weight:600}html body h5{font-size:1.1em;font-weight:600}html body h6{font-size:1em;font-weight:600}html body h1,html body h2,html body h3,html body h4,html body h5{font-weight:600}html body h5{font-size:1em}html body h6{color:#5c5c5c}html body strong{color:#000}html body del{color:#5c5c5c}html body a:not([href]){color:inherit;text-decoration:none}html body a{color:#08c;text-decoration:none}html body a:hover{color:#00a3f5;text-decoration:none}html body img{max-width:100%}html body>p{margin-top:0;margin-bottom:16px;word-wrap:break-word}html body>ul,html body>ol{margin-bottom:16px}html body ul,html body ol{padding-left:2em}html body ul.no-list,html body ol.no-list{padding:0;list-style-type:none}html body ul ul,html body ul ol,html body ol ol,html body ol ul{margin-top:0;margin-bottom:0}html body li{margin-bottom:0}html body li.task-list-item{list-style:none}html body li>p{margin-top:0;margin-bottom:0}html body .task-list-item-checkbox{margin:0 .2em .25em -1.8em;vertical-align:middle}html body .task-list-item-checkbox:hover{cursor:pointer}html body blockquote{margin:16px 0;font-size:inherit;padding:0 15px;color:#5c5c5c;border-left:4px solid #d6d6d6}html body blockquote>:first-child{margin-top:0}html body blockquote>:last-child{margin-bottom:0}html body hr{height:4px;margin:32px 0;background-color:#d6d6d6;border:0 none}html body table{margin:10px 0 15px 0;border-collapse:collapse;border-spacing:0;display:block;width:100%;overflow:auto;word-break:normal;word-break:keep-all}html body table th{font-weight:bold;color:#000}html body table td,html body table th{border:1px solid #d6d6d6;padding:6px 13px}html body dl{padding:0}html body dl dt{padding:0;margin-top:16px;font-size:1em;font-style:italic;font-weight:bold}html body dl dd{padding:0 16px;margin-bottom:16px}html body code{font-family:Menlo,Monaco,Consolas,'Courier New',monospace;font-size:.85em !important;color:#000;background-color:#f0f0f0;border-radius:3px;padding:.2em 0}html body code::before,html body code::after{letter-spacing:-0.2em;content:"\00a0"}html body pre>code{padding:0;margin:0;font-size:.85em !important;word-break:normal;white-space:pre;background:transparent;border:0}html body .highlight{margin-bottom:16px}html body .highlight pre,html body pre{padding:1em;overflow:auto;font-size:.85em !important;line-height:1.45;border:#d6d6d6;border-radius:3px}html body .highlight pre{margin-bottom:0;word-break:normal}html body pre code,html body pre tt{display:inline;max-width:initial;padding:0;margin:0;overflow:initial;line-height:inherit;word-wrap:normal;background-color:transparent;border:0}html body pre code:before,html body pre tt:before,html body pre code:after,html body pre tt:after{content:normal}html body p,html body blockquote,html body ul,html body ol,html body dl,html body pre{margin-top:0;margin-bottom:16px}html body kbd{color:#000;border:1px solid #d6d6d6;border-bottom:2px solid #c7c7c7;padding:2px 4px;background-color:#f0f0f0;border-radius:3px}@media print{html body{background-color:#fff}html body h1,html body h2,html body h3,html body h4,html body h5,html body h6{color:#000;page-break-after:avoid}html body blockquote{color:#5c5c5c}html body pre{page-break-inside:avoid}html body table{display:table}html body img{display:block;max-width:100%;max-height:100%}html body pre,html body code{word-wrap:break-word;white-space:pre}}.markdown-preview{width:100%;height:100%;box-sizing:border-box}.markdown-preview .pagebreak,.markdown-preview .newpage{page-break-before:always}.markdown-preview pre.line-numbers{position:relative;padding-left:3.8em;counter-reset:linenumber}.markdown-preview pre.line-numbers>code{position:relative}.markdown-preview pre.line-numbers .line-numbers-rows{position:absolute;pointer-events:none;top:1em;font-size:100%;left:0;width:3em;letter-spacing:-1px;border-right:1px solid #999;-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none}.markdown-preview pre.line-numbers .line-numbers-rows>span{pointer-events:none;display:block;counter-increment:linenumber}.markdown-preview pre.line-numbers .line-numbers-rows>span:before{content:counter(linenumber);color:#999;display:block;padding-right:.8em;text-align:right}.markdown-preview .mathjax-exps .MathJax_Display{text-align:center !important}.markdown-preview:not([for="preview"]) .code-chunk .btn-group{display:none}.markdown-preview:not([for="preview"]) .code-chunk .status{display:none}.markdown-preview:not([for="preview"]) .code-chunk .output-div{margin-bottom:16px}.scrollbar-style::-webkit-scrollbar{width:8px}.scrollbar-style::-webkit-scrollbar-track{border-radius:10px;background-color:transparent}.scrollbar-style::-webkit-scrollbar-thumb{border-radius:5px;background-color:rgba(150,150,150,0.66);border:4px solid rgba(150,150,150,0.66);background-clip:content-box}html body[for="html-export"]:not([data-presentation-mode]){position:relative;width:100%;height:100%;top:0;left:0;margin:0;padding:0;overflow:auto}html body[for="html-export"]:not([data-presentation-mode]) .markdown-preview{position:relative;top:0}@media screen and (min-width:914px){html body[for="html-export"]:not([data-presentation-mode]) .markdown-preview{padding:2em calc(50% - 457px + 2em)}}@media screen and (max-width:914px){html body[for="html-export"]:not([data-presentation-mode]) .markdown-preview{padding:2em}}@media screen and (max-width:450px){html body[for="html-export"]:not([data-presentation-mode]) .markdown-preview{font-size:14px !important;padding:1em}}@media print{html body[for="html-export"]:not([data-presentation-mode]) #sidebar-toc-btn{display:none}}html body[for="html-export"]:not([data-presentation-mode]) #sidebar-toc-btn{position:fixed;bottom:8px;left:8px;font-size:28px;cursor:pointer;color:inherit;z-index:99;width:32px;text-align:center;opacity:.4}html body[for="html-export"]:not([data-presentation-mode])[html-show-sidebar-toc] #sidebar-toc-btn{opacity:1}html body[for="html-export"]:not([data-presentation-mode])[html-show-sidebar-toc] .md-sidebar-toc{position:fixed;top:0;left:0;width:300px;height:100%;padding:32px 0 48px 0;font-size:14px;box-shadow:0 0 4px rgba(150,150,150,0.33);box-sizing:border-box;overflow:auto;background-color:inherit}html body[for="html-export"]:not([data-presentation-mode])[html-show-sidebar-toc] .md-sidebar-toc::-webkit-scrollbar{width:8px}html body[for="html-export"]:not([data-presentation-mode])[html-show-sidebar-toc] .md-sidebar-toc::-webkit-scrollbar-track{border-radius:10px;background-color:transparent}html body[for="html-export"]:not([data-presentation-mode])[html-show-sidebar-toc] .md-sidebar-toc::-webkit-scrollbar-thumb{border-radius:5px;background-color:rgba(150,150,150,0.66);border:4px solid rgba(150,150,150,0.66);background-clip:content-box}html body[for="html-export"]:not([data-presentation-mode])[html-show-sidebar-toc] .md-sidebar-toc a{text-decoration:none}html body[for="html-export"]:not([data-presentation-mode])[html-show-sidebar-toc] .md-sidebar-toc ul{padding:0 1.6em;margin-top:.8em}html body[for="html-export"]:not([data-presentation-mode])[html-show-sidebar-toc] .md-sidebar-toc li{margin-bottom:.8em}html body[for="html-export"]:not([data-presentation-mode])[html-show-sidebar-toc] .md-sidebar-toc ul{list-style-type:none}html body[for="html-export"]:not([data-presentation-mode])[html-show-sidebar-toc] .markdown-preview{left:300px;width:calc(100% -  300px);padding:2em calc(50% - 457px -  150px);margin:0;box-sizing:border-box}@media screen and (max-width:1274px){html body[for="html-export"]:not([data-presentation-mode])[html-show-sidebar-toc] .markdown-preview{padding:2em}}@media screen and (max-width:450px){html body[for="html-export"]:not([data-presentation-mode])[html-show-sidebar-toc] .markdown-preview{width:100%}}html body[for="html-export"]:not([data-presentation-mode]):not([html-show-sidebar-toc]) .markdown-preview{left:50%;transform:translateX(-50%)}html body[for="html-export"]:not([data-presentation-mode]):not([html-show-sidebar-toc]) .md-sidebar-toc{display:none}
+/* Please visit the URL below for more information: */
+/*   https://shd101wyy.github.io/markdown-preview-enhanced/#/customize-css */
+
+      </style>
+    </head>
+    <body for="html-export">
+      <div class="mume markdown-preview  ">
+      <h1 class="mume-header" id="%E7%AE%80%E4%BB%8B">&#x7B80;&#x4ECB;</h1>
+
+<p>&#x672C;&#x6587;&#x8BB2;&#x89E3;&#x7CFB;&#x7EDF;&#x4EA4;&#x4E92;&#x65F6;&#xFF0C;&#x53C2;&#x6570;&#x7684;&#x7279;&#x6B8A;&#x542B;&#x4E49;&#x3002;&#x901A;&#x8FC7;&#x8BE5;&#x6587;&#x6863;&#x53EF;&#x67E5;&#x8BE2;&#x5177;&#x4F53;&#x6A21;&#x5757;&#x67D0;&#x4E9B;&#x53C2;&#x6570;&#x7684;&#x786E;&#x5207;&#x542B;&#x4E49;&#x3002;</p>
+<h1 class="mume-header" id="1-%E9%80%9A%E7%94%A8%E5%8F%82%E6%95%B0">1&#x3001;&#x901A;&#x7528;&#x53C2;&#x6570;</h1>
+
+<h2 class="mume-header" id="11-%E5%88%86%E9%A1%B5%E5%8F%82%E6%95%B0">1.1&#x3001;&#x5206;&#x9875;&#x53C2;&#x6570;</h2>
+
+<table>
+<thead>
+<tr>
+<th>&#x53C2;&#x6570;&#x540D;</th>
+<th>&#x7C7B;&#x578B;</th>
+<th>&#x5FC5;&#x586B;</th>
+<th>&#x8BF4;&#x660E;</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>page</td>
+<td>number</td>
+<td>&#x5426;</td>
+<td>&#x6570;&#x5B57;1&#x4EE3;&#x8868;&#x7B2C;&#x4E00;&#x9875;&#xFF0C;&#x9ED8;&#x8BA4;&#x503C;&#x4E3A;1&#x3002;&#x4E0D;&#x5141;&#x8BB8;&#x5C0F;&#x4E8E;0</td>
+</tr>
+<tr>
+<td>size</td>
+<td>number</td>
+<td>&#x5426;</td>
+<td>&#x6BCF;&#x9875;&#x6761;&#x76EE;&#x6570;&#xFF0C;&#x9ED8;&#x8BA4;10&#x6761;&#x6570;&#x636E;;&#x4E0D;&#x5141;&#x8BB8;&#x5C0F;&#x4E8E;0&#xFF0C;&#x4E0D;&#x652F;&#x6301;&#x83B7;&#x53D6;&#x6240;&#x6709;&#x6570;&#x636E;&#xFF0C;&#x82E5;&#x8981;&#x83B7;&#x53D6;&#x6240;&#x6709;&#x6570;&#x636E;&#xFF0C;&#x8BF7;&#x8C03;&#x7528;&#x53E6;&#x4E00;&#x4E2A;&#x63A5;&#x53E3;&#xFF0C;&#x6587;&#x4EF6;&#x540D;&#x7C7B;&#x4F3C; <strong>&#x540C;&#x540D;&#x63A5;&#x53E3;&#xFF08;&#x83B7;&#x53D6;&#x5168;&#x90E8;&#xFF09;</strong></td>
+</tr>
+<tr>
+<td>search</td>
+<td>string</td>
+<td>&#x5426;</td>
+<td>&#x901A;&#x7528;&#x67E5;&#x8BE2;&#x5B50;&#x4E32;&#xFF0C;&#x4E0D;&#x540C;&#x7684;&#x5217;&#x8868;&#x63A5;&#x53E3;&#x6DB5;&#x76D6;&#x4E0D;&#x540C;&#x3002;</td>
+</tr>
+<tr>
+<td>sort</td>
+<td>string</td>
+<td>&#x5426;</td>
+<td>&#x6392;&#x5E8F;&#x5B57;&#x6BB5;&#xFF0C;&#x9A7C;&#x5CF0;&#x7C7B;&#x578B;&#x7684;&#x503C;&#xFF0C;&#x4F8B;&#x5982;&#x82E5;&#x6309;&#x521B;&#x5EFA;&#x65F6;&#x95F4;&#x6392;&#x5E8F;&#xFF0C;&#x8BF7;&#x4F20;&#x9012;<strong>createTime</strong>&#xFF0C;&#x540E;&#x671F;&#x7531;&#x540E;&#x7AEF;&#x63D0;&#x4F9B;&#x5177;&#x4F53;&#x7684;&#x6392;&#x5E8F;&#x5B57;&#x6BB5;</td>
+</tr>
+<tr>
+<td>order</td>
+<td>string</td>
+<td>&#x5426;</td>
+<td>&#x6392;&#x5E8F;&#x65B9;&#x5411;&#xFF0C;&#x652F;&#x6301;<strong>DESC</strong>&#xFF08;&#x964D;&#x5E8F;&#xFF09;&#x3001;<strong>ASC</strong>&#xFF08;&#x5347;&#x5E8F;&#xFF0C;&#x9ED8;&#x8BA4;&#x503C;&#xFF09;</td>
+</tr>
+</tbody>
+</table>
+<h2 class="mume-header" id="12-%E8%BF%94%E5%9B%9E%E5%8F%82%E6%95%B0">1.2&#x3001;&#x8FD4;&#x56DE;&#x53C2;&#x6570;</h2>
+
+<table>
+<thead>
+<tr>
+<th>&#x53C2;&#x6570;</th>
+<th>&#x7C7B;&#x578B;</th>
+<th>&#x7B80;&#x4ECB;</th>
+<th>&#x5907;&#x6CE8;</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>state</td>
+<td>[boolean]</td>
+<td>&#x63A5;&#x53E3;&#x8FD0;&#x884C;&#x72B6;&#x6001;</td>
+<td>true&#xFF1A;&#x63A5;&#x53E3;&#x6B63;&#x5E38;&#x8FD0;&#x884C;&#x6216;&#x7ED9;&#x4E88;&#x80AF;&#x5B9A;&#x7B54;&#x590D;&#xFF1B;false&#xFF1A;&#x63A5;&#x53E3;&#x8FD0;&#x884C;&#x51FA;&#x9519;&#x6216;&#x7ED9;&#x4E88;&#x5426;&#x5B9A;&#x7B54;&#x590D;&#x3002;</td>
+</tr>
+<tr>
+<td>data</td>
+<td>[object]</td>
+<td>&#x8FD4;&#x56DE;&#x6570;&#x636E;key</td>
+<td>&#x4F1A;&#x4F5C;&#x4E3A;&#x627F;&#x8F7D;&#x6570;&#x636E;&#x7684;key&#x5B57;&#x6BB5;&#x51FA;&#x73B0;</td>
+</tr>
+<tr>
+<td>message</td>
+<td>[string]</td>
+<td>&#x7B80;&#x5355;&#x4FE1;&#x606F;</td>
+<td>&#x53EF;&#x4F5C;&#x4E3A;&#x4E3A;&#x7528;&#x6237;&#x5C55;&#x793A;&#x7684;&#x63D0;&#x793A;&#x4FE1;&#x606F;&#x3002;</td>
+</tr>
+<tr>
+<td>detailMessage</td>
+<td>[string]</td>
+<td>&#x8BE6;&#x7EC6;&#x4FE1;&#x606F;</td>
+<td>&#x4E00;&#x822C;&#x60C5;&#x51B5;&#x4E0B;&#x4F1A;&#x643A;&#x5E26;&#x7CFB;&#x7EDF;&#x7EA7;&#x522B;&#x7684;&#x8FD0;&#x884C;&#x4FE1;&#x606F;&#xFF0C;&#x4E0D;&#x63A8;&#x8350;&#x5411;&#x7528;&#x6237;&#x5C55;&#x793A;&#x3002;</td>
+</tr>
+</tbody>
+</table>
+<h2 class="mume-header" id="13-data%E6%95%B0%E6%8D%AE%E5%85%AC%E5%85%B1%E5%8F%82%E6%95%B0">1.3&#x3001;Data&#x6570;&#x636E;&#x516C;&#x5171;&#x53C2;&#x6570;</h2>
+
+<table>
+<thead>
+<tr>
+<th>&#x53C2;&#x6570;</th>
+<th>&#x7C7B;&#x578B;</th>
+<th>&#x7B80;&#x4ECB;</th>
+<th>&#x5907;&#x6CE8;</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>id</td>
+<td>[number]</td>
+<td>&#x4E3B;&#x952E;ID</td>
+<td>&#x8BB0;&#x5F55;&#x7684;ID&#xFF0C;&#x4E0E;&#x63A5;&#x53E3;&#x4EA4;&#x4E92;&#x5E38;&#x7528;&#x5B57;&#x6BB5;</td>
+</tr>
+<tr>
+<td>createTime</td>
+<td>[string]</td>
+<td>&#x521B;&#x5EFA;&#x65F6;&#x95F4;</td>
+<td>&#x8BB0;&#x5F55;&#x7684;&#x521B;&#x5EFA;&#x65F6;&#x95F4;&#xFF0C;&#x5DF2;&#x683C;&#x5F0F;&#x5316;&#x4E3A;yyyy-MM-dd HH:ii:ss</td>
+</tr>
+<tr>
+<td>updateTime</td>
+<td>[string]</td>
+<td>&#x66F4;&#x65B0;&#x65F6;&#x95F4;</td>
+<td>&#x8BB0;&#x5F55;&#x7684;&#x66F4;&#x65B0;&#x65F6;&#x95F4;&#xFF0C;&#x5DF2;&#x683C;&#x5F0F;&#x5316;&#x4E3A;yyyy-MM-dd HH:ii:ss</td>
+</tr>
+<tr>
+<td>isDelete</td>
+<td>[number]</td>
+<td>&#x662F;&#x5426;&#x5220;&#x9664;</td>
+<td>&#x8BB0;&#x5F55;&#x662F;&#x5426;&#x5DF2;&#x7ECF;&#x88AB;&#x5220;&#x9664;&#xFF0C;0-&#x672A;&#x5220;&#x9664; 1-&#x5DF2;&#x5220;&#x9664;</td>
+</tr>
+<tr>
+<td>status</td>
+<td>[number]</td>
+<td>&#x542F;&#x7528;&#x72B6;&#x6001;</td>
+<td>&#x4EE3;&#x8868;&#x5F53;&#x524D;&#x5B9E;&#x4F53;&#x5BF9;&#x8C61;&#x5728;&#x7CFB;&#x7EDF;&#x4E2D;&#x7684;&#x542F;&#x7528;&#x72B6;&#x6001;&#xFF1A;STOP-&#x7981;&#x7528; START-&#x542F;&#x7528;</td>
+</tr>
+<tr>
+<td>remarks</td>
+<td>[string]</td>
+<td>&#x5907;&#x6CE8;&#x4FE1;&#x606F;</td>
+<td>&#x8BB0;&#x5F55;&#x7684;&#x5907;&#x6CE8;&#x4FE1;&#x606F;&#xFF0C;&#x4E0D;&#x63A8;&#x8350;&#x8BBE;&#x7F6E;&#x3002;</td>
+</tr>
+</tbody>
+</table>
+<h2 class="mume-header" id="14-%E8%BA%AB%E4%BB%BD%E8%AF%81%E5%9B%BE%E7%89%87%E7%AD%89%E6%96%87%E4%BB%B6%E5%AD%98%E5%82%A8file">1.4&#x3001;&#x8EAB;&#x4EFD;&#x8BC1;&#x56FE;&#x7247;&#x7B49;&#x6587;&#x4EF6;&#x5B58;&#x50A8;(file)</h2>
+
+<table>
+<thead>
+<tr>
+<th>&#x53C2;&#x6570;</th>
+<th>&#x7C7B;&#x578B;</th>
+<th>&#x7B80;&#x4ECB;</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>fileName</td>
+<td>[string]</td>
+<td>&#x6587;&#x4EF6;&#x540D;&#x79F0;&#x3002;</td>
+</tr>
+<tr>
+<td>uploadModule</td>
+<td>[enum]</td>
+<td>&#x6240;&#x5C5E;&#x6A21;&#x5757;&#xFF1A;STAFF_ID_NUMBER_PHOTO&#xFF08;&#x5458;&#x5DE5;&#x8EAB;&#x4EFD;&#x8BC1;&#x7167;&#x7247;&#xFF09;&#x3001;STAFF_ONE_INCH_PHOTO&#xFF08;&#x5458;&#x5DE5;&#x4E00;&#x5BF8;&#x76F8;&#xFF09;</td>
+</tr>
+<tr>
+<td>fileSize</td>
+<td>[number]</td>
+<td>&#x6587;&#x4EF6;&#x7684;&#x5927;&#x5C0F;&#xFF0C;&#x5355;&#x4F4D;B</td>
+</tr>
+<tr>
+<td>storePath</td>
+<td>[string]</td>
+<td>&#x6587;&#x4EF6;&#x7684;&#x5B58;&#x50A8;&#x8DEF;&#x5F84;&#xFF0C;&#x5982;&#x679C;&#x4E0A;&#x4F20;&#x5931;&#x8D25;&#xFF0C;&#x68C0;&#x6D4B;&#x9879;&#x76EE;&#x7684;&#x5B58;&#x50A8;&#x5730;&#x5740;&#x662F;&#x5426;&#x914D;&#x7F6E;&#x6B63;&#x786E;&#x3002;</td>
+</tr>
+</tbody>
+</table>
+<h1 class="mume-header" id="2-%E5%85%A8%E5%B1%80%E6%A8%A1%E5%9D%97%E5%8F%82%E6%95%B0all">2&#x3001;&#x5168;&#x5C40;&#x6A21;&#x5757;&#x53C2;&#x6570;&#xFF08;all&#xFF09;</h1>
+
+<h2 class="mume-header" id="21-%E7%94%A8%E6%88%B7user">2.1&#x3001;&#x7528;&#x6237;&#xFF08;user&#xFF09;</h2>
+
+<table>
+<thead>
+<tr>
+<th>&#x53C2;&#x6570;</th>
+<th>&#x7C7B;&#x578B;</th>
+<th>&#x7B80;&#x4ECB;</th>
+<th>&#x5907;&#x6CE8;</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>username</td>
+<td>[string]</td>
+<td>&#x771F;&#x5B9E;&#x540D;&#x79F0;&#x540D;&#x79F0;</td>
+<td></td>
+</tr>
+<tr>
+<td>password</td>
+<td>[string]</td>
+<td>&#x7528;&#x6237;&#x5BC6;&#x7801;</td>
+<td>&#x4E00;&#x822C;&#x4E0D;&#x4F1A;&#x4F5C;&#x4E3A;&#x4FE1;&#x606F;&#x5C55;&#x793A;&#xFF0C;&#x76EE;&#x524D;&#x4E00;&#x4E9B;&#x501F;&#x53E3;&#x6CA1;&#x6709;&#x9690;&#x85CF;&#xFF0C;&#x4E0D;&#x8FC7;&#x5DF2;&#x4F7F;&#x7528;md5&#x52A0;&#x5BC6;&#x3002;</td>
+</tr>
+<tr>
+<td>phone</td>
+<td>[string]</td>
+<td>&#x8054;&#x7CFB;&#x7535;&#x8BDD;</td>
+<td>&#x662F;&#x5426;&#x9700;&#x8981;&#x8003;&#x8651;&#x5168;&#x5C40;&#x552F;&#x4E00;&#x3002;</td>
+</tr>
+<tr>
+<td>loginName</td>
+<td>[string]</td>
+<td>&#x767B;&#x9646;&#x540D;&#x79F0;</td>
+<td></td>
+</tr>
+<tr>
+<td>department</td>
+<td>[object]</td>
+<td>&#x90E8;&#x95E8;&#x4FE1;&#x606F;</td>
+<td>&#x7528;&#x6237;&#x6240;&#x5C5E;&#x90E8;&#x95E8;&#x4FE1;&#x606F;&#xFF0C;&#x7A7A;&#x503C;&#x4EE3;&#x8868;&#x4E0D;&#x5C5E;&#x4E8E;&#x4EFB;&#x4F55;&#x90E8;&#x95E8;&#x3002;</td>
+</tr>
+<tr>
+<td>permissions</td>
+<td>[string]</td>
+<td>&#x7528;&#x6237;&#x6743;&#x9650;</td>
+<td>&#x7531;&#x8D44;&#x6E90;ID&#x901A;&#x8FC7;<code>-</code>&#x8FDE;&#x63A5;&#x7684;&#x5B57;&#x7B26;&#x4E32;</td>
+</tr>
+<tr>
+<td>userType</td>
+<td>[string]</td>
+<td></td>
+<td>&#x7528;&#x6237;&#x7C7B;&#x578B;&#xFF0C;&#x53EF;&#x9009;&#x503C;&#x4E3A;&#xFF1A;CM_COMMON&#xFF08;&#x7164;&#x77FF;&#x5E73;&#x53F0;&#x666E;&#x901A;&#x7528;&#x6237;&#xFF09;, CM_ADMIN&#xFF08;&#x7164;&#x77FF;&#x5E73;&#x53F0;&#x7BA1;&#x7406;&#x5458;&#xFF09;, CP_COMMON&#xFF08;&#x96C6;&#x56E2;&#x666E;&#x901A;&#x7528;&#x6237;&#xFF09;, CP_ADMIN&#xFF08;&#x96C6;&#x56E2;&#x7BA1;&#x7406;&#x5458;&#xFF09;</td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li>&#x6CE8;&#x610F;&#x533A;&#x5206;&#x7528;&#x6237;&#x548C;&#x5458;&#x5DE5;&#x7684;&#x533A;&#x522B;&#x3002;</li>
+</ul>
+<h2 class="mume-header" id="22-%E8%B5%84%E6%BA%90resources">2.2&#x3001;&#x8D44;&#x6E90;&#xFF08;resources&#xFF09;</h2>
+
+<table>
+<thead>
+<tr>
+<th>&#x53C2;&#x6570;</th>
+<th>&#x7C7B;&#x578B;</th>
+<th>&#x7B80;&#x4ECB;</th>
+<th>&#x5907;&#x6CE8;</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>resourceName</td>
+<td>[string]</td>
+<td>&#x540D;&#x79F0;</td>
+<td>&#x8D44;&#x6E90;&#x7684;&#x540D;&#x79F0;</td>
+</tr>
+<tr>
+<td>resourceType</td>
+<td>[number]</td>
+<td>&#x8D44;&#x6E90;&#x7C7B;&#x578B;</td>
+<td>0-&#x83DC;&#x5355; 1-&#x6309;&#x94AE;</td>
+</tr>
+<tr>
+<td>resourceUrl</td>
+<td>[string]</td>
+<td>&#x8D44;&#x6E90;&#x8DEF;&#x5F84;</td>
+<td>&#x4F8B;&#x5982;&#x65B0;&#x5EFA;&#x7528;&#x6237;&#x7684;&#x83DC;&#x5355;&#x8D44;&#x6E90;: user/add</td>
+</tr>
+<tr>
+<td>parentId</td>
+<td>[number]</td>
+<td>&#x7236;&#x8D44;&#x6E90;ID</td>
+<td>&#x4F8B;&#x5982;&#x65B0;&#x5EFA;&#x7528;&#x6237;&#x7684;&#x83DC;&#x5355;&#x8D44;&#x6E90;: 0&#xFF0C;&#x5373;&#x5C5E;&#x4E8E;&#x9876;&#x5C42;&#x8D44;&#x6E90;</td>
+</tr>
+<tr>
+<td>path</td>
+<td>[string]</td>
+<td>&#x8DEF;&#x5F84;&#x8868;</td>
+<td>&#x4E3A;&#x4E86;&#x65B9;&#x4FBF;&#x4E00;&#x6B21;&#x6027;&#x5220;&#x9664;&#xFF0C;&#x7528;id&#x94FE;&#x63A5;&#x7684;&#x8DEF;&#x5F84;&#x4FE1;&#x606F;</td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li>&#x8D44;&#x6E90;&#x5373;&#x7CFB;&#x7EDF;&#x6743;&#x9650;&#x5173;&#x8054;&#x9879;&#x3002;</li>
+</ul>
+<h2 class="mume-header" id="23-%E7%85%A4%E7%9F%BF%E5%B9%B3%E5%8F%B0cm_platform">2.3&#x3001;&#x7164;&#x77FF;&#x5E73;&#x53F0;&#xFF08;cm_platform&#xFF09;</h2>
+
+<table>
+<thead>
+<tr>
+<th>&#x53C2;&#x6570;</th>
+<th>&#x7C7B;&#x578B;</th>
+<th>&#x7B80;&#x4ECB;</th>
+<th>&#x5907;&#x6CE8;</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>cmName</td>
+<td>[string]</td>
+<td>&#x540D;&#x79F0;</td>
+<td>&#x7164;&#x77FF;&#x5E73;&#x53F0;&#x7684;&#x540D;&#x79F0;</td>
+</tr>
+<tr>
+<td>user</td>
+<td>[object]</td>
+<td>&#x5BF9;&#x5E94;&#x7528;&#x6237;&#x4FE1;&#x606F;</td>
+<td>&#x53C2;&#x8003;&#x7528;&#x6237;&#x6A21;&#x5757;&#x4FE1;&#x606F;</td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p>cm&#x5373; coal mine&#xFF0C;&#x7164;&#x77FF;&#x7684;&#x7B80;&#x79F0;&#x3002;&#x7164;&#x77FF;&#x5E73;&#x53F0;&#x7684;&#x90E8;&#x5206;&#x6570;&#x636E;&#x662F;&#x4ECE;user&#x5904;&#x83B7;&#x53D6;&#x663E;&#x793A;&#x7684;&#xFF0C;&#x56E0;&#x6B64;&#xFF0C;&#x7C7B;&#x4F3C;&#x4E8E;&#x8D26;&#x6237;&#x540D;&#x79F0;&#x4E4B;&#x7C7B;&#x4FE1;&#x606F;&#xFF0C;&#x5176;&#x5B9E;&#x662F;&#x4ECE;&#x7528;&#x6237;&#x8868;&#x5904;&#x5C55;&#x793A;&#x800C;&#x6765;&#xFF0C;&#x53EF;&#x53C2;&#x9605;&#x7528;&#x6237;&#x6A21;&#x5757;&#x83B7;&#x53D6;&#x8BE6;&#x7EC6;&#x7684;&#x4FE1;&#x606F;&#x3002;</p>
+</blockquote>
+<h2 class="mume-header" id="24-%E9%83%A8%E9%97%A8department">2.4&#x3001;&#x90E8;&#x95E8;&#xFF08;department&#xFF09;</h2>
+
+<table>
+<thead>
+<tr>
+<th>&#x53C2;&#x6570;</th>
+<th>&#x7C7B;&#x578B;</th>
+<th>&#x7B80;&#x4ECB;</th>
+<th>&#x5907;&#x6CE8;</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>parentId</td>
+<td>[number]</td>
+<td>&#x7236;&#x90E8;&#x95E8;ID</td>
+<td>&#x82E5;&#x4E3A;0&#xFF0C;&#x4EE3;&#x8868;&#x9876;&#x5C42;&#x90E8;&#x95E8;&#xFF0C;&#x540C;&#x65F6;&#x4E5F;&#x662F;&#x516C;&#x53F8;&#x7684;&#x540D;&#x79F0;&#x3002;</td>
+</tr>
+<tr>
+<td>departmentName</td>
+<td>[string]</td>
+<td>&#x540D;&#x79F0;</td>
+<td>&#x90E8;&#x95E8;&#x7684;&#x540D;&#x79F0;</td>
+</tr>
+<tr>
+<td>departmentType</td>
+<td>[string]</td>
+<td>&#x7C7B;&#x578B;</td>
+<td>&#x53EF;&#x9009;&#x503C;&#xFF1A;CM_PLATFORM&#xFF08;&#x7164;&#x77FF;&#x5E73;&#x53F0;&#x7C7B;&#x578B;&#xFF09;, CP_GROUP&#xFF08;&#x96C6;&#x56E2;&#x516C;&#x53F8;&#x7C7B;&#x578B;&#xFF09;</td>
+</tr>
+<tr>
+<td>responseUser</td>
+<td>[string]</td>
+<td>&#x8D1F;&#x8D23;&#x4EBA;&#x59D3;&#x540D;</td>
+<td></td>
+</tr>
+<tr>
+<td>phone</td>
+<td>[string]</td>
+<td>&#x7535;&#x8BDD;</td>
+<td>&#x90E8;&#x95E8;&#x7684;&#x8054;&#x7CFB;&#x7535;&#x8BDD;</td>
+</tr>
+<tr>
+<td>code</td>
+<td>[string]</td>
+<td></td>
+<td>&#x90E8;&#x95E8;&#x7F16;&#x7801;</td>
+</tr>
+<tr>
+<td>path</td>
+<td>[string]</td>
+<td>&#x8DEF;&#x5F84;&#x8868;</td>
+<td>&#x4E3A;&#x4E86;&#x65B9;&#x4FBF;&#x4E00;&#x6B21;&#x6027;&#x5220;&#x9664;&#xFF0C;&#x7528;id&#x94FE;&#x63A5;&#x7684;&#x8DEF;&#x5F84;&#x4FE1;&#x606F;</td>
+</tr>
+</tbody>
+</table>
+<h2 class="mume-header" id="25-%E8%81%8C%E4%BD%8Dposition">2.5&#x3001;&#x804C;&#x4F4D;&#xFF08;position&#xFF09;</h2>
+
+<table>
+<thead>
+<tr>
+<th>&#x53C2;&#x6570;</th>
+<th>&#x7C7B;&#x578B;</th>
+<th>&#x7B80;&#x4ECB;</th>
+<th>&#x5907;&#x6CE8;</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>describes</td>
+<td>[string]</td>
+<td>&#x804C;&#x4F4D;&#x63CF;&#x8FF0;</td>
+<td></td>
+</tr>
+<tr>
+<td>positionName</td>
+<td>[string]</td>
+<td>&#x804C;&#x4F4D;&#x540D;&#x79F0;</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h2 class="mume-header" id="3-%E4%BA%BA%E4%BA%8B%E7%AE%A1%E7%90%86%E6%A8%A1%E5%9D%97personal">3&#x3001;&#x4EBA;&#x4E8B;&#x7BA1;&#x7406;&#x6A21;&#x5757;(personal)</h2>
+
+<h2 class="mume-header" id="31-%E5%91%98%E5%B7%A5%E4%B8%AA%E4%BA%BA%E4%BF%A1%E6%81%AFstaff_personal%E4%B8%8E%E5%85%B7%E4%BD%93%E8%81%8C%E4%BD%8D%E6%97%A0%E5%85%B3">3.1&#x3001;&#x5458;&#x5DE5;&#x4E2A;&#x4EBA;&#x4FE1;&#x606F;&#xFF08;staff_personal&#xFF0C;&#x4E0E;&#x5177;&#x4F53;&#x804C;&#x4F4D;&#x65E0;&#x5173;&#xFF09;</h2>
+
+<table>
+<thead>
+<tr>
+<th>&#x53C2;&#x6570;</th>
+<th>&#x7C7B;&#x578B;</th>
+<th>&#x7B80;&#x4ECB;</th>
+<th>&#x5907;&#x6CE8;</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>username</td>
+<td>[string]</td>
+<td>&#x59D3;&#x540D;</td>
+<td>&#x4E2A;&#x4EBA;&#x4FE1;&#x606F;&#x8868;&#x59D3;&#x540D;</td>
+</tr>
+<tr>
+<td>idNumber</td>
+<td>[string]</td>
+<td>&#x8EAB;&#x4EFD;&#x8BC1;&#x53F7;</td>
+<td>&#x8EAB;&#x4EFD;&#x8BC1;&#x53F7;</td>
+</tr>
+<tr>
+<td>birthDate</td>
+<td>[string]</td>
+<td>&#x51FA;&#x751F;&#x65E5;&#x671F;</td>
+<td>&#x51FA;&#x751F;&#x65E5;&#x671F;&#xFF0C;&#x6807;&#x51C6;&#x65E5;&#x671F;&#x683C;&#x5F0F;</td>
+</tr>
+<tr>
+<td>sex</td>
+<td>[enum]</td>
+<td>&#x662F;</td>
+<td>&#x6027;&#x522B;&#xFF1A;MAN&#xFF08;&#x7537;&#xFF09;, WOM&#xFF08;&#x5973;&#xFF09;</td>
+</tr>
+<tr>
+<td>phone</td>
+<td>[string]</td>
+<td>&#x662F;</td>
+<td>&#x7535;&#x8BDD;&#x53F7;&#x7801;&#xFF0C;&#x7528;&#x6237;&#x7CFB;&#x7EDF;&#x552F;&#x4E00;</td>
+</tr>
+<tr>
+<td>nationality</td>
+<td>[string]</td>
+<td>&#x6027;&#x522B;</td>
+<td>&#x6C11;&#x65CF;&#x4FE1;&#x606F;&#xFF1A;56&#x4E2A;&#x6C11;&#x65CF;&#xFF0C;56&#x679D;&#x82B1;&#xFF0C;&#x540E;&#x671F;&#x540E;&#x53F0;&#x53EF;&#x63D0;&#x4F9B;&#x6570;&#x636E;&#x8D44;&#x6E90;&#xFF0C;&#x73B0;&#x5728;&#x5148;&#x624B;&#x52A8;&#x8F93;&#x5165;</td>
+</tr>
+<tr>
+<td>profession</td>
+<td>[string]</td>
+<td>&#x4E13;&#x4E1A;&#x7C7B;&#x578B;</td>
+<td>&#x4E13;&#x4E1A;</td>
+</tr>
+<tr>
+<td>accountCharacter</td>
+<td>[number]</td>
+<td>&#x6237;&#x7C4D;&#x7C7B;&#x578B;</td>
+<td>&#x6237;&#x7C4D;&#x7C7B;&#x578B;&#xFF1A;CITY_CHARACTER&#xFF08;&#x57CE;&#x5E02;&#x6237;&#x53E3;&#xFF09;, COUNTRYSIDE_CHARACTER&#xFF08;&#x519C;&#x6751;&#x6237;&#x53E3;&#xFF09;</td>
+</tr>
+<tr>
+<td>education</td>
+<td>[string]</td>
+<td>&#x6587;&#x5316;&#x7A0B;&#x5EA6;</td>
+<td>&#x6587;&#x5316;&#x7A0B;&#x5EA6;&#xFF1A;DOCTOR(&quot;&#x535A;&#x58EB;&quot;),MASTER(&quot;&#x7855;&#x58EB;&quot;),BACHELOR(&quot;&#x672C;&#x79D1;&quot;),COLLEGE(&quot;&#x5927;&#x4E13;&quot;),SECONDARY(&quot;&#x4E2D;&#x4E13;&quot;),POLYTECHNIC(&quot;&#x4E2D;&#x6280;&quot;),SENIOR_MIDDLE_SCHOOL(&quot;&#x9AD8;&#x4E2D;&quot;),JUNIOR_MIDDLE_SCHOOL(&quot;&#x521D;&#x4E2D;&quot;),PRIMARY_SCHOOL(&quot;&#x5C0F;&#x5B66;&quot;),LLITERACY(&quot;&#x6587;&#x76F2;&quot;);</td>
+</tr>
+<tr>
+<td>insured</td>
+<td>[enum]</td>
+<td>&#x53C2;&#x4FDD;&#x72B6;&#x6001;</td>
+<td>&#x53C2;&#x4FDD;&#x72B6;&#x6001;&#xFF1A;YES(&quot;&#x662F;&quot;), NO(&quot;&#x5426;&quot;),STOP(&quot;&#x5DF2;&#x505C;&#x6B62;&quot;);</td>
+</tr>
+<tr>
+<td>insuredTime</td>
+<td>[date]</td>
+<td></td>
+<td>&#x53C2;&#x4FDD;&#x65F6;&#x95F4;</td>
+</tr>
+<tr>
+<td>graduationCollege</td>
+<td>[string]</td>
+<td></td>
+<td>&#x6BD5;&#x4E1A;&#x9662;&#x6821;</td>
+</tr>
+<tr>
+<td>graduationTime</td>
+<td>[date]</td>
+<td></td>
+<td>&#x6BD5;&#x4E1A;&#x65F6;&#x95F4;</td>
+</tr>
+<tr>
+<td>graduationTime</td>
+<td>[date]</td>
+<td></td>
+<td>&#x6BD5;&#x4E1A;&#x65F6;&#x95F4;</td>
+</tr>
+<tr>
+<td>nativePlace</td>
+<td>[string]</td>
+<td></td>
+<td>&#x6237;&#x7C4D;&#x5730;&#x5740;</td>
+</tr>
+<tr>
+<td>homeAddress</td>
+<td>[string]</td>
+<td></td>
+<td>&#x5BB6;&#x5EAD;&#x4F4F;&#x5740;</td>
+</tr>
+<tr>
+<td>idNumberPhoto</td>
+<td>[object]</td>
+<td></td>
+<td>&#x8EAB;&#x4EFD;&#x8BC1;&#x7167;&#x7247;&#x6587;&#x4EF6;&#x4FE1;&#x606F;</td>
+</tr>
+<tr>
+<td>oneInchPhoto</td>
+<td>[object]</td>
+<td></td>
+<td>&#x4E00;&#x5BF8;&#x76F8;&#x6587;&#x4EF6;&#x4FE1;&#x606F;</td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li>&#x5458;&#x5DE5;&#x4FE1;&#x606F;&#x7684;&#x552F;&#x4E00;&#x6027;&#x7EA6;&#x675F;&#x5B57;&#x6BB5;&#x4E3A;&#x8EAB;&#x4EFD;&#x8BC1;&#xFF0C;&#x56E0;&#x6B64;&#xFF0C;&#x60F3;&#x8981;&#x67E5;&#x627E;&#x5458;&#x5DE5;&#x4FE1;&#x606F;&#xFF0C;&#x53EF;&#x8C03;&#x7528;&#x901A;&#x8FC7;&#x8EAB;&#x4EFD;&#x83B7;&#x53D6;&#x4FE1;&#x606F;&#x7684;&#x63A5;&#x53E3;&#x83B7;&#x53D6;&#xFF0C;&#x6CE8;&#x610F;&#x533A;&#x5206;&#x5458;&#x5DE5;&#x4E0E;&#x5165;&#x804C;&#x4FE1;&#x606F;&#x7684;&#x6982;&#x5FF5;&#x3002;</li>
+<li>&#x5458;&#x5DE5;&#x62E5;&#x6709;&#x81EA;&#x5DF1;&#x7684;&#x57FA;&#x672C;&#x4FE1;&#x606F;&#xFF0C;&#x60A8;&#x6240;&#x770B;&#x5230;&#x7684;&#x5458;&#x5DE5;&#x5165;&#x804C;&#x6A21;&#x5757;&#x5176;&#x5B9E;&#x662F;&#x5176;&#x57FA;&#x672C;&#x4FE1;&#x606F;&#x4E0E;&#x5165;&#x804C;&#x4FE1;&#x606F;&#x7684;&#x6DF7;&#x5408;&#x4F53;&#x3002;&#x4E0B;&#x9762;&#x6211;&#x4EEC;&#x5C31;&#x6765;&#x770B;&#x5165;&#x804C;&#x4FE1;&#x606F;&#x3002;&#x4EE5;&#x4E0A;&#x5B57;&#x6BB5;&#x901A;&#x5E38;&#x53EF;&#x4EE5;&#x7528;&#x4E8E;&#x5458;&#x5DE5;&#x5165;&#x804C;&#x65F6;&#xFF0C;&#x901A;&#x8FC7;&#x8EAB;&#x4EFD;&#x8BC1;&#x76F4;&#x63A5;&#x5B9A;&#x4F4D;&#x5230;&#x8BE5;&#x5458;&#x5DE5;&#x7684;&#x4FE1;&#x606F;&#xFF08;&#x5982;&#x679C;&#x5B58;&#x5728;&#x7684;&#x8BDD;&#xFF09;&#xFF0C;&#x4ECE;&#x800C;&#x53EA;&#x9700;&#x586B;&#x5199;&#x5C11;&#x91CF;&#x4FE1;&#x606F;&#xFF0C;&#x51CF;&#x5C11;&#x8F93;&#x5165;&#x6210;&#x672C;&#xFF0C;&#x63D0;&#x5347;&#x6613;&#x7528;&#x6027;&#x3002;</li>
+</ul>
+<h2 class="mume-header" id="32-%E5%91%98%E5%B7%A5%E5%85%A5%E8%81%8C%E4%BF%A1%E6%81%AFstaff_entry">3.2&#x3001;&#x5458;&#x5DE5;&#x5165;&#x804C;&#x4FE1;&#x606F;&#xFF08;staff_entry&#xFF09;</h2>
+
+<table>
+<thead>
+<tr>
+<th>&#x53C2;&#x6570;</th>
+<th>&#x7C7B;&#x578B;</th>
+<th>&#x7B80;&#x4ECB;</th>
+<th>&#x5907;&#x6CE8;</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>staffPersonal</td>
+<td>[object]</td>
+<td>&#x4E2A;&#x4EBA;&#x4FE1;&#x606F;</td>
+<td>&#x5173;&#x8054;&#x4E8E;&#x5458;&#x5DE5;&#x7684;&#x4E2A;&#x4EBA;&#x4FE1;&#x606F;&#xFF0C;&#x53C2;&#x8003;&#x5458;&#x5DE5;&#x4E2A;&#x4EBA;&#x4FE1;&#x606F;&#x6A21;&#x5757;</td>
+</tr>
+<tr>
+<td>company</td>
+<td>[object]</td>
+<td>&#x516C;&#x53F8;&#x4FE1;&#x606F;</td>
+<td>&#x5165;&#x804C;&#x7164;&#x77FF;&#x5E73;&#x53F0;&#x6216;&#x8005;&#x516C;&#x53F8;&#x4FE1;&#x606F;&#xFF0C;&#x5176;&#x5B9E;&#x4E5F;&#x662F;&#x4E00;&#x4E2A;&#x90E8;&#x95E8;&#xFF08;&#x9876;&#x7EA7;&#xFF09;</td>
+</tr>
+<tr>
+<td>department</td>
+<td>[object]</td>
+<td>&#x90E8;&#x95E8;&#x4FE1;&#x606F;</td>
+<td>&#x5165;&#x804C;&#x90E8;&#x95E8;&#x4FE1;&#x606F;</td>
+</tr>
+<tr>
+<td>position</td>
+<td>[object]</td>
+<td>&#x804C;&#x4F4D;</td>
+<td>&#x804C;&#x4F4D;&#x4FE1;&#x606F;</td>
+</tr>
+<tr>
+<td>remuneration</td>
+<td>[string]</td>
+<td>&#x85AA;&#x916C;&#x5F85;&#x9047;</td>
+<td>&#x85AA;&#x916C;(&#x5143;/&#x6708;)</td>
+</tr>
+<tr>
+<td>remunerationL</td>
+<td>[string]</td>
+<td>&#x85AA;&#x916C;&#x5F85;&#x9047;</td>
+<td>&#x85AA;&#x916C;(&#x5143;/&#x91CF;)</td>
+</tr>
+<tr>
+<td>bankNumber</td>
+<td>[string]</td>
+<td>&#x94F6;&#x884C;&#x5361;&#x53F7;</td>
+<td></td>
+</tr>
+<tr>
+<td>openBank</td>
+<td>[string]</td>
+<td>&#x5F00;&#x6237;&#x884C;</td>
+<td></td>
+</tr>
+<tr>
+<td>entryTime</td>
+<td>[number]</td>
+<td>&#x5165;&#x804C;&#x65F6;&#x95F4;</td>
+<td>&#x5165;&#x804C;&#x65F6;&#x95F4;&#xFF0C;&#x5DF2;&#x683C;&#x5F0F;&#x5316;&#x4E3A;yyyy-MM-dd</td>
+</tr>
+<tr>
+<td>physicalExaminationHospital</td>
+<td>[string]</td>
+<td></td>
+<td>&#x4F53;&#x68C0;&#x533B;&#x9662;&#xFF0C;&#x5DF2;&#x683C;&#x5F0F;&#x5316;&#x4E3A;yyyy-MM-dd</td>
+</tr>
+<tr>
+<td>physicalExaminationTime</td>
+<td>[date]</td>
+<td></td>
+<td>&#x4F53;&#x68C0;&#x65F6;&#x95F4;&#xFF0C;&#x5DF2;&#x683C;&#x5F0F;&#x5316;&#x4E3A;yyyy-MM-dd</td>
+</tr>
+<tr>
+<td>reviewUser</td>
+<td>[object]</td>
+<td>&#x5BA1;&#x6838;&#x4EBA;</td>
+<td>&#x6267;&#x884C;&#x5BA1;&#x6838;&#x7528;&#x6237;&#x7684;&#x4FE1;&#x606F;&#xFF0C;&#x521A;&#x5F00;&#x59CB;&#x6DFB;&#x52A0;&#x5165;&#x804C;&#x4FE1;&#x606F;&#x65F6;&#xFF0C;&#x6B64;&#x503C;&#x4E3A;&#x7A7A;&#x3002;</td>
+</tr>
+<tr>
+<td>reviewStatus</td>
+<td>[string]</td>
+<td>&#x5BA1;&#x6838;&#x72B6;&#x6001;</td>
+<td>&#x5BA1;&#x6838;&#x72B6;&#x6001;&#xFF1A;WAIT(&quot;&#x5F85;&#x5BA1;&#x6838;&quot;),PASS(&quot;&#x901A;&#x8FC7;&quot;),NOT_PASS(&quot;&#x672A;&#x901A;&#x8FC7;&quot;);</td>
+</tr>
+<tr>
+<td>reviewTime</td>
+<td>[date]</td>
+<td>&#x5BA1;&#x6838;&#x65F6;&#x95F4;</td>
+<td>&#x5BA1;&#x6838;&#x4EBA;&#x5BA1;&#x6838;&#x7684;&#x65F6;&#x95F4;&#xFF0C;&#x5DF2;&#x683C;&#x5F0F;&#x5316;&#x4E3A;yyyy-MM-dd</td>
+</tr>
+<tr>
+<td>reviewRemark</td>
+<td>[string]</td>
+<td>&#x5907;&#x6CE8;&#x4FE1;&#x606F;</td>
+<td>&#x5907;&#x6CE8;&#x4FE1;&#x606F;&#xFF0C;&#x4E00;&#x822C;&#x5BA1;&#x6838;&#x4E0D;&#x901A;&#x8FC7;&#x7684;&#x539F;&#x56E0;&#x53EF;&#x4EE5;&#x4ECE;&#x6B64;&#x5B57;&#x6BB5;&#x4E2D;&#x83B7;&#x53D6;&#x5F97;&#x5230;&#x3002;</td>
+</tr>
+</tbody>
+</table>
+<h2 class="mume-header" id="33-%E5%91%98%E5%B7%A5%E7%A6%BB%E8%81%8C%E4%BF%A1%E6%81%AFstaff_desert">3.3&#x3001;&#x5458;&#x5DE5;&#x79BB;&#x804C;&#x4FE1;&#x606F;&#xFF08;staff_desert&#xFF09;</h2>
+
+<table>
+<thead>
+<tr>
+<th>&#x53C2;&#x6570;</th>
+<th>&#x7C7B;&#x578B;</th>
+<th>&#x7B80;&#x4ECB;</th>
+<th>&#x5907;&#x6CE8;</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>leaveTime</td>
+<td>[date]</td>
+<td>&#x79BB;&#x804C;&#x65F6;&#x95F4;</td>
+<td>&#x79BB;&#x804C;&#x7684;&#x65F6;&#x95F4;&#xFF0C;&#x5DF2;&#x683C;&#x5F0F;&#x5316;&#x4E3A;yyyy-MM-dd</td>
+</tr>
+<tr>
+<td>company</td>
+<td>[object]</td>
+<td>&#x516C;&#x53F8;&#x4FE1;&#x606F;</td>
+<td>&#x79BB;&#x804C;&#x7684;&#x7164;&#x77FF;&#x5E73;&#x53F0;&#x6216;&#x8005;&#x516C;&#x53F8;&#x4FE1;&#x606F;&#xFF0C;&#x5176;&#x5B9E;&#x4E5F;&#x662F;&#x4E00;&#x4E2A;&#x90E8;&#x95E8;&#xFF08;&#x9876;&#x7EA7;&#xFF09;</td>
+</tr>
+<tr>
+<td>department</td>
+<td>[object]</td>
+<td>&#x90E8;&#x95E8;&#x4FE1;&#x606F;</td>
+<td>&#x79BB;&#x804C;&#x7684;&#x90E8;&#x95E8;&#x4FE1;&#x606F;</td>
+</tr>
+<tr>
+<td>leaveType</td>
+<td>[enum]</td>
+<td>&#x79BB;&#x804C;&#x7C7B;&#x578B;</td>
+<td>NORMAL(&quot;&#x6B63;&#x5E38;&#x79BB;&#x804C;&quot;),UN_AUTHORIZED(&quot;&#x64C5;&#x81EA;&#x79BB;&#x804C;&quot;),ILLNESS(&quot;&#x56E0;&#x75C5;&#x79BB;&#x804C;&quot;)</td>
+</tr>
+<tr>
+<td>staffPersonal</td>
+<td>[object]</td>
+<td>&#x4E2A;&#x4EBA;&#x4FE1;&#x606F;</td>
+<td>&#x5173;&#x8054;&#x4E8E;&#x5458;&#x5DE5;&#x7684;&#x4E2A;&#x4EBA;&#x4FE1;&#x606F;&#xFF0C;&#x53C2;&#x8003;&#x5458;&#x5DE5;&#x4E2A;&#x4EBA;&#x4FE1;&#x606F;&#x6A21;&#x5757;</td>
+</tr>
+</tbody>
+</table>
+<h2 class="mume-header" id="34-%E5%91%98%E5%B7%A5%E5%B7%A5%E4%BC%A4%E4%BF%A1%E6%81%AFstaff_injury">3.4&#x3001;&#x5458;&#x5DE5;&#x5DE5;&#x4F24;&#x4FE1;&#x606F;&#xFF08;staff_injury&#xFF09;</h2>
+
+<table>
+<thead>
+<tr>
+<th>&#x53C2;&#x6570;</th>
+<th>&#x7C7B;&#x578B;</th>
+<th>&#x5907;&#x6CE8;</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>injuryReasons</td>
+<td>[string]</td>
+<td>&#x5DE5;&#x4F24;&#x539F;&#x56E0;</td>
+</tr>
+<tr>
+<td>injuryTime</td>
+<td>[date]</td>
+<td>&#x5DE5;&#x4F24;&#x65F6;&#x95F4;&#xFF0C;&#x5DF2;&#x683C;&#x5F0F;&#x5316;&#x4E3A;yyyy-MM-dd</td>
+</tr>
+<tr>
+<td>injuryDescribes</td>
+<td>[string]</td>
+<td>&#x5DE5;&#x4F24;&#x63CF;&#x8FF0;</td>
+</tr>
+<tr>
+<td>hospital</td>
+<td>[string]</td>
+<td>&#x4E3B;&#x6CBB;&#x533B;&#x9662;</td>
+</tr>
+<tr>
+<td>treatTime</td>
+<td>[date]</td>
+<td>&#x533B;&#x6CBB;&#x65F6;&#x95F4;&#xFF0C;&#x5DF2;&#x683C;&#x5F0F;&#x5316;&#x4E3A;yyyy-MM-dd</td>
+</tr>
+<tr>
+<td>staffPersonal</td>
+<td>[object]</td>
+<td>&#x4E2A;&#x4EBA;&#x4FE1;&#x606F;&#xFF1A;&#x5173;&#x8054;&#x4E8E;&#x5458;&#x5DE5;&#x7684;&#x4E2A;&#x4EBA;&#x4FE1;&#x606F;&#xFF0C;&#x53C2;&#x8003;&#x5458;&#x5DE5;&#x4E2A;&#x4EBA;&#x4FE1;&#x606F;&#x6A21;&#x5757;</td>
+</tr>
+</tbody>
+</table>
+<h2 class="mume-header" id="35-%E5%91%98%E5%B7%A5%E9%BB%91%E5%90%8D%E5%8D%95%E4%BF%A1%E6%81%AFstaff_blacklist">3.5&#x3001;&#x5458;&#x5DE5;&#x9ED1;&#x540D;&#x5355;&#x4FE1;&#x606F;&#xFF08;staff_blacklist&#xFF09;</h2>
+
+<table>
+<thead>
+<tr>
+<th>&#x53C2;&#x6570;</th>
+<th>&#x7C7B;&#x578B;</th>
+<th>&#x5907;&#x6CE8;</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>blacklistReasons</td>
+<td>[string]</td>
+<td>&#x52A0;&#x5165;&#x9ED1;&#x540D;&#x5355;&#x7684;&#x539F;&#x56E0;</td>
+</tr>
+<tr>
+<td>overTime</td>
+<td>[date]</td>
+<td>&#x89E3;&#x7981;&#x65F6;&#x95F4;&#xFF0C;&#x4E0D;&#x586B;&#x5199;&#x5219;&#x4EE5;&#x9879;&#x76EE;&#x914D;&#x7F6E;&#x7684;&#x4E3A;&#x51C6;&#xFF0C;&#x4E00;&#x822C;&#x4E3A;&#x534A;&#x5E74;&#xFF08;6&#x4E2A;&#x6708;&#xFF09;</td>
+</tr>
+<tr>
+<td>staffPersonal</td>
+<td>[object]</td>
+<td>&#x4E2A;&#x4EBA;&#x4FE1;&#x606F;&#xFF1A;&#x5173;&#x8054;&#x4E8E;&#x5458;&#x5DE5;&#x7684;&#x4E2A;&#x4EBA;&#x4FE1;&#x606F;&#xFF0C;&#x53C2;&#x8003;&#x5458;&#x5DE5;&#x4E2A;&#x4EBA;&#x4FE1;&#x606F;&#x6A21;&#x5757;</td>
+</tr>
+</tbody>
+</table>
+<h2 class="mume-header" id="36-%E5%91%98%E5%B7%A5%E8%81%8C%E4%BD%8D%E8%B0%83%E5%8A%A8%E4%BF%A1%E6%81%AFstaff_shift">3.6&#x3001;&#x5458;&#x5DE5;&#x804C;&#x4F4D;&#x8C03;&#x52A8;&#x4FE1;&#x606F;&#xFF08;staff_shift&#xFF09;</h2>
+
+<table>
+<thead>
+<tr>
+<th>&#x53C2;&#x6570;</th>
+<th>&#x7C7B;&#x578B;</th>
+<th>&#x5907;&#x6CE8;</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>targetCompany</td>
+<td>[object]</td>
+<td>&#x8C03;&#x5165;&#x7684;&#x516C;&#x53F8;&#xFF08;&#x7164;&#x77FF;&#x5E73;&#x53F0;&#xFF09;&#x4FE1;&#x606F;&#xFF0C;&#x53C2;&#x8003;&#x90E8;&#x95E8;&#x6A21;&#x5757;</td>
+</tr>
+<tr>
+<td>targetDepartment</td>
+<td>[object]</td>
+<td>&#x8C03;&#x5165;&#x7684;&#x90E8;&#x95E8;&#x4FE1;&#x606F;&#xFF0C;&#x53C2;&#x8003;&#x90E8;&#x95E8;&#x6A21;&#x5757;</td>
+</tr>
+<tr>
+<td>targetPosition</td>
+<td>[object]</td>
+<td>&#x8C03;&#x5165;&#x7684;&#x804C;&#x4F4D;&#x4FE1;&#x606F;&#xFF0C;&#x53C2;&#x8003;&#x804C;&#x4F4D;&#x6A21;&#x5757;</td>
+</tr>
+<tr>
+<td>shiftTime</td>
+<td>[date]</td>
+<td>&#x8C03;&#x52A8;&#x65F6;&#x95F4;&#xFF0C;&#x4E0D;&#x586B;&#x5199;&#x5219;&#x4EE5;&#x7CFB;&#x7EDF;&#x5F53;&#x524D;&#x65F6;&#x95F4;&#x4E3A;&#x51C6;&#xFF0C;&#x53EF;&#x9009;&#x9879;</td>
+</tr>
+<tr>
+<td>staffPersonal</td>
+<td>[object]</td>
+<td>&#x4E2A;&#x4EBA;&#x4FE1;&#x606F;&#xFF0C;&#x53C2;&#x8003;&#x5458;&#x5DE5;&#x4E2A;&#x4EBA;&#x4FE1;&#x606F;&#x6A21;&#x5757;</td>
+</tr>
+</tbody>
+</table>
+<h2 class="mume-header" id="%E7%94%9F%E4%BA%A7%E6%A8%A1%E5%9D%97produce">&#x751F;&#x4EA7;&#x6A21;&#x5757;&#xFF08;produce&#xFF09;</h2>
+
+<h2 class="mume-header" id="41-%E6%8E%98%E8%BF%9B%E5%B7%A5%E4%BD%9C%E9%9D%A2driving-face">4.1&#x3001;&#x6398;&#x8FDB;&#x5DE5;&#x4F5C;&#x9762;(driving-face)</h2>
+
+<table>
+<thead>
+<tr>
+<th>&#x53C2;&#x6570;&#x540D;</th>
+<th>&#x7C7B;&#x578B;</th>
+<th>&#x8BF4;&#x660E;</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>drivingFaeName</td>
+<td>[string]</td>
+<td>&#x540D;&#x79F0;</td>
+</tr>
+<tr>
+<td>totalLength</td>
+<td>[decimal]</td>
+<td>&#x8BBE;&#x8BA1;&#x957F;&#x5EA6;(&#x603B;&#x957F;&#x5EA6;)</td>
+</tr>
+<tr>
+<td>doneLength</td>
+<td>[decimal]</td>
+<td>&#x5DF2;&#x6398;&#x957F;&#x5EA6;(&#x603B;&#x957F;&#x5EA6;)</td>
+</tr>
+<tr>
+<td>leftLength</td>
+<td>[decimal]</td>
+<td>&#x5269;&#x4F59;&#x957F;&#x5EA6;</td>
+</tr>
+<tr>
+<td>startTime</td>
+<td>[date]</td>
+<td>&#x5F00;&#x6398;&#x65E5;&#x671F;</td>
+</tr>
+<tr>
+<td>drivingHigh</td>
+<td>[decimal]</td>
+<td>&#x6398;&#x8FDB;&#x9AD8;&#x5EA6;</td>
+</tr>
+<tr>
+<td>drivingSlope</td>
+<td>[decimal]</td>
+<td>&#x6398;&#x8FDB;&#x5761;&#x5EA6;</td>
+</tr>
+<tr>
+<td>crossSection</td>
+<td>[decimal]</td>
+<td>&#x65AD;&#x9762;</td>
+</tr>
+<tr>
+<td>coalSeamThickness</td>
+<td>[decimal]</td>
+<td>&#x7164;&#x5C42;&#x539A;&#x5EA6;</td>
+</tr>
+<tr>
+<td>crossSectionType</td>
+<td>[enum]</td>
+<td>&#x65AD;&#x9762;&#x5F62;&#x5F0F;&#xFF1A;RECTANGLE(&quot;&#x77E9;&#x5F62;&quot;),TRAPEZIUM(&quot;&#x68AF;&#x5F62;&quot;),HALF_ROUND(&quot;&#x534A;&#x5706;&#x5F62;&quot;),THREE_ARCH(&quot;&#x4E09;&#x661F;&#x62F1;&quot;)</td>
+</tr>
+<tr>
+<td>drivingTechnologyType</td>
+<td>[enum]</td>
+<td>&#x6398;&#x8FDB;&#x5DE5;&#x827A;&#xFF1A;BLASTING(&quot;&#x70AE;&#x6398;&quot;),FULLY(&quot;&#x7EFC;&#x6398;&quot;)</td>
+</tr>
+<tr>
+<td>supportMethod</td>
+<td>[enum]</td>
+<td>&#x652F;&#x62A4;&#x65B9;&#x5F0F;&#xFF1A;    ANCHOR_SPRAY(&quot;&#x951A;&#x55B7;&quot;),ANCHOR_NET(&quot;&#x951A;&#x7F51;&quot;),MASONRY(&quot;&#x780C;&#x78B9;&quot;),CER_MINUS(&quot;&#x67B6;&#x68DA;&quot;),COMBINED_SUPPORT(&quot;&#x8054;&#x5408;&#x652F;&#x62A4;&quot;),U_SHAPED_SHED(&quot;U&#x578B;&#x68DA;&quot;)</td>
+</tr>
+<tr>
+<td>rockCharacter</td>
+<td>[enum]</td>
+<td>&#x5CA9;&#x6027;&#xFF1A;   ALL_COAL(&quot;&#x5168;&#x7164;&quot;),ALL_ROCK(&quot;&#x5168;&#x5CA9;&quot;),HALF_COAL(&quot;&#x534A;&#x7164;&#x5DF7;&quot;)</td>
+</tr>
+</tbody>
+</table>
+<h2 class="mume-header" id="42-%E5%9B%9E%E9%87%87%E5%B7%A5%E4%BD%9C%E9%9D%A2back-mining-face">4.2&#x3001;&#x56DE;&#x91C7;&#x5DE5;&#x4F5C;&#x9762;(back-mining-face)</h2>
+
+<table>
+<thead>
+<tr>
+<th>&#x53C2;&#x6570;&#x540D;</th>
+<th>&#x7C7B;&#x578B;</th>
+<th>&#x5FC5;&#x586B;</th>
+<th>&#x8BF4;&#x660E;</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>backMiningFaceName</td>
+<td>[string]</td>
+<td>&#x540D;&#x79F0;</td>
+<td></td>
+</tr>
+<tr>
+<td>slopeLength</td>
+<td>[decimal]</td>
+<td>&#x91C7;&#x9762;&#x659C;&#x957F;(m)</td>
+<td></td>
+</tr>
+<tr>
+<td>returnAirChute</td>
+<td>[decimal]</td>
+<td>&#x56DE;&#x98CE;&#x987A;&#x69FD;(m)</td>
+<td></td>
+</tr>
+<tr>
+<td>transportChute</td>
+<td>[decimal]</td>
+<td>&#x8FD0;&#x8F93;&#x987A;&#x69FD;(m)</td>
+<td></td>
+</tr>
+<tr>
+<td>doneLength</td>
+<td>[decimal]</td>
+<td>&#x5DF2;&#x91C7;&#x957F;&#x5EA6;(m)</td>
+<td></td>
+</tr>
+<tr>
+<td>trendLength</td>
+<td>[decimal]</td>
+<td>&#x91C7;&#x9762;&#x8D70;&#x5411;&#x957F;&#x5EA6;(m)</td>
+<td></td>
+</tr>
+<tr>
+<td>startTime</td>
+<td>[date]</td>
+<td>&#x5F00;&#x91C7;&#x65E5;&#x671F;</td>
+<td></td>
+</tr>
+<tr>
+<td>coalSeamThickness</td>
+<td>[decimal]</td>
+<td>&#x7164;&#x5C42;&#x539A;&#x5EA6;</td>
+<td></td>
+</tr>
+<tr>
+<td>coalSeamDipAngle</td>
+<td>[decimal]</td>
+<td>&#x7164;&#x5C42;&#x7684;&#x503E;&#x89D2;</td>
+<td></td>
+</tr>
+<tr>
+<td>miningHigh</td>
+<td>[decimal]</td>
+<td>&#x91C7;&#x9AD8;</td>
+<td></td>
+</tr>
+<tr>
+<td>ventilationMode</td>
+<td>[enum]</td>
+<td>&#x901A;&#x98CE;&#x65B9;&#x5F0F;&#xFF1A;U(&quot;U&#x578B;&#x901A;&#x98CE;&quot;),Y(&quot;Y&#x578B;&#x901A;&#x98CE;&quot;),Z(&quot;Z&#x578B;&#x901A;&#x98CE;&quot;)</td>
+<td></td>
+</tr>
+<tr>
+<td>backMiningMode</td>
+<td>[enum]</td>
+<td>&#x56DE;&#x91C7;&#x65B9;&#x5F0F;&#xFF1A;  BLASTING(&quot;&#x70AE;&#x91C7;&quot;),HIGH_GRADE(&quot;&#x9AD8;&#x6863;&#x666E;&#x91C7;&quot;),INTEGRATION_MACHINE(&quot;&#x7EFC;&#x5408;&#x5316;&#x673A;&#x68B0;&quot;)</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h2 class="mume-header" id="43-%E9%92%BB%E5%AD%94%E5%B7%A5%E4%BD%9Cdrill-work">4.3&#x3001;&#x94BB;&#x5B54;&#x5DE5;&#x4F5C;(drill-work)</h2>
+
+<table>
+<thead>
+<tr>
+<th>&#x53C2;&#x6570;&#x540D;</th>
+<th>&#x7C7B;&#x578B;</th>
+<th>&#x5FC5;&#x586B;</th>
+<th>&#x8BF4;&#x660E;</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>drillWorkName</td>
+<td>[string]</td>
+<td>&#x540D;&#x79F0;</td>
+<td></td>
+</tr>
+<tr>
+<td>drillTime</td>
+<td>[date]</td>
+<td>&#x5F00;&#x94BB;&#x65F6;&#x95F4;&#xFF1A;yyyy-MM-dd</td>
+<td></td>
+</tr>
+<tr>
+<td>drillCategory</td>
+<td>[enum]</td>
+<td>&#x94BB;&#x5B54;&#x7C7B;&#x522B;&#xFF1A;THROUGH_LAYER(&quot;&#x7A7F;&#x5C42;&#x94BB;&#x5B54;&quot;),BEDDING(&quot;&#x7A7F;&#x5C42;&#x94BB;&#x5B54;&quot;),HIGH_POSITION(&quot;&#x9AD8;&#x4F4D;&#x94BB;&#x5B54;&quot;),GEOLOGY(&quot;&#x5730;&#x8D28;&#x94BB;&#x5B54;&quot;),OTHER(&quot;&#x5176;&#x4ED6;&#x94BB;&#x5B54;&quot;)</td>
+<td></td>
+</tr>
+<tr>
+<td>drillType</td>
+<td>[enum]</td>
+<td>&#x94BB;&#x5B54;&#x7C7B;&#x578B;&#xFF1A;GAS(&quot;&#x74E6;&#x65AF;&quot;),GEOLOGY(&quot;&#x5730;&#x8D28;&quot;),WATER_DETECTION(&quot;&#x63A2;&#x6C34;&quot;),OTHER(&quot;&#x5176;&#x4ED6;&quot;)</td>
+<td></td>
+</tr>
+<tr>
+<td>drillRockCharacter</td>
+<td>[enum]</td>
+<td>&#x94BB;&#x5B54;&#x5CA9;&#x6027;&#xFF1A;COAL_LAYER(&quot;&#x7164;&#x5C42;&quot;),ROCK_LAYER(&quot;&#x5CA9;&#x5C42;&quot;)</td>
+<td></td>
+</tr>
+<tr>
+<td>drillHole</td>
+<td>[array(object)]</td>
+<td>&#x94BB;&#x5B54;&#x5DE5;&#x4F5C;&#x8BE6;&#x60C5;&#xFF0C;&#x662F;&#x4E00;&#x4E2A;&#x94BB;&#x5B54;&#x6570;&#x7EC4;&#x5BF9;&#x8C61;&#xFF0C;&#x53C2;&#x8003;&#xFF1A;<strong>4.4&#x3001;&#x94BB;&#x5B54;&#x8BE6;&#x60C5;</strong></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h2 class="mume-header" id="44-%E9%92%BB%E5%AD%94%E8%AF%A6%E6%83%85drill-hole">4.4&#x3001;&#x94BB;&#x5B54;&#x8BE6;&#x60C5;(drill-hole)</h2>
+
+<table>
+<thead>
+<tr>
+<th>&#x53C2;&#x6570;&#x540D;</th>
+<th>&#x7C7B;&#x578B;</th>
+<th>&#x8BF4;&#x660E;</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>orderNumber</td>
+<td>[number]</td>
+<td>&#x94BB;&#x5B54;&#x5E8F;&#x53F7;</td>
+</tr>
+<tr>
+<td>code</td>
+<td>[string]</td>
+<td>&#x94BB;&#x5B54;&#x7F16;&#x53F7;</td>
+</tr>
+<tr>
+<td>doneLength</td>
+<td>[decimal]</td>
+<td>&#x5DF2;&#x6253;&#x957F;&#x5EA6;</td>
+</tr>
+<tr>
+<td>totalLength</td>
+<td>[decimal]</td>
+<td>&#x94BB;&#x5B54;&#x8BBE;&#x8BA1;&#x957F;&#x5EA6;</td>
+</tr>
+<tr>
+<td>dipAngle</td>
+<td>[decimal]</td>
+<td>&#x503E;&#x89D2;</td>
+</tr>
+<tr>
+<td>predicateAppearCoal</td>
+<td>[decimal]</td>
+<td>&#x9884;&#x89C1;&#x89C1;&#x7164;</td>
+</tr>
+<tr>
+<td>predicateDisappearCoal</td>
+<td>[decimal]</td>
+<td>&#x7EC8;&#x6B62;&#x89C1;&#x7164;</td>
+</tr>
+<tr>
+<td>predicateCoalThickness</td>
+<td>[decimal]</td>
+<td>&#x9884;&#x89C1;&#x7164;&#x539A;</td>
+</tr>
+</tbody>
+</table>
+<h2 class="mume-header" id="45-%E9%92%BB%E5%AD%94%E6%97%A5%E6%8A%A5drill-daily">4.5&#x3001;&#x94BB;&#x5B54;&#x65E5;&#x62A5;(drill-daily)</h2>
+
+<table>
+<thead>
+<tr>
+<th>&#x53C2;&#x6570;&#x540D;</th>
+<th>&#x7C7B;&#x578B;</th>
+<th>&#x8BF4;&#x660E;</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>drillWork</td>
+<td>[object]</td>
+<td>&#x94BB;&#x5B54;&#x65E5;&#x62A5;&#x5BF9;&#x5E94;&#x7684;&#x94BB;&#x5B54;&#x5DE5;&#x4F5C;&#x4FE1;&#x606F;&#xFF0C;&#x53C2;&#x8003;<strong>4.3&#x3001;&#x94BB;&#x5B54;&#x5DE5;&#x4F5C;(drill-work)</strong></td>
+</tr>
+<tr>
+<td>dailyTime</td>
+<td>[date]</td>
+<td>&#x65E5;&#x62A5;&#x7684;&#x586B;&#x5199;&#x65E5;&#x671F;&#xFF1A;yyyy-MM-dd</td>
+</tr>
+<tr>
+<td>shifts</td>
+<td>[enum]</td>
+<td>&#x73ED;&#x6B21;&#xFF1A;MORNING(&quot;&#x65E9;&#x73ED;&quot;),NOON(&quot;&#x4E2D;&#x73ED;&quot;),EVENING(&quot;&#x665A;&#x73ED;&quot;)</td>
+</tr>
+<tr>
+<td>drillTeam</td>
+<td>[object]</td>
+<td>&#x6253;&#x94BB;&#x961F;&#x4F0D;&#xFF1A;&#x5176;&#x5B9E;&#x5C31;&#x662F;&#x90E8;&#x95E8;&#x4FE1;&#x606F;&#xFF0C;&#x53C2;&#x8003;<strong>2.4&#x3001;&#x90E8;&#x95E8;&#xFF08;department&#xFF09;</strong></td>
+</tr>
+<tr>
+<td>peopleNumber</td>
+<td>[number]</td>
+<td>&#x6253;&#x94BB;&#x7684;&#x4EBA;&#x6570;</td>
+</tr>
+<tr>
+<td>doneTotalLength</td>
+<td>[decimal]</td>
+<td>&#x8BE5;&#x65E5;&#x62A5;&#x7684;&#x6253;&#x94BB;&#x957F;&#x5EA6;&#x7684;&#x6C47;&#x603B;&#x4FE1;&#x606F;&#xFF0C;&#x5176;&#x5B9E;&#x5C31;&#x662F;<strong>4.6&#x3001;drill-daily-detail</strong>&#x7684;&#x5173;&#x8054;&#x6570;&#x636E;&#x7684;&#x957F;&#x5EA6;&#x6C47;&#x603B;</td>
+</tr>
+</tbody>
+</table>
+<h2 class="mume-header" id="46-%E9%92%BB%E5%AD%94%E6%97%A5%E6%8A%A5%E8%AF%A6%E6%83%85drill-daily-detail">4.6&#x3001;&#x94BB;&#x5B54;&#x65E5;&#x62A5;&#x8BE6;&#x60C5;&#xFF08;drill-daily-detail&#xFF09;</h2>
+
+<table>
+<thead>
+<tr>
+<th>&#x53C2;&#x6570;&#x540D;</th>
+<th>&#x7C7B;&#x578B;</th>
+<th>&#x8BF4;&#x660E;</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>orderNumber</td>
+<td>[number]</td>
+<td>&#x5E8F;&#x53F7;</td>
+</tr>
+<tr>
+<td>code</td>
+<td>[string]</td>
+<td>&#x94BB;&#x5B54;&#x7F16;&#x53F7;</td>
+</tr>
+<tr>
+<td>drillHole</td>
+<td>[object]</td>
+<td>&#x901A;&#x8FC7;&#x7F16;&#x53F7;&#x9009;&#x53D6;&#x7684;&#x94BB;&#x5B54;&#x4FE1;&#x606F;&#xFF0C;&#x53C2;&#x8003;<strong>4.4&#x3001;&#x94BB;&#x5B54;&#x8BE6;&#x60C5;(drill-hole)</strong></td>
+</tr>
+<tr>
+<td>drillDaily</td>
+<td>[object]</td>
+<td>&#x6240;&#x5C5E;&#x7684;&#x65E5;&#x62A5;&#x4FE1;&#x606F;&#xFF0C;&#x53C2;&#x8003;<strong>4.5&#x3001;&#x94BB;&#x5B54;&#x65E5;&#x62A5;(drill-daily)</strong></td>
+</tr>
+</tbody>
+</table>
+<h1 class="mume-header" id="8-%E5%9F%B9%E8%AE%AD%E6%A8%A1%E5%9D%97">8&#x3001;&#x57F9;&#x8BAD;&#x6A21;&#x5757;</h1>
+
+<h2 class="mume-header" id="81-%E5%9F%B9%E8%AE%AD%E8%AE%B0%E5%BD%95">8.1&#x3001;&#x57F9;&#x8BAD;&#x8BB0;&#x5F55;</h2>
+
+<table>
+<thead>
+<tr>
+<th>&#x53C2;&#x6570;&#x540D;</th>
+<th>&#x7C7B;&#x578B;</th>
+<th>&#x8BF4;&#x660E;</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>trainingName</td>
+<td>[string]</td>
+<td>&#x540D;&#x79F0;</td>
+</tr>
+<tr>
+<td>trainingTime</td>
+<td>[date]</td>
+<td>&#x57F9;&#x8BAD;&#x65E5;&#x671F;</td>
+</tr>
+<tr>
+<td>trainingUsername</td>
+<td>[string]</td>
+<td>&#x57F9;&#x8BAD;&#x4EBA;</td>
+</tr>
+<tr>
+<td>department</td>
+<td>[object]</td>
+<td>&#x53D7;&#x8BAD;&#x90E8;&#x95E8;&#xFF1A;&#x53C2;&#x8003;<strong>2.4&#x3001;&#x90E8;&#x95E8;</strong></td>
+</tr>
+<tr>
+<td>trainingContent</td>
+<td>[string]</td>
+<td>&#x57F9;&#x8BAD;&#x5185;&#x5BB9;</td>
+</tr>
+<tr>
+<td>trainingPhotos</td>
+<td>[object]</td>
+<td>&#x57F9;&#x8BAD;&#x76F8;&#x5173;&#x7684;&#x56FE;&#x7247;&#x4FE1;&#x606F;&#xFF1A;&#x53C2;&#x8003;<strong>8.2&#x3001;&#x57F9;&#x8BAD;&#x56FE;&#x7247;</strong></td>
+</tr>
+<tr>
+<td>trainingAttachments</td>
+<td>[object]</td>
+<td>&#x57F9;&#x8BAD;&#x76F8;&#x5173;&#x7684;&#x9644;&#x4EF6;&#x4FE1;&#x606F;&#xFF1A;&#x53C2;&#x8003;<strong>8.3&#x3001;&#x57F9;&#x8BAD;&#x9644;&#x4EF6;</strong></td>
+</tr>
+</tbody>
+</table>
+<h2 class="mume-header" id="82-%E5%9F%B9%E8%AE%AD%E5%9B%BE%E7%89%87">8.2&#x3001;&#x57F9;&#x8BAD;&#x56FE;&#x7247;</h2>
+
+<table>
+<thead>
+<tr>
+<th>&#x53C2;&#x6570;&#x540D;</th>
+<th>&#x7C7B;&#x578B;</th>
+<th>&#x8BF4;&#x660E;</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>training</td>
+<td>[object]</td>
+<td>&#x6240;&#x5C5E;&#x7684;&#x57F9;&#x8BAD;&#x8BB0;&#x5F55;&#x4FE1;&#x606F;&#xFF0C;&#x53C2;&#x8003;<strong>8.1&#x3001;&#x57F9;&#x8BAD;&#x8BB0;&#x5F55;</strong></td>
+</tr>
+<tr>
+<td>storePath</td>
+<td>[string]</td>
+<td>&#x672C;&#x5730;&#x5B58;&#x50A8;&#x8DEF;&#x5F84;</td>
+</tr>
+<tr>
+<td>fileName</td>
+<td>[string]</td>
+<td>&#x6587;&#x4EF6;&#x7684;&#x540D;&#x5B57;</td>
+</tr>
+<tr>
+<td>fileSize</td>
+<td>[number]</td>
+<td>&#x6587;&#x4EF6;&#x7684;&#x5927;&#x5C0F;&#xFF0C;&#x5355;&#x4F4D;B</td>
+</tr>
+</tbody>
+</table>
+<h2 class="mume-header" id="83-%E5%9F%B9%E8%AE%AD%E9%99%84%E4%BB%B6">8.3&#x3001;&#x57F9;&#x8BAD;&#x9644;&#x4EF6;</h2>
+
+<table>
+<thead>
+<tr>
+<th>&#x53C2;&#x6570;&#x540D;</th>
+<th>&#x7C7B;&#x578B;</th>
+<th>&#x8BF4;&#x660E;</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>training</td>
+<td>[object]</td>
+<td>&#x6240;&#x5C5E;&#x7684;&#x57F9;&#x8BAD;&#x8BB0;&#x5F55;&#x4FE1;&#x606F;&#xFF0C;&#x53C2;&#x8003;<strong>8.1&#x3001;&#x57F9;&#x8BAD;&#x8BB0;&#x5F55;</strong></td>
+</tr>
+<tr>
+<td>storePath</td>
+<td>[string]</td>
+<td>&#x672C;&#x5730;&#x5B58;&#x50A8;&#x8DEF;&#x5F84;</td>
+</tr>
+<tr>
+<td>fileName</td>
+<td>[string]</td>
+<td>&#x6587;&#x4EF6;&#x7684;&#x540D;&#x5B57;</td>
+</tr>
+<tr>
+<td>fileSize</td>
+<td>[number]</td>
+<td>&#x6587;&#x4EF6;&#x7684;&#x5927;&#x5C0F;&#xFF0C;&#x5355;&#x4F4D;B</td>
+</tr>
+</tbody>
+</table>
+<h1 class="mume-header" id="%E7%BB%93%E8%AF%AD">&#x7ED3;&#x8BED;</h1>
+
+<p>&#x4EE5;&#x4E0A;&#x53C2;&#x8003;&#x8868;&#x7684;&#x6240;&#x6709;&#x53C2;&#x6570;&#x5747;&#x4EE5;&#x9A7C;&#x5CF0;&#x5F62;&#x5F0F;&#x7ED9;&#x51FA;&#xFF0C;&#x82E5;&#x53D1;&#x73B0;&#x6709;&#x4E0D;&#x5408;&#x6CD5;&#x7684;&#x5B57;&#x6BB5;&#xFF0C;&#x8BF7;&#x53CA;&#x65F6;&#x53CD;&#x6620;&#x54E6;~&#x3002;</p>
+
+      </div>
+      
+      
+    
+    
+    
+    
+    
+    
+    
+    
+  
+    </body></html>

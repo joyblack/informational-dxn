@@ -30,7 +30,7 @@ public class DrillDailyEntity extends BaseEntity {
 
 
     /**
-     * 钻孔日期
+     * 日报填写日期
      */
     @Column(nullable = false)
     private Date dailyTime;

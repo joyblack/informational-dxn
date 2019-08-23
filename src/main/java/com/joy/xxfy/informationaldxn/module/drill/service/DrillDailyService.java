@@ -76,10 +76,19 @@ public class DrillDailyService {
      * 改:待定
      */
     public JoyResult update(DrillDailyUpdateReq req) {
+        // 日报信息是否存在
         DrillDailyEntity drillDaily = drillDailyRepository.findAllById(req.getId());
         if(drillDaily == null){
             return JoyResult.buildFailedResult(Notice.DRILL_DAILY_NOT_EXIST);
         }
+        // 验证打钻工作信息是否存在
+        DrillWorkEntity drillWorkInfo = drillWorkRepository.findAllById(req.getDrillWorkId());
+        if(drillWorkInfo == null){
+            return JoyResult.buildFailedResult(Notice.DRILL_WORK_NOT_EXIST);
+        }
+        // 只放任人数和备注信息的修改
+        drillDaily.setPeopleNumber(req.getPeopleNumber());
+        drillDaily.setRemarks(req.getRemarks());
         // save.
         return JoyResult.buildSuccessResultWithData(drillDailyRepository.save(drillDaily));
     }
