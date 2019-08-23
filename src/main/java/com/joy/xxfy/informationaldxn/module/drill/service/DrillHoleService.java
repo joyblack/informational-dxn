@@ -40,7 +40,6 @@ public class DrillHoleService {
         if(drillWork == null){
             return JoyResult.buildFailedResult(Notice.DRILL_WORK_NOT_EXIST);
         }
-
         // 添加信息
         DrillHoleEntity drillHoleEntity = new DrillHoleEntity();
         JoyBeanUtil.copyPropertiesIgnoreSourceNullProperties(req, drillHoleEntity);
@@ -56,7 +55,7 @@ public class DrillHoleService {
     public JoyResult update(DrillHoleUpdateReq req) {
         DrillHoleEntity info = drillHoleRepository.findAllById(req.getId());
         if(info == null){
-            return JoyResult.buildFailedResult(Notice.DRILL_WORK_DETAIL_NOT_EXIST);
+            return JoyResult.buildFailedResult(Notice.DRILL_HOLE_NOT_EXIST);
         }
         JoyBeanUtil.copyPropertiesIgnoreSourceNullProperties(req, info);
         // save.
@@ -69,7 +68,7 @@ public class DrillHoleService {
     public JoyResult delete(Long id) {
         DrillHoleEntity info = drillHoleRepository.findAllById(id);
         if(info == null){
-            return JoyResult.buildFailedResult(Notice.DRILL_WORK_DETAIL_NOT_EXIST);
+            return JoyResult.buildFailedResult(Notice.DRILL_HOLE_NOT_EXIST);
         }
         info.setIsDelete(true);
         drillHoleRepository.save(info);

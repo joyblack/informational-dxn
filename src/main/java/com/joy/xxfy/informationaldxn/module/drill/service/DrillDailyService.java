@@ -75,7 +75,7 @@ public class DrillDailyService {
     public JoyResult update(DrillDailyUpdateReq req) {
         DrillDailyEntity drillDaily = drillDailyRepository.findAllById(req.getId());
         if(drillDaily == null){
-            return JoyResult.buildFailedResult(Notice.DAILY_DRILL_NOT_EXIST);
+            return JoyResult.buildFailedResult(Notice.DRILL_DAILY_NOT_EXIST);
         }
         // save.
         return JoyResult.buildSuccessResultWithData(drillDailyRepository.save(drillDaily));
@@ -88,7 +88,7 @@ public class DrillDailyService {
         // 获取日报信息
         DrillDailyEntity info = drillDailyRepository.findAllById(id);
         if(info == null){
-            return JoyResult.buildFailedResult(Notice.DAILY_DRILL_NOT_EXIST);
+            return JoyResult.buildFailedResult(Notice.DRILL_DAILY_NOT_EXIST);
         }
         // 删除该日报的打钻详情信息
         drillDailyDetailRepository.updateIsDeleteByDrillDaily(info, true);

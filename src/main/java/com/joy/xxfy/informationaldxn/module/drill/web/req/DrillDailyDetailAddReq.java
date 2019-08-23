@@ -26,8 +26,7 @@ public class DrillDailyDetailAddReq extends BaseAddReq {
     /**
      * 钻孔信息(钻孔工作详情)
      */
-    @ManyToOne(cascade = {},fetch = FetchType.EAGER)
-    @JoinColumn(name = "drill_hole_id", nullable = false)
+    @NotNull(message = "钻孔ID不能为空")
     private Long drillHoleId;
 
     /**
@@ -41,8 +40,7 @@ public class DrillDailyDetailAddReq extends BaseAddReq {
     /**
      * 所属的日报信息
      */
-    @ManyToOne(cascade = {}, fetch = FetchType.EAGER)
-    @JoinColumn(name = "drill_daily_id")
-    private DrillDailyEntity drillDaily;
+    @NotNull(message = "所属日报信息不能为空")
+    private Long drillDailyId;
 
 }

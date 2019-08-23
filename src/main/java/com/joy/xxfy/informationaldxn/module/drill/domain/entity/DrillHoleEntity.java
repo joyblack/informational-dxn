@@ -11,7 +11,7 @@ import javax.validation.constraints.NotNull;
 import java.math.BigDecimal;
 
 /**
- * 钻孔工作详情(钻孔信息)
+ * 钻孔信息
  */
 @Entity
 @Table(name = "produce_drill_hole")
@@ -33,6 +33,13 @@ public class DrillHoleEntity extends BaseEntity {
     @NotBlank(message = "钻孔编号不能为空")
     @Column(nullable = false)
     private String code;
+
+    /**
+     * 钻孔已打长度
+     */
+    @Column(nullable = false)
+    private BigDecimal doneLength;
+
 
     /**
      * 钻孔设计长度

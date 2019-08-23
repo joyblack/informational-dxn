@@ -4,11 +4,14 @@ import com.joy.xxfy.informationaldxn.module.department.domain.entity.DepartmentE
 import com.joy.xxfy.informationaldxn.module.department.domain.repository.DepartmentRepository;
 import com.joy.xxfy.informationaldxn.module.drill.domain.entity.DrillDailyDetailEntity;
 import com.joy.xxfy.informationaldxn.module.drill.domain.entity.DrillDailyEntity;
+import com.joy.xxfy.informationaldxn.module.drill.domain.entity.DrillHoleEntity;
 import com.joy.xxfy.informationaldxn.module.drill.domain.entity.DrillWorkEntity;
 import com.joy.xxfy.informationaldxn.module.drill.domain.repository.DrillDailyDetailRepository;
 import com.joy.xxfy.informationaldxn.module.drill.domain.repository.DrillDailyRepository;
+import com.joy.xxfy.informationaldxn.module.drill.domain.repository.DrillHoleRepository;
 import com.joy.xxfy.informationaldxn.module.drill.domain.repository.DrillWorkRepository;
 import com.joy.xxfy.informationaldxn.module.drill.web.req.DrillDailyAddReq;
+import com.joy.xxfy.informationaldxn.module.drill.web.req.DrillDailyDetailAddReq;
 import com.joy.xxfy.informationaldxn.module.drill.web.req.DrillDailyGetListReq;
 import com.joy.xxfy.informationaldxn.module.drill.web.req.DrillDailyUpdateReq;
 import com.joy.xxfy.informationaldxn.module.drill.web.res.DrillDailyRes;
@@ -38,18 +41,32 @@ public class DrillDailyDetailService {
     private DrillWorkRepository drillWorkRepository;
 
     @Autowired
+    private DrillHoleRepository drillHoleRepository;
+
+    @Autowired
     private DepartmentRepository departmentRepository;
 
     @Autowired
     private DrillDailyDetailRepository drillDailyDetailRepository;
 
-//    /**
-//     * 添加打钻详细信息（打钻日报详细信息）
-//     */
-//    public JoyResult add(DrillDailyAddReq req) {
+    /**
+     * 添加打钻详情
+     */
+//    public JoyResult add(DrillDailyDetailAddReq req) {
 //        DrillDailyDetailEntity detail = new DrillDailyDetailEntity();
-//        // 验证打钻孔信息是否存在
-//        drillDailyDetailRepository.find
+//        // 验证钻孔是否存在
+//        DrillHoleEntity drillHole = drillHoleRepository.findAllById(req.getDrillHoleId());
+//        if(drillHole == null){
+//            return JoyResult.buildFailedResult(Notice.DRILL_HOLE_NOT_EXIST);
+//        }
+//        // 验证所属日报信息是否存在
+//        DrillDailyEntity drillDaily = drillDailyRepository.findAllById(req.getDrillDailyId());
+//        if(drillDaily == null){
+//            return JoyResult.buildFailedResult(Notice.DRILL_DAILY_NOT_EXIST);
+//        }
+//        // 验证打孔长度是否超标，获取钻孔的剩余长度
+//        drillHole.getTotalLength()
+//
 //
 //
 //

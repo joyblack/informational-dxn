@@ -138,16 +138,17 @@ public class StaffPersonalService extends BaseService {
         if(entryInfo.size() > 0){
             return JoyResult.buildSuccessResultWithData(PersonalStatusEnum.INCUMBENCY);
         }
-        // 离职状态
-        StaffLeaveEntity leaveInfo = staffLeaveRepository.findFirstByStaffPersonalOrderByCreateTimeDesc(personal);
-        if(leaveInfo != null){
-            return JoyResult.buildSuccessResultWithData(PersonalStatusEnum.LEAVE);
-        }
         // 黑名单
         StaffBlacklistEntity staffPersonal = staffBlacklistRepository.findAllByStaffPersonal(personal);
         if(staffPersonal != null){
             return JoyResult.buildSuccessResultWithData(PersonalStatusEnum.BLACKLIST);
         }
+        // 离职状态
+        StaffLeaveEntity leaveInfo = staffLeaveRepository.findFirstByStaffPersonalOrderByCreateTimeDesc(personal);
+        if(leaveInfo != null){
+            return JoyResult.buildSuccessResultWithData(PersonalStatusEnum.LEAVE);
+        }
+
         return JoyResult.buildSuccessResultWithData(PersonalStatusEnum.NEVER);
     }
 }
