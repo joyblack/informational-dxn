@@ -58,27 +58,24 @@ public class DrillDailyDetailService {
             return JoyResult.buildFailedResult(Notice.DRILL_DAILY_NOT_EXIST);
         }
         // 验证是否是重复的记录：（一个日报仅允许添加一条钻孔信息，这样的信息只允许存在一条）
+        // 日报固定的情况下：班次、日期、队伍都固定了。
         DrillDailyDetailEntity exist = drillDailyDetailRepository.findAllByDrillDailyAndDrillHole(drillDaily, drillHole);
         if(exist != null){
-            return JoyResult.buildFailedResult(Notice.DRILL_DAILY_DETAIL_ALREADY_EXIST);
+            return JoyResult.buildFailedResult(Notice.DAILY_DETAIL_ALREADY_EXIST);
         }
         // 验证打孔长度是否超标，获取钻孔的剩余长度
-        LogUtil.info("hole total length is: {}",drillHole.getTotalLength());
-        LogUtil.info("done length is: {}", drillHole.getDoneLength());
-        LogUtil.info("left length is: {}", drillHole.getLeftLength());
-        LogUtil.info("now post handler length is : {}", req.getDoneLength());
         // 若提交的长度需要小0
         if(less(req.getDoneLength(), BigDecimal.ZERO)){
             return JoyResult.buildFailedResult(Notice.LENGTH_SHOULD_MORE_ZERO);
         }
         // 若当前提交的长度大于钻孔的剩余长度，不合法
         if(more(req.getDoneLength(),drillHole.getLeftLength())){
-            return JoyResult.buildFailedResult(Notice.DRILL_HOLE_LENGTH_MORE_LEFT_LENGTH,
+            return JoyResult.buildFailedResult(Notice.SET_LENGTH_MORE_LEFT_LENGTH,
                     ResultDataConstant.MESSAGE_LEFT_LENGTH + drillHole.getLeftLength());
         }
 
         // == 修改日报信息（当日打钻总量）
-        drillDaily.setDoneTotalLength(drillDaily.getDoneTotalLength().add(req.getDoneLength()));
+        drillDaily.setTotalDoneLength(drillDaily.getTotalDoneLength().add(req.getDoneLength()));
 
         // == 修改钻孔信息
         // 已打长度
@@ -86,7 +83,7 @@ public class DrillDailyDetailService {
         // 剩余长度
         drillHole.setLeftLength(drillHole.getTotalLength().subtract(drillHole.getDoneLength()));
 
-        // == 添加钻孔日报详情（注意关联钻孔信息，是否级联修改）
+        // == 添加钻孔日报详情
         DrillDailyDetailEntity detail = new DrillDailyDetailEntity();
         // 工作长度
         detail.setDoneLength(req.getDoneLength());
@@ -114,6 +111,8 @@ public class DrillDailyDetailService {
         if(detail == null){
             return JoyResult.buildFailedResult(Notice.DRILL_DAILY_DETAIL_NOT_EXIST);
         }
+        // 未验证钻孔信息是否合法。
+
         // 若提交的长度需要大于0
         if(less(req.getDoneLength(), BigDecimal.ZERO)){
             return JoyResult.buildFailedResult(Notice.LENGTH_SHOULD_MORE_ZERO);
@@ -123,11 +122,11 @@ public class DrillDailyDetailService {
 
         // 若差值大于钻孔的剩余长度，不合法
         if(more(offset,detail.getDrillHole().getLeftLength())){
-            return JoyResult.buildFailedResult(Notice.DRILL_HOLE_LENGTH_MORE_LEFT_LENGTH,
+            return JoyResult.buildFailedResult(Notice.SET_LENGTH_MORE_LEFT_LENGTH,
                     ResultDataConstant.MESSAGE_LEFT_LENGTH + detail.getDrillHole().getLeftLength());
         }
         // == 修改日报信息：old + offset
-        detail.getDrillDaily().setDoneTotalLength(detail.getDrillDaily().getDoneTotalLength().add(offset));
+        detail.getDrillDaily().setTotalDoneLength(detail.getDrillDaily().getTotalDoneLength().add(offset));
 
         // == 修改钻孔信息：old + offset
         detail.getDrillHole().setDoneLength(detail.getDrillHole().getDoneLength().add(offset));
@@ -161,7 +160,7 @@ public class DrillDailyDetailService {
         detail.getDrillHole().setLeftLength(ComputeUtils.sub(detail.getDrillHole().getTotalLength(), detail.getDrillHole().getDoneLength()));
 
         // == 修改日报打钻总量：旧值 - 已打长度
-        detail.getDrillDaily().setDoneTotalLength(ComputeUtils.sub(detail.getDrillDaily().getDoneTotalLength(), detail.getDoneLength()));
+        detail.getDrillDaily().setTotalDoneLength(ComputeUtils.sub(detail.getDrillDaily().getTotalDoneLength(), detail.getDoneLength()));
         // 软删除
         detail.setIsDelete(true);
         drillDailyDetailRepository.save(detail);

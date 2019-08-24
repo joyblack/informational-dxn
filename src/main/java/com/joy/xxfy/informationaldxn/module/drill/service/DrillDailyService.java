@@ -4,6 +4,7 @@ import com.joy.xxfy.informationaldxn.module.department.domain.entity.DepartmentE
 import com.joy.xxfy.informationaldxn.module.department.domain.repository.DepartmentRepository;
 import com.joy.xxfy.informationaldxn.module.drill.domain.entity.DrillDailyDetailEntity;
 import com.joy.xxfy.informationaldxn.module.drill.domain.entity.DrillDailyEntity;
+import com.joy.xxfy.informationaldxn.module.drill.domain.entity.DrillHoleEntity;
 import com.joy.xxfy.informationaldxn.module.drill.domain.entity.DrillWorkEntity;
 import com.joy.xxfy.informationaldxn.module.drill.domain.repository.DrillDailyDetailRepository;
 import com.joy.xxfy.informationaldxn.module.drill.domain.repository.DrillDailyRepository;
@@ -69,7 +70,7 @@ public class DrillDailyService {
         DrillDailyEntity drillDailyEntity = new DrillDailyEntity();
         JoyBeanUtil.copyPropertiesIgnoreSourceNullProperties(req, drillDailyEntity);
         // 当日打钻总量
-        drillDailyEntity.setDoneTotalLength(BigDecimal.ZERO
+        drillDailyEntity.setTotalDoneLength(BigDecimal.ZERO
         );
         drillDailyEntity.setDrillTeam(drillTeam);
         drillDailyEntity.setDrillWork(drillWorkInfo);
@@ -107,8 +108,10 @@ public class DrillDailyService {
         if(info == null){
             return JoyResult.buildFailedResult(Notice.DRILL_DAILY_NOT_EXIST);
         }
+
         // 删除该日报的打钻详情信息
         drillDailyDetailRepository.updateIsDeleteByDrillDaily(info, true);
+
         // 最后删除日报信息
         info.setIsDelete(true);
         drillDailyRepository.save(info);
@@ -167,9 +170,10 @@ public class DrillDailyService {
                 predicates.add(builder.equal(root.get("shifts"), req.getShifts()));
             }
             if(req.getDrillTeamId() != null){
-                predicates.add(builder.equal(root.get("department").get("id"), req.getDrillTeamId()));
+                predicates.add(builder.equal(root.get("drillTeam").get("id"), req.getDrillTeamId()));
             }
             return builder.and(predicates.toArray(new Predicate[predicates.size()]));
         };
     }
+
 }

@@ -102,7 +102,7 @@ JSON
                 "children": null
             },
             "peopleNumber": 20,
-            "doneTotalLength": 1300.00
+            "totalDoneLength": 1300.00
         }
     },
     "code": 200
