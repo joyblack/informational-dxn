@@ -7,13 +7,12 @@ import com.joy.xxfy.informationaldxn.module.driving.domain.repository.DrivingDai
 import com.joy.xxfy.informationaldxn.module.driving.domain.repository.DrivingFaceRepository;
 import com.joy.xxfy.informationaldxn.module.driving.domain.vo.SumDrivingDailyDetailVo;
 import com.joy.xxfy.informationaldxn.module.driving.web.req.DrivingDailyAddReq;
-import com.joy.xxfy.informationaldxn.module.driving.web.req.DrivingDailyRes;
+import com.joy.xxfy.informationaldxn.module.driving.web.res.DrivingDailyRes;
 import com.joy.xxfy.informationaldxn.publish.constant.InitialValueConstant;
 import com.joy.xxfy.informationaldxn.publish.constant.ResultDataConstant;
 import com.joy.xxfy.informationaldxn.publish.result.JoyResult;
 import com.joy.xxfy.informationaldxn.publish.result.Notice;
 import com.joy.xxfy.informationaldxn.publish.utils.JoyBeanUtil;
-import com.joy.xxfy.informationaldxn.publish.utils.LogUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -43,7 +42,7 @@ public class DrivingDailyService {
         // 验证该日期的掘进日报是否已经填写(不会有多个煤矿平台操作的，因此这个变量无需考虑)
         DrivingDailyEntity drivingDaily = drivingDailyRepository.findAllByDrivingFaceAndDailyTime(drivingFace, req.getDailyTime());
         if(drivingDaily != null){
-            return JoyResult.buildFailedResult(Notice.DRIVING_DAILY_ALREADY_EXIST, ResultDataConstant.MESSAGE_DRIVING_DAILY_REPEAT);
+            return JoyResult.buildFailedResult(Notice.DAILY_ALREADY_EXIST, ResultDataConstant.MESSAGE_DAILY_REPEAT);
         }
         // 装配实体：日报信息
         DrivingDailyEntity dailyEntity = new DrivingDailyEntity();
@@ -66,16 +65,16 @@ public class DrivingDailyService {
         // 获取日报信息
         DrivingDailyEntity info = drivingDailyRepository.findAllById(id);
         if(info == null){
-            return JoyResult.buildFailedResult(Notice.DRIVING_DAILY_NOT_EXIST);
+            return JoyResult.buildFailedResult(Notice.DAILY_NOT_EXIST);
         }
         // 计算日报详细信息得到的总长度
         SumDrivingDailyDetailVo vo = drivingDailyDetailRepository.aggDailyDetail(info);
         // 刷新工作面已掘长度信息
         DrivingFaceEntity drivingFace = info.getDrivingFace();
-        drivingFace.setDoneLength(drivingFace.getDoneLength().subtract(vo.getTotalDoneLengthSum()));
+        if(vo.getTotalDoneLengthSum() != null){
+            drivingFace.setDoneLength(drivingFace.getDoneLength().subtract(vo.getTotalDoneLengthSum()));
+        }
         drivingFace.setLeftLength(drivingFace.getTotalLength().subtract(drivingFace.getDoneLength()));
-        // drivingFaceRepository.save(drivingFace);
-
         // 删除该日报的详情信息
         drivingDailyDetailRepository.updateIsDeleteByDrivingDaily(info, true);
         // 删除日报信息

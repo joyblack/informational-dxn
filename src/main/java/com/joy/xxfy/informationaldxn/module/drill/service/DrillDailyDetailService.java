@@ -1,20 +1,17 @@
 package com.joy.xxfy.informationaldxn.module.drill.service;
 
-import com.joy.xxfy.informationaldxn.module.department.domain.repository.DepartmentRepository;
 import com.joy.xxfy.informationaldxn.module.drill.domain.entity.DrillDailyDetailEntity;
 import com.joy.xxfy.informationaldxn.module.drill.domain.entity.DrillDailyEntity;
 import com.joy.xxfy.informationaldxn.module.drill.domain.entity.DrillHoleEntity;
 import com.joy.xxfy.informationaldxn.module.drill.domain.repository.DrillDailyDetailRepository;
 import com.joy.xxfy.informationaldxn.module.drill.domain.repository.DrillDailyRepository;
 import com.joy.xxfy.informationaldxn.module.drill.domain.repository.DrillHoleRepository;
-import com.joy.xxfy.informationaldxn.module.drill.domain.repository.DrillWorkRepository;
 import com.joy.xxfy.informationaldxn.module.drill.web.req.DrillDailyDetailAddReq;
 import com.joy.xxfy.informationaldxn.module.drill.web.req.DrillDailyDetailUpdateReq;
 import com.joy.xxfy.informationaldxn.publish.constant.ResultDataConstant;
 import com.joy.xxfy.informationaldxn.publish.result.JoyResult;
 import com.joy.xxfy.informationaldxn.publish.result.Notice;
 import com.joy.xxfy.informationaldxn.publish.utils.ComputeUtils;
-import com.joy.xxfy.informationaldxn.publish.utils.LogUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -32,13 +29,7 @@ public class DrillDailyDetailService {
     private DrillDailyRepository drillDailyRepository;
 
     @Autowired
-    private DrillWorkRepository drillWorkRepository;
-
-    @Autowired
     private DrillHoleRepository drillHoleRepository;
-
-    @Autowired
-    private DepartmentRepository departmentRepository;
 
     @Autowired
     private DrillDailyDetailRepository drillDailyDetailRepository;
@@ -55,7 +46,7 @@ public class DrillDailyDetailService {
         // 验证所属日报信息是否存在
         DrillDailyEntity drillDaily = drillDailyRepository.findAllById(req.getDrillDailyId());
         if(drillDaily == null){
-            return JoyResult.buildFailedResult(Notice.DRILL_DAILY_NOT_EXIST);
+            return JoyResult.buildFailedResult(Notice.DAILY_NOT_EXIST);
         }
         // 验证是否是重复的记录：（一个日报仅允许添加一条钻孔信息，这样的信息只允许存在一条）
         // 日报固定的情况下：班次、日期、队伍都固定了。
@@ -109,7 +100,7 @@ public class DrillDailyDetailService {
         // 获取打钻详情信息
         DrillDailyDetailEntity detail = drillDailyDetailRepository.findAllById(req.getId());
         if(detail == null){
-            return JoyResult.buildFailedResult(Notice.DRILL_DAILY_DETAIL_NOT_EXIST);
+            return JoyResult.buildFailedResult(Notice.DAILY_DETAIL_NOT_EXIST);
         }
         // 未验证钻孔信息是否合法。
 
@@ -151,7 +142,7 @@ public class DrillDailyDetailService {
         // 获取日报详情信息
         DrillDailyDetailEntity detail = drillDailyDetailRepository.findAllById(id);
         if(detail == null){
-            return JoyResult.buildFailedResult(Notice.DRILL_DAILY_DETAIL_NOT_EXIST);
+            return JoyResult.buildFailedResult(Notice.DAILY_DETAIL_NOT_EXIST);
         }
         // == 修改钻孔信息,将钻孔长度进行回溯(还原删除数据处理掉的长度)
         // 已打长度：钻孔已打长度 - 已打长度

@@ -6,7 +6,7 @@ import com.joy.xxfy.informationaldxn.module.drill.domain.repository.DrillWorkRep
 import com.joy.xxfy.informationaldxn.module.drill.web.req.DrillWorkAddReq;
 import com.joy.xxfy.informationaldxn.module.drill.web.req.DrillWorkGetListReq;
 import com.joy.xxfy.informationaldxn.module.drill.web.req.DrillWorkUpdateReq;
-import com.joy.xxfy.informationaldxn.module.driving.web.res.DrillWorkRes;
+import com.joy.xxfy.informationaldxn.module.drill.web.res.DrillWorkRes;
 import com.joy.xxfy.informationaldxn.publish.constant.ResultDataConstant;
 import com.joy.xxfy.informationaldxn.publish.result.JoyResult;
 import com.joy.xxfy.informationaldxn.publish.result.Notice;

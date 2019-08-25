@@ -1,4 +1,4 @@
-package com.joy.xxfy.informationaldxn.module.drill.domain.entity;
+package com.joy.xxfy.informationaldxn.module.backmining.domain.entity;
 
 import com.joy.xxfy.informationaldxn.module.common.domain.entity.BaseEntity;
 import com.joy.xxfy.informationaldxn.module.common.enums.DailyShiftEnum;
@@ -9,31 +9,22 @@ import org.hibernate.annotations.Where;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
-import java.util.Date;
 
 /**
- * 日报
+ * 回采日报详情
  */
 @Entity
-@Table(name = "produce_drill_daily")
+@Table(name = "produce_back_mining_daily_detail")
 @Data
 @ToString(callSuper = true)
 @Where(clause = "is_delete = 0")
-public class DrillDailyEntity extends BaseEntity {
-
+public class BackMiningDailyDetailEntity extends BaseEntity {
     /**
-     * 关联的钻孔工作
+     * 所属日报
      */
     @ManyToOne(cascade = {},fetch = FetchType.EAGER)
-    @JoinColumn(name = "drill_work_id", nullable = false)
-    private DrillWorkEntity drillWork;
-
-
-    /**
-     * 日报填写日期
-     */
-    @Column(nullable = false)
-    private Date dailyTime;
+    @JoinColumn(name = "back_mining_daily_id", nullable = false)
+    private BackMiningDailyEntity backMiningDaily;
 
     /**
      * 班次
@@ -42,23 +33,32 @@ public class DrillDailyEntity extends BaseEntity {
     private DailyShiftEnum shifts;
 
     /**
-     * 打钻队伍
+     * 回采队伍
      */
     @ManyToOne(cascade = {},fetch = FetchType.EAGER)
     @JoinColumn(name = "department_id", nullable = false)
-    private DepartmentEntity drillTeam;
+    private DepartmentEntity team;
 
     /**
-     * 打钻的人数
+     * 人数
      */
-    @Column(nullable = false)
     private Long peopleNumber;
 
     /**
-     * (当前日期、班次、打钻队伍下)的打钻总量
+     * 推进度
      */
     @Column(nullable = false)
-    private BigDecimal totalDoneLength;
+    private BigDecimal doneLength;
 
+    /**
+     * 产量(t)
+     */
+    private BigDecimal output;
+
+    /**
+     * 工作内容
+     */
+    @Lob
+    private String workContent;
 
 }

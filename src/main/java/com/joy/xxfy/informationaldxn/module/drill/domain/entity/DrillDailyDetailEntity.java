@@ -9,7 +9,7 @@ import javax.persistence.*;
 import java.math.BigDecimal;
 
 /**
- * 钻孔日报详情信息（打钻信息）
+ * 日报详情信息（打钻信息）
  */
 @Entity
 @Table(name = "produce_drill_daily_detail")

@@ -1,10 +1,10 @@
-package com.joy.xxfy.informationaldxn.module.driving.web.res;
+package com.joy.xxfy.informationaldxn.module.backmining.web;
 
 import com.joy.xxfy.informationaldxn.module.common.web.req.IdReq;
-import com.joy.xxfy.informationaldxn.module.common.web.req.NameReq;
-import com.joy.xxfy.informationaldxn.module.driving.service.DrivingDailyDetailService;
-import com.joy.xxfy.informationaldxn.module.driving.service.DrivingFaceService;
-import com.joy.xxfy.informationaldxn.module.driving.web.req.*;
+import com.joy.xxfy.informationaldxn.module.backmining.service.BackMiningDailyDetailService;
+import com.joy.xxfy.informationaldxn.module.backmining.web.req.BackMiningDailyDetailAddReq;
+import com.joy.xxfy.informationaldxn.module.backmining.web.req.BackMiningDailyDetailGetListReq;
+import com.joy.xxfy.informationaldxn.module.backmining.web.req.BackMiningDailyDetailUpdateReq;
 import com.joy.xxfy.informationaldxn.publish.result.JoyResult;
 import com.joy.xxfy.informationaldxn.publish.result.Notice;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,10 +17,10 @@ import org.springframework.web.bind.annotation.RestController;
 import javax.validation.Valid;
 
 @RestController
-@RequestMapping("produce-driving-daily-detail")
-public class DrivingDailyDetailController {
+@RequestMapping("produce-back-mining-daily-detail")
+public class BackMiningDailyDetailController {
     @Autowired
-    private DrivingDailyDetailService drivingDailyDetailService;
+    private BackMiningDailyDetailService backMiningDailyDetailService;
 
     /**
      * 添加
@@ -28,12 +28,12 @@ public class DrivingDailyDetailController {
     @PostMapping(
             value = "/add",
             produces = {"application/json;charset=UTF-8"})
-    public JoyResult add(@RequestBody @Valid DrivingDailyDetailAddReq req, BindingResult bindingResult) {
+    public JoyResult add(@RequestBody @Valid BackMiningDailyDetailAddReq req, BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
             return JoyResult.buildFailedResult(Notice.REQUEST_PARAMETER_IS_ERROR, bindingResult.getFieldError().getDefaultMessage());
         } else {
             // copy
-            return drivingDailyDetailService.add(req);
+            return backMiningDailyDetailService.add(req);
         }
     }
 
@@ -48,7 +48,7 @@ public class DrivingDailyDetailController {
             return JoyResult.buildFailedResult(Notice.REQUEST_PARAMETER_IS_ERROR, bindingResult.getFieldError().getDefaultMessage());
         } else {
             // copy
-            return drivingDailyDetailService.delete(req.getId());
+            return backMiningDailyDetailService.delete(req.getId());
         }
     }
 
@@ -63,7 +63,7 @@ public class DrivingDailyDetailController {
             return JoyResult.buildFailedResult(Notice.REQUEST_PARAMETER_IS_ERROR, bindingResult.getFieldError().getDefaultMessage());
         } else {
             // copy
-            return drivingDailyDetailService.get(req.getId());
+            return backMiningDailyDetailService.get(req.getId());
         }
     }
 
@@ -74,12 +74,12 @@ public class DrivingDailyDetailController {
     @PostMapping(
             value = "/update",
             produces = {"application/json;charset=UTF-8"})
-    public JoyResult update(@RequestBody @Valid DrivingDailyDetailUpdateReq req, BindingResult bindingResult) {
+    public JoyResult update(@RequestBody @Valid BackMiningDailyDetailUpdateReq req, BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
             return JoyResult.buildFailedResult(Notice.REQUEST_PARAMETER_IS_ERROR, bindingResult.getFieldError().getDefaultMessage());
         } else {
             // copy
-            return drivingDailyDetailService.update(req);
+            return backMiningDailyDetailService.update(req);
         }
     }
 
@@ -89,11 +89,11 @@ public class DrivingDailyDetailController {
     @PostMapping(
             value = "/getPagerList",
             produces = {"application/json;charset=UTF-8"})
-    public JoyResult getPagerList(@RequestBody @Valid DrivingDailyDetailGetListReq req, BindingResult bindingResult) {
+    public JoyResult getPagerList(@RequestBody @Valid BackMiningDailyDetailGetListReq req, BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
             return JoyResult.buildFailedResult(Notice.REQUEST_PARAMETER_IS_ERROR, bindingResult.getFieldError().getDefaultMessage());
         } else {
-            return drivingDailyDetailService.getPagerList(req);
+            return backMiningDailyDetailService.getPagerList(req);
         }
     }
 
@@ -103,11 +103,11 @@ public class DrivingDailyDetailController {
     @PostMapping(
             value = "/getAllList",
             produces = {"application/json;charset=UTF-8"})
-    public JoyResult getAllList(@RequestBody @Valid DrivingDailyDetailGetListReq req, BindingResult bindingResult) {
+    public JoyResult getAllList(@RequestBody @Valid BackMiningDailyDetailGetListReq req, BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
             return JoyResult.buildFailedResult(Notice.REQUEST_PARAMETER_IS_ERROR, bindingResult.getFieldError().getDefaultMessage());
         } else {
-            return drivingDailyDetailService.getAllList(req);
+            return backMiningDailyDetailService.getAllList(req);
         }
     }
 }

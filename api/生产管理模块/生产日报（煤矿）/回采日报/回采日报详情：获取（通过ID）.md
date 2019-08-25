@@ -1,7 +1,7 @@
 # 简介
 
 # 访问地址
-produce-driving-daily-detail/get
+produce-back-mining-daily-detail/get
 
 # 请求参数
 
@@ -19,7 +19,7 @@ JSON
 ## 请求示例
 ```json
 {
-	"id": 2
+	"id": 1
 }
 ```
 
@@ -31,44 +31,44 @@ JSON
     "message": "操作成功",
     "detailMessage": "",
     "data": {
-        "id": 2,
+        "id": 1,
         "isDelete": false,
-        "createTime": "2019-08-24 13:04:55",
-        "updateTime": "2019-08-24 13:04:55",
+        "createTime": "2019-08-25 09:37:48",
+        "updateTime": "2019-08-25 09:37:48",
         "remarks": null,
-        "drivingDaily": {
+        "backMiningDaily": {
             "id": 1,
             "isDelete": false,
-            "createTime": "2019-08-24 12:46:53",
-            "updateTime": "2019-08-24 12:46:53",
+            "createTime": "2019-08-25 09:34:53",
+            "updateTime": "2019-08-25 09:34:53",
             "remarks": null,
-            "drivingFace": {
+            "backMiningFace": {
                 "id": 1,
                 "isDelete": false,
-                "createTime": "2019-08-24 12:25:52",
-                "updateTime": "2019-08-24 12:25:52",
+                "createTime": "2019-08-25 09:32:43",
+                "updateTime": "2019-08-25 09:32:43",
                 "remarks": null,
-                "drivingFaceName": "工作面A",
-                "totalLength": 2800.50,
-                "doneLength": 2300.40,
-                "leftLength": 500.10,
-                "startTime": "2019-09-10 00:00:00",
-                "drivingHigh": 20.00,
-                "drivingSlope": 35.00,
-                "crossSection": 15.00,
-                "crossSectionType": "HALF_ROUND",
-                "coalSeamThickness": 2000.00,
-                "drivingTechnologyType": "BLASTING",
-                "supportMethod": "ANCHOR_SPRAY",
-                "rockCharacter": "HALF_COAL"
+                "backMiningFaceName": "回采工作面B_change",
+                "slopeLength": 2800.51,
+                "returnAirChute": 100.51,
+                "transportChute": 100.51,
+                "doneLength": 700.41,
+                "trendLength": 50.41,
+                "startTime": "2019-09-20 00:00:00",
+                "coalSeamThickness": 4000.10,
+                "coalSeamDipAngle": 21.00,
+                "miningHigh": 20.10,
+                "ventilationMode": "Z",
+                "backMiningMode": "INTEGRATION_MACHINE",
+                "recoverReserves": 42.00
             },
             "dailyTime": "2019-08-24",
-            "totalPeopleNumber": 150,
-            "totalDoneLength": 2100.00,
-            "totalOutput": 1500.00
+            "totalPeopleNumber": 50,
+            "totalDoneLength": 500.00,
+            "totalOutput": 500.00
         },
         "shifts": "NOON",
-        "drivingTeam": {
+        "team": {
             "id": 2,
             "isDelete": false,
             "createTime": "2019-08-21 16:47:15",

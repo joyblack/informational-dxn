@@ -2,26 +2,18 @@ package com.joy.xxfy.informationaldxn.module.driving.service;
 
 import com.joy.xxfy.informationaldxn.module.department.domain.entity.DepartmentEntity;
 import com.joy.xxfy.informationaldxn.module.department.domain.repository.DepartmentRepository;
-import com.joy.xxfy.informationaldxn.module.drill.domain.entity.DrillDailyDetailEntity;
-import com.joy.xxfy.informationaldxn.module.drill.domain.entity.DrillDailyEntity;
-import com.joy.xxfy.informationaldxn.module.drill.web.req.DrillDailyDetailUpdateReq;
-import com.joy.xxfy.informationaldxn.module.drill.web.req.DrillDailyGetListReq;
 import com.joy.xxfy.informationaldxn.module.driving.domain.entity.DrivingDailyDetailEntity;
 import com.joy.xxfy.informationaldxn.module.driving.domain.entity.DrivingDailyEntity;
 import com.joy.xxfy.informationaldxn.module.driving.domain.entity.DrivingFaceEntity;
 import com.joy.xxfy.informationaldxn.module.driving.domain.repository.DrivingDailyDetailRepository;
 import com.joy.xxfy.informationaldxn.module.driving.domain.repository.DrivingDailyRepository;
 import com.joy.xxfy.informationaldxn.module.driving.domain.repository.DrivingFaceRepository;
-import com.joy.xxfy.informationaldxn.module.driving.domain.vo.SumDrivingDailyDetailVo;
-import com.joy.xxfy.informationaldxn.module.driving.web.req.*;
-import com.joy.xxfy.informationaldxn.publish.constant.InitialValueConstant;
+import com.joy.xxfy.informationaldxn.module.driving.web.req.DrivingDailyDetailAddReq;
+import com.joy.xxfy.informationaldxn.module.driving.web.req.DrivingDailyDetailGetListReq;
+import com.joy.xxfy.informationaldxn.module.driving.web.req.DrivingDailyDetailUpdateReq;
 import com.joy.xxfy.informationaldxn.publish.constant.ResultDataConstant;
 import com.joy.xxfy.informationaldxn.publish.result.JoyResult;
 import com.joy.xxfy.informationaldxn.publish.result.Notice;
-import com.joy.xxfy.informationaldxn.publish.utils.ComputeUtils;
-import com.joy.xxfy.informationaldxn.publish.utils.JoyBeanUtil;
-import com.joy.xxfy.informationaldxn.publish.utils.LogUtil;
-import com.joy.xxfy.informationaldxn.publish.utils.StringUtil;
 import com.joy.xxfy.informationaldxn.publish.utils.project.JpaPagerUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.domain.Specification;
@@ -61,7 +53,7 @@ public class DrivingDailyDetailService {
         // 验证日报信息是否存在：该日期的掘进日报是否已经填写(不会有多个煤矿平台操作的，因此这个变量无需考虑)
         DrivingDailyEntity drivingDaily = drivingDailyRepository.findAllById(req.getDrivingDailyId());
         if(drivingDaily == null){
-            return JoyResult.buildFailedResult(Notice.DRIVING_DAILY_NOT_EXIST);
+            return JoyResult.buildFailedResult(Notice.DAILY_NOT_EXIST);
         }
         // 验证队伍是否存在
         DepartmentEntity team = departmentRepository.findAllById(req.getDrivingTeamId());
@@ -71,9 +63,8 @@ public class DrivingDailyDetailService {
         // 验证该记录是否重复(同日报、同队伍、同班次)
         DrivingDailyDetailEntity detailRepeat = drivingDailyDetailRepository.findAllByDrivingDailyAndDrivingTeamAndShifts(drivingDaily, team, req.getShifts());
         if(detailRepeat != null){
-            return JoyResult.buildFailedResult(Notice.DAILY_DETAIL_ALREADY_EXIST, "同队伍、同班次的信息已经存在");
+            return JoyResult.buildFailedResult(Notice.DAILY_DETAIL_ALREADY_EXIST, ResultDataConstant.MESSAGE_DAILY_DETAIL_REPEAT);
         }
-        // 验证打孔长度是否超标，获取钻孔的剩余长度
         // 若提交的长度需要小0
         if(less(req.getDoneLength(), BigDecimal.ZERO)){
             return JoyResult.buildFailedResult(Notice.LENGTH_SHOULD_MORE_ZERO);
@@ -140,7 +131,7 @@ public class DrivingDailyDetailService {
         DrivingDailyDetailEntity detailRepeat = drivingDailyDetailRepository.findAllByDrivingDailyAndDrivingTeamAndShifts(detail.getDrivingDaily(),
                 detail.getDrivingTeam(), detail.getShifts());
         if(detailRepeat != null && !detail.getId().equals(detailRepeat.getId())){
-            return JoyResult.buildFailedResult(Notice.DAILY_DETAIL_ALREADY_EXIST, "同队伍、同班次的信息已经存在");
+            return JoyResult.buildFailedResult(Notice.DAILY_DETAIL_ALREADY_EXIST, ResultDataConstant.MESSAGE_DAILY_DETAIL_REPEAT);
         }
         // 若提交的长度需要大于0
         if(less(req.getDoneLength(), BigDecimal.ZERO)){
@@ -231,17 +222,6 @@ public class DrivingDailyDetailService {
      */
     public JoyResult get(Long id) {
         return JoyResult.buildSuccessResultWithData(drivingDailyDetailRepository.findAllById(id));
-    }
-
-    // 刷新掘进工作面信息：已掘长度和剩余长度
-    public DrivingFaceEntity updateDrivingFaceInformation(DrivingFaceEntity drivingFaceEntity){
-        // 获取剩余长度
-        SumDrivingDailyDetailVo vo = drivingDailyDetailRepository.aggDailyDetail(drivingFaceEntity);
-        LogUtil.info("Sum info is {}.", vo);
-        // 刷新已掘长度
-        drivingFaceEntity.setDoneLength(vo.getTotalDoneLengthSum());
-        drivingFaceEntity.setLeftLength(vo.getTotalDoneLengthSum().subtract(drivingFaceEntity.getDoneLength()));
-        return drivingFaceRepository.save(drivingFaceEntity);
     }
 
     /**

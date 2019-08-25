@@ -1,4 +1,4 @@
-package com.joy.xxfy.informationaldxn.module.driving.web.req;
+package com.joy.xxfy.informationaldxn.module.driving.web.res;
 
 import com.joy.xxfy.informationaldxn.module.common.web.req.BaseAddReq;
 import com.joy.xxfy.informationaldxn.module.driving.domain.entity.DrivingDailyDetailEntity;

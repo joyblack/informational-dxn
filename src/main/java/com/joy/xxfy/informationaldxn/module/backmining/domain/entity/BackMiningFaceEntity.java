@@ -55,6 +55,7 @@ public class BackMiningFaceEntity extends BaseEntity {
     @Column(nullable = false)
     private BigDecimal doneLength;
 
+
     /**
      * 采面走向长度
      */

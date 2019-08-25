@@ -1,4 +1,4 @@
-package com.joy.xxfy.informationaldxn.module.driving.web.res;
+package com.joy.xxfy.informationaldxn.module.drill.web.res;
 
 import com.joy.xxfy.informationaldxn.module.drill.domain.entity.DrillHoleEntity;
 import com.joy.xxfy.informationaldxn.module.drill.domain.entity.DrillWorkEntity;

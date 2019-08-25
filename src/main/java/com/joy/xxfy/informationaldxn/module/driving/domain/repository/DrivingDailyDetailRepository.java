@@ -28,11 +28,11 @@ public interface DrivingDailyDetailRepository extends BaseRepository<DrivingDail
                                                                           DepartmentEntity departmentEntity,
                                                                           DailyShiftEnum shifts);
 
-    // 获取工作面的已处理长度
+    // 统计某个工作面的总已处理长度、总产量以及总人数
     @Query("select new com.joy.xxfy.informationaldxn.module.driving.domain.vo.SumDrivingDailyDetailVo(sum(d.doneLength), sum(d.output), sum(d.peopleNumber)) from DrivingDailyDetailEntity d where d.drivingDaily.drivingFace = :drivingFace")
     SumDrivingDailyDetailVo aggDailyDetail(@Param("drivingFace") DrivingFaceEntity drivingFace);
 
-    // 统计某个日报相关信息
+    // 统计某个日报的总已处理长度、总产量以及总人数
     @Query("select new com.joy.xxfy.informationaldxn.module.driving.domain.vo.SumDrivingDailyDetailVo(sum(d.doneLength), sum(d.output), sum(d.peopleNumber)) from DrivingDailyDetailEntity d where d.drivingDaily = :drivingDaily")
     SumDrivingDailyDetailVo aggDailyDetail(@Param("drivingDaily") DrivingDailyEntity drivingDailyEntity);
 

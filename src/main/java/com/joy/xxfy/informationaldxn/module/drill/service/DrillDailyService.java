@@ -2,22 +2,17 @@ package com.joy.xxfy.informationaldxn.module.drill.service;
 
 import com.joy.xxfy.informationaldxn.module.department.domain.entity.DepartmentEntity;
 import com.joy.xxfy.informationaldxn.module.department.domain.repository.DepartmentRepository;
-import com.joy.xxfy.informationaldxn.module.drill.domain.entity.DrillDailyDetailEntity;
 import com.joy.xxfy.informationaldxn.module.drill.domain.entity.DrillDailyEntity;
-import com.joy.xxfy.informationaldxn.module.drill.domain.entity.DrillHoleEntity;
 import com.joy.xxfy.informationaldxn.module.drill.domain.entity.DrillWorkEntity;
 import com.joy.xxfy.informationaldxn.module.drill.domain.repository.DrillDailyDetailRepository;
 import com.joy.xxfy.informationaldxn.module.drill.domain.repository.DrillDailyRepository;
-import com.joy.xxfy.informationaldxn.module.drill.domain.repository.DrillHoleRepository;
 import com.joy.xxfy.informationaldxn.module.drill.domain.repository.DrillWorkRepository;
 import com.joy.xxfy.informationaldxn.module.drill.web.req.*;
 import com.joy.xxfy.informationaldxn.module.drill.web.res.DrillDailyRes;
-import com.joy.xxfy.informationaldxn.module.driving.web.res.DrillWorkRes;
 import com.joy.xxfy.informationaldxn.publish.constant.ResultDataConstant;
 import com.joy.xxfy.informationaldxn.publish.result.JoyResult;
 import com.joy.xxfy.informationaldxn.publish.result.Notice;
 import com.joy.xxfy.informationaldxn.publish.utils.JoyBeanUtil;
-import com.joy.xxfy.informationaldxn.publish.utils.LogUtil;
 import com.joy.xxfy.informationaldxn.publish.utils.StringUtil;
 import com.joy.xxfy.informationaldxn.publish.utils.project.JpaPagerUtil;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -64,7 +59,7 @@ public class DrillDailyService {
         DrillDailyEntity checkRepeat = drillDailyRepository.findAllByDrillWorkAndDrillTeamAndDailyTimeAndShifts(drillWorkInfo,
                 drillTeam, req.getDailyTime(), req.getShifts());
         if(checkRepeat != null){
-            return JoyResult.buildFailedResult(Notice.DRILL_DAILY_ALREADY_EXIST, ResultDataConstant.MESSAGE_DRILL_DAILY_EXIST);
+            return JoyResult.buildFailedResult(Notice.DAILY_ALREADY_EXIST, ResultDataConstant.MESSAGE_DAILY_DETAIL_REPEAT);
         }
         // 装配信息
         DrillDailyEntity drillDailyEntity = new DrillDailyEntity();
@@ -85,7 +80,7 @@ public class DrillDailyService {
         // 日报信息是否存在
         DrillDailyEntity drillDaily = drillDailyRepository.findAllById(req.getId());
         if(drillDaily == null){
-            return JoyResult.buildFailedResult(Notice.DRILL_DAILY_NOT_EXIST);
+            return JoyResult.buildFailedResult(Notice.DAILY_NOT_EXIST);
         }
         // 验证打钻工作信息是否存在
         DrillWorkEntity drillWorkInfo = drillWorkRepository.findAllById(req.getDrillWorkId());
@@ -106,7 +101,7 @@ public class DrillDailyService {
         // 获取日报信息
         DrillDailyEntity info = drillDailyRepository.findAllById(id);
         if(info == null){
-            return JoyResult.buildFailedResult(Notice.DRILL_DAILY_NOT_EXIST);
+            return JoyResult.buildFailedResult(Notice.DAILY_NOT_EXIST);
         }
 
         // 删除该日报的打钻详情信息
