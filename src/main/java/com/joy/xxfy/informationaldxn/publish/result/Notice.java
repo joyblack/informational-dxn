@@ -87,13 +87,14 @@ public enum Notice{
     DAILY_DETAIL_ALREADY_EXIST("日报详情已存在", 111008),
     DAILY_DETAIL_NOT_EXIST("日报详情不存在", 111009),
 
-
-
-
     // 培训
-    TRAINING_NAME_ALREADY_EXIST("培训名称已存在", 111000),
-    TRAINING_ALREADY_EXIST("培训信息已存在", 111001),
-    TRAINING_NOT_EXIST("培训信息不存在", 111002),
+    TRAINING_NAME_ALREADY_EXIST("培训名称已存在", 112000),
+    TRAINING_ALREADY_EXIST("培训信息已存在", 112001),
+    TRAINING_NOT_EXIST("培训信息不存在", 112002),
+
+    // 安全
+    SAFE_INSPECTION_NOT_EXIST("安全巡检信息不存在", 112000),
+    SAFE_INSPECTION_ALREADY_EXIST("安全巡检信息已存在", 112001),
 
     ;
 
