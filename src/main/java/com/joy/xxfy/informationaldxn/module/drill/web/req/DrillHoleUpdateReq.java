@@ -42,14 +42,29 @@ public class DrillHoleUpdateReq extends BaseUpdateReq {
     private BigDecimal predicateAppearCoal;
 
     /**
+     * 实际见煤
+     */
+    private BigDecimal realAppearCoal;
+
+    /**
      * 预计止煤
      */
     private BigDecimal predicateDisappearCoal;
 
     /**
+     * 实际止煤
+     */
+    private BigDecimal realDisappearCoal;
+
+    /**
      * 预计煤厚
      */
     private BigDecimal predicateCoalThickness;
+
+    /**
+     * 实际煤厚
+     */
+    private BigDecimal realCoalThickness;
 
 
 

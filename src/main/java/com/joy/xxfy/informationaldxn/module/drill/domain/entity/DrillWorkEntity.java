@@ -51,7 +51,34 @@ public class DrillWorkEntity extends BaseEntity {
      */
     private DrillRockCharacterEnum drillRockCharacter;
 
+    /**
+     * 钻孔设计总数
+     */
+    private Long totalDrillHoleNumber;
 
+    /**
+     * 已施工的钻孔数
+     */
+    private Long completedDrillHoleNumber;
 
+    /**
+     * 未施工的钻孔数
+     */
+    private Long notCompletedDrillHoleNumber;
+
+    /**
+     * 钻孔的总长度
+     */
+    private BigDecimal totalLength;
+
+    /**
+     * 已打总量
+     */
+    private BigDecimal totalDoneLength;
+
+    /**
+     * 未打总量
+     */
+    private BigDecimal totalLeftLength;
 
 }

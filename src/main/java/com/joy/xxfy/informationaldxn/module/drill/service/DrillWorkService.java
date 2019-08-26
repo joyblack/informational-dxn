@@ -1,12 +1,16 @@
 package com.joy.xxfy.informationaldxn.module.drill.service;
 
+import com.joy.xxfy.informationaldxn.module.drill.domain.entity.DrillDailyEntity;
 import com.joy.xxfy.informationaldxn.module.drill.domain.entity.DrillWorkEntity;
+import com.joy.xxfy.informationaldxn.module.drill.domain.repository.DrillDailyRepository;
 import com.joy.xxfy.informationaldxn.module.drill.domain.repository.DrillHoleRepository;
 import com.joy.xxfy.informationaldxn.module.drill.domain.repository.DrillWorkRepository;
 import com.joy.xxfy.informationaldxn.module.drill.web.req.DrillWorkAddReq;
 import com.joy.xxfy.informationaldxn.module.drill.web.req.DrillWorkGetListReq;
 import com.joy.xxfy.informationaldxn.module.drill.web.req.DrillWorkUpdateReq;
 import com.joy.xxfy.informationaldxn.module.drill.web.res.DrillWorkRes;
+import com.joy.xxfy.informationaldxn.publish.constant.BigDecimalValueConstant;
+import com.joy.xxfy.informationaldxn.publish.constant.LongValueConstant;
 import com.joy.xxfy.informationaldxn.publish.constant.ResultDataConstant;
 import com.joy.xxfy.informationaldxn.publish.result.JoyResult;
 import com.joy.xxfy.informationaldxn.publish.result.Notice;
@@ -20,6 +24,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.criteria.Predicate;
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -32,6 +37,9 @@ public class DrillWorkService {
 
     @Autowired
     private DrillHoleRepository drillHoleRepository;
+
+    @Autowired
+    private DrillDailyRepository drillDailyRepository;
 
     /**
      * 添加
@@ -46,6 +54,20 @@ public class DrillWorkService {
         DrillWorkEntity info = new DrillWorkEntity();
         JoyBeanUtil.copyPropertiesIgnoreTargetNotNullProperties(req, info);
         LogUtil.info("Last info is: {}", info);
+
+        // 初始化统计参数
+        // 钻孔总数
+        info.setTotalDrillHoleNumber(LongValueConstant.ZERO);
+        // 钻孔总量
+        info.setTotalLength(BigDecimalValueConstant.ZERO);
+        // 已施工钻孔总数
+        info.setCompletedDrillHoleNumber(LongValueConstant.ZERO);
+        // 未施工钻孔总数: 钻孔总数 - 已施工钻孔总数
+        info.setNotCompletedDrillHoleNumber(info.getTotalDrillHoleNumber() - info.getCompletedDrillHoleNumber());
+        // 已打总量
+        info.setTotalDoneLength(BigDecimalValueConstant.ZERO);
+        // 未打总量：钻孔总量 - 已打总量
+        info.setTotalLeftLength(info.getTotalLength().subtract(info.getTotalDoneLength()));
 
         DrillWorkEntity save = drillWorkRepository.save(info);
         // set return data.
@@ -85,7 +107,12 @@ public class DrillWorkService {
         if(info == null){
             return JoyResult.buildFailedResult(Notice.DRILL_WORK_NOT_EXIST);
         }
-        // 先删除详细工作的信息
+        // == 已添加日报的不能删除
+        List<DrillDailyEntity> dailies = drillDailyRepository.findAllByDrillWork(info);
+        if(dailies.size() > 0){
+            return JoyResult.buildFailedResult(Notice.DAILY_EXIST_CANT_DELETE);
+        }
+        // 先删除关联的钻孔的信息
         drillHoleRepository.updateIsDeleteByDrillWork(info, true);
         // 再删除工作信息
         info.setIsDelete(true);

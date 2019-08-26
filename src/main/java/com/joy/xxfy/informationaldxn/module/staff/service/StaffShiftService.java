@@ -92,7 +92,7 @@ public class StaffShiftService {
             staffEntryRepository.save(entry);
         }
         // 添加新职位信息
-        // 新职位初始化信息选之前的一个职位信息作为信息填充[CHANGE]
+        // 新职位初始化信息选之前的一个职位信息作为信息填充
         StaffEntryEntity newEntryInfo = new StaffEntryEntity();
         BeanUtils.copyProperties(entries.get(0), newEntryInfo);
         newEntryInfo.setIsDelete(false);

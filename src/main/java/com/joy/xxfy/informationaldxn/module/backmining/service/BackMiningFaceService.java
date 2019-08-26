@@ -1,10 +1,14 @@
 package com.joy.xxfy.informationaldxn.module.backmining.service;
 
+import com.joy.xxfy.informationaldxn.module.backmining.domain.entity.BackMiningDailyEntity;
 import com.joy.xxfy.informationaldxn.module.backmining.domain.entity.BackMiningFaceEntity;
+import com.joy.xxfy.informationaldxn.module.backmining.domain.repository.BackMiningDailyRepository;
 import com.joy.xxfy.informationaldxn.module.backmining.domain.repository.BackMiningFaceRepository;
 import com.joy.xxfy.informationaldxn.module.backmining.web.req.BackMiningFaceAddReq;
 import com.joy.xxfy.informationaldxn.module.backmining.web.req.BackMiningFaceGetListReq;
 import com.joy.xxfy.informationaldxn.module.backmining.web.req.BackMiningFaceUpdateReq;
+import com.joy.xxfy.informationaldxn.module.drill.domain.entity.DrillDailyEntity;
+import com.joy.xxfy.informationaldxn.publish.constant.SystemConstant;
 import com.joy.xxfy.informationaldxn.publish.result.JoyResult;
 import com.joy.xxfy.informationaldxn.publish.result.Notice;
 import com.joy.xxfy.informationaldxn.publish.utils.JoyBeanUtil;
@@ -17,6 +21,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.criteria.Predicate;
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -26,6 +31,9 @@ public class BackMiningFaceService {
 
     @Autowired
     private BackMiningFaceRepository backMiningFaceRepository;
+
+    @Autowired
+    private BackMiningDailyRepository backMiningDailyRepository;
 
     /**
      * 添加
@@ -39,7 +47,8 @@ public class BackMiningFaceService {
         // copy properties
         BackMiningFaceEntity info = new BackMiningFaceEntity();
         JoyBeanUtil.copyPropertiesIgnoreTargetNotNullProperties(req, info);
-        // 已采长度：设计长度-已掘长度
+        // 已采长度：(回风顺槽 + 运输顺槽)/2
+        info.setDoneLength(info.getReturnAirChute().add(info.getTransportChute()).divide(SystemConstant.TWO));
         LogUtil.info("Last back mining face info is: {}", info);
         // save.
         return JoyResult.buildSuccessResultWithData(backMiningFaceRepository.save(info));
@@ -49,7 +58,6 @@ public class BackMiningFaceService {
      * 改
      */
     public JoyResult update(BackMiningFaceUpdateReq req) {
-        // 只允许修改解禁时间以及原因
         BackMiningFaceEntity info = backMiningFaceRepository.findAllById(req.getId());
         if(info == null){
             return JoyResult.buildFailedResult(Notice.BACK_MINING_NOT_EXIST);
@@ -59,8 +67,9 @@ public class BackMiningFaceService {
         if(checkRepeat != null){
             return JoyResult.buildFailedResult(Notice.BACK_MINING_NAME_ALREADY_EXIST);
         }
-
         JoyBeanUtil.copyPropertiesIgnoreSourceNullProperties(req, info);
+        // 计算已采长度
+        info.setDoneLength(info.getReturnAirChute().add(info.getTransportChute()).divide(SystemConstant.TWO));
         // save.
         return JoyResult.buildSuccessResultWithData(backMiningFaceRepository.save(info));
     }
@@ -73,8 +82,12 @@ public class BackMiningFaceService {
         if(info == null){
             return JoyResult.buildFailedResult(Notice.BACK_MINING_NOT_EXIST);
         }
-        // 若有日报信息不允许删除[CHANGE]
-        // ....
+        // == 已添加日报的不能删除
+        List<BackMiningDailyEntity> dailies = backMiningDailyRepository.findAllByBackMiningFace(info);
+        if(dailies.size() > 0){
+            return JoyResult.buildFailedResult(Notice.DAILY_EXIST_CANT_DELETE);
+        }
+
         info.setIsDelete(true);
         return JoyResult.buildSuccessResultWithData(backMiningFaceRepository.save(info));
     }

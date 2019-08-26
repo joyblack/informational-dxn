@@ -1,6 +1,8 @@
 package com.joy.xxfy.informationaldxn.module.driving.service;
 
+import com.joy.xxfy.informationaldxn.module.driving.domain.entity.DrivingDailyEntity;
 import com.joy.xxfy.informationaldxn.module.driving.domain.entity.DrivingFaceEntity;
+import com.joy.xxfy.informationaldxn.module.driving.domain.repository.DrivingDailyRepository;
 import com.joy.xxfy.informationaldxn.module.driving.domain.repository.DrivingFaceRepository;
 import com.joy.xxfy.informationaldxn.module.driving.web.req.DrivingFaceAddReq;
 import com.joy.xxfy.informationaldxn.module.driving.web.req.DrivingFaceGetListReq;
@@ -26,6 +28,9 @@ public class DrivingFaceService {
 
     @Autowired
     private DrivingFaceRepository drivingFaceRepository;
+
+    @Autowired
+    private DrivingDailyRepository drivingDailyRepository;
 
     /**
      * 添加
@@ -72,8 +77,11 @@ public class DrivingFaceService {
         if(drivingFaceInfo == null){
             return JoyResult.buildFailedResult(Notice.DRIVING_FACE_NOT_EXIST);
         }
-        // 若有日报信息不允许删除[CHANGE]
-        // ....
+        // 已添加日报的工作面无法删除（必须将日报删除了，才能删工作面）
+        List<DrivingDailyEntity> dailies = drivingDailyRepository.findAllByDrivingFace(drivingFaceInfo);
+        if(dailies.size() > 0){
+            return JoyResult.buildFailedResult(Notice.DAILY_EXIST_CANT_DELETE);
+        }
 
         drivingFaceInfo.setIsDelete(true);
         return JoyResult.buildSuccessResultWithData(drivingFaceRepository.save(drivingFaceInfo));

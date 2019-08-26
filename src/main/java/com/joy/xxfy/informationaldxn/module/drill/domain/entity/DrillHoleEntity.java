@@ -9,6 +9,7 @@ import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import java.math.BigDecimal;
+import java.util.Date;
 
 /**
  * 钻孔信息
@@ -19,6 +20,13 @@ import java.math.BigDecimal;
 @ToString(callSuper = true)
 @Where(clause = "is_delete = 0")
 public class DrillHoleEntity extends BaseEntity {
+
+    /**
+     * 关联的钻孔工作
+     */
+    @ManyToOne(cascade = {},fetch = FetchType.EAGER)
+    @JoinColumn(name = "drill_work_id")
+    private DrillWorkEntity drillWork;
 
     /**
      * 钻孔序号
@@ -64,9 +72,19 @@ public class DrillHoleEntity extends BaseEntity {
     private BigDecimal predicateAppearCoal;
 
     /**
+     * 实际见煤
+     */
+    private BigDecimal realAppearCoal;
+
+    /**
      * 预计止煤
      */
     private BigDecimal predicateDisappearCoal;
+
+    /**
+     * 实际止煤
+     */
+    private BigDecimal realDisappearCoal;
 
     /**
      * 预计煤厚
@@ -74,10 +92,14 @@ public class DrillHoleEntity extends BaseEntity {
     private BigDecimal predicateCoalThickness;
 
     /**
-     * 关联的钻孔工作
+     * 实际煤厚
      */
-    @ManyToOne(cascade = {},fetch = FetchType.EAGER)
-    @JoinColumn(name = "drill_work_id")
-    private DrillWorkEntity drillWork;
+    private BigDecimal realCoalThickness;
+
+    /**
+     * 成孔日期
+     */
+    private Date completeTime;
+
 
 }

@@ -8,7 +8,8 @@ import com.joy.xxfy.informationaldxn.module.driving.domain.repository.DrivingFac
 import com.joy.xxfy.informationaldxn.module.driving.domain.vo.SumDrivingDailyDetailVo;
 import com.joy.xxfy.informationaldxn.module.driving.web.req.DrivingDailyAddReq;
 import com.joy.xxfy.informationaldxn.module.driving.web.res.DrivingDailyRes;
-import com.joy.xxfy.informationaldxn.publish.constant.InitialValueConstant;
+import com.joy.xxfy.informationaldxn.publish.constant.BigDecimalValueConstant;
+import com.joy.xxfy.informationaldxn.publish.constant.LongValueConstant;
 import com.joy.xxfy.informationaldxn.publish.constant.ResultDataConstant;
 import com.joy.xxfy.informationaldxn.publish.result.JoyResult;
 import com.joy.xxfy.informationaldxn.publish.result.Notice;
@@ -50,9 +51,9 @@ public class DrivingDailyService {
         dailyEntity.setDailyTime(req.getDailyTime());
         // 工作面信息
         dailyEntity.setDrivingFace(drivingFace);
-        dailyEntity.setTotalDoneLength(InitialValueConstant.LENGTH);
-        dailyEntity.setTotalOutput(InitialValueConstant.OUTPUT);
-        dailyEntity.setTotalPeopleNumber(InitialValueConstant.PEOPLE_NUMBER);
+        dailyEntity.setTotalDoneLength(BigDecimalValueConstant.ZERO);
+        dailyEntity.setTotalOutput(BigDecimalValueConstant.ZERO);
+        dailyEntity.setTotalPeopleNumber(LongValueConstant.ZERO);
         // 添加信息
         return JoyResult.buildSuccessResultWithData(drivingDailyRepository.save(dailyEntity));
     }
