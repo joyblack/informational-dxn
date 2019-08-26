@@ -14,6 +14,7 @@ import com.joy.xxfy.informationaldxn.publish.utils.FileUtil;
 import com.joy.xxfy.informationaldxn.publish.utils.identity.IdNumberUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
@@ -22,6 +23,7 @@ import java.io.File;
 import java.util.HashMap;
 import java.util.List;
 
+@Transactional
 @Service
 public class StaffPersonalService extends BaseService {
     @Autowired

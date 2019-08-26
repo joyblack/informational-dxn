@@ -12,12 +12,14 @@ import com.joy.xxfy.informationaldxn.module.train.domain.repository.TrainingPhot
 import com.joy.xxfy.informationaldxn.module.train.domain.repository.TrainingRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.File;
 
+@Transactional
 @Service
 public class TrainingPhotoService extends BaseService {
     @Autowired
