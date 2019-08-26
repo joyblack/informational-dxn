@@ -31,5 +31,10 @@ public class TrainingGetListReq extends BasePageReq {
      */
     private Long departmentId;
 
+    /**
+     * 受训煤矿
+     */
+    private Long companyId;
+
 
 }

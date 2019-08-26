@@ -6,7 +6,8 @@ package com.joy.xxfy.informationaldxn.module.common.enums;
 public enum DailyShiftEnum {
     MORNING("早班"),
     NOON("中班"),
-    EVENING("晚班")
+    EVENING("晚班"),
+    OTHER("其他")
     ;
     private String describes;
 

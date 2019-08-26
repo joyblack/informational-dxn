@@ -52,6 +52,11 @@ public class TrainingService {
         if(checkInfo != null){
             return JoyResult.buildFailedResult(Notice.TRAINING_NAME_ALREADY_EXIST);
         }
+        // 验证煤矿信息
+        DepartmentEntity companyEntity = departmentRepository.findAllById(req.getCompanyId());
+        if(companyEntity == null){
+            return JoyResult.buildFailedResult(Notice.COMPANY_NOT_EXIST);
+        }
         // 验证部门信息
         DepartmentEntity departmentEntity = departmentRepository.findAllById(req.getDepartmentId());
         if(departmentEntity == null){
@@ -59,6 +64,7 @@ public class TrainingService {
         }
         // 装配数据
         JoyBeanUtil.copyPropertiesIgnoreSourceNullProperties(req, addTrainingInfo);
+        addTrainingInfo.setCompany(companyEntity);
         addTrainingInfo.setDepartment(departmentEntity);
         TrainingEntity saveResult = trainingRepository.save(addTrainingInfo);
         // 设置返回结果，此时虽然没有关联的文件信息，但是还是要标准返回格式
@@ -80,6 +86,11 @@ public class TrainingService {
         TrainingEntity checkInfo = trainingRepository.findAllByTrainingNameAndIdNot(req.getTrainingName(), req.getId());
         if(checkInfo != null){
             return JoyResult.buildFailedResult(Notice.TRAINING_NAME_ALREADY_EXIST);
+        }
+        // 验证煤矿信息
+        DepartmentEntity companyEntity = departmentRepository.findAllById(req.getCompanyId());
+        if(companyEntity == null){
+            return JoyResult.buildFailedResult(Notice.COMPANY_NOT_EXIST);
         }
         // 验证部门信息
         DepartmentEntity departmentEntity = departmentRepository.findAllById(req.getDepartmentId());
@@ -168,6 +179,9 @@ public class TrainingService {
             }
             if(!StringUtil.isEmpty(req.getTrainingUsername())){
                 predicates.add(builder.like(root.get("trainingUsername"), "%" + req.getTrainingUsername() +"%"));
+            }
+            if(req.getCompanyId() != null){
+                predicates.add(builder.equal(root.get("company").get("id"), req.getCompanyId()));
             }
             if(req.getDepartmentId() != null){
                 predicates.add(builder.equal(root.get("department").get("id"), req.getDepartmentId()));

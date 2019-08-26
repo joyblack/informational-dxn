@@ -30,6 +30,12 @@ public class TrainingAddReq extends BaseAddReq {
     private String trainingUsername;
 
     /**
+     * 受训的煤矿
+     */
+    @NotNull(message = "受训煤矿不能为空")
+    private Long companyId;
+
+    /**
      * 受训的部门
      */
     @NotNull(message = "受训部门不能为空")

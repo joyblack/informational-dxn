@@ -54,6 +54,21 @@ JSON
             "path": "2-",
             "children": null
         },
+        "company": {
+            "id": 2,
+            "isDelete": false,
+            "createTime": "2019-08-21 16:47:15",
+            "updateTime": "2019-08-21 16:47:15",
+            "remarks": "备注信息",
+            "departmentName": "信息分院2",
+            "code": "00",
+            "parentId": 0,
+            "responseUser": "jake",
+            "phone": "13535565497",
+            "departmentType": "CM_PLATFORM",
+            "path": "2-",
+            "children": null
+        },
         "trainingContent": "去海边游玩..._change",
         "trainingPhotos": [
             {

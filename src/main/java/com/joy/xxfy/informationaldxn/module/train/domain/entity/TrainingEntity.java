@@ -39,6 +39,13 @@ public class TrainingEntity extends BaseEntity {
     private String trainingUsername;
 
     /**
+     * 受训的平台
+     */
+    @JoinColumn(name = "company_id")
+    @ManyToOne(cascade = {}, fetch = FetchType.EAGER)
+    private DepartmentEntity company;
+
+    /**
      * 受训的部门
      */
     @JoinColumn(name = "department_id")

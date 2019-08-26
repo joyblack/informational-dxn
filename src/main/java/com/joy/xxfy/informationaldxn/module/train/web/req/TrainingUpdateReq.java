@@ -36,6 +36,12 @@ public class TrainingUpdateReq extends BaseUpdateReq {
     private Long departmentId;
 
     /**
+     * 受训的煤矿
+     */
+    @NotNull(message = "受训煤矿不能为空")
+    private Long companyId;
+
+    /**
      * 培训的内容
      */
     @NotBlank(message = "培训内容不能为空")
