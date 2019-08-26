@@ -33,11 +33,10 @@ JSON
     "data": {
         "id": 1,
         "isDelete": false,
-        "createTime": "2019-08-25 12:57:39",
-        "updateTime": "2019-08-25 12:57:39",
+        "createTime": "2019-08-26 09:53:41",
+        "updateTime": "2019-08-26 09:53:41",
         "remarks": null,
-        "inspectTime": "2019-08-23",
-        "inspectCompany": {
+        "violationCompany": {
             "id": 1,
             "isDelete": false,
             "createTime": "2019-08-21 16:47:12",
@@ -52,7 +51,9 @@ JSON
             "path": "1-",
             "children": null
         },
-        "inspectDepartment": {
+        "violationTime": "2019-08-27",
+        "threeViolationType": "COMMAND",
+        "violationDepartment": {
             "id": 1,
             "isDelete": false,
             "createTime": "2019-08-21 16:47:12",
@@ -67,14 +68,12 @@ JSON
             "path": "1-",
             "children": null
         },
-        "inspectType": "ONE_THROUGH_AND_THREE_PREVENTION",
-        "inspectPlace": "杨家湾_change",
-        "problemDescribes": "水土流失有点严重_change",
-        "deadTime": "2019-09-23",
-        "tipDays": 100,
-        "rectificationPeople": null,
-        "rectificationStatus": "NO",
-        "isOverTime": null
+        "violationPeople": "阿尔托利亚_CHANGE",
+        "violationPlace": "吉尔吉斯斯坦_CHANGE",
+        "dailyShift": "EVENING",
+        "checkPeople": "赵义_CHANGE",
+        "violationContent": "这样做是不对的_CHANGE。",
+        "handlerSuggestion": "审核意见认为你们这样做好一些_CHANGE。"
     },
     "code": 200
 }
