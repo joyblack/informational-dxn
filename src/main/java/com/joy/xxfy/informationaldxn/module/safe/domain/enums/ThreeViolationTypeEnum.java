@@ -1,12 +1,9 @@
 package com.joy.xxfy.informationaldxn.module.safe.domain.enums;
 
 public enum ThreeViolationTypeEnum {
-    GROUND("地面"),
-    MACHINE("机电"),
-    ONE_THROUGH_AND_THREE_PREVENTION("一通三防"),
-    ROOF("顶板"),
-    WATER_PREVENTION("防治水"),
-    OTHER("其他");
+    TASK("违章作业"),
+    COMMAND("违章指挥"),
+    LABOR_DISCIPLINE("违反劳动纪律");
     private String describes;
 
     ThreeViolationTypeEnum() {

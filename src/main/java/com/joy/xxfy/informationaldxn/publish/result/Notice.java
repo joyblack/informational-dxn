@@ -95,6 +95,7 @@ public enum Notice{
     // 安全
     SAFE_INSPECTION_NOT_EXIST("安全巡检信息不存在", 112000),
     SAFE_INSPECTION_ALREADY_EXIST("安全巡检信息已存在", 112001),
+    VIOLATION_NOT_EXIST("违章信息不存在", 112002),
 
     ;
 
