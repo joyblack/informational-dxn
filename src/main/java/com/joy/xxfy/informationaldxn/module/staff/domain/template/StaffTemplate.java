@@ -5,7 +5,7 @@ public class StaffTemplate {
 
     public static final String TMP_DEPARTMENT_NAME = "DEPARTMENT_NAME";
     public static final String TMP_POSITION_NAME = "POSITION_NAME";
-    public static final String ALREADY_ENTRY = "已在DEPARTMENT_NAME入职，职务为POSITION_NAME\r\n";
+    public static final String ALREADY_ENTRY = "已在DEPARTMENT_NAME入职，职务为POSITION_NAME<br>";
 
     public static final String LEAVE_THEN_ADD_IN_BLACKLIST_REASONS = "【管理员】离职后自动加入黑名单。";
 

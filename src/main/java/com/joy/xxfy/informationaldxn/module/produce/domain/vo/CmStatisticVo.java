@@ -48,7 +48,7 @@ public class CmStatisticVo {
     /**
      * 今日产煤
      */
-    private BigDecimal todayOutput = BigDecimal.ZERO;
+    private BigDecimal dayOutput = BigDecimal.ZERO;
 
 
     /**

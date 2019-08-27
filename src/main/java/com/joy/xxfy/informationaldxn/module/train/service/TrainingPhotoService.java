@@ -49,6 +49,8 @@ public class TrainingPhotoService extends BaseService {
         trainingPhoto.setFileSize(file.getSize());
         // 所属记录
         trainingPhoto.setTraining(trainingEntity);
+        // 原始名字
+        trainingPhoto.setOriginalName(file.getOriginalFilename());
         // save
         return JoyResult.buildSuccessResultWithData(trainingPhotoRepository.save(trainingPhoto));
     }

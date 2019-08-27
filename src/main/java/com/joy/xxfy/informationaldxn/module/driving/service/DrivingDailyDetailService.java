@@ -24,6 +24,7 @@ import org.springframework.transaction.annotation.Transactional;
 import javax.persistence.criteria.Predicate;
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import static com.joy.xxfy.informationaldxn.publish.utils.ComputeUtils.less;
@@ -87,12 +88,17 @@ public class DrivingDailyDetailService {
         drivingDaily.setTotalDoneLength(drivingDaily.getTotalDoneLength().add(req.getDoneLength()));
         // 总产量
         drivingDaily.setTotalOutput(drivingDaily.getTotalOutput().add(req.getOutput()));
+        // 修改时间
+        drivingDaily.setUpdateTime(new Date());
 
         // == 修改工作面信息
+        DrivingFaceEntity drivingFace = drivingDaily.getDrivingFace();
         // 已掘长度：oldDoneLength + doneLength
-        drivingDaily.getDrivingFace().setDoneLength(drivingDaily.getDrivingFace().getDoneLength().add(req.getDoneLength()));
+        drivingFace.setDoneLength(drivingFace.getDoneLength().add(req.getDoneLength()));
         // 剩余长度：total - doneLength
-        drivingDaily.getDrivingFace().setLeftLength(drivingDaily.getDrivingFace().getTotalLength().subtract(drivingDaily.getDrivingFace().getDoneLength()));
+        drivingFace.setLeftLength(drivingFace.getTotalLength().subtract(drivingFace.getDoneLength()));
+        // 修改时间
+        drivingFace.setUpdateTime(new Date());
 
         // 添加日报详情信息
         DrivingDailyDetailEntity detail = new DrivingDailyDetailEntity();
@@ -171,6 +177,7 @@ public class DrivingDailyDetailService {
         // == 修改日报信息
         // 总人数
         DrivingDailyEntity drivingDaily = detail.getDrivingDaily();
+        drivingDaily.setUpdateTime(new Date());
         drivingDaily.setTotalPeopleNumber(drivingDaily.getTotalPeopleNumber() + offsetPeopleNumber);
         // 总进尺
         drivingDaily.setTotalDoneLength(drivingDaily.getTotalDoneLength().add(offsetDoneLength));
@@ -183,6 +190,8 @@ public class DrivingDailyDetailService {
         drivingFace.setDoneLength(drivingFace.getDoneLength().add(offsetDoneLength));
         // 修改剩余长度
         drivingFace.setLeftLength(drivingFace.getTotalLength().subtract(drivingFace.getDoneLength()));
+        // 修改时间
+        drivingFace.setUpdateTime(new Date());
         // save.
         return JoyResult.buildSuccessResultWithData(drivingDailyDetailRepository.save(detail));
     }
@@ -203,6 +212,8 @@ public class DrivingDailyDetailService {
         drivingDaily.setTotalDoneLength(drivingDaily.getTotalDoneLength().subtract(detail.getDoneLength()));
         // 总产量
         drivingDaily.setTotalOutput(drivingDaily.getTotalOutput().subtract(detail.getOutput()));
+        // 修改时间
+        drivingDaily.setUpdateTime(new Date());
 
         // == 修改工作面信息
         DrivingFaceEntity drivingFace = detail.getDrivingDaily().getDrivingFace();
@@ -210,9 +221,12 @@ public class DrivingDailyDetailService {
         drivingFace.setDoneLength(drivingFace.getDoneLength().subtract(detail.getDoneLength()));
         // 修改剩余长度
         drivingFace.setLeftLength(drivingFace.getTotalLength().subtract(drivingFace.getDoneLength()));
+        // 修改时间
+        drivingFace.setUpdateTime(new Date());
 
         // 设置删除状态
         detail.setIsDelete(true);
+        detail.setUpdateTime(new Date());
         // save.
         drivingDailyDetailRepository.save(detail);
         return JoyResult.buildSuccessResult(ResultDataConstant.MESSAGE_DELETE_SUCCESS);

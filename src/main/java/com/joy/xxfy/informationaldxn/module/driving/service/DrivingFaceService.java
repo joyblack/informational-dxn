@@ -21,6 +21,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.criteria.Predicate;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 @Transactional
@@ -67,6 +68,7 @@ public class DrivingFaceService {
             return JoyResult.buildFailedResult(Notice.DRIVING_FACE_NAME_ALREADY_EXIST);
         }
         JoyBeanUtil.copyPropertiesIgnoreSourceNullProperties(req, drivingFaceInfo);
+        drivingFaceInfo.setUpdateTime(new Date());
         // save.
         return JoyResult.buildSuccessResultWithData(drivingFaceRepository.save(drivingFaceInfo));
     }
@@ -84,7 +86,7 @@ public class DrivingFaceService {
         if(dailies.size() > 0){
             return JoyResult.buildFailedResult(Notice.DAILY_EXIST_CANT_DELETE);
         }
-
+        drivingFaceInfo.setUpdateTime(new Date());
         drivingFaceInfo.setIsDelete(true);
         return JoyResult.buildSuccessResultWithData(drivingFaceRepository.save(drivingFaceInfo));
     }

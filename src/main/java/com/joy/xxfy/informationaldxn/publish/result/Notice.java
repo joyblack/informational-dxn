@@ -4,6 +4,8 @@ public enum Notice{
     EXECUTE_IS_SUCCESS("操作成功", 200),
     EXECUTE_IS_FAILED("操作失败", 234),
 
+    PERMISSION_FORBIDDEN("权限禁止", 235),
+
     // 公共模块
     REQUEST_PARAMETER_IS_ERROR("请求参数缺失或未空值", 100000),
     IDENTITY_NUMBER_ERROR("身份证信息错误", 100001),

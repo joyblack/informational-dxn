@@ -27,6 +27,7 @@ import org.springframework.transaction.annotation.Transactional;
 import javax.persistence.criteria.Predicate;
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 @Transactional
@@ -92,6 +93,7 @@ public class DrillWorkService {
             return JoyResult.buildFailedResult(Notice.DRILL_WORK_NAME_ALREADY_EXIST);
         }
         JoyBeanUtil.copyPropertiesIgnoreSourceNullProperties(req, info);
+        info.setUpdateTime(new Date());
         DrillWorkEntity save = drillWorkRepository.save(info);
         // 装配返回信息
         DrillWorkRes result = new DrillWorkRes();
@@ -118,6 +120,7 @@ public class DrillWorkService {
         drillHoleRepository.updateIsDeleteByDrillWork(info, true);
         // 再删除工作信息
         info.setIsDelete(true);
+        info.setUpdateTime(new Date());
         drillWorkRepository.save(info);
         return JoyResult.buildSuccessResult(ResultDataConstant.MESSAGE_DELETE_SUCCESS);
     }

@@ -19,6 +19,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Date;
+
 @Transactional
 @Service
 public class DrivingDailyService {
@@ -55,6 +57,9 @@ public class DrivingDailyService {
         dailyEntity.setTotalDoneLength(BigDecimalValueConstant.ZERO);
         dailyEntity.setTotalOutput(BigDecimalValueConstant.ZERO);
         dailyEntity.setTotalPeopleNumber(LongValueConstant.ZERO);
+
+        // 修改工作面修改时间
+        drivingFace.setUpdateTime(new Date());
         // 添加信息
         return JoyResult.buildSuccessResultWithData(drivingDailyRepository.save(dailyEntity));
     }
@@ -77,9 +82,13 @@ public class DrivingDailyService {
             drivingFace.setDoneLength(drivingFace.getDoneLength().subtract(vo.getTotalDoneLengthSum()));
         }
         drivingFace.setLeftLength(drivingFace.getTotalLength().subtract(drivingFace.getDoneLength()));
+        // 修改工作面修改时间
+        drivingFace.setUpdateTime(new Date());
+
         // 删除该日报的详情信息
         drivingDailyDetailRepository.updateIsDeleteByDrivingDaily(info, true);
         // 删除日报信息
+        info.setUpdateTime(new Date());
         info.setIsDelete(true);
         drivingDailyRepository.save(info);
 

@@ -6,10 +6,11 @@ import com.joy.xxfy.informationaldxn.module.backmining.domain.entity.BackMiningF
 import com.joy.xxfy.informationaldxn.module.backmining.domain.repository.BackMiningDailyDetailRepository;
 import com.joy.xxfy.informationaldxn.module.backmining.domain.repository.BackMiningDailyRepository;
 import com.joy.xxfy.informationaldxn.module.backmining.domain.repository.BackMiningFaceRepository;
+import com.joy.xxfy.informationaldxn.module.cmplatform.domain.entity.CmPlatformEntity;
+import com.joy.xxfy.informationaldxn.module.cmplatform.domain.repository.CmPlatformRepository;
 import com.joy.xxfy.informationaldxn.module.department.domain.entity.DepartmentEntity;
 import com.joy.xxfy.informationaldxn.module.drill.domain.entity.DrillDailyEntity;
 import com.joy.xxfy.informationaldxn.module.drill.domain.entity.DrillWorkEntity;
-import com.joy.xxfy.informationaldxn.module.drill.domain.repository.DrillDailyDetailRepository;
 import com.joy.xxfy.informationaldxn.module.drill.domain.repository.DrillDailyRepository;
 import com.joy.xxfy.informationaldxn.module.drill.domain.repository.DrillWorkRepository;
 import com.joy.xxfy.informationaldxn.module.driving.domain.entity.DrivingDailyDetailEntity;
@@ -24,18 +25,20 @@ import com.joy.xxfy.informationaldxn.module.produce.domain.vo.CmStatisticVo;
 import com.joy.xxfy.informationaldxn.module.produce.web.req.SetRemarkReq;
 import com.joy.xxfy.informationaldxn.module.produce.web.res.CmStatisticRes;
 import com.joy.xxfy.informationaldxn.module.user.domain.entity.UserEntity;
+import com.joy.xxfy.informationaldxn.module.user.domain.enums.UserTypeEnum;
 import com.joy.xxfy.informationaldxn.publish.constant.BigDecimalValueConstant;
-import com.joy.xxfy.informationaldxn.publish.constant.LongValueConstant;
 import com.joy.xxfy.informationaldxn.publish.constant.StatisticConstant;
 import com.joy.xxfy.informationaldxn.publish.result.JoyResult;
+import com.joy.xxfy.informationaldxn.publish.result.Notice;
+import com.joy.xxfy.informationaldxn.publish.utils.CompareUtil;
 import com.joy.xxfy.informationaldxn.publish.utils.DateUtil;
 import com.joy.xxfy.informationaldxn.publish.utils.JoyBeanUtil;
 import com.joy.xxfy.informationaldxn.publish.utils.LogUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import sun.rmi.runtime.Log;
 
-import javax.jws.Oneway;
 import javax.validation.constraints.NotNull;
 import java.util.ArrayList;
 import java.util.Date;
@@ -46,7 +49,7 @@ import java.util.List;
  */
 @Transactional
 @Service
-public class CmStatisticService {
+public class CpStatisticService {
 
     @Autowired
     private ProduceCmDailyRepository produceCmDailyRepository;
@@ -76,25 +79,39 @@ public class CmStatisticService {
     @Autowired
     private DrillDailyRepository drillDailyRepository;
 
+    @Autowired
+    private CmPlatformRepository cmPlatformRepository;
 
     /**
      * 获取煤矿生产日报服务的所有统计数据
      */
-    public JoyResult getData(DepartmentEntity company, Date time) {
-        LogUtil.info("Start statistic time: {}", time);
-        LogUtil.info("Start statistic company: {}", company.getDepartmentName());
-        // 返回结果
-        CmStatisticRes res = new CmStatisticRes();
-        // copy数据
-        ProduceCmDailyEntity produceCmDailyEntity = produceCmDailyRepository.findAllByBelongCompanyAndDailyTime(company, time);
-        if(produceCmDailyEntity != null){
-            JoyBeanUtil.copyPropertiesIgnoreSourceNullProperties(produceCmDailyEntity,res);
+    public JoyResult getData(UserEntity loginUser, Date time) {
+        // 必须是集团账户
+        if(loginUser.getUserType() != UserTypeEnum.CP_ADMIN || loginUser.getUserType() != UserTypeEnum.CP_COMMON ){
+            return JoyResult.buildFailedResult(Notice.PERMISSION_FORBIDDEN);
         }
-        // 三维统计信息：后期这些信息可能需要存储到数据库
-        res.setDrivingStatistic(getDrivingData(company,time));
-        res.setBackMiningStatistic(getBackMiningData(company,time));
-        res.setDrillStatistic(getDrillData(company,time));
-        return JoyResult.buildSuccessResultWithData(res);
+        // 依次处理每一个煤矿的数据
+        List<CmPlatformEntity> cms = cmPlatformRepository.findAll();
+        for (CmPlatformEntity cm : cms) {
+            // 获取关联的公司信息
+            DepartmentEntity company = cm.getUser().getDepartment();
+            // 回采
+            List<CmStatisticVo> backMiningData = getBackMiningData(company, time);
+            // 掘进
+            List<CmStatisticVo> drivingData = getDrivingData(company, time);
+            // 钻孔
+            List<CmStatisticVo> drillData = getDrillData(company, time);
+            // 组装数据
+            int max = CompareUtil.getMaxNumber(backMiningData.size(), drivingData.size(), drillData.size());
+
+
+            drillData.size();
+
+        }
+
+
+
+        return JoyResult.buildSuccessResultWithData(null);
     }
 
     /**
@@ -305,18 +322,5 @@ public class CmStatisticService {
         }
         result.add(amount);
         return result;
-    }
-
-
-    public JoyResult setRemarks(SetRemarkReq req, UserEntity loginUser) {
-        // 查询是否具有这条数据
-        ProduceCmDailyEntity produceCmDailyEntity = produceCmDailyRepository.findAllByBelongCompanyAndDailyTime(loginUser.getCompany(), req.getTime());
-        if(produceCmDailyEntity == null){
-            produceCmDailyEntity = new ProduceCmDailyEntity();
-        }
-        produceCmDailyEntity.setBelongCompany(loginUser.getCompany());
-        produceCmDailyEntity.setDailyTime(req.getTime());
-        produceCmDailyEntity.setRemarks(req.getRemarks());
-        return JoyResult.buildSuccessResultWithData(produceCmDailyRepository.save(produceCmDailyEntity));
     }
 }

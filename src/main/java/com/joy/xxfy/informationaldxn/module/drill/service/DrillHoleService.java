@@ -25,6 +25,7 @@ import org.springframework.transaction.annotation.Transactional;
 import javax.persistence.criteria.Predicate;
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import static com.joy.xxfy.informationaldxn.publish.utils.ComputeUtils.equal;
@@ -58,6 +59,7 @@ public class DrillHoleService {
         drillHoleEntity.setDoneLength(BigDecimal.ZERO);
         // 剩余长度
         drillHoleEntity.setLeftLength(ComputeUtils.sub(drillHoleEntity.getTotalLength(), drillHoleEntity.getDoneLength()));
+        drillHoleEntity.setUpdateTime(new Date());
         // == 设置工作信息
         // 初始化统计参数
         // 钻孔总数: +1
@@ -70,6 +72,8 @@ public class DrillHoleService {
         // 已打总量: 不变
         // 未打总量：钻孔总量 - 已打总量 = 当前未打总量 + req.totalLength
         drillWork.setTotalLeftLength(drillWork.getTotalLength().subtract(drillWork.getTotalDoneLength()));
+        // 修改时间
+        drillWork.setUpdateTime(new Date());
         // 设置关联
         drillHoleEntity.setDrillWork(drillWork);
         // save

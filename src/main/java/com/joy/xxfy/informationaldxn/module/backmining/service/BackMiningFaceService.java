@@ -25,6 +25,7 @@ import org.springframework.transaction.annotation.Transactional;
 import javax.persistence.criteria.Predicate;
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 @Transactional
@@ -73,6 +74,8 @@ public class BackMiningFaceService {
         JoyBeanUtil.copyPropertiesIgnoreSourceNullProperties(req, info);
         // 计算已采长度
         info.setDoneLength(info.getReturnAirChute().add(info.getTransportChute()).divide(BigDecimalValueConstant.TWO));
+        // 修改时间
+        info.setUpdateTime(new Date());
         // save.
         return JoyResult.buildSuccessResultWithData(backMiningFaceRepository.save(info));
     }
@@ -90,7 +93,9 @@ public class BackMiningFaceService {
         if(dailies.size() > 0){
             return JoyResult.buildFailedResult(Notice.DAILY_EXIST_CANT_DELETE);
         }
-
+        // 修改时间
+        info.setUpdateTime(new Date());
+        // 设置删除状态
         info.setIsDelete(true);
         return JoyResult.buildSuccessResultWithData(backMiningFaceRepository.save(info));
     }

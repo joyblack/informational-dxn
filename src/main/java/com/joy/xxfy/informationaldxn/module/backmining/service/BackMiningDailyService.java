@@ -18,6 +18,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Date;
+
 @Transactional
 @Service
 public class BackMiningDailyService {
@@ -54,6 +56,10 @@ public class BackMiningDailyService {
         dailyEntity.setTotalDoneLength(BigDecimalValueConstant.ZERO);
         dailyEntity.setTotalOutput(BigDecimalValueConstant.ZERO);
         dailyEntity.setTotalPeopleNumber(LongValueConstant.ZERO);
+
+        // 回采面的更新时间
+        backMiningFace.setUpdateTime(new Date());
+
         // 添加信息
         return JoyResult.buildSuccessResultWithData(backMiningDailyRepository.save(dailyEntity));
     }

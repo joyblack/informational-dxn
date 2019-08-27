@@ -33,6 +33,9 @@ public class TrainingAttachmentEntity extends BaseEntity {
     // 名称
     private String fileName;
 
+    // 原始名称
+    private String originalName;
+
     // 大小
     private Long fileSize;
 

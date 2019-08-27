@@ -29,6 +29,9 @@ public class TrainingPhotoEntity extends BaseEntity {
     // 大小
     private Long fileSize;
 
+    // 原始名称
+    private String originalName;
+
     /**
      * 培训信息
      */

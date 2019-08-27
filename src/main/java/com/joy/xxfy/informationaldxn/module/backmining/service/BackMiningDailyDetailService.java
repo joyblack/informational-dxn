@@ -25,9 +25,11 @@ import org.springframework.transaction.annotation.Transactional;
 import javax.persistence.criteria.Predicate;
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import static com.joy.xxfy.informationaldxn.publish.utils.ComputeUtils.less;
+import static com.joy.xxfy.informationaldxn.publish.utils.ComputeUtils.more;
 
 @Transactional
 @Service
@@ -70,12 +72,13 @@ public class BackMiningDailyDetailService {
         if(less(req.getDoneLength(), BigDecimal.ZERO)){
             return JoyResult.buildFailedResult(Notice.LENGTH_SHOULD_MORE_ZERO);
         }
-        // 若当前提交的长度大于剩余长度，不合法，暂时无法验证
-//        if(more(req.getDoneLength(),backMiningDaily.getBackMiningFace().getLeftLength())){
-//            return JoyResult.buildFailedResult(Notice.SET_LENGTH_MORE_LEFT_LENGTH,
-//                    ResultDataConstant.MESSAGE_LEFT_LENGTH + backMiningDaily.getbackMiningFace().getLeftLength());
-//        }
-
+        // 若当前提交的长度大于剩余长度，不合法
+        BackMiningFaceEntity backMiningFace = backMiningDaily.getBackMiningFace();
+        BigDecimal leftLength = backMiningFace.getSlopeLength().subtract(backMiningFace.getDoneLength());
+        if(more(req.getDoneLength(), leftLength)){
+            return JoyResult.buildFailedResult(Notice.SET_LENGTH_MORE_LEFT_LENGTH,
+                    ResultDataConstant.MESSAGE_LEFT_LENGTH + leftLength);
+        }
         // 初始化某些值
         req.setPeopleNumber(req.getPeopleNumber() == null ? 0L: req.getPeopleNumber());
         req.setOutput(req.getOutput() == null? BigDecimal.ZERO: req.getOutput());
@@ -87,10 +90,14 @@ public class BackMiningDailyDetailService {
         backMiningDaily.setTotalDoneLength(backMiningDaily.getTotalDoneLength().add(req.getDoneLength()));
         // 总产量
         backMiningDaily.setTotalOutput(backMiningDaily.getTotalOutput().add(req.getOutput()));
+        // 修改时间
+        backMiningDaily.setUpdateTime(new Date());
 
         // == 修改工作面信息
         // 已掘长度：oldDoneLength + doneLength
-        backMiningDaily.getBackMiningFace().setDoneLength(backMiningDaily.getBackMiningFace().getDoneLength().add(req.getDoneLength()));
+        backMiningFace.setDoneLength(backMiningDaily.getBackMiningFace().getDoneLength().add(req.getDoneLength()));
+        // 更新时间
+        backMiningFace.setUpdateTime(new Date());
 //        // 剩余长度：total - doneLength
 //        backMiningDaily.getbackMiningFace().setLeftLength(backMiningDaily.getbackMiningFace().getTotalLength().subtract(backMiningDaily.getbackMiningFace().getDoneLength()));
 
@@ -147,12 +154,13 @@ public class BackMiningDailyDetailService {
         BigDecimal offsetDoneLength = req.getDoneLength().subtract(detail.getDoneLength());
         BigDecimal offsetOutput = req.getOutput().subtract(detail.getOutput());
 
-//        // 若差值大于工作面的剩余长度，不合法
-//        if(more(offsetDoneLength,detail.getbackMiningDaily().getbackMiningFace().getLeftLength())){
-//            return JoyResult.buildFailedResult(Notice.SET_LENGTH_MORE_LEFT_LENGTH,
-//                    ResultDataConstant.MESSAGE_LEFT_LENGTH + detail.getbackMiningDaily().getbackMiningFace().getLeftLength());
-//        }
-
+        // 若差值大于剩余长度，不合法
+        BackMiningFaceEntity backMiningFace = detail.getBackMiningDaily().getBackMiningFace();
+        BigDecimal leftLength = backMiningFace.getSlopeLength().subtract(backMiningFace.getDoneLength());
+        if(more(offsetDoneLength, leftLength)){
+            return JoyResult.buildFailedResult(Notice.SET_LENGTH_MORE_LEFT_LENGTH,
+                    ResultDataConstant.MESSAGE_LEFT_LENGTH + leftLength);
+        }
         // 班次
         detail.setShifts(req.getShifts());
         // 掘进队伍
@@ -176,11 +184,14 @@ public class BackMiningDailyDetailService {
         backMiningDaily.setTotalDoneLength(backMiningDaily.getTotalDoneLength().add(offsetDoneLength));
         // 总产量
         backMiningDaily.setTotalOutput(backMiningDaily.getTotalOutput().add(offsetOutput));
+        // 修改时间
+        backMiningDaily.setUpdateTime(new Date());
 
         // == 修改工作面信息
-        BackMiningFaceEntity backMiningFace = detail.getBackMiningDaily().getBackMiningFace();
         // 修改已掘长度
         backMiningFace.setDoneLength(backMiningFace.getDoneLength().add(offsetDoneLength));
+        // 修改时间
+        backMiningFace.setUpdateTime(new Date());
         // 修改剩余长度
         //backMiningFace.setLeftLength(backMiningFace.getTotalLength().subtract(backMiningFace.getDoneLength()));
         // save.
@@ -203,11 +214,15 @@ public class BackMiningDailyDetailService {
         backMiningDaily.setTotalDoneLength(backMiningDaily.getTotalDoneLength().subtract(detail.getDoneLength()));
         // 总产量
         backMiningDaily.setTotalOutput(backMiningDaily.getTotalOutput().subtract(detail.getOutput()));
+        // 修改时间
+        backMiningDaily.setUpdateTime(new Date());
 
         // == 修改工作面信息
         BackMiningFaceEntity backMiningFace = detail.getBackMiningDaily().getBackMiningFace();
         // 修改已掘长度
         backMiningFace.setDoneLength(backMiningFace.getDoneLength().subtract(detail.getDoneLength()));
+        // 修改时间
+        backMiningFace.setUpdateTime(new Date());
         // 修改剩余长度
         // backMiningFace.setLeftLength(backMiningFace.getTotalLength().subtract(backMiningFace.getDoneLength()));
 
@@ -225,16 +240,6 @@ public class BackMiningDailyDetailService {
         return JoyResult.buildSuccessResultWithData(backMiningDailyDetailRepository.findAllById(id));
     }
 
-    // 刷新掘进工作面信息：已掘长度和剩余长度
-    public BackMiningFaceEntity updateBackMiningFaceInformation(BackMiningFaceEntity backMiningFaceEntity){
-        // 获取剩余长度
-        SumBackMiningDailyDetailVo vo = backMiningDailyDetailRepository.aggDailyDetail(backMiningFaceEntity);
-        LogUtil.info("Sum info is {}.", vo);
-        // 刷新已掘长度
-        backMiningFaceEntity.setDoneLength(vo.getTotalDoneLengthSum());
-        //backMiningFaceEntity.setLeftLength(vo.getTotalDoneLengthSum().subtract(backMiningFaceEntity.getDoneLength()));
-        return backMiningFaceRepository.save(backMiningFaceEntity);
-    }
 
     /**
      * 获取分页数据

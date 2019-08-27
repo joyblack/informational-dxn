@@ -49,6 +49,8 @@ public class TrainingAttachmentService extends BaseService {
         trainingAttachment.setFileSize(file.getSize());
         // 所属记录
         trainingAttachment.setTraining(trainingEntity);
+        // 原始名字
+        trainingAttachment.setOriginalName(file.getOriginalFilename());
         // save
         return JoyResult.buildSuccessResultWithData(trainingAttachmentRepository.save(trainingAttachment));
     }
