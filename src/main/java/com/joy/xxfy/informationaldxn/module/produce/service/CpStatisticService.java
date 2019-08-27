@@ -103,6 +103,12 @@ public class CpStatisticService {
             List<CmStatisticVo> drillData = getDrillData(company, time);
             // 组装数据
             int max = CompareUtil.getMaxNumber(backMiningData.size(), drivingData.size(), drillData.size());
+            // 注意获取到的数据的最后一条是统计
+            for (int i = 0; i < max; i++) {
+                // 组装回采
+
+
+            }
 
 
             drillData.size();

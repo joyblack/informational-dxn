@@ -6,9 +6,7 @@ import com.joy.xxfy.informationaldxn.module.staff.domain.enums.LeaveTypeEnum;
 import org.junit.Test;
 
 import java.text.SimpleDateFormat;
-import java.util.Arrays;
-import java.util.Calendar;
-import java.util.Date;
+import java.util.*;
 
 public class JsonTests {
 
@@ -22,6 +20,7 @@ public class JsonTests {
         cale.set(Calendar.DAY_OF_MONTH, 1);
         System.out.println(format.format(cale.getTime()));
     }
+
 
 
 
