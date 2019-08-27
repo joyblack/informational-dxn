@@ -7,6 +7,7 @@ import com.joy.xxfy.informationaldxn.module.driving.domain.repository.DrivingFac
 import com.joy.xxfy.informationaldxn.module.driving.web.req.DrivingFaceAddReq;
 import com.joy.xxfy.informationaldxn.module.driving.web.req.DrivingFaceGetListReq;
 import com.joy.xxfy.informationaldxn.module.driving.web.req.DrivingFaceUpdateReq;
+import com.joy.xxfy.informationaldxn.module.user.domain.entity.UserEntity;
 import com.joy.xxfy.informationaldxn.publish.result.JoyResult;
 import com.joy.xxfy.informationaldxn.publish.result.Notice;
 import com.joy.xxfy.informationaldxn.publish.utils.JoyBeanUtil;
@@ -35,7 +36,7 @@ public class DrivingFaceService {
     /**
      * 添加
      */
-    public JoyResult add(DrivingFaceAddReq req) {
+    public JoyResult add(DrivingFaceAddReq req, UserEntity loginUser) {
         // 验证名称是否重复
         DrivingFaceEntity checkInfo = drivingFaceRepository.findAllByDrivingFaceName(req.getDrivingFaceName());
         if(checkInfo != null){
@@ -48,13 +49,14 @@ public class DrivingFaceService {
         drivingFaceInfo.setLeftLength(req.getTotalLength().subtract(req.getDoneLength()));
         LogUtil.info("Last drive face info is: {}", drivingFaceInfo);
         // save.
+        drivingFaceInfo.setBelongCompany(loginUser.getCompany());
         return JoyResult.buildSuccessResultWithData(drivingFaceRepository.save(drivingFaceInfo));
     }
 
     /**
      * 改
      */
-    public JoyResult update(DrivingFaceUpdateReq req) {
+    public JoyResult update(DrivingFaceUpdateReq req, UserEntity loginUser) {
         DrivingFaceEntity drivingFaceInfo = drivingFaceRepository.findAllById(req.getId());
         if(drivingFaceInfo == null){
             return JoyResult.buildFailedResult(Notice.DRIVING_FACE_NOT_EXIST);
@@ -72,7 +74,7 @@ public class DrivingFaceService {
     /**
      * 删除
      */
-    public JoyResult delete(Long id) {
+    public JoyResult delete(Long id, UserEntity loginUser) {
         DrivingFaceEntity drivingFaceInfo = drivingFaceRepository.findAllById(id);
         if(drivingFaceInfo == null){
             return JoyResult.buildFailedResult(Notice.DRIVING_FACE_NOT_EXIST);
@@ -90,7 +92,7 @@ public class DrivingFaceService {
     /**
      * 获取数据
      */
-    public JoyResult get(Long id) {
+    public JoyResult get(Long id, UserEntity loginUser) {
         // get older
         return JoyResult.buildSuccessResultWithData(drivingFaceRepository.findAllById(id));
     }
@@ -98,7 +100,7 @@ public class DrivingFaceService {
     /**
      * 获取数据(name)
      */
-    public JoyResult getByName(String name) {
+    public JoyResult getByName(String name, UserEntity loginUser) {
         // get older
         return JoyResult.buildSuccessResultWithData(drivingFaceRepository.findAllByDrivingFaceName(name));
     }
@@ -107,23 +109,26 @@ public class DrivingFaceService {
     /**
      * 获取分页数据
      */
-    public JoyResult getPagerList(DrivingFaceGetListReq req) {
-        return JoyResult.buildSuccessResultWithData(drivingFaceRepository.findAll(getPredicates(req), JpaPagerUtil.getPageable(req)));
+    public JoyResult getPagerList(DrivingFaceGetListReq req, UserEntity loginUser) {
+        return JoyResult.buildSuccessResultWithData(drivingFaceRepository.findAll(getPredicates(req,loginUser), JpaPagerUtil.getPageable(req)));
     }
 
     /**
      * 获取全部
      */
-    public JoyResult getAllList(DrivingFaceGetListReq req) {
-        return JoyResult.buildSuccessResultWithData(drivingFaceRepository.findAll(getPredicates(req)));
+    public JoyResult getAllList(DrivingFaceGetListReq req, UserEntity loginUser) {
+        return JoyResult.buildSuccessResultWithData(drivingFaceRepository.findAll(getPredicates(req,loginUser)));
     }
 
     /**
      * 获取分页数据、全部数据的谓词条件
      */
-    private Specification<DrivingFaceEntity> getPredicates(DrivingFaceGetListReq req){
+    private Specification<DrivingFaceEntity> getPredicates(DrivingFaceGetListReq req, UserEntity loginUser){
         return (Specification<DrivingFaceEntity>) (root, query, builder) -> {
             List<Predicate> predicates = new ArrayList<>();
+            // belong
+            predicates.add(builder.equal(root.get("belongCompany"),loginUser.getCompany()));
+
             // driving_face_name like
             if(!StringUtil.isEmpty(req.getDrivingFaceName())){
                 predicates.add(builder.like(root.get("drivingFaceName"), "%" + req.getDrivingFaceName() +"%"));

@@ -8,4 +8,7 @@ public interface UserRepository extends BaseRepository<UserEntity>, JpaRepositor
 
     // 根据登录名获取用户信息
     UserEntity findAllByLoginName(String loginName);
+
+    // 根据登录名和密码获取用户信息
+    UserEntity findAllByLoginNameAndPassword(String loginName,String password);
 }

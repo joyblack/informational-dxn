@@ -1,5 +1,6 @@
 package com.joy.xxfy.informationaldxn.module.backmining.web;
 
+import com.joy.xxfy.informationaldxn.module.common.web.BaseController;
 import com.joy.xxfy.informationaldxn.module.common.web.req.IdReq;
 import com.joy.xxfy.informationaldxn.module.common.web.req.NameReq;
 import com.joy.xxfy.informationaldxn.module.backmining.service.BackMiningFaceService;
@@ -15,11 +16,12 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
 @RestController
 @RequestMapping("produce-back-mining-face")
-public class BackMiningFaceController {
+public class BackMiningFaceController extends BaseController {
 
     @Autowired
     private BackMiningFaceService backMiningFaceService;
@@ -30,12 +32,12 @@ public class BackMiningFaceController {
     @PostMapping(
             value = "/add",
             produces = {"application/json;charset=UTF-8"})
-    public JoyResult add(@RequestBody @Valid BackMiningFaceAddReq req, BindingResult bindingResult) {
+    public JoyResult add(@RequestBody @Valid BackMiningFaceAddReq req, BindingResult bindingResult, HttpServletRequest request) {
         if (bindingResult.hasErrors()) {
             return JoyResult.buildFailedResult(Notice.REQUEST_PARAMETER_IS_ERROR, bindingResult.getFieldError().getDefaultMessage());
         } else {
             // copy
-            return backMiningFaceService.add(req);
+            return backMiningFaceService.add(req,getLoginUser(request));
         }
     }
 
@@ -105,11 +107,11 @@ public class BackMiningFaceController {
     @PostMapping(
             value = "/getPagerList",
             produces = {"application/json;charset=UTF-8"})
-    public JoyResult getPagerList(@RequestBody @Valid BackMiningFaceGetListReq req, BindingResult bindingResult) {
+    public JoyResult getPagerList(@RequestBody @Valid BackMiningFaceGetListReq req, BindingResult bindingResult, HttpServletRequest request) {
         if (bindingResult.hasErrors()) {
             return JoyResult.buildFailedResult(Notice.REQUEST_PARAMETER_IS_ERROR, bindingResult.getFieldError().getDefaultMessage());
         } else {
-            return backMiningFaceService.getPagerList(req);
+            return backMiningFaceService.getPagerList(req,getLoginUser(request));
         }
     }
 
@@ -119,11 +121,11 @@ public class BackMiningFaceController {
     @PostMapping(
             value = "/getAllList",
             produces = {"application/json;charset=UTF-8"})
-    public JoyResult getAllList(@RequestBody @Valid BackMiningFaceGetListReq req, BindingResult bindingResult) {
+    public JoyResult getAllList(@RequestBody @Valid BackMiningFaceGetListReq req, BindingResult bindingResult, HttpServletRequest request) {
         if (bindingResult.hasErrors()) {
             return JoyResult.buildFailedResult(Notice.REQUEST_PARAMETER_IS_ERROR, bindingResult.getFieldError().getDefaultMessage());
         } else {
-            return backMiningFaceService.getAllList(req);
+            return backMiningFaceService.getAllList(req,getLoginUser(request));
         }
     }
 }

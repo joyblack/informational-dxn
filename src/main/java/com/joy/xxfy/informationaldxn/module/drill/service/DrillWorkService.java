@@ -9,6 +9,7 @@ import com.joy.xxfy.informationaldxn.module.drill.web.req.DrillWorkAddReq;
 import com.joy.xxfy.informationaldxn.module.drill.web.req.DrillWorkGetListReq;
 import com.joy.xxfy.informationaldxn.module.drill.web.req.DrillWorkUpdateReq;
 import com.joy.xxfy.informationaldxn.module.drill.web.res.DrillWorkRes;
+import com.joy.xxfy.informationaldxn.module.user.domain.entity.UserEntity;
 import com.joy.xxfy.informationaldxn.publish.constant.BigDecimalValueConstant;
 import com.joy.xxfy.informationaldxn.publish.constant.LongValueConstant;
 import com.joy.xxfy.informationaldxn.publish.constant.ResultDataConstant;
@@ -44,7 +45,7 @@ public class DrillWorkService {
     /**
      * 添加
      */
-    public JoyResult add(DrillWorkAddReq req) {
+    public JoyResult add(DrillWorkAddReq req, UserEntity loginUser) {
         // 验证名称是否重复
         DrillWorkEntity drillWorkInfo = drillWorkRepository.findAllByDrillWorkName(req.getDrillWorkName());
         if(drillWorkInfo != null){
@@ -68,7 +69,8 @@ public class DrillWorkService {
         info.setTotalDoneLength(BigDecimalValueConstant.ZERO);
         // 未打总量：钻孔总量 - 已打总量
         info.setTotalLeftLength(info.getTotalLength().subtract(info.getTotalDoneLength()));
-
+        // 所属平台
+        info.setBelongCompany(loginUser.getCompany());
         DrillWorkEntity save = drillWorkRepository.save(info);
         // set return data.
         DrillWorkRes result = new DrillWorkRes();
@@ -156,23 +158,26 @@ public class DrillWorkService {
     /**
      * 获取分页数据
      */
-    public JoyResult getPagerList(DrillWorkGetListReq req) {
-        return JoyResult.buildSuccessResultWithData(drillWorkRepository.findAll(getPredicates(req), JpaPagerUtil.getPageable(req)));
+    public JoyResult getPagerList(DrillWorkGetListReq req, UserEntity loginUser) {
+        return JoyResult.buildSuccessResultWithData(drillWorkRepository.findAll(getPredicates(req,loginUser), JpaPagerUtil.getPageable(req)));
     }
 
     /**
      * 获取全部
      */
-    public JoyResult getAllList(DrillWorkGetListReq req) {
-        return JoyResult.buildSuccessResultWithData(drillWorkRepository.findAll(getPredicates(req)));
+    public JoyResult getAllList(DrillWorkGetListReq req, UserEntity loginUser) {
+        return JoyResult.buildSuccessResultWithData(drillWorkRepository.findAll(getPredicates(req,loginUser)));
     }
 
     /**
      * 获取分页数据、全部数据的谓词条件
      */
-    private Specification<DrillWorkEntity> getPredicates(DrillWorkGetListReq req){
+    private Specification<DrillWorkEntity> getPredicates(DrillWorkGetListReq req,UserEntity loginUser){
         return (Specification<DrillWorkEntity>) (root, query, builder) -> {
             List<Predicate> predicates = new ArrayList<>();
+
+            predicates.add(builder.equal(root.get("belongCompany"),loginUser.getCompany()));
+
             // name like
             if(!StringUtil.isEmpty(req.getDrillWorkName())){
                 predicates.add(builder.like(root.get("drillWorkName"), "%" + req.getDrillWorkName() +"%"));

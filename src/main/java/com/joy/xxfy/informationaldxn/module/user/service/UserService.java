@@ -3,6 +3,9 @@ package com.joy.xxfy.informationaldxn.module.user.service;
 import com.joy.xxfy.informationaldxn.module.common.web.req.BasePageReq;
 import com.joy.xxfy.informationaldxn.module.common.web.req.TestReq;
 import com.joy.xxfy.informationaldxn.module.department.domain.entity.DepartmentEntity;
+import com.joy.xxfy.informationaldxn.module.department.domain.repository.DepartmentRepository;
+import com.joy.xxfy.informationaldxn.publish.constant.DepartmentConstant;
+import com.joy.xxfy.informationaldxn.publish.constant.SystemConstant;
 import com.joy.xxfy.informationaldxn.publish.result.JoyResult;
 import com.joy.xxfy.informationaldxn.publish.result.Notice;
 import com.joy.xxfy.informationaldxn.publish.utils.JoyBeanUtil;
@@ -17,6 +20,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.criteria.Predicate;
+import javax.validation.constraints.NotNull;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -25,6 +29,9 @@ import java.util.List;
 public class UserService {
     @Autowired
     private UserRepository userRepository;
+
+    @Autowired
+    private DepartmentRepository departmentRepository;
 
     public JoyResult add(UserEntity user) {
         /**
@@ -42,10 +49,20 @@ public class UserService {
         }
         // 密码
         user.setPassword(MD5Util.encode(user.getPassword()));
+        // 获取所属部门
+        DepartmentEntity department = departmentRepository.findAllById(user.getDepartment().getId());
+        // 获取所属公司信息
+        user.setCompany(getCompanyByDepartment(department));
         // 保存数据
         UserEntity save = userRepository.save(user);
         save.setPassword(null);
         return JoyResult.buildSuccessResultWithData(save);
+    }
+
+    // 通过部门获取公司信息
+    public DepartmentEntity getCompanyByDepartment(DepartmentEntity departmentEntity){
+        String[] split = departmentEntity.getPath().split(DepartmentConstant.DEPARTMENT_PATH_SEPARATOR);
+        return departmentRepository.findAllById(Long.valueOf(split[0]));
     }
 
     public JoyResult update(UserEntity user) {

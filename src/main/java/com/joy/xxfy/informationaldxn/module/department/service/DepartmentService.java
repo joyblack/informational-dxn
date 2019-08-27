@@ -5,6 +5,7 @@ import com.joy.xxfy.informationaldxn.module.department.domain.enums.DepartmentTy
 import com.joy.xxfy.informationaldxn.module.department.domain.repository.DepartmentRepository;
 import com.joy.xxfy.informationaldxn.module.department.web.req.DepartmentAddReq;
 import com.joy.xxfy.informationaldxn.module.department.web.req.DepartmentUpdateReq;
+import com.joy.xxfy.informationaldxn.publish.constant.DepartmentConstant;
 import com.joy.xxfy.informationaldxn.publish.constant.SystemConstant;
 import com.joy.xxfy.informationaldxn.publish.result.JoyResult;
 import com.joy.xxfy.informationaldxn.publish.result.Notice;
@@ -34,7 +35,7 @@ public class DepartmentService{
     public JoyResult add(DepartmentAddReq req) {
         // check parent dept info.
         DepartmentEntity parent = departmentRepository.findAllById(req.getParentId());
-        if(!req.getParentId().equals(SystemConstant.TOP_NODE_ID) && parent == null){
+        if(!req.getParentId().equals(DepartmentConstant.COMPANY_PARENT_NODE_ID) && parent == null){
             return JoyResult.buildFailedResult(Notice.DEPARTMENT_PARENT_NOT_EXIST);
         }
         // check same name on common level.
@@ -77,7 +78,7 @@ public class DepartmentService{
         }
         // check parent dept info.
         DepartmentEntity parent = departmentRepository.findAllById(req.getParentId());
-        if(!req.getParentId().equals(SystemConstant.TOP_NODE_ID) && parent == null){
+        if(!req.getParentId().equals(DepartmentConstant.COMPANY_PARENT_NODE_ID) && parent == null){
             return JoyResult.buildFailedResult(Notice.DEPARTMENT_PARENT_NOT_EXIST);
         }
         // 检查是否有重名部门
@@ -108,18 +109,6 @@ public class DepartmentService{
         if(req.getRemarks() != null){
             departmentInfo.setRemarks(req.getRemarks());
         }
-        // 父部门信息,暂时不允许修改
-//        department.setParentId(req.getParentId());
-//
-//        // 将数据库的数据对应拷贝到目标对象的空值属性上，其余的保持目标属性的不变。
-//        JoyBeanUtil.copyPropertiesIgnoreSourceNullProperties(department, oldDept);
-//        DepartmentEntity save = departmentRepository.save(oldDept);
-//        // 更新所有相关节点的路径
-//        String oldPath = save.getPath();
-//        String newPath = getSuitPath(parent, department);
-//        save.setPath(newPath);
-//        departmentRepository.updateAllDepartmentPath(oldPath,newPath);
-        // 更新所有的之前的路径开头的数据
         return JoyResult.buildSuccessResultWithData(departmentInfo);
     }
 
@@ -162,9 +151,9 @@ public class DepartmentService{
      */
     private String getSuitPath(DepartmentEntity parent, DepartmentEntity child){
         if(parent == null){
-            return child.getId() + SystemConstant.DEPARTMENT_PATH_SEPARATOR;
+            return child.getId() + DepartmentConstant.DEPARTMENT_PATH_SEPARATOR;
         }else{
-            return parent.getPath()  + child.getId() + SystemConstant.DEPARTMENT_PATH_SEPARATOR;
+            return parent.getPath()  + child.getId() +  DepartmentConstant.DEPARTMENT_PATH_SEPARATOR;
         }
     }
 

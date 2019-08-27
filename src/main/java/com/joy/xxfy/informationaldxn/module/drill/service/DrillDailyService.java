@@ -9,6 +9,7 @@ import com.joy.xxfy.informationaldxn.module.drill.domain.repository.DrillDailyRe
 import com.joy.xxfy.informationaldxn.module.drill.domain.repository.DrillWorkRepository;
 import com.joy.xxfy.informationaldxn.module.drill.web.req.*;
 import com.joy.xxfy.informationaldxn.module.drill.web.res.DrillDailyRes;
+import com.joy.xxfy.informationaldxn.module.user.domain.entity.UserEntity;
 import com.joy.xxfy.informationaldxn.publish.constant.ResultDataConstant;
 import com.joy.xxfy.informationaldxn.publish.result.JoyResult;
 import com.joy.xxfy.informationaldxn.publish.result.Notice;
@@ -133,23 +134,24 @@ public class DrillDailyService {
     /**
      * 获取分页数据
      */
-    public JoyResult getPagerList(DrillDailyGetListReq req) {
-        return JoyResult.buildSuccessResultWithData(drillDailyRepository.findAll(getPredicates(req), JpaPagerUtil.getPageable(req)));
+    public JoyResult getPagerList(DrillDailyGetListReq req, UserEntity loginUser) {
+        return JoyResult.buildSuccessResultWithData(drillDailyRepository.findAll(getPredicates(req, loginUser), JpaPagerUtil.getPageable(req)));
     }
 
     /**
      * 获取全部
      */
-    public JoyResult getAllList(DrillDailyGetListReq req) {
-        return JoyResult.buildSuccessResultWithData(drillDailyRepository.findAll(getPredicates(req)));
+    public JoyResult getAllList(DrillDailyGetListReq req, UserEntity loginUser) {
+        return JoyResult.buildSuccessResultWithData(drillDailyRepository.findAll(getPredicates(req, loginUser)));
     }
 
     /**
      * 获取分页数据、全部数据的谓词条件
      */
-    private Specification<DrillDailyEntity> getPredicates(DrillDailyGetListReq req){
+    private Specification<DrillDailyEntity> getPredicates(DrillDailyGetListReq req, UserEntity loginUser){
         return (Specification<DrillDailyEntity>) (root, query, builder) -> {
             List<Predicate> predicates = new ArrayList<>();
+            predicates.add(builder.equal(root.get("drillWork").get("belongCompany"), loginUser.getCompany()));
             // name like
             if(!StringUtil.isEmpty(req.getDrillWorkName())){
                 predicates.add(builder.like(root.get("drillWork").get("drillWorkName"), "%" + req.getDrillWorkName() +"%"));

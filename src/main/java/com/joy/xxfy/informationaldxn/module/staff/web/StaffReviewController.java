@@ -1,5 +1,6 @@
 package com.joy.xxfy.informationaldxn.module.staff.web;
 
+import com.joy.xxfy.informationaldxn.module.common.web.BaseController;
 import com.joy.xxfy.informationaldxn.publish.result.JoyResult;
 import com.joy.xxfy.informationaldxn.publish.result.Notice;
 import com.joy.xxfy.informationaldxn.module.staff.service.StaffReviewService;
@@ -12,11 +13,12 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
 @RestController
 @RequestMapping("staff-review")
-public class StaffReviewController {
+public class StaffReviewController extends BaseController {
     @Autowired
     private StaffReviewService staffReviewService;
 
@@ -56,12 +58,12 @@ public class StaffReviewController {
     @PostMapping(
             value = "review",
             produces = {"application/json;charset=UTF-8"})
-    public JoyResult review(@RequestBody @Valid ReviewReq req, BindingResult bindingResult) {
+    public JoyResult review(@RequestBody @Valid ReviewReq req, BindingResult bindingResult, HttpServletRequest request) {
         if (bindingResult.hasErrors()) {
             return JoyResult.buildFailedResult(Notice.REQUEST_PARAMETER_IS_ERROR, bindingResult.getFieldError().getDefaultMessage());
         } else {
             // copy
-            return staffReviewService.review(req);
+            return staffReviewService.review(req, getLoginUser(request));
         }
     }
 

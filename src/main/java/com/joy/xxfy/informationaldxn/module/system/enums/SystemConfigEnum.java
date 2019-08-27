@@ -2,7 +2,12 @@ package com.joy.xxfy.informationaldxn.module.system.enums;
 
 public enum SystemConfigEnum {
 
-    CM_PLATFORM_USER_DEFAULT_PASSWORD("煤矿管理平台用户的默认密码");
+   USER_DEFAULT_PASSWORD("用户的默认密码");
+
+
+
+
+
 
     private String describes;
 

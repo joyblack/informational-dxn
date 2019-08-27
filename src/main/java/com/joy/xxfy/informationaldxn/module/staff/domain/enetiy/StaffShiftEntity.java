@@ -18,7 +18,7 @@ import java.util.Date;
 @Entity
 @Data
 @ToString(callSuper = true)
-@Table(name = "personal_staff_shift")
+@Table(name = "staff_shift")
 @Where(clause = "is_delete = 0")
 public class StaffShiftEntity extends BaseEntity {
     /**

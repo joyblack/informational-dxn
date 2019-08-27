@@ -8,6 +8,7 @@ import com.joy.xxfy.informationaldxn.module.driving.domain.repository.DrivingFac
 import com.joy.xxfy.informationaldxn.module.driving.domain.vo.SumDrivingDailyDetailVo;
 import com.joy.xxfy.informationaldxn.module.driving.web.req.DrivingDailyAddReq;
 import com.joy.xxfy.informationaldxn.module.driving.web.res.DrivingDailyRes;
+import com.joy.xxfy.informationaldxn.module.user.domain.entity.UserEntity;
 import com.joy.xxfy.informationaldxn.publish.constant.BigDecimalValueConstant;
 import com.joy.xxfy.informationaldxn.publish.constant.LongValueConstant;
 import com.joy.xxfy.informationaldxn.publish.constant.ResultDataConstant;
@@ -34,7 +35,7 @@ public class DrivingDailyService {
     /**
      * 添加
      */
-    public JoyResult add(DrivingDailyAddReq req) {
+    public JoyResult add(DrivingDailyAddReq req, UserEntity loginUser) {
         // 验证工作面信息是否存在
         DrivingFaceEntity drivingFace = drivingFaceRepository.findAllById(req.getDrivingFaceId());
         if(drivingFace == null){
@@ -62,7 +63,7 @@ public class DrivingDailyService {
     /**
      * 删除
      */
-    public JoyResult delete(Long id) {
+    public JoyResult delete(Long id, UserEntity loginUser) {
         // 获取日报信息
         DrivingDailyEntity info = drivingDailyRepository.findAllById(id);
         if(info == null){
@@ -88,7 +89,7 @@ public class DrivingDailyService {
     /**
      * 获取数据
      */
-    public JoyResult get(Long id) {
+    public JoyResult get(Long id, UserEntity loginUser) {
         DrivingDailyRes res = new DrivingDailyRes();
         DrivingDailyEntity info = drivingDailyRepository.findAllById(id);
         if(info != null){

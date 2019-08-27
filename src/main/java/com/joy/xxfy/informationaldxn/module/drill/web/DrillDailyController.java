@@ -1,5 +1,6 @@
 package com.joy.xxfy.informationaldxn.module.drill.web;
 
+import com.joy.xxfy.informationaldxn.module.common.web.BaseController;
 import com.joy.xxfy.informationaldxn.module.common.web.req.IdReq;
 import com.joy.xxfy.informationaldxn.module.drill.service.DrillDailyService;
 import com.joy.xxfy.informationaldxn.module.drill.web.req.*;
@@ -12,11 +13,12 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
 @RestController
 @RequestMapping("produce-drill-daily")
-public class DrillDailyController {
+public class DrillDailyController extends BaseController {
     @Autowired
     private DrillDailyService drillDailyService;
 
@@ -87,11 +89,11 @@ public class DrillDailyController {
     @PostMapping(
             value = "/getPagerList",
             produces = {"application/json;charset=UTF-8"})
-    public JoyResult getPagerList(@RequestBody @Valid DrillDailyGetListReq req, BindingResult bindingResult) {
+    public JoyResult getPagerList(@RequestBody @Valid DrillDailyGetListReq req, BindingResult bindingResult, HttpServletRequest request) {
         if (bindingResult.hasErrors()) {
             return JoyResult.buildFailedResult(Notice.REQUEST_PARAMETER_IS_ERROR, bindingResult.getFieldError().getDefaultMessage());
         } else {
-            return drillDailyService.getPagerList(req);
+            return drillDailyService.getPagerList(req,getLoginUser(request));
         }
     }
 
@@ -101,11 +103,11 @@ public class DrillDailyController {
     @PostMapping(
             value = "/getAllList",
             produces = {"application/json;charset=UTF-8"})
-    public JoyResult getAllList(@RequestBody @Valid DrillDailyGetListReq req, BindingResult bindingResult) {
+    public JoyResult getAllList(@RequestBody @Valid DrillDailyGetListReq req, BindingResult bindingResult, HttpServletRequest request) {
         if (bindingResult.hasErrors()) {
             return JoyResult.buildFailedResult(Notice.REQUEST_PARAMETER_IS_ERROR, bindingResult.getFieldError().getDefaultMessage());
         } else {
-            return drillDailyService.getAllList(req);
+            return drillDailyService.getAllList(req, getLoginUser(request));
         }
     }
 }

@@ -1,5 +1,6 @@
 package com.joy.xxfy.informationaldxn.module.staff.service;
 
+import com.joy.xxfy.informationaldxn.module.user.domain.entity.UserEntity;
 import com.joy.xxfy.informationaldxn.publish.result.JoyResult;
 import com.joy.xxfy.informationaldxn.publish.result.Notice;
 import com.joy.xxfy.informationaldxn.publish.utils.StringUtil;
@@ -103,7 +104,7 @@ public class StaffReviewService {
     /**
      * 对员工入职信息进行审核
      */
-    public JoyResult review(ReviewReq req) {
+    public JoyResult review(ReviewReq req, UserEntity loginUser) {
         // must be select review result.
         if(req.getReviewStatus().equals(ReviewStatusEnum.WAIT)){
             return JoyResult.buildFailedResult(Notice.STAFF_REVIEW_STATUS_MUST_BE_SELECT);
@@ -120,8 +121,8 @@ public class StaffReviewService {
         entryInfo.setReviewStatus(req.getReviewStatus());
         // 审核备注信息
         entryInfo.setReviewRemarks(req.getReviewRemarks());
-        // 设置审核人信息:SESSION_USER
-        entryInfo.setReviewUser(null);
+        // 设置审核人信息
+        entryInfo.setReviewUser(loginUser);
         return JoyResult.buildSuccessResultWithData(staffEntryRepository.save(entryInfo));
     }
 }

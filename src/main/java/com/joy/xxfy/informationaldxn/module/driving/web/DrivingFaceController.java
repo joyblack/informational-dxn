@@ -1,5 +1,6 @@
 package com.joy.xxfy.informationaldxn.module.driving.web;
 
+import com.joy.xxfy.informationaldxn.module.common.web.BaseController;
 import com.joy.xxfy.informationaldxn.module.common.web.req.IdReq;
 import com.joy.xxfy.informationaldxn.module.common.web.req.NameReq;
 import com.joy.xxfy.informationaldxn.module.driving.service.DrivingFaceService;
@@ -15,11 +16,12 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
 @RestController
 @RequestMapping("produce-driving-face")
-public class DrivingFaceController {
+public class DrivingFaceController extends BaseController {
     @Autowired
     private DrivingFaceService drivingFaceService;
 
@@ -29,12 +31,12 @@ public class DrivingFaceController {
     @PostMapping(
             value = "/add",
             produces = {"application/json;charset=UTF-8"})
-    public JoyResult add(@RequestBody @Valid DrivingFaceAddReq req, BindingResult bindingResult) {
+    public JoyResult add(@RequestBody @Valid DrivingFaceAddReq req, BindingResult bindingResult, HttpServletRequest request) {
         if (bindingResult.hasErrors()) {
             return JoyResult.buildFailedResult(Notice.REQUEST_PARAMETER_IS_ERROR, bindingResult.getFieldError().getDefaultMessage());
         } else {
             // copy
-            return drivingFaceService.add(req);
+            return drivingFaceService.add(req, getLoginUser(request));
         }
     }
 
@@ -44,12 +46,12 @@ public class DrivingFaceController {
     @PostMapping(
             value = "/delete",
             produces = {"application/json;charset=UTF-8"})
-    public JoyResult delete(@RequestBody @Valid IdReq req, BindingResult bindingResult) {
+    public JoyResult delete(@RequestBody @Valid IdReq req, BindingResult bindingResult, HttpServletRequest request) {
         if (bindingResult.hasErrors()) {
             return JoyResult.buildFailedResult(Notice.REQUEST_PARAMETER_IS_ERROR, bindingResult.getFieldError().getDefaultMessage());
         } else {
             // copy
-            return drivingFaceService.delete(req.getId());
+            return drivingFaceService.delete(req.getId(), getLoginUser(request));
         }
     }
 
@@ -59,12 +61,12 @@ public class DrivingFaceController {
     @PostMapping(
             value = "/get",
             produces = {"application/json;charset=UTF-8"})
-    public JoyResult get(@RequestBody @Valid IdReq req, BindingResult bindingResult) {
+    public JoyResult get(@RequestBody @Valid IdReq req, BindingResult bindingResult, HttpServletRequest request) {
         if (bindingResult.hasErrors()) {
             return JoyResult.buildFailedResult(Notice.REQUEST_PARAMETER_IS_ERROR, bindingResult.getFieldError().getDefaultMessage());
         } else {
             // copy
-            return drivingFaceService.get(req.getId());
+            return drivingFaceService.get(req.getId(), getLoginUser(request));
         }
     }
 
@@ -74,12 +76,12 @@ public class DrivingFaceController {
     @PostMapping(
             value = "/getByName",
             produces = {"application/json;charset=UTF-8"})
-    public JoyResult getByName(@RequestBody @Valid NameReq req, BindingResult bindingResult) {
+    public JoyResult getByName(@RequestBody @Valid NameReq req, BindingResult bindingResult, HttpServletRequest request) {
         if (bindingResult.hasErrors()) {
             return JoyResult.buildFailedResult(Notice.REQUEST_PARAMETER_IS_ERROR, bindingResult.getFieldError().getDefaultMessage());
         } else {
             // copy
-            return drivingFaceService.getByName(req.getName());
+            return drivingFaceService.getByName(req.getName(),getLoginUser(request));
         }
     }
 
@@ -89,12 +91,12 @@ public class DrivingFaceController {
     @PostMapping(
             value = "/update",
             produces = {"application/json;charset=UTF-8"})
-    public JoyResult update(@RequestBody @Valid DrivingFaceUpdateReq req, BindingResult bindingResult) {
+    public JoyResult update(@RequestBody @Valid DrivingFaceUpdateReq req, BindingResult bindingResult, HttpServletRequest request) {
         if (bindingResult.hasErrors()) {
             return JoyResult.buildFailedResult(Notice.REQUEST_PARAMETER_IS_ERROR, bindingResult.getFieldError().getDefaultMessage());
         } else {
             // copy
-            return drivingFaceService.update(req);
+            return drivingFaceService.update(req,getLoginUser(request));
         }
     }
 
@@ -104,11 +106,11 @@ public class DrivingFaceController {
     @PostMapping(
             value = "/getPagerList",
             produces = {"application/json;charset=UTF-8"})
-    public JoyResult getPagerList(@RequestBody @Valid DrivingFaceGetListReq req, BindingResult bindingResult) {
+    public JoyResult getPagerList(@RequestBody @Valid DrivingFaceGetListReq req, BindingResult bindingResult, HttpServletRequest request) {
         if (bindingResult.hasErrors()) {
             return JoyResult.buildFailedResult(Notice.REQUEST_PARAMETER_IS_ERROR, bindingResult.getFieldError().getDefaultMessage());
         } else {
-            return drivingFaceService.getPagerList(req);
+            return drivingFaceService.getPagerList(req,getLoginUser(request));
         }
     }
 
@@ -118,11 +120,11 @@ public class DrivingFaceController {
     @PostMapping(
             value = "/getAllList",
             produces = {"application/json;charset=UTF-8"})
-    public JoyResult getAllList(@RequestBody @Valid DrivingFaceGetListReq req, BindingResult bindingResult) {
+    public JoyResult getAllList(@RequestBody @Valid DrivingFaceGetListReq req, BindingResult bindingResult, HttpServletRequest request) {
         if (bindingResult.hasErrors()) {
             return JoyResult.buildFailedResult(Notice.REQUEST_PARAMETER_IS_ERROR, bindingResult.getFieldError().getDefaultMessage());
         } else {
-            return drivingFaceService.getAllList(req);
+            return drivingFaceService.getAllList(req, getLoginUser(request));
         }
     }
 }

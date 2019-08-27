@@ -11,6 +11,7 @@ import javax.persistence.Transient;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity(name = "all_department")
@@ -60,5 +61,5 @@ public class DepartmentEntity extends BaseEntity implements Serializable {
      * 子部门
      */
     @Transient
-    private List<DepartmentEntity> children;
+    private List<DepartmentEntity> children = new ArrayList<>();
 }

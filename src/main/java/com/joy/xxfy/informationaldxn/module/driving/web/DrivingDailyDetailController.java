@@ -1,5 +1,6 @@
 package com.joy.xxfy.informationaldxn.module.driving.web;
 
+import com.joy.xxfy.informationaldxn.module.common.web.BaseController;
 import com.joy.xxfy.informationaldxn.module.common.web.req.IdReq;
 import com.joy.xxfy.informationaldxn.module.common.web.req.NameReq;
 import com.joy.xxfy.informationaldxn.module.driving.service.DrivingDailyDetailService;
@@ -14,11 +15,12 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
 @RestController
 @RequestMapping("produce-driving-daily-detail")
-public class DrivingDailyDetailController {
+public class DrivingDailyDetailController extends BaseController {
     @Autowired
     private DrivingDailyDetailService drivingDailyDetailService;
 
@@ -28,12 +30,12 @@ public class DrivingDailyDetailController {
     @PostMapping(
             value = "/add",
             produces = {"application/json;charset=UTF-8"})
-    public JoyResult add(@RequestBody @Valid DrivingDailyDetailAddReq req, BindingResult bindingResult) {
+    public JoyResult add(@RequestBody @Valid DrivingDailyDetailAddReq req, BindingResult bindingResult, HttpServletRequest request) {
         if (bindingResult.hasErrors()) {
             return JoyResult.buildFailedResult(Notice.REQUEST_PARAMETER_IS_ERROR, bindingResult.getFieldError().getDefaultMessage());
         } else {
             // copy
-            return drivingDailyDetailService.add(req);
+            return drivingDailyDetailService.add(req, getLoginUser(request));
         }
     }
 
@@ -43,12 +45,12 @@ public class DrivingDailyDetailController {
     @PostMapping(
             value = "/delete",
             produces = {"application/json;charset=UTF-8"})
-    public JoyResult delete(@RequestBody @Valid IdReq req, BindingResult bindingResult) {
+    public JoyResult delete(@RequestBody @Valid IdReq req, BindingResult bindingResult, HttpServletRequest request) {
         if (bindingResult.hasErrors()) {
             return JoyResult.buildFailedResult(Notice.REQUEST_PARAMETER_IS_ERROR, bindingResult.getFieldError().getDefaultMessage());
         } else {
             // copy
-            return drivingDailyDetailService.delete(req.getId());
+            return drivingDailyDetailService.delete(req.getId(), getLoginUser(request));
         }
     }
 
@@ -58,12 +60,12 @@ public class DrivingDailyDetailController {
     @PostMapping(
             value = "/get",
             produces = {"application/json;charset=UTF-8"})
-    public JoyResult get(@RequestBody @Valid IdReq req, BindingResult bindingResult) {
+    public JoyResult get(@RequestBody @Valid IdReq req, BindingResult bindingResult, HttpServletRequest request) {
         if (bindingResult.hasErrors()) {
             return JoyResult.buildFailedResult(Notice.REQUEST_PARAMETER_IS_ERROR, bindingResult.getFieldError().getDefaultMessage());
         } else {
             // copy
-            return drivingDailyDetailService.get(req.getId());
+            return drivingDailyDetailService.get(req.getId(), getLoginUser(request));
         }
     }
 
@@ -74,12 +76,12 @@ public class DrivingDailyDetailController {
     @PostMapping(
             value = "/update",
             produces = {"application/json;charset=UTF-8"})
-    public JoyResult update(@RequestBody @Valid DrivingDailyDetailUpdateReq req, BindingResult bindingResult) {
+    public JoyResult update(@RequestBody @Valid DrivingDailyDetailUpdateReq req, BindingResult bindingResult, HttpServletRequest request) {
         if (bindingResult.hasErrors()) {
             return JoyResult.buildFailedResult(Notice.REQUEST_PARAMETER_IS_ERROR, bindingResult.getFieldError().getDefaultMessage());
         } else {
             // copy
-            return drivingDailyDetailService.update(req);
+            return drivingDailyDetailService.update(req, getLoginUser(request));
         }
     }
 
@@ -89,11 +91,11 @@ public class DrivingDailyDetailController {
     @PostMapping(
             value = "/getPagerList",
             produces = {"application/json;charset=UTF-8"})
-    public JoyResult getPagerList(@RequestBody @Valid DrivingDailyDetailGetListReq req, BindingResult bindingResult) {
+    public JoyResult getPagerList(@RequestBody @Valid DrivingDailyDetailGetListReq req, BindingResult bindingResult, HttpServletRequest request) {
         if (bindingResult.hasErrors()) {
             return JoyResult.buildFailedResult(Notice.REQUEST_PARAMETER_IS_ERROR, bindingResult.getFieldError().getDefaultMessage());
         } else {
-            return drivingDailyDetailService.getPagerList(req);
+            return drivingDailyDetailService.getPagerList(req, getLoginUser(request));
         }
     }
 
@@ -103,11 +105,11 @@ public class DrivingDailyDetailController {
     @PostMapping(
             value = "/getAllList",
             produces = {"application/json;charset=UTF-8"})
-    public JoyResult getAllList(@RequestBody @Valid DrivingDailyDetailGetListReq req, BindingResult bindingResult) {
+    public JoyResult getAllList(@RequestBody @Valid DrivingDailyDetailGetListReq req, BindingResult bindingResult, HttpServletRequest request) {
         if (bindingResult.hasErrors()) {
             return JoyResult.buildFailedResult(Notice.REQUEST_PARAMETER_IS_ERROR, bindingResult.getFieldError().getDefaultMessage());
         } else {
-            return drivingDailyDetailService.getAllList(req);
+            return drivingDailyDetailService.getAllList(req, getLoginUser(request));
         }
     }
 }

@@ -1,9 +1,11 @@
 package com.joy.xxfy.informationaldxn.module.driving.domain.repository;
 
 import com.joy.xxfy.informationaldxn.module.common.domain.repository.BaseRepository;
+import com.joy.xxfy.informationaldxn.module.department.domain.entity.DepartmentEntity;
 import com.joy.xxfy.informationaldxn.module.driving.domain.entity.DrivingDailyEntity;
 import com.joy.xxfy.informationaldxn.module.driving.domain.entity.DrivingFaceEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
 
 import java.util.Date;
 import java.util.List;
@@ -14,4 +16,9 @@ public interface DrivingDailyRepository extends BaseRepository<DrivingDailyEntit
 
     // 通过掘进工作面信息获取日报信息
     List<DrivingDailyEntity> findAllByDrivingFace(DrivingFaceEntity drivingFaceEntity);
+
+    // 统计：平台&当天
+    @Query("select d from DrivingDailyEntity d where d.dailyTime = :dailyTime and d.drivingFace.belongCompany = :company")
+    List<DrivingDailyEntity> findAllByBeLongCompanyAndDailyTime(DepartmentEntity company, Date daily);
+
 }

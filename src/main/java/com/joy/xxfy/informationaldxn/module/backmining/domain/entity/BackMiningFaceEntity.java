@@ -4,13 +4,12 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import com.joy.xxfy.informationaldxn.module.common.domain.entity.BaseEntity;
 import com.joy.xxfy.informationaldxn.module.backmining.domain.enums.BackMiningModeEnum;
 import com.joy.xxfy.informationaldxn.module.backmining.domain.enums.VentilationModeEnum;
+import com.joy.xxfy.informationaldxn.module.department.domain.entity.DepartmentEntity;
 import lombok.Data;
 import lombok.ToString;
 import org.hibernate.annotations.Where;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.math.BigDecimal;
 import java.util.Date;
 
@@ -24,6 +23,13 @@ import java.util.Date;
 @Where(clause = "is_delete = 0")
 public class BackMiningFaceEntity extends BaseEntity {
 
+    /**
+     * 所属的煤矿平台，设置为当前操作者所在的集团/煤矿平台
+     */
+    @ManyToOne(cascade = {},fetch = FetchType.EAGER)
+    @JoinColumn(name = "belong_company_id")
+    private DepartmentEntity belongCompany;
+    
     /**
      * 名称
      */

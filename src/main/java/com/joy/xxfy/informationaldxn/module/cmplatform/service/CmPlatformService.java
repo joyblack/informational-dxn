@@ -11,6 +11,7 @@ import com.joy.xxfy.informationaldxn.module.common.web.req.ChangePasswordReq;
 import com.joy.xxfy.informationaldxn.module.department.domain.entity.DepartmentEntity;
 import com.joy.xxfy.informationaldxn.module.department.domain.enums.DepartmentTypeEnum;
 import com.joy.xxfy.informationaldxn.module.department.domain.repository.DepartmentRepository;
+import com.joy.xxfy.informationaldxn.publish.constant.DepartmentConstant;
 import com.joy.xxfy.informationaldxn.publish.constant.SystemConstant;
 import com.joy.xxfy.informationaldxn.publish.result.JoyResult;
 import com.joy.xxfy.informationaldxn.publish.result.Notice;
@@ -50,9 +51,6 @@ public class CmPlatformService {
 
     @Autowired
     private SystemConfigRepository systemConfigRepository;
-
-    @Value("${system.config.cm-platform-default-password}")
-    private String defaultPassword;
 
     public JoyResult add(AddCmPlatformReq addCmPlatformReq) {
         // 检测煤矿名称是否重复.
@@ -288,7 +286,7 @@ public class CmPlatformService {
         // 名称设置为平台名称
         department.setDepartmentName(req.getCmName());
         // 父ID设置为0
-        department.setParentId(SystemConstant.TOP_NODE_ID);
+        department.setParentId(DepartmentConstant.COMPANY_PARENT_NODE_ID);
         // 联系电话和生成的用户保持一致
         department.setPhone(req.getPhone());
         // 负责人为管理员的姓名
@@ -315,8 +313,10 @@ public class CmPlatformService {
         user.setPhone(req.getPhone());
         // 类型：煤矿平台管理员
         user.setUserType(UserTypeEnum.CM_ADMIN);
-        // 部门ID
+        // 部门
         user.setDepartment(department);
+        // 公司：同部门
+        user.setCompany(department);
         return user;
     }
 
@@ -330,12 +330,7 @@ public class CmPlatformService {
             return recommendPassword;
         }else{
             // 获取密码
-            SystemConfigEntity defaultPasswordConfig = systemConfigRepository.findAllByConfigName(SystemConfigEnum.CM_PLATFORM_USER_DEFAULT_PASSWORD.name());
-            if(defaultPasswordConfig == null || StringUtil.isEmpty(defaultPasswordConfig.getConfigValue())){
-                return defaultPassword;
-            }else{
-                return defaultPasswordConfig.getConfigValue();
-            }
+            return systemConfigRepository.findAllByConfigName(SystemConfigEnum.USER_DEFAULT_PASSWORD.name()).getConfigValue();
         }
     }
 

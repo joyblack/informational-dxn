@@ -4,6 +4,7 @@ import com.joy.xxfy.informationaldxn.module.department.domain.entity.DepartmentE
 import com.joy.xxfy.informationaldxn.module.department.domain.repository.DepartmentRepository;
 import com.joy.xxfy.informationaldxn.module.position.domain.entity.PositionEntity;
 import com.joy.xxfy.informationaldxn.module.position.domain.repository.PositionRepository;
+import com.joy.xxfy.informationaldxn.module.user.domain.entity.UserEntity;
 import com.joy.xxfy.informationaldxn.publish.result.JoyResult;
 import com.joy.xxfy.informationaldxn.publish.result.Notice;
 import com.joy.xxfy.informationaldxn.publish.utils.LogUtil;
@@ -339,23 +340,25 @@ public class StaffEntryService {
     /**
      * 获取分页数据
      */
-    public JoyResult getPagerList(StaffEntryGetListReq req) {
-        return JoyResult.buildSuccessResultWithData(staffEntryRepository.findAll(getPredicates(req), JpaPagerUtil.getPageable(req)));
+    public JoyResult getPagerList(StaffEntryGetListReq req, UserEntity loginUser) {
+        return JoyResult.buildSuccessResultWithData(staffEntryRepository.findAll(getPredicates(req, loginUser), JpaPagerUtil.getPageable(req)));
     }
 
     /**
      * 获取全部
      */
-    public JoyResult getAllList(StaffEntryGetListReq req) {
-        return JoyResult.buildSuccessResultWithData(staffEntryRepository.findAll(getPredicates(req)));
+    public JoyResult getAllList(StaffEntryGetListReq req, UserEntity loginUser) {
+        return JoyResult.buildSuccessResultWithData(staffEntryRepository.findAll(getPredicates(req, loginUser)));
     }
 
     /**
      * 获取分页数据、全部数据的谓词条件
      */
-    private Specification<StaffEntryEntity> getPredicates(StaffEntryGetListReq req){
+    private Specification<StaffEntryEntity> getPredicates(StaffEntryGetListReq req,UserEntity loginUser){
         return (Specification<StaffEntryEntity>) (root, query, builder) -> {
             List<Predicate> predicates = new ArrayList<>();
+            // 只返回本平台的数据
+            predicates.add(builder.equal(root.get("company"), loginUser.getCompany()));
             // username like
             if(!StringUtil.isEmpty(req.getUsername())){
                 predicates.add(builder.like(root.get("staffPersonal").get("username"), "%" + req.getUsername() +"%"));

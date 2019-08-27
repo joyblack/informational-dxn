@@ -20,7 +20,6 @@ import java.util.Date;
 @ToString(callSuper = true)
 @Where(clause = "is_delete = 0")
 public class DrillDailyEntity extends BaseEntity {
-
     /**
      * 关联的钻孔工作
      */

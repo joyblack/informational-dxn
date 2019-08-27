@@ -1,5 +1,6 @@
 package com.joy.xxfy.informationaldxn.module.drill.web;
 
+import com.joy.xxfy.informationaldxn.module.common.web.BaseController;
 import com.joy.xxfy.informationaldxn.module.common.web.req.IdReq;
 import com.joy.xxfy.informationaldxn.module.common.web.req.NameReq;
 import com.joy.xxfy.informationaldxn.module.drill.service.DrillWorkService;
@@ -15,11 +16,12 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
 @RestController
 @RequestMapping("produce-drill-work")
-public class DrillWorkController {
+public class DrillWorkController extends BaseController {
     @Autowired
     private DrillWorkService drillWorkService;
 
@@ -29,12 +31,12 @@ public class DrillWorkController {
     @PostMapping(
             value = "/add",
             produces = {"application/json;charset=UTF-8"})
-    public JoyResult add(@RequestBody @Valid DrillWorkAddReq req, BindingResult bindingResult) {
+    public JoyResult add(@RequestBody @Valid DrillWorkAddReq req, BindingResult bindingResult, HttpServletRequest request) {
         if (bindingResult.hasErrors()) {
             return JoyResult.buildFailedResult(Notice.REQUEST_PARAMETER_IS_ERROR, bindingResult.getFieldError().getDefaultMessage());
         } else {
             // copy
-            return drillWorkService.add(req);
+            return drillWorkService.add(req, getLoginUser(request));
         }
     }
 
@@ -104,11 +106,11 @@ public class DrillWorkController {
     @PostMapping(
             value = "/getPagerList",
             produces = {"application/json;charset=UTF-8"})
-    public JoyResult getPagerList(@RequestBody @Valid DrillWorkGetListReq req, BindingResult bindingResult) {
+    public JoyResult getPagerList(@RequestBody @Valid DrillWorkGetListReq req, BindingResult bindingResult, HttpServletRequest request) {
         if (bindingResult.hasErrors()) {
             return JoyResult.buildFailedResult(Notice.REQUEST_PARAMETER_IS_ERROR, bindingResult.getFieldError().getDefaultMessage());
         } else {
-            return drillWorkService.getPagerList(req);
+            return drillWorkService.getPagerList(req,getLoginUser(request));
         }
     }
 
@@ -118,11 +120,11 @@ public class DrillWorkController {
     @PostMapping(
             value = "/getAllList",
             produces = {"application/json;charset=UTF-8"})
-    public JoyResult getAllList(@RequestBody @Valid DrillWorkGetListReq req, BindingResult bindingResult) {
+    public JoyResult getAllList(@RequestBody @Valid DrillWorkGetListReq req, BindingResult bindingResult, HttpServletRequest request) {
         if (bindingResult.hasErrors()) {
             return JoyResult.buildFailedResult(Notice.REQUEST_PARAMETER_IS_ERROR, bindingResult.getFieldError().getDefaultMessage());
         } else {
-            return drillWorkService.getAllList(req);
+            return drillWorkService.getAllList(req,getLoginUser(request));
         }
     }
 }

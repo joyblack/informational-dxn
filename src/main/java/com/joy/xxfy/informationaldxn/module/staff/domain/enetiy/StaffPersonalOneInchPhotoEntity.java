@@ -27,9 +27,4 @@ public class StaffPersonalOneInchPhotoEntity extends BaseEntity {
     // 大小
     private Long fileSize;
 
-    // 所属的个人信息
-    // ...
-
-
-
 }

@@ -2,6 +2,7 @@ package com.joy.xxfy.informationaldxn.module.drill.domain.entity;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.joy.xxfy.informationaldxn.module.common.domain.entity.BaseEntity;
+import com.joy.xxfy.informationaldxn.module.department.domain.entity.DepartmentEntity;
 import com.joy.xxfy.informationaldxn.module.drill.domain.enums.DrillCategoryEnum;
 import com.joy.xxfy.informationaldxn.module.drill.domain.enums.DrillRockCharacterEnum;
 import com.joy.xxfy.informationaldxn.module.drill.domain.enums.DrillTypeEnum;
@@ -22,6 +23,12 @@ import java.util.Date;
 @ToString(callSuper = true)
 @Where(clause = "is_delete = 0")
 public class DrillWorkEntity extends BaseEntity {
+    /**
+     * 所属的煤矿平台，设置为当前操作者所在的集团/煤矿平台
+     */
+    @ManyToOne(cascade = {},fetch = FetchType.EAGER)
+    @JoinColumn(name = "belong_company_id")
+    private DepartmentEntity belongCompany;
 
     /**
      * 钻孔工作名称

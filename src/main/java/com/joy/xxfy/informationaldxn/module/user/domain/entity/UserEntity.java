@@ -66,4 +66,11 @@ public class UserEntity extends BaseEntity implements Serializable {
     @ManyToOne(cascade = {},fetch = FetchType.EAGER)
     private DepartmentEntity department;
 
+    /**
+     * 公司信息
+     */
+    @JoinColumn(name = "company_id")
+    @ManyToOne(cascade = {},fetch = FetchType.EAGER)
+    private DepartmentEntity company;
+
 }

@@ -35,11 +35,10 @@ public class LoginService {
         }
         String md5Password = MD5Util.encode(loginReq.getPassword());
         // 登录名查询
-        UserEntity user = userRepository.findAllByLoginName(loginReq.getLoginName());
+        UserEntity user = userRepository.findAllByLoginNameAndPassword(loginReq.getLoginName(),md5Password);
         if(user != null){
             Map<String, Object> claims = new HashMap<String, Object>();
             claims.put(Token.USER.getName(), user);
-            System.out.println(user);
             return JoyResult.buildSuccessResultWithData(JwtUtil.createJWT(claims, jwtParamConfig));
         }else{
             return JoyResult.buildFailedResult("登录名/手机号/身份证/与密码不匹配");

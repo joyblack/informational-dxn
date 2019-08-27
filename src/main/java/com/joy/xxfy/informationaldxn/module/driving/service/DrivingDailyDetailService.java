@@ -11,6 +11,7 @@ import com.joy.xxfy.informationaldxn.module.driving.domain.repository.DrivingFac
 import com.joy.xxfy.informationaldxn.module.driving.web.req.DrivingDailyDetailAddReq;
 import com.joy.xxfy.informationaldxn.module.driving.web.req.DrivingDailyDetailGetListReq;
 import com.joy.xxfy.informationaldxn.module.driving.web.req.DrivingDailyDetailUpdateReq;
+import com.joy.xxfy.informationaldxn.module.user.domain.entity.UserEntity;
 import com.joy.xxfy.informationaldxn.publish.constant.ResultDataConstant;
 import com.joy.xxfy.informationaldxn.publish.result.JoyResult;
 import com.joy.xxfy.informationaldxn.publish.result.Notice;
@@ -48,7 +49,7 @@ public class DrivingDailyDetailService {
     /**
      * 添加
      */
-    public JoyResult add(DrivingDailyDetailAddReq req) {
+    public JoyResult add(DrivingDailyDetailAddReq req, UserEntity loginUser) {
         // == 验证
         // 验证日报信息是否存在：该日期的掘进日报是否已经填写(不会有多个煤矿平台操作的，因此这个变量无需考虑)
         DrivingDailyEntity drivingDaily = drivingDailyRepository.findAllById(req.getDrivingDailyId());
@@ -121,7 +122,7 @@ public class DrivingDailyDetailService {
     /**
      * 改
      */
-    public JoyResult update(DrivingDailyDetailUpdateReq req) {
+    public JoyResult update(DrivingDailyDetailUpdateReq req, UserEntity loginUser) {
         // 获取打钻详情信息
         DrivingDailyDetailEntity detail = drivingDailyDetailRepository.findAllById(req.getId());
         if(detail == null){
@@ -189,7 +190,7 @@ public class DrivingDailyDetailService {
     /**
      * 删除
      */
-    public JoyResult delete(Long id) {
+    public JoyResult delete(Long id, UserEntity loginUser) {
         DrivingDailyDetailEntity detail = drivingDailyDetailRepository.findAllById(id);
         if(detail == null){
             return JoyResult.buildFailedResult(Notice.DAILY_DETAIL_NOT_EXIST);
@@ -220,30 +221,34 @@ public class DrivingDailyDetailService {
     /**
      * 获取数据
      */
-    public JoyResult get(Long id) {
+    public JoyResult get(Long id, UserEntity loginUser) {
         return JoyResult.buildSuccessResultWithData(drivingDailyDetailRepository.findAllById(id));
     }
 
     /**
      * 获取分页数据
      */
-    public JoyResult getPagerList(DrivingDailyDetailGetListReq req) {
-        return JoyResult.buildSuccessResultWithData(drivingDailyDetailRepository.findAll(getPredicates(req), JpaPagerUtil.getPageable(req)));
+    public JoyResult getPagerList(DrivingDailyDetailGetListReq req, UserEntity loginUser) {
+        return JoyResult.buildSuccessResultWithData(drivingDailyDetailRepository.findAll(getPredicates(req,loginUser), JpaPagerUtil.getPageable(req)));
     }
 
     /**
      * 获取全部
      */
-    public JoyResult getAllList(DrivingDailyDetailGetListReq req) {
-        return JoyResult.buildSuccessResultWithData(drivingDailyDetailRepository.findAll(getPredicates(req)));
+    public JoyResult getAllList(DrivingDailyDetailGetListReq req, UserEntity loginUser) {
+        return JoyResult.buildSuccessResultWithData(drivingDailyDetailRepository.findAll(getPredicates(req,loginUser)));
     }
 
     /**
      * 获取分页数据、全部数据的谓词条件
      */
-    private Specification<DrivingDailyDetailEntity> getPredicates(DrivingDailyDetailGetListReq req){
+    private Specification<DrivingDailyDetailEntity> getPredicates(DrivingDailyDetailGetListReq req, UserEntity loginUser){
         return (Specification<DrivingDailyDetailEntity>) (root, query, builder) -> {
             List<Predicate> predicates = new ArrayList<>();
+            predicates.add(builder.equal(root.get("drivingDaily").get("drivingFace").get("belongCompany"), loginUser.getCompany()));
+            // belong
+            predicates.add(builder.equal(root.get("belongCompany"),loginUser.getCompany()));
+
             if(req.getDrivingFaceId() != null){
                 predicates.add(builder.equal(root.get("drivingDaily").get("drivingFace").get("id"), req.getDrivingFaceId()));
             }

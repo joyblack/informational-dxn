@@ -1,6 +1,7 @@
 package com.joy.xxfy.informationaldxn.module.drill.domain.entity;
 
 import com.joy.xxfy.informationaldxn.module.common.domain.entity.BaseEntity;
+import com.joy.xxfy.informationaldxn.module.department.domain.entity.DepartmentEntity;
 import lombok.Data;
 import lombok.ToString;
 import org.hibernate.annotations.Where;
@@ -20,7 +21,6 @@ import java.util.Date;
 @ToString(callSuper = true)
 @Where(clause = "is_delete = 0")
 public class DrillHoleEntity extends BaseEntity {
-
     /**
      * 关联的钻孔工作
      */

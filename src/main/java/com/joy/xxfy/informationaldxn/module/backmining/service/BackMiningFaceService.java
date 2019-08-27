@@ -8,6 +8,8 @@ import com.joy.xxfy.informationaldxn.module.backmining.web.req.BackMiningFaceAdd
 import com.joy.xxfy.informationaldxn.module.backmining.web.req.BackMiningFaceGetListReq;
 import com.joy.xxfy.informationaldxn.module.backmining.web.req.BackMiningFaceUpdateReq;
 import com.joy.xxfy.informationaldxn.module.drill.domain.entity.DrillDailyEntity;
+import com.joy.xxfy.informationaldxn.module.user.domain.entity.UserEntity;
+import com.joy.xxfy.informationaldxn.publish.constant.BigDecimalValueConstant;
 import com.joy.xxfy.informationaldxn.publish.constant.SystemConstant;
 import com.joy.xxfy.informationaldxn.publish.result.JoyResult;
 import com.joy.xxfy.informationaldxn.publish.result.Notice;
@@ -38,7 +40,7 @@ public class BackMiningFaceService {
     /**
      * 添加
      */
-    public JoyResult add(BackMiningFaceAddReq req) {
+    public JoyResult add(BackMiningFaceAddReq req, UserEntity loginUser) {
         // 验证名称是否重复
         BackMiningFaceEntity backMiningFaceName = backMiningFaceRepository.findAllByBackMiningFaceName(req.getBackMiningFaceName());
         if(backMiningFaceName != null){
@@ -48,9 +50,10 @@ public class BackMiningFaceService {
         BackMiningFaceEntity info = new BackMiningFaceEntity();
         JoyBeanUtil.copyPropertiesIgnoreTargetNotNullProperties(req, info);
         // 已采长度：(回风顺槽 + 运输顺槽)/2
-        info.setDoneLength(info.getReturnAirChute().add(info.getTransportChute()).divide(SystemConstant.TWO));
+        info.setDoneLength(info.getReturnAirChute().add(info.getTransportChute()).divide(BigDecimalValueConstant.TWO));
         LogUtil.info("Last back mining face info is: {}", info);
         // save.
+        info.setBelongCompany(loginUser.getCompany());
         return JoyResult.buildSuccessResultWithData(backMiningFaceRepository.save(info));
     }
 
@@ -69,7 +72,7 @@ public class BackMiningFaceService {
         }
         JoyBeanUtil.copyPropertiesIgnoreSourceNullProperties(req, info);
         // 计算已采长度
-        info.setDoneLength(info.getReturnAirChute().add(info.getTransportChute()).divide(SystemConstant.TWO));
+        info.setDoneLength(info.getReturnAirChute().add(info.getTransportChute()).divide(BigDecimalValueConstant.TWO));
         // save.
         return JoyResult.buildSuccessResultWithData(backMiningFaceRepository.save(info));
     }
@@ -110,23 +113,24 @@ public class BackMiningFaceService {
     /**
      * 获取分页数据
      */
-    public JoyResult getPagerList(BackMiningFaceGetListReq req) {
-        return JoyResult.buildSuccessResultWithData(backMiningFaceRepository.findAll(getPredicates(req), JpaPagerUtil.getPageable(req)));
+    public JoyResult getPagerList(BackMiningFaceGetListReq req, UserEntity loginUser) {
+        return JoyResult.buildSuccessResultWithData(backMiningFaceRepository.findAll(getPredicates(req, loginUser), JpaPagerUtil.getPageable(req)));
     }
 
     /**
      * 获取全部
      */
-    public JoyResult getAllList(BackMiningFaceGetListReq req) {
-        return JoyResult.buildSuccessResultWithData(backMiningFaceRepository.findAll(getPredicates(req)));
+    public JoyResult getAllList(BackMiningFaceGetListReq req, UserEntity loginUser) {
+        return JoyResult.buildSuccessResultWithData(backMiningFaceRepository.findAll(getPredicates(req, loginUser)));
     }
 
     /**
      * 获取分页数据、全部数据的谓词条件
      */
-    private Specification<BackMiningFaceEntity> getPredicates(BackMiningFaceGetListReq req){
+    private Specification<BackMiningFaceEntity> getPredicates(BackMiningFaceGetListReq req, UserEntity loginUser){
         return (Specification<BackMiningFaceEntity>) (root, query, builder) -> {
             List<Predicate> predicates = new ArrayList<>();
+            predicates.add(builder.equal(root.get("belongCompany"), loginUser.getCompany()));
             // name like
             if(!StringUtil.isEmpty(req.getBackMiningFaceName())){
                 predicates.add(builder.like(root.get("backMiningFaceName"), "%" + req.getBackMiningFaceName() +"%"));

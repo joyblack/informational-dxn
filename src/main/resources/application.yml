@@ -37,7 +37,7 @@ spring:
 jwtparam:
   issuer: ec8b63c05f999a15a8c8567002a560a8
   audience: 541bee7d2a922cc0a81ff4ca3c23f4af
-  TTLMillis: 3600000
+  TTLMillis: 360000000
   base64Security: JXU4RDM1JXU3MTY0JXU4QkJFJXU4QkEx1
 
 
@@ -45,12 +45,17 @@ jwtparam:
 logging:
   level:
       org.hibernate.type.descriptor.sql.BasicBinder: trace
-# 业务配置
+# client config.
 system:
   config:
-    cm-platform-default-password: 123456
+    user-default-password: 123456
     staff-black-list-over-month: 6
-# 上传配置
+# upload config
   upload:
     store-path: E:&&informational_dxn
     image-format: jpg;JPG;bmp;BMP;png;PNG
+# initial config
+  initial:
+    company-name: 大西南矿业集团
+    super-admin-default-name: admin
+    super-admin-default-password: 123456

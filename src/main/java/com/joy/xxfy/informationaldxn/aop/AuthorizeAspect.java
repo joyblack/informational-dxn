@@ -7,6 +7,7 @@ import com.joy.xxfy.informationaldxn.publish.result.Notice;
 import com.joy.xxfy.informationaldxn.publish.utils.jwt.JwtUtil;
 import com.joy.xxfy.informationaldxn.publish.utils.jwt.Token;
 import io.jsonwebtoken.Claims;
+import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Before;
 import org.aspectj.lang.annotation.Pointcut;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,17 +21,18 @@ import javax.servlet.http.HttpServletResponse;
 /**
  * 登陆拦截
  */
-//@Aspect
+@Aspect
 @Component
 public class AuthorizeAspect {
 
     @Autowired
     private JwtParamConfig jwtParamConfig;
 
-    @Pointcut("execution(public * com.joy.xxfy.informationaldxn.*.web.*Controller.*(..))"
+    @Pointcut("execution(public * com.joy.xxfy.informationaldxn.module.*.web.*Controller.*(..))"
             + "&&!execution(public * com.joy.xxfy.informationaldxn.module.login.web.LoginController.*(..))"
             + "&&!execution(public * com.joy.xxfy.informationaldxn.module.login..web.UserController.*(..))"
             + "&&!execution(public * com.joy.xxfy.informationaldxn.module.system.web.HeartController.*(..))"
+            + "&&!execution(public * com.joy.xxfy.informationaldxn.module.system.web.SystemController.*(..))"
            )
     public void auth() {
     }
