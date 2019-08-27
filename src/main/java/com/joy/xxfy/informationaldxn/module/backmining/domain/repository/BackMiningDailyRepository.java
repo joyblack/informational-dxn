@@ -5,7 +5,10 @@ import com.joy.xxfy.informationaldxn.module.backmining.domain.entity.BackMiningF
 import com.joy.xxfy.informationaldxn.module.common.domain.repository.BaseRepository;
 import com.joy.xxfy.informationaldxn.module.driving.domain.entity.DrivingDailyEntity;
 import com.joy.xxfy.informationaldxn.module.driving.domain.entity.DrivingFaceEntity;
+import com.joy.xxfy.informationaldxn.module.produce.domain.vo.CmStatisticVo;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 
 import java.util.Date;
 import java.util.List;
@@ -16,4 +19,9 @@ public interface BackMiningDailyRepository extends BaseRepository<BackMiningDail
 
     // 通过工作面获取日报列表
     List<BackMiningDailyEntity> findAllByBackMiningFace(BackMiningFaceEntity backMiningFaceEntity);
+
+    // 统计某工作面月累计进尺&月累计产煤
+    @Query("select new com.joy.xxfy.informationaldxn.module.produce.domain.vo.CmStatisticVo(sum(d.totalDoneLength),sum(d.totalOutput)) " +
+            " from BackMiningDailyEntity d where d.backMiningFace = :face and d.dailyTime between :start and :end")
+    CmStatisticVo statisticDoneAndOutPut(@Param("face")BackMiningFaceEntity face, @Param("start")Date start, @Param("end")Date end);
 }

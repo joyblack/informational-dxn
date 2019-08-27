@@ -11,6 +11,10 @@ import java.math.BigDecimal;
 @Data
 @ToString
 public class CmStatisticVo {
+    /**
+     * 工作面名称
+     */
+    private String workName;
 
     /*早中晚圆进尺*/
     private BigDecimal morningLength = BigDecimal.ZERO;
@@ -25,6 +29,10 @@ public class CmStatisticVo {
     private Long shiftTotalPeople = 0L;
 
     public CmStatisticVo() {
+    }
+
+    public CmStatisticVo(BigDecimal monthLength) {
+        this.monthLength = monthLength;
     }
 
     public CmStatisticVo(BigDecimal monthLength, BigDecimal monthOutput) {

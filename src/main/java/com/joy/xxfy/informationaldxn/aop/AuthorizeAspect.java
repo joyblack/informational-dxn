@@ -33,6 +33,8 @@ public class AuthorizeAspect {
             + "&&!execution(public * com.joy.xxfy.informationaldxn.module.login..web.UserController.*(..))"
             + "&&!execution(public * com.joy.xxfy.informationaldxn.module.system.web.HeartController.*(..))"
             + "&&!execution(public * com.joy.xxfy.informationaldxn.module.system.web.SystemController.*(..))"
+            // 开放文件下载权限
+            + "&&!execution(public * com.joy.xxfy.informationaldxn.module.system.web.*.download*(..))"
            )
     public void auth() {
     }

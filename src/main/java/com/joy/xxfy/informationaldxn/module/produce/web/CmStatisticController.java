@@ -2,6 +2,7 @@ package com.joy.xxfy.informationaldxn.module.produce.web;
 
 import com.joy.xxfy.informationaldxn.module.common.web.req.TimeReq;
 import com.joy.xxfy.informationaldxn.module.produce.service.CmStatisticService;
+import com.joy.xxfy.informationaldxn.module.produce.web.req.SetRemarkReq;
 import com.joy.xxfy.informationaldxn.module.user.domain.entity.UserEntity;
 import com.joy.xxfy.informationaldxn.publish.result.JoyResult;
 import com.joy.xxfy.informationaldxn.publish.result.Notice;
@@ -25,14 +26,29 @@ public class CmStatisticController {
      * 添加
      */
     @PostMapping(
-            value = "/getData",
+            value = "/getStatisticData",
             produces = {"application/json;charset=UTF-8"})
-    public JoyResult add(@RequestBody @Valid TimeReq req, BindingResult bindingResult, HttpServletRequest request) {
+    public JoyResult getStatisticData(@RequestBody @Valid TimeReq req, BindingResult bindingResult, HttpServletRequest request) {
         if (bindingResult.hasErrors()) {
             return JoyResult.buildFailedResult(Notice.REQUEST_PARAMETER_IS_ERROR, bindingResult.getFieldError().getDefaultMessage());
         } else {
             UserEntity user = TokenUtil.getUser(request);
             return cmStatisticService.getData(user.getCompany(),req.getTime());
+        }
+    }
+
+    /**
+     * 设置备注信息
+     */
+    @PostMapping(
+            value = "/setRemarks",
+            produces = {"application/json;charset=UTF-8"})
+    public JoyResult setRemarks(@RequestBody @Valid SetRemarkReq req, BindingResult bindingResult, HttpServletRequest request) {
+        if (bindingResult.hasErrors()) {
+            return JoyResult.buildFailedResult(Notice.REQUEST_PARAMETER_IS_ERROR, bindingResult.getFieldError().getDefaultMessage());
+        } else {
+            UserEntity user = TokenUtil.getUser(request);
+            return cmStatisticService.setRemarks(req, user);
         }
     }
 
