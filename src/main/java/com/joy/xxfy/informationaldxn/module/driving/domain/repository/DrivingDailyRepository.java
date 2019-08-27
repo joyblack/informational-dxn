@@ -4,6 +4,7 @@ import com.joy.xxfy.informationaldxn.module.common.domain.repository.BaseReposit
 import com.joy.xxfy.informationaldxn.module.department.domain.entity.DepartmentEntity;
 import com.joy.xxfy.informationaldxn.module.driving.domain.entity.DrivingDailyEntity;
 import com.joy.xxfy.informationaldxn.module.driving.domain.entity.DrivingFaceEntity;
+import com.joy.xxfy.informationaldxn.module.produce.domain.vo.CmStatisticVo;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
@@ -17,8 +18,10 @@ public interface DrivingDailyRepository extends BaseRepository<DrivingDailyEntit
     // 通过掘进工作面信息获取日报信息
     List<DrivingDailyEntity> findAllByDrivingFace(DrivingFaceEntity drivingFaceEntity);
 
-    // 统计：平台&当天
-    @Query("select d from DrivingDailyEntity d where d.dailyTime = :dailyTime and d.drivingFace.belongCompany = :company")
-    List<DrivingDailyEntity> findAllByBeLongCompanyAndDailyTime(DepartmentEntity company, Date daily);
+    // 统计某工作面月累计进尺&月累计产煤
+    @Query("select new com.joy.xxfy.informationaldxn.module.produce.domain.vo.CmStatisticVo(sum(d.totalDoneLength),sum(d.totalOutput)) " +
+            " from DrivingDailyEntity d where d.drivingFace = :drivingFace and d.dailyTime between :start and :end")
+    CmStatisticVo statisticDoneAndOutPut(DrivingFaceEntity drivingFace, Date start, Date end);
+
 
 }

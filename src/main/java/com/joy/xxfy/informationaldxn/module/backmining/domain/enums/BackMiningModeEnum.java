@@ -4,7 +4,7 @@ package com.joy.xxfy.informationaldxn.module.backmining.domain.enums;
  *  回采方式
  */
 public enum BackMiningModeEnum {
-    BLASTING("炮采"),
+    BLASTING_MINING("炮采"),
     HIGH_GRADE("高档普采"),
     INTEGRATION_MACHINE("综合化机械");
     private String describes;

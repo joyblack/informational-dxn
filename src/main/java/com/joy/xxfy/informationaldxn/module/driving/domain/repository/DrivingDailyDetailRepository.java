@@ -7,11 +7,13 @@ import com.joy.xxfy.informationaldxn.module.driving.domain.entity.DrivingDailyDe
 import com.joy.xxfy.informationaldxn.module.driving.domain.entity.DrivingDailyEntity;
 import com.joy.xxfy.informationaldxn.module.driving.domain.entity.DrivingFaceEntity;
 import com.joy.xxfy.informationaldxn.module.driving.domain.vo.SumDrivingDailyDetailVo;
+import com.joy.xxfy.informationaldxn.module.produce.domain.vo.CmStatisticVo;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
+import java.util.Date;
 import java.util.List;
 
 public interface DrivingDailyDetailRepository extends BaseRepository<DrivingDailyDetailEntity>, JpaRepository<DrivingDailyDetailEntity, Long> {
@@ -34,6 +36,5 @@ public interface DrivingDailyDetailRepository extends BaseRepository<DrivingDail
     // 统计某个日报的总已处理长度、总产量以及总人数
     @Query("select new com.joy.xxfy.informationaldxn.module.driving.domain.vo.SumDrivingDailyDetailVo(sum(d.doneLength), sum(d.output), sum(d.peopleNumber)) from DrivingDailyDetailEntity d where d.drivingDaily = :drivingDaily")
     SumDrivingDailyDetailVo aggDailyDetail(@Param("drivingDaily") DrivingDailyEntity drivingDailyEntity);
-
 
 }
