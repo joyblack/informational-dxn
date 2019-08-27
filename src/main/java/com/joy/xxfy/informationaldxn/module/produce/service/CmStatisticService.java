@@ -100,8 +100,6 @@ public class CmStatisticService {
      * 获取掘进面统计数据
      */
     public List<CmStatisticVo> getDrivingData(DepartmentEntity company, Date time) {
-        LogUtil.info("Start statistic time: {}", time);
-        LogUtil.info("Start statistic company: {}", company.getDepartmentName());
         List<CmStatisticVo> result = new ArrayList<>();
         // 获取属于该平台的工作面列表
         List<DrivingFaceEntity> faces = drivingFaceRepository.findAllByBelongCompany(company);
@@ -109,11 +107,13 @@ public class CmStatisticService {
             CmStatisticVo vo = new CmStatisticVo();
             // 获取该工作面对应的本日的日报信息
             DrivingDailyEntity daily = drivingDailyRepository.findAllByDrivingFaceAndDailyTime(face, time);
+            System.out.println(daily);
             // 若日报有填写, 获取日报详情信息
             if(daily != null){
                 List<DrivingDailyDetailEntity> details = drivingDailyDetailRepository.findAllByDrivingDaily(daily);
                 // 同一个班次会出现很多次(因为队伍不同)
                 for (DrivingDailyDetailEntity detail : details) {
+
                     switch (detail.getShifts()) {
                         case MORNING:
                             // 进尺
@@ -157,8 +157,6 @@ public class CmStatisticService {
      * 获取回采统计
      */
     public List<CmStatisticVo> getBackMiningData(DepartmentEntity company, Date time) {
-        LogUtil.info("Start statistic time: {}", time);
-        LogUtil.info("Start statistic company: {}", company.getDepartmentName());
         List<CmStatisticVo> result = new ArrayList<>();
         // 获取属于该平台的工作面列表
         List<BackMiningFaceEntity> faces = backMiningFaceRepository.findAllByBelongCompany(company);
@@ -219,8 +217,6 @@ public class CmStatisticService {
      * 钻孔也只有打钻进尺的数据
      */
     public List<CmStatisticVo> getDrillData(DepartmentEntity company, Date time) {
-        LogUtil.info("Start statistic time: {}", time);
-        LogUtil.info("Start statistic company: {}", company.getDepartmentName());
         List<CmStatisticVo> result = new ArrayList<>();
         // 获取属于该平台的钻孔工作列表
         List<DrillWorkEntity> works = drillWorkRepository.findAllByBelongCompany(company);

@@ -42,6 +42,11 @@ public class DrillHoleAddReq extends BaseAddReq {
     private BigDecimal dipAngle;
 
     /**
+     * 夹角
+     */
+    private BigDecimal intersectionAngle;
+
+    /**
      * 预计见煤
      */
     private BigDecimal predicateAppearCoal;
