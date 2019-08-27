@@ -11,6 +11,9 @@ import java.math.BigDecimal;
 @Data
 @ToString
 public class CpStatisticVo {
+    // 该条数据是合计
+    private boolean isAmount = false;
+
     /*回采工作面：早中班日月产煤量*/
     private String backMiningFaceName = "";
     private BigDecimal backMiningMorningOutput = BigDecimal.ZERO;

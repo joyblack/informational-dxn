@@ -141,6 +141,8 @@ public class CpStatisticService {
             last.setBackMiningInfo(backMiningData.get(backMiningData.size() - 1));
             last.setDrivingInfo(drivingData.get(drivingData.size() - 1));
             last.setDrillInfo(drillData.get(drillData.size() - 1));
+            // 表明该条数据为合计数据
+            last.setAmount(true);
             statisticData.add(last);
             // 填充数据
             res.setStatisticData(statisticData);
@@ -160,30 +162,31 @@ public class CpStatisticService {
         CpStatisticRes amount = new CpStatisticRes();
         amount.setCmPlatformName(ResultDataConstant.AMOUNT_OF_ALL_CM_PLATFORM);
         CpStatisticVo vo = new CpStatisticVo();
-        System.out.println(result);
-
         result.forEach(s -> s.getStatisticData().forEach(d -> {
+            // 若是统计数据，收走。
+            if(d.isAmount()){
+                /*回采工作面：早中班日月产煤量*/
+                vo.setBackMiningMorningOutput(vo.getBackMiningMorningOutput().add(d.getBackMiningMorningOutput()));
+                vo.setBackMiningMorningOutput(vo.getBackMiningNoonOutput().add(d.getBackMiningNoonOutput()));
+                vo.setBackMiningEveningOutput(vo.getBackMiningEveningOutput().add(d.getBackMiningEveningOutput()));
+                vo.setBackMiningDayOutput(vo.getBackMiningDayOutput().add(d.getBackMiningDayOutput()));
+                vo.setBackMiningMonthOutput(vo.getBackMiningMonthOutput().add(d.getBackMiningMonthOutput()));
 
-            /*回采工作面：早中班日月产煤量*/
-            vo.setBackMiningMorningOutput(vo.getBackMiningMorningOutput().add(d.getBackMiningMorningOutput()));
-            vo.setBackMiningMorningOutput(vo.getBackMiningNoonOutput().add(d.getBackMiningNoonOutput()));
-            vo.setBackMiningEveningOutput(vo.getBackMiningEveningOutput().add(d.getBackMiningEveningOutput()));
-            vo.setBackMiningDayOutput(vo.getBackMiningDayOutput().add(d.getBackMiningDayOutput()));
-            vo.setBackMiningMonthOutput(vo.getBackMiningMonthOutput().add(d.getBackMiningMonthOutput()));
+                /* 掘进工作面：早中班日月进尺 */
+                vo.setDrivingMorningLength(vo.getDrivingMorningLength().add(d.getDrivingMorningLength()));
+                vo.setDrivingNoonLength(vo.getDrivingNoonLength().add(d.getDrivingNoonLength()));
+                vo.setDrivingEveningLength(vo.getDrivingEveningLength().add(d.getDrivingEveningLength()));
+                vo.setDrivingDayLength(vo.getDrivingDayLength().add(d.getDrivingDayLength()));
+                vo.setDrivingMonthLength(vo.getDrivingMonthLength().add(d.getDrivingMonthLength()));
 
-            /* 掘进工作面：早中班日月进尺 */
-            vo.setDrivingMorningLength(vo.getDrivingMorningLength().add(d.getDrivingMorningLength()));
-            vo.setDrivingNoonLength(vo.getDrivingNoonLength().add(d.getDrivingNoonLength()));
-            vo.setDrivingEveningLength(vo.getDrivingEveningLength().add(d.getDrivingEveningLength()));
-            vo.setDrivingDayLength(vo.getDrivingDayLength().add(d.getDrivingDayLength()));
-            vo.setDrivingMonthLength(vo.getDrivingMonthLength().add(d.getDrivingMonthLength()));
-
-            /* 钻孔工作：日月进尺 */
-            vo.setDrillDayLength(vo.getDrillDayLength().add(d.getDrillDayLength()));
-            vo.setDrillMonthLength(vo.getDrillMonthLength().add(d.getDrillMonthLength()));
+                /* 钻孔工作：日月进尺 */
+                vo.setDrillDayLength(vo.getDrillDayLength().add(d.getDrillDayLength()));
+                vo.setDrillMonthLength(vo.getDrillMonthLength().add(d.getDrillMonthLength()));
+            }
         }));
         amount.setStatisticData(Arrays.asList(vo));
         amount.setRemarks(null);
+        result.add(amount);
         return JoyResult.buildSuccessResultWithData(result);
     }
 
