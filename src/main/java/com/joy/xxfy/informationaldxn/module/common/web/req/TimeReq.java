@@ -4,11 +4,12 @@ import lombok.Data;
 import lombok.ToString;
 
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import java.util.Date;
 
 @Data
 @ToString
 public class TimeReq {
-    @NotBlank(message = "时间不能为空")
+    @NotNull(message = "时间不能为空")
     private Date time;
 }

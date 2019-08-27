@@ -4,6 +4,7 @@ import com.joy.xxfy.informationaldxn.config.JwtParamConfig;
 import com.joy.xxfy.informationaldxn.publish.exception.JoyException;
 import com.joy.xxfy.informationaldxn.publish.result.JoyResult;
 import com.joy.xxfy.informationaldxn.publish.result.Notice;
+import com.joy.xxfy.informationaldxn.publish.utils.LogUtil;
 import com.joy.xxfy.informationaldxn.publish.utils.jwt.JwtUtil;
 import com.joy.xxfy.informationaldxn.publish.utils.jwt.Token;
 import io.jsonwebtoken.Claims;
@@ -34,7 +35,7 @@ public class AuthorizeAspect {
             + "&&!execution(public * com.joy.xxfy.informationaldxn.module.system.web.HeartController.*(..))"
             + "&&!execution(public * com.joy.xxfy.informationaldxn.module.system.web.SystemController.*(..))"
             // 开放文件下载权限
-            + "&&!execution(public * com.joy.xxfy.informationaldxn.module.system.web.*.download*(..))"
+            + "&&!execution(public * com.joy.xxfy.informationaldxn.module.*.web.*.download*(..))"
            )
     public void auth() {
     }
@@ -46,10 +47,12 @@ public class AuthorizeAspect {
         HttpServletResponse response = attributes.getResponse();
         final Object authHeader = request.getHeader(Token.AUTHORIZATION.getName());
         if (authHeader == null) {
+            LogUtil.info(Notice.USER_NOT_LOGIN.getMessage());
             throw new JoyException(JoyResult.buildFailedResult(Notice.USER_NOT_LOGIN));
         }
         final Claims claims = JwtUtil.parseJWT(authHeader.toString(), jwtParamConfig.getBase64Security());
         if (claims == null) {
+            LogUtil.info(Notice.USER_NOT_LOGIN.getMessage());
             throw new JoyException(Notice.USER_NOT_LOGIN);
         }
         request.setAttribute(Token.CLAIMS.getName(), claims);
