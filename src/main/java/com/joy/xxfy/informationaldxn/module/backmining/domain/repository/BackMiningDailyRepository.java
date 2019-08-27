@@ -23,5 +23,10 @@ public interface BackMiningDailyRepository extends BaseRepository<BackMiningDail
     // 统计某工作面月累计进尺&月累计产煤
     @Query("select new com.joy.xxfy.informationaldxn.module.produce.domain.vo.CmStatisticVo(sum(d.totalDoneLength),sum(d.totalOutput)) " +
             " from BackMiningDailyEntity d where d.backMiningFace = :face and d.dailyTime between :start and :end")
-    CmStatisticVo statisticDoneAndOutPut(@Param("face")BackMiningFaceEntity face, @Param("start")Date start, @Param("end")Date end);
+    CmStatisticVo statisticDoneLengthAndOutPut(@Param("face")BackMiningFaceEntity face, @Param("start")Date start, @Param("end")Date end);
+
+    // 统计某工作面月累计产煤
+    @Query("select new com.joy.xxfy.informationaldxn.module.produce.domain.vo.BackMiningStatisticVo(sum(d.totalOutput)) " +
+            " from BackMiningDailyEntity d where d.backMiningFace = :face and d.dailyTime between :start and :end")
+    CmStatisticVo statisticOutPut(@Param("face")BackMiningFaceEntity face, @Param("start")Date start, @Param("end")Date end);
 }

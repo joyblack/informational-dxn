@@ -22,7 +22,7 @@ public class SafeInspectionTask {
     private SafeInspectionRepository safeInspectionRepository;
 
     // 每一分钟说一下话
-    @Scheduled(cron = "* 1 * * * *")
+    //@Scheduled(cron = "* 1 * * * *")
     public void test(){
         System.out.println("这是我每1分钟跳动一次的心脏，听，心跳声......");
     }

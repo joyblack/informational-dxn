@@ -8,6 +8,7 @@ import com.joy.xxfy.informationaldxn.module.drill.domain.entity.DrillDailyEntity
 import com.joy.xxfy.informationaldxn.module.drill.domain.entity.DrillWorkEntity;
 import com.joy.xxfy.informationaldxn.module.driving.domain.entity.DrivingFaceEntity;
 import com.joy.xxfy.informationaldxn.module.produce.domain.vo.CmStatisticVo;
+import com.joy.xxfy.informationaldxn.module.produce.domain.vo.DrillStatisticVo;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -27,7 +28,7 @@ public interface DrillDailyRepository extends BaseRepository<DrillDailyEntity>, 
     List<DrillDailyEntity> findAllByDrillWorkAndDailyTime(DrillWorkEntity drillWorkEntity, Date dailyTime);
 
     // 统计某工作面月累计进尺&月累计产煤
-    @Query("select new com.joy.xxfy.informationaldxn.module.produce.domain.vo.CmStatisticVo(sum(d.totalDoneLength)) " +
+    @Query("select new com.joy.xxfy.informationaldxn.module.produce.domain.vo.DrillStatisticVo(sum(d.totalDoneLength)) " +
             " from DrillDailyEntity d where d.drillWork = :work and d.dailyTime between :start and :end")
-    CmStatisticVo statisticDoneLength(@Param("work") DrillWorkEntity work, @Param("start") Date start, @Param("end")Date end);
+    DrillStatisticVo statisticDoneLength(@Param("work") DrillWorkEntity work, @Param("start") Date start, @Param("end")Date end);
 }

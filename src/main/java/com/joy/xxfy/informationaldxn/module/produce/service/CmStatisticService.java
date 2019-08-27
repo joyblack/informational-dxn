@@ -9,7 +9,6 @@ import com.joy.xxfy.informationaldxn.module.backmining.domain.repository.BackMin
 import com.joy.xxfy.informationaldxn.module.department.domain.entity.DepartmentEntity;
 import com.joy.xxfy.informationaldxn.module.drill.domain.entity.DrillDailyEntity;
 import com.joy.xxfy.informationaldxn.module.drill.domain.entity.DrillWorkEntity;
-import com.joy.xxfy.informationaldxn.module.drill.domain.repository.DrillDailyDetailRepository;
 import com.joy.xxfy.informationaldxn.module.drill.domain.repository.DrillDailyRepository;
 import com.joy.xxfy.informationaldxn.module.drill.domain.repository.DrillWorkRepository;
 import com.joy.xxfy.informationaldxn.module.driving.domain.entity.DrivingDailyDetailEntity;
@@ -21,12 +20,12 @@ import com.joy.xxfy.informationaldxn.module.driving.domain.repository.DrivingFac
 import com.joy.xxfy.informationaldxn.module.produce.domain.entity.ProduceCmDailyEntity;
 import com.joy.xxfy.informationaldxn.module.produce.domain.repository.ProduceCmDailyRepository;
 import com.joy.xxfy.informationaldxn.module.produce.domain.vo.CmStatisticVo;
+import com.joy.xxfy.informationaldxn.module.produce.domain.vo.DrillStatisticVo;
 import com.joy.xxfy.informationaldxn.module.produce.web.req.SetRemarkReq;
 import com.joy.xxfy.informationaldxn.module.produce.web.res.CmStatisticRes;
 import com.joy.xxfy.informationaldxn.module.user.domain.entity.UserEntity;
 import com.joy.xxfy.informationaldxn.publish.constant.BigDecimalValueConstant;
-import com.joy.xxfy.informationaldxn.publish.constant.LongValueConstant;
-import com.joy.xxfy.informationaldxn.publish.constant.StatisticConstant;
+import com.joy.xxfy.informationaldxn.publish.constant.ResultDataConstant;
 import com.joy.xxfy.informationaldxn.publish.result.JoyResult;
 import com.joy.xxfy.informationaldxn.publish.utils.DateUtil;
 import com.joy.xxfy.informationaldxn.publish.utils.JoyBeanUtil;
@@ -35,8 +34,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.jws.Oneway;
-import javax.validation.constraints.NotNull;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -104,7 +101,7 @@ public class CmStatisticService {
         List<CmStatisticVo> result = new ArrayList<>();
         // 合计元素(也伪装成一条记录的形式返回给前端)
         CmStatisticVo amount = new CmStatisticVo();
-        amount.setWorkName(StatisticConstant.AMOUNT);
+        amount.setWorkName(ResultDataConstant.AMOUNT);
 
         // 只统计拥有日报的工作面信息
         List<DrivingFaceEntity> faces = drivingFaceRepository.findAllByDailyTimeAndBelongCompany(time, company);
@@ -146,7 +143,7 @@ public class CmStatisticService {
                 vo.setShiftTotalPeople(vo.getMorningPeople() + vo.getNoonPeople() + vo.getEveningPeople());
             }
             // 统计月信息
-            CmStatisticVo cmStatisticVo = drivingDailyRepository.statisticDoneAndOutPut(face, DateUtil.getMonthFirstDay(time), DateUtil.getMonthLastDay(time));
+            CmStatisticVo cmStatisticVo = drivingDailyRepository.statisticDoneLengthAndOutPut(face, DateUtil.getMonthFirstDay(time), DateUtil.getMonthLastDay(time));
             // 月累计进尺
             vo.setMonthLength(cmStatisticVo.getMonthLength() == null? BigDecimalValueConstant.ZERO :cmStatisticVo.getMonthLength());
             // 月累计产煤
@@ -183,7 +180,7 @@ public class CmStatisticService {
         List<CmStatisticVo> result = new ArrayList<>();
         // 合计元素(也伪装成一条记录的形式返回给前端)
         CmStatisticVo amount = new CmStatisticVo();
-        amount.setWorkName(StatisticConstant.AMOUNT);
+        amount.setWorkName(ResultDataConstant.AMOUNT);
         // 只统计拥有日报的工作面信息
         List<BackMiningFaceEntity> faces = backMiningFaceRepository.findAllByDailyTimeAndBelongCompany(time, company);
 
@@ -219,11 +216,9 @@ public class CmStatisticService {
                 // 圆班
                 vo.setShiftTotalLength(vo.getMorningLength().add(vo.getNoonLength()).add(vo.getEveningLength()));
                 vo.setShiftTotalPeople(vo.getMorningPeople() + vo.getNoonPeople() + vo.getEveningPeople());
-
-
             }
             // 统计月信息
-            CmStatisticVo cmStatisticVo = backMiningDailyRepository.statisticDoneAndOutPut(face,  DateUtil.getMonthFirstDay(time), DateUtil.getMonthLastDay(time));
+            CmStatisticVo cmStatisticVo = backMiningDailyRepository.statisticDoneLengthAndOutPut(face,  DateUtil.getMonthFirstDay(time), DateUtil.getMonthLastDay(time));
             // 月累计进尺
             vo.setMonthLength(cmStatisticVo.getMonthLength() == null? BigDecimalValueConstant.ZERO :cmStatisticVo.getMonthLength());
             // 月累计产煤
@@ -262,7 +257,7 @@ public class CmStatisticService {
         List<CmStatisticVo> result = new ArrayList<>();
         // 合计元素(也伪装成一条记录的形式返回给前端)
         CmStatisticVo amount = new CmStatisticVo();
-        amount.setWorkName(StatisticConstant.AMOUNT);
+        amount.setWorkName(ResultDataConstant.AMOUNT);
         // 只获取有日报的钻孔工作列表
         List<DrillWorkEntity> works = drillWorkRepository.findAllByDistinctBelongCompanyAndDailyTime(company,time);
         for (DrillWorkEntity work : works) {
@@ -285,7 +280,7 @@ public class CmStatisticService {
                 }
             }
             // == 统计月信息
-            CmStatisticVo cmStatisticVo = drillDailyRepository.statisticDoneLength(work,  DateUtil.getMonthFirstDay(time), DateUtil.getMonthLastDay(time));
+            DrillStatisticVo cmStatisticVo = drillDailyRepository.statisticDoneLength(work,  DateUtil.getMonthFirstDay(time), DateUtil.getMonthLastDay(time));
             // 月累计进尺
             vo.setMonthLength(cmStatisticVo.getMonthLength() == null? BigDecimalValueConstant.ZERO :cmStatisticVo.getMonthLength());
             // 工作名称

@@ -17,14 +17,8 @@ public class CpStatisticRes {
     // 煤矿平台名称
     private String cmPlatformName;
 
-    // 掘进
-    List<CpStatisticVo> drivingStatistic;
-
-    // 回采
-    List<CpStatisticVo> backMiningStatistic;
-
-    // 打钻
-    List<CpStatisticVo> drillStatistic;
+    // 中间的数据
+    List<CpStatisticVo> statisticData;
 
     // 备注信息
     private String remarks;

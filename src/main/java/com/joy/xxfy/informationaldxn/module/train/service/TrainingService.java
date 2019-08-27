@@ -47,11 +47,11 @@ public class TrainingService {
      */
     public JoyResult add(TrainingAddReq req) {
         TrainingEntity addTrainingInfo = new TrainingEntity();
-        // 验证名称
-        TrainingEntity checkInfo = trainingRepository.findAllByTrainingName(req.getTrainingName());
-        if(checkInfo != null){
-            return JoyResult.buildFailedResult(Notice.TRAINING_NAME_ALREADY_EXIST);
-        }
+//        // 验证名称
+//        TrainingEntity checkInfo = trainingRepository.findAllByTrainingName(req.getTrainingName());
+//        if(checkInfo != null){
+//            return JoyResult.buildFailedResult(Notice.TRAINING_NAME_ALREADY_EXIST);
+//        }
         // 验证煤矿信息
         DepartmentEntity companyEntity = departmentRepository.findAllById(req.getCompanyId());
         if(companyEntity == null){
@@ -82,11 +82,11 @@ public class TrainingService {
         if(trainingInfo == null){
             return JoyResult.buildFailedResult(Notice.TRAINING_NOT_EXIST);
         }
-        // 验证名称
-        TrainingEntity checkInfo = trainingRepository.findAllByTrainingNameAndIdNot(req.getTrainingName(), req.getId());
-        if(checkInfo != null){
-            return JoyResult.buildFailedResult(Notice.TRAINING_NAME_ALREADY_EXIST);
-        }
+//        // 验证名称
+//        TrainingEntity checkInfo = trainingRepository.findAllByTrainingNameAndIdNot(req.getTrainingName(), req.getId());
+//        if(checkInfo != null){
+//            return JoyResult.buildFailedResult(Notice.TRAINING_NAME_ALREADY_EXIST);
+//        }
         // 验证煤矿信息
         DepartmentEntity companyEntity = departmentRepository.findAllById(req.getCompanyId());
         if(companyEntity == null){

@@ -32,4 +32,54 @@ public class CpStatisticVo {
     private BigDecimal drillDayLength = BigDecimal.ZERO;
     private BigDecimal drillMonthLength = BigDecimal.ZERO;
 
+    public void setBackMiningInfo(BackMiningStatisticVo vo){
+        if(vo == null){
+            backMiningFaceName = null;
+            backMiningMorningOutput = null;
+            backMiningNoonOutput = null;
+            backMiningEveningOutput = null;
+            backMiningDayOutput = null;
+            backMiningMonthOutput = null;
+        }else{
+            backMiningFaceName = vo.getName();
+            backMiningMorningOutput = vo.getMorningOutput();
+            backMiningNoonOutput = vo.getNoonOutput();
+            backMiningEveningOutput = vo.getEveningOutput();
+            backMiningDayOutput = vo.getDayOutput();
+            backMiningMonthOutput = vo.getMonthOutput();
+        }
+    }
+
+    public void setDrivingInfo(DrivingStatisticVo vo){
+        if(vo == null){
+            drivingFaceName = null;
+            drivingMorningLength = null;
+            drivingNoonLength = null;
+            drivingEveningLength = null;
+            drivingDayLength = null;
+            drivingMonthLength = null;
+        }else{
+            drivingFaceName = vo.getName();
+            drivingMorningLength = vo.getMorningLength();
+            drivingNoonLength = vo.getNoonLength();
+            drivingEveningLength = vo.getEveningLength();
+            drivingDayLength = vo.getDayLength();
+            drivingMonthLength = vo.getMonthLength();
+        }
+
+    }
+
+    public void setDrillInfo(DrillStatisticVo vo){
+        if(vo == null){
+            drillWorkName = null;
+            drillDayLength = null;
+            drillMonthLength = null;
+        }else{
+            drillWorkName = vo.getName();
+            drillDayLength = vo.getDayLength();
+            drillMonthLength = vo.getMonthLength();
+        }
+
+    }
+
 }

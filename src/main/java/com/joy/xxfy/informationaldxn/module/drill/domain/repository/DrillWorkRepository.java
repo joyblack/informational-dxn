@@ -19,6 +19,6 @@ public interface DrillWorkRepository extends BaseRepository<DrillWorkEntity>, Jp
     // 获取属于某平台的所有钻孔工作: belong_company_id = ?
     List<DrillWorkEntity> findAllByBelongCompany(DepartmentEntity company);
 
-    @Query("select distinct(d.drillWork) from DrillDailyEntity d where d.dailyTime = :dailyTime and belongCompany = :belongCompany")
+    @Query("select distinct(d.drillWork) from DrillDailyEntity d where d.dailyTime = :dailyTime and d.drillWork.belongCompany = :belongCompany")
     List<DrillWorkEntity> findAllByDistinctBelongCompanyAndDailyTime(@Param("belongCompany") DepartmentEntity belongCompany, @Param("dailyTime")Date dailyTime);
 }
