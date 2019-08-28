@@ -114,6 +114,9 @@ public enum Notice{
     DEVICE_INFO_ALREADY_EXIST("设备信息已存在", 113004),
     DEVICE_INFO_NOT_EXIST("设备信息不存在", 113005),
     DEVICE_INFO_NAME_NOT_EXIST("设备名称不存在", 113006),
+
+    DEVICE_MAINTAIN_ALREADY_EXIST("设备维保信息已存在", 113007),
+    DEVICE_MAINTAIN_NOT_EXIST("设备维保信息不存在", 113008),
     ;
 
 
