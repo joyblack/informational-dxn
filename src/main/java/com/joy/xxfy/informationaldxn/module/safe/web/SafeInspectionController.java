@@ -1,10 +1,6 @@
 package com.joy.xxfy.informationaldxn.module.safe.web;
 
-import com.joy.xxfy.informationaldxn.module.common.web.req.BasePageReq;
 import com.joy.xxfy.informationaldxn.module.common.web.req.IdReq;
-import com.joy.xxfy.informationaldxn.module.position.service.PositionService;
-import com.joy.xxfy.informationaldxn.module.position.web.req.PositionAddReq;
-import com.joy.xxfy.informationaldxn.module.position.web.req.PositionUpdateReq;
 import com.joy.xxfy.informationaldxn.module.safe.service.SafeInspectionService;
 import com.joy.xxfy.informationaldxn.module.safe.web.req.ChangeRectificationStatusReq;
 import com.joy.xxfy.informationaldxn.module.safe.web.req.SafeInspectionAddReq;

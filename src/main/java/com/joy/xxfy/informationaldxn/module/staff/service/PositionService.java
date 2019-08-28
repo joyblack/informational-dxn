@@ -1,10 +1,14 @@
-package com.joy.xxfy.informationaldxn.module.position.service;
+package com.joy.xxfy.informationaldxn.module.staff.service;
 
 import com.joy.xxfy.informationaldxn.module.common.web.req.BasePageReq;
-import com.joy.xxfy.informationaldxn.module.position.domain.entity.PositionEntity;
-import com.joy.xxfy.informationaldxn.module.position.domain.repository.PositionRepository;
-import com.joy.xxfy.informationaldxn.module.position.web.req.PositionAddReq;
-import com.joy.xxfy.informationaldxn.module.position.web.req.PositionUpdateReq;
+import com.joy.xxfy.informationaldxn.module.staff.domain.enetiy.PositionEntity;
+import com.joy.xxfy.informationaldxn.module.staff.domain.enetiy.StaffEntryEntity;
+import com.joy.xxfy.informationaldxn.module.staff.domain.enetiy.StaffLeaveEntity;
+import com.joy.xxfy.informationaldxn.module.staff.domain.repository.PositionRepository;
+import com.joy.xxfy.informationaldxn.module.staff.domain.repository.StaffEntryRepository;
+import com.joy.xxfy.informationaldxn.module.staff.domain.repository.StaffLeaveRepository;
+import com.joy.xxfy.informationaldxn.module.staff.web.req.PositionAddReq;
+import com.joy.xxfy.informationaldxn.module.staff.web.req.PositionUpdateReq;
 import com.joy.xxfy.informationaldxn.publish.result.JoyResult;
 import com.joy.xxfy.informationaldxn.publish.result.Notice;
 import com.joy.xxfy.informationaldxn.publish.utils.StringUtil;
@@ -15,12 +19,19 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.criteria.Predicate;
+import java.util.Date;
 
 @Service
 @Transactional
 public class PositionService {
     @Autowired
     private PositionRepository positionRepository;
+
+    @Autowired
+    private StaffEntryRepository staffEntryRepository;
+
+    @Autowired
+    private StaffLeaveRepository staffLeaveRepository;
 
     public JoyResult add(PositionAddReq req) {
         // check name repeat.
@@ -60,9 +71,20 @@ public class PositionService {
         if(position == null){
             return JoyResult.buildFailedResult(Notice.POSITION_NOT_EXIST);
         }
-        position.setIsDelete(true);
-        // soft delete.
+        // 检查职位是否在用
+        StaffEntryEntity entryInfo = staffEntryRepository.findFirstByPosition(position);
+        if(entryInfo != null){
+            return JoyResult.buildFailedResult(Notice.POSITION_IN_USED);
+        }
 
+        StaffLeaveEntity leaveInfo = staffLeaveRepository.findFirstByPosition(position);
+        if(leaveInfo != null){
+            return JoyResult.buildFailedResult(Notice.POSITION_IN_USED);
+        }
+
+        position.setIsDelete(true);
+        position.setUpdateTime(new Date());
+        // soft delete.
         return JoyResult.buildSuccessResultWithData(positionRepository.save(position));
     }
 

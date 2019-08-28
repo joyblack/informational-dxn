@@ -3,7 +3,6 @@ package com.joy.xxfy.informationaldxn.module.staff.domain.enetiy;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.joy.xxfy.informationaldxn.module.common.domain.entity.BaseEntity;
 import com.joy.xxfy.informationaldxn.module.department.domain.entity.DepartmentEntity;
-import com.joy.xxfy.informationaldxn.module.position.domain.entity.PositionEntity;
 import lombok.Data;
 import lombok.ToString;
 import org.hibernate.annotations.Where;

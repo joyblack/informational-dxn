@@ -1,14 +1,12 @@
 package com.joy.xxfy.informationaldxn.module.device.web.req;
 
 import com.joy.xxfy.informationaldxn.module.common.web.req.BaseAddReq;
-import com.joy.xxfy.informationaldxn.module.department.domain.entity.DepartmentEntity;
-import com.joy.xxfy.informationaldxn.module.device.domain.entity.DeviceCategoryEntity;
+import com.joy.xxfy.informationaldxn.module.common.web.req.BaseUpdateReq;
 import com.joy.xxfy.informationaldxn.module.device.domain.enums.DeviceStatusEnum;
 import lombok.Data;
 import lombok.ToString;
 
-import javax.persistence.*;
-import javax.validation.constraints.Min;
+import javax.persistence.Lob;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
@@ -16,7 +14,7 @@ import java.util.Date;
 
 @Data
 @ToString
-public class DeviceInfoAddReq extends BaseAddReq {
+public class DeviceInfoUpdateReq extends BaseUpdateReq {
 
     // 设备名称
     @NotBlank(message = "设备名称不能为空")
@@ -27,13 +25,6 @@ public class DeviceInfoAddReq extends BaseAddReq {
      */
     @NotNull(message = "设备分类不能为空")
     private Long deviceCategoryId;
-
-    /**
-     * 设备数量
-     */
-    @NotNull(message = "设备数量不能为空")
-    @Min(value = 1,message = "数量至少为1")
-    private Long deviceCount;
 
     /**
      * 规格型号

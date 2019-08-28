@@ -20,9 +20,10 @@ import java.util.Date;
 @Where(clause = "is_delete = 0")
 public class DeviceInfoEntity extends BaseEntity {
 
-    // 设备名称
+    // 设备名称，显示使用，真实名称出现重复的时候该名称为“挖掘机-1”
     @Column(nullable = false)
     private String deviceName;
+
 
     /**
      * 设备分类
@@ -44,7 +45,7 @@ public class DeviceInfoEntity extends BaseEntity {
     /**
      * 设备编号
      */
-    private String deviceCoder;
+    private String deviceCode;
 
     /**
      * 出厂日期
@@ -59,12 +60,12 @@ public class DeviceInfoEntity extends BaseEntity {
     /**
      * 矿编
      */
-    private String cmCoder;
+    private String cmCode;
 
     /**
      * 厂编
      */
-    private String productionCoder;
+    private String productionCode;
 
     /**
      * 最近保养日期
@@ -103,7 +104,7 @@ public class DeviceInfoEntity extends BaseEntity {
     /**
      * 下次保养日期：需要定时任务更新，检测设备是否到了该保养的时间
      */
-    private Long nextMaintainTime;
+    private Date nextMaintainTime;
 
     /**
      * 所属平台

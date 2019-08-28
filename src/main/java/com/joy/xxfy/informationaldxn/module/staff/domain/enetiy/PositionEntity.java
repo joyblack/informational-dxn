@@ -1,4 +1,4 @@
-package com.joy.xxfy.informationaldxn.module.position.domain.entity;
+package com.joy.xxfy.informationaldxn.module.staff.domain.enetiy;
 
 import com.joy.xxfy.informationaldxn.module.common.domain.entity.BaseEntity;
 import lombok.Data;

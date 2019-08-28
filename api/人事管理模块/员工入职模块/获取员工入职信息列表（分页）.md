@@ -20,8 +20,8 @@ JSON
 |phone|[string]||查询关键字：联系方式（电话号码）|
 |birthDateStart|[date]||查询关键字：出生日期开始时间|
 |birthDateEnd|[date]||查询关键字：出生日期截止时间|
-|entryDateStart|[date]||查询关键字：入职开始时间|
-|entryDateEnd|[date]||查询关键字：入职截止时间|
+|entryTimeStart|[date]||查询关键字：入职开始时间|
+|entryTimeEnd|[date]||查询关键字：入职截止时间|
 |sex|[string]||性别：0-MAN 1-WOM|
 |nationality|[string]||民族：例如汉族|
 |education|[string]||教育程度、学历，参考参数表|

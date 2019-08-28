@@ -44,6 +44,15 @@ public class JoyResult implements Serializable {
         );
     }
 
+    public static JoyResult buildSuccessResultWithData(Object data, String detailMessage){
+        return new JoyResult(Notice.EXECUTE_IS_SUCCESS,
+                detailMessage,
+                true,
+                data
+        );
+    }
+
+
     public static JoyResult buildFailedResult(Notice notice, String detailMessage){
         return new JoyResult(notice,
                 detailMessage,

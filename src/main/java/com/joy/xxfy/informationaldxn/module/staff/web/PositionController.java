@@ -1,10 +1,10 @@
-package com.joy.xxfy.informationaldxn.module.position.web;
+package com.joy.xxfy.informationaldxn.module.staff.web;
 
 import com.joy.xxfy.informationaldxn.module.common.web.req.BasePageReq;
 import com.joy.xxfy.informationaldxn.module.common.web.req.IdReq;
-import com.joy.xxfy.informationaldxn.module.position.service.PositionService;
-import com.joy.xxfy.informationaldxn.module.position.web.req.PositionAddReq;
-import com.joy.xxfy.informationaldxn.module.position.web.req.PositionUpdateReq;
+import com.joy.xxfy.informationaldxn.module.staff.service.PositionService;
+import com.joy.xxfy.informationaldxn.module.staff.web.req.PositionAddReq;
+import com.joy.xxfy.informationaldxn.module.staff.web.req.PositionUpdateReq;
 import com.joy.xxfy.informationaldxn.publish.result.JoyResult;
 import com.joy.xxfy.informationaldxn.publish.result.Notice;
 import org.springframework.beans.factory.annotation.Autowired;

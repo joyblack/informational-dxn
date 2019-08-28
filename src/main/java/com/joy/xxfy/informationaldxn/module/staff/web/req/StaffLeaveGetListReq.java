@@ -16,6 +16,16 @@ public class StaffLeaveGetListReq extends BasePageReq {
     private String username;
 
     /**
+     * 身份证
+     */
+    private String idNumber;
+
+    /**
+     * 联系方式
+     */
+    private String phone;
+
+    /**
      * 离职类型
      */
     private LeaveTypeEnum leaveType;

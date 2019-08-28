@@ -5,6 +5,7 @@ public enum Notice{
     EXECUTE_IS_FAILED("操作失败", 234),
 
     PERMISSION_FORBIDDEN("权限禁止", 235),
+    DATA_IN_USED_CANT_BE_DELETE("该数据正在使用中，不允许删除。", 236),
 
     // 公共模块
     REQUEST_PARAMETER_IS_ERROR("请求参数缺失或未空值", 100000),
@@ -45,6 +46,10 @@ public enum Notice{
     // position
     POSITION_NOT_EXIST("职位信息不存在", 104000),
     POSITION_NAME_ALREADY_EXIST("职位名称已存在", 104001),
+    POSITION_IN_USED("职位信息正在使用中", 104002),
+
+
+
     STAFF_ALREADY_IN_DEPARTMENT("员工已经存在于此部门下", 103001),
 
     // store
@@ -106,7 +111,9 @@ public enum Notice{
     DEVICE_CATEGORY_NOT_EXIST("设备类型信息不存在", 113001),
     DEVICE_CATEGORY_ALREADY_EXIST("设备类型信息已存在", 113002),
     DEVICE_CATEGORY_NAME_EXIST("设备类型名称已存在", 113003),
-
+    DEVICE_INFO_ALREADY_EXIST("设备信息已存在", 113004),
+    DEVICE_INFO_NOT_EXIST("设备信息不存在", 113005),
+    DEVICE_INFO_NAME_NOT_EXIST("设备名称不存在", 113006),
     ;
 
 

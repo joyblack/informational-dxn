@@ -30,4 +30,14 @@ public class DateUtil {
         cale.set(Calendar.DAY_OF_MONTH, cale.getActualMaximum(Calendar.DAY_OF_MONTH));
         return cale.getTime();
     }
+
+    /**
+     * 指定日期加上天数后的日期
+     */
+    public static Date addDay(Date currentTime, int days){
+        Calendar ca = Calendar.getInstance();
+        ca.setTime(currentTime);
+        ca.add(Calendar.DATE, days);
+        return ca.getTime();
+    }
 }

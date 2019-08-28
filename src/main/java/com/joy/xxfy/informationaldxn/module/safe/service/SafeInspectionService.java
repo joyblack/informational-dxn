@@ -218,6 +218,8 @@ public class SafeInspectionService {
                     safeInspectionEntity.setRectificationPeople(req.getRectificationPeople());
                     // 备注信息
                     safeInspectionEntity.setRemarks(req.getRemarks());
+                    // 修改时间
+                    safeInspectionEntity.setUpdateTime(now);
                 }
             }
         }else{// 修改为未整改

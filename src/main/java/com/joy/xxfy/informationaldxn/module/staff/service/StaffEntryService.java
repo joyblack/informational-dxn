@@ -2,8 +2,8 @@ package com.joy.xxfy.informationaldxn.module.staff.service;
 
 import com.joy.xxfy.informationaldxn.module.department.domain.entity.DepartmentEntity;
 import com.joy.xxfy.informationaldxn.module.department.domain.repository.DepartmentRepository;
-import com.joy.xxfy.informationaldxn.module.position.domain.entity.PositionEntity;
-import com.joy.xxfy.informationaldxn.module.position.domain.repository.PositionRepository;
+import com.joy.xxfy.informationaldxn.module.staff.domain.enetiy.PositionEntity;
+import com.joy.xxfy.informationaldxn.module.staff.domain.repository.PositionRepository;
 import com.joy.xxfy.informationaldxn.module.user.domain.entity.UserEntity;
 import com.joy.xxfy.informationaldxn.publish.result.JoyResult;
 import com.joy.xxfy.informationaldxn.publish.result.Notice;

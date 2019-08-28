@@ -3,8 +3,6 @@ package com.joy.xxfy.informationaldxn.module.drill.domain.repository;
 import com.joy.xxfy.informationaldxn.module.common.domain.repository.BaseRepository;
 import com.joy.xxfy.informationaldxn.module.department.domain.entity.DepartmentEntity;
 import com.joy.xxfy.informationaldxn.module.drill.domain.entity.DrillWorkEntity;
-import com.joy.xxfy.informationaldxn.module.drill.domain.entity.DrillDailyEntity;
-import com.sun.tracing.dtrace.ProviderAttributes;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;

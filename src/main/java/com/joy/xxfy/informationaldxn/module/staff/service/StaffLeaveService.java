@@ -194,6 +194,14 @@ public class StaffLeaveService {
             if(!StringUtil.isEmpty(req.getUsername())){
                 predicates.add(builder.like(root.get("staffPersonal").get("username"), "%" + req.getUsername() +"%"));
             }
+            // phone like
+            if(!StringUtil.isEmpty(req.getPhone())){
+                predicates.add(builder.like(root.get("staffPersonal").get("phone"), "%" + req.getPhone() +"%"));
+            }
+            // idNumber like
+            if(!StringUtil.isEmpty(req.getIdNumber())){
+                predicates.add(builder.like(root.get("staffPersonal").get("idNumber"), "%" + req.getIdNumber() +"%"));
+            }
             // insured
             if(req.getInsured() != null){
                 predicates.add(builder.equal(root.get("staffPersonal").get("insured"), req.getInsured()));

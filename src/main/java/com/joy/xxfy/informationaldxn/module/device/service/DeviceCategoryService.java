@@ -2,7 +2,9 @@ package com.joy.xxfy.informationaldxn.module.device.service;
 
 import com.joy.xxfy.informationaldxn.module.department.domain.entity.DepartmentEntity;
 import com.joy.xxfy.informationaldxn.module.device.domain.entity.DeviceCategoryEntity;
+import com.joy.xxfy.informationaldxn.module.device.domain.entity.DeviceInfoEntity;
 import com.joy.xxfy.informationaldxn.module.device.domain.repository.DeviceCategoryRepository;
+import com.joy.xxfy.informationaldxn.module.device.domain.repository.DeviceInfoRepository;
 import com.joy.xxfy.informationaldxn.module.device.web.req.DeviceCategoryAddReq;
 import com.joy.xxfy.informationaldxn.module.device.web.req.DeviceCategoryUpdateReq;
 import com.joy.xxfy.informationaldxn.module.user.domain.entity.UserEntity;
@@ -28,6 +30,9 @@ public class DeviceCategoryService {
 
     @Autowired
     private DeviceCategoryRepository deviceCategoryRepository;
+
+    @Autowired
+    private DeviceInfoRepository deviceInfoRepository;
 
     /**
      * 新增
@@ -103,6 +108,10 @@ public class DeviceCategoryService {
         DeviceCategoryEntity info = deviceCategoryRepository.findAllById(id);
         if(info == null){
             return JoyResult.buildFailedResult(Notice.DEVICE_CATEGORY_NOT_EXIST);
+        }
+        DeviceInfoEntity check = deviceInfoRepository.findFirstByDeviceCategory(info);
+        if(check != null){
+            return JoyResult.buildFailedResult(Notice.DATA_IN_USED_CANT_BE_DELETE);
         }
         info.setIsDelete(true);
         info.setUpdateTime(new Date());
