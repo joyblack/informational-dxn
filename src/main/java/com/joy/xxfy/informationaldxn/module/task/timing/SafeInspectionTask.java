@@ -36,7 +36,7 @@ public class SafeInspectionTask {
         safeInspectionRepository.updateIsOvertTimeByNowAndRectificationStatus(
                 CommonYesEnum.YES,
                 new Date(),
-                RectificationStatusEnum.NO
+                RectificationStatusEnum.RECTIFICATION_NO
         );
 
     }

@@ -1,49 +1,39 @@
-package com.joy.xxfy.informationaldxn.module.device.domain.entity;
+package com.joy.xxfy.informationaldxn.module.device.web.req;
 
-import com.joy.xxfy.informationaldxn.module.common.domain.entity.BaseEntity;
+import com.joy.xxfy.informationaldxn.module.common.web.req.BaseAddReq;
 import com.joy.xxfy.informationaldxn.module.department.domain.entity.DepartmentEntity;
+import com.joy.xxfy.informationaldxn.module.device.domain.entity.DeviceInfoEntity;
+import com.joy.xxfy.informationaldxn.module.device.domain.enums.DeviceStatusEnum;
 import com.joy.xxfy.informationaldxn.module.device.domain.enums.MaintainStatusEnum;
 import com.joy.xxfy.informationaldxn.module.device.domain.enums.MaintainTypeEnum;
 import lombok.Data;
 import lombok.ToString;
-import org.hibernate.annotations.Where;
 
 import javax.persistence.*;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import java.util.Date;
 
-/**
- * 设备保养
- */
-@Entity
-@Table(name = "device_maintain")
 @Data
-@ToString(callSuper = true)
-@Where(clause = "is_delete = 0")
-public class DeviceMaintainEntity extends BaseEntity {
-    /**
-     * 所属平台
-     */
-    @JoinColumn(name = "company_id")
-    @ManyToOne(cascade = {}, fetch = FetchType.EAGER)
-    private DepartmentEntity belongCompany;
-
+@ToString
+public class DeviceMaintainAddReq extends BaseAddReq {
     /**
      * 设备信息
      */
-    @JoinColumn(name = "device_info_id")
-    @ManyToOne(cascade = {}, fetch = FetchType.EAGER)
-    private DeviceInfoEntity deviceInfo;
+    @NotNull(message = "设备信息不能为空")
+    private Long deviceInfoId;
 
     /**
      * 维保日期
      */
-    @Column(nullable = false)
+    @NotNull(message = "维保日期不能为空")
     private Date maintainTime;
 
     /**
      * 维保情况
      */
-    @Column(nullable = false)
+    @NotNull(message = "维保情况不能为空")
     private MaintainStatusEnum maintainStatus;
 
     /**
@@ -56,11 +46,10 @@ public class DeviceMaintainEntity extends BaseEntity {
      */
     private String maintainPeople;
 
+
     /**
      * 维保详情
      */
-    @Lob
     private String maintainDetail;
-
 
 }

@@ -60,7 +60,7 @@ public class SafeInspectionService {
         info.setInspectCompany(inspectCompany);
         info.setInspectDepartment(inspectDepartment);
         // 整改状态为未整改
-        info.setRectificationStatus(RectificationStatusEnum.NO);
+        info.setRectificationStatus(RectificationStatusEnum.RECTIFICATION_NO);
         // 是否超时未超时
         info.setIsOverTime(CommonYesEnum.NO);
         // save.
@@ -200,12 +200,12 @@ public class SafeInspectionService {
             return JoyResult.buildFailedResult(Notice.SAFE_INSPECTION_NOT_EXIST);
         }
         // 修改为已整改
-        if(req.getRectificationStatus().equals(RectificationStatusEnum.YES)){
+        if(req.getRectificationStatus().equals(RectificationStatusEnum.RECTIFICATION_YES)){
             // 当前时间
             Date now = new Date();
             for (SafeInspectionEntity safeInspectionEntity : safeInspectionEntities) {
                 // 若原来的状态就是处理状态，则无需处理
-                if(safeInspectionEntity.getRectificationStatus().equals(RectificationStatusEnum.NO)){
+                if(safeInspectionEntity.getRectificationStatus().equals(RectificationStatusEnum.RECTIFICATION_NO)){
                     // 设置为已整改
                     safeInspectionEntity.setRectificationStatus(req.getRectificationStatus());
                     // 是否超时
