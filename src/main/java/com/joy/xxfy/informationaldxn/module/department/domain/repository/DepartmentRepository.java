@@ -21,7 +21,7 @@ public interface DepartmentRepository extends BaseRepository<DepartmentEntity>, 
     List<DepartmentEntity> findAllByParentId(Long parentId);
 
     // 根据父路径查询所有子节点
-    List<DepartmentEntity> findAllByPathLike(String path);
+    List<DepartmentEntity> findAllByPathStartingWith(String path);
 
     // 更新所有相关的节点的路径
     @Modifying

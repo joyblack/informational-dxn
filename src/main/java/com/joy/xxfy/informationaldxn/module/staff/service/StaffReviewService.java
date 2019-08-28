@@ -70,6 +70,10 @@ public class StaffReviewService {
             if(req.getEducation() != null){
                 predicates.add(builder.equal(root.get("staffPersonal").get("education"), req.getEducation()));
             }
+            // sex =
+            if(req.getSex() != null){
+                predicates.add(builder.equal(root.get("staffPersonal").get("sex"), req.getSex()));
+            }
             // WAIT AND NOT_PASS OR select someone.
             if(req.getReviewStatus() != null){
                 predicates.add(builder.equal(root.get("reviewStatus"), req.getReviewStatus()));
@@ -79,6 +83,7 @@ public class StaffReviewService {
                         builder.equal(root.get("reviewStatus"), ReviewStatusEnum.WAIT))
                 );
             }
+
             // position =
             if(req.getPositionId() != null){
                 predicates.add(builder.equal(root.get("position").get("id"), req.getPositionId()));

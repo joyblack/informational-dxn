@@ -1,6 +1,7 @@
 package com.joy.xxfy.informationaldxn.publish.utils.project;
 
 import com.joy.xxfy.informationaldxn.module.department.domain.entity.DepartmentEntity;
+import com.joy.xxfy.informationaldxn.module.device.domain.entity.DeviceCategoryEntity;
 import com.joy.xxfy.informationaldxn.publish.utils.JoyBeanUtil;
 
 import java.util.ArrayList;
@@ -18,6 +19,26 @@ public class TreeUtil {
                 DepartmentEntity scopeMode = new DepartmentEntity();
                 JoyBeanUtil.copyPropertiesIgnoreSourceNullProperties(entity,scopeMode);
                 temp = getDeptTree(list,entity.getId());
+                if(temp.size() > 0){
+                    scopeMode.setChildren(temp);
+                }
+                result.add(scopeMode);
+            }
+        }
+        return result;
+    }
+
+    /**
+     * 将设备类型列表转化为部门树结构
+     */
+    public  static List<DeviceCategoryEntity> getDeviceCategoryTree(List<DeviceCategoryEntity> list, Long pid){
+        List<DeviceCategoryEntity> result =  new ArrayList<>();
+        List<DeviceCategoryEntity> temp;
+        for(DeviceCategoryEntity entity : list){
+            if(entity.getParentId().equals(pid)){
+                DeviceCategoryEntity scopeMode = new DeviceCategoryEntity();
+                JoyBeanUtil.copyPropertiesIgnoreSourceNullProperties(entity,scopeMode);
+                temp = getDeviceCategoryTree(list,entity.getId());
                 if(temp.size() > 0){
                     scopeMode.setChildren(temp);
                 }

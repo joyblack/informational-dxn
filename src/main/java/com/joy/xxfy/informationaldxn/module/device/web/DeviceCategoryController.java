@@ -1,13 +1,16 @@
-package com.joy.xxfy.informationaldxn.module.department.web;
+package com.joy.xxfy.informationaldxn.module.device.web;
 
 import com.joy.xxfy.informationaldxn.module.common.web.BaseController;
 import com.joy.xxfy.informationaldxn.module.common.web.req.IdReq;
 import com.joy.xxfy.informationaldxn.module.department.service.DepartmentService;
 import com.joy.xxfy.informationaldxn.module.department.web.req.DepartmentAddReq;
 import com.joy.xxfy.informationaldxn.module.department.web.req.DepartmentUpdateReq;
+import com.joy.xxfy.informationaldxn.module.device.service.DeviceCategoryService;
+import com.joy.xxfy.informationaldxn.module.device.web.req.DeviceCategoryAddReq;
+import com.joy.xxfy.informationaldxn.module.device.web.req.DeviceCategoryUpdateReq;
+import com.joy.xxfy.informationaldxn.module.user.domain.entity.UserEntity;
 import com.joy.xxfy.informationaldxn.publish.result.JoyResult;
 import com.joy.xxfy.informationaldxn.publish.result.Notice;
-import com.joy.xxfy.informationaldxn.module.user.domain.entity.UserEntity;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -19,10 +22,10 @@ import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
 @RestController
-@RequestMapping("department")
-public class DepartmentController extends BaseController {
+@RequestMapping("device-category")
+public class DeviceCategoryController extends BaseController {
     @Autowired
-    private DepartmentService departmentService;
+    private DeviceCategoryService deviceCategoryService;
 
 
     /**
@@ -35,44 +38,41 @@ public class DepartmentController extends BaseController {
         if (bindingResult.hasErrors()) {
             return JoyResult.buildFailedResult(Notice.REQUEST_PARAMETER_IS_ERROR, bindingResult.getFieldError().getDefaultMessage());
         } else {
-            // copy
-            return departmentService.get(req.getId());
+            return deviceCategoryService.get(req.getId());
         }
     }
 
 
     /**
-     * 添加部门
+     * 添加
      */
     @PostMapping(
             value = "/add",
             produces = {"application/json;charset=UTF-8"})
-    public JoyResult add(@RequestBody @Valid DepartmentAddReq req, BindingResult bindingResult) {
+    public JoyResult add(@RequestBody @Valid DeviceCategoryAddReq req, BindingResult bindingResult, HttpServletRequest request) {
         if (bindingResult.hasErrors()) {
             return JoyResult.buildFailedResult(Notice.REQUEST_PARAMETER_IS_ERROR, bindingResult.getFieldError().getDefaultMessage());
         } else {
-            // copy
-            return departmentService.add(req);
+            return deviceCategoryService.add(req, getLoginUser(request));
         }
     }
 
     /**
-     * 更新部门
+     * 更新
      */
     @PostMapping(
             value = "/update",
             produces = {"application/json;charset=UTF-8"})
-    public JoyResult update(@RequestBody @Valid DepartmentUpdateReq req, BindingResult bindingResult) {
+    public JoyResult update(@RequestBody @Valid DeviceCategoryUpdateReq req, BindingResult bindingResult, HttpServletRequest request) {
         if (bindingResult.hasErrors()) {
             return JoyResult.buildFailedResult(Notice.REQUEST_PARAMETER_IS_ERROR, bindingResult.getFieldError().getDefaultMessage());
         } else {
-            // copy
-            return departmentService.update(req);
+            return deviceCategoryService.update(req,getLoginUser(request));
         }
     }
 
     /**
-     * 删除部门
+     * 删除
      */
     @PostMapping(
             value = "/delete",
@@ -81,46 +81,37 @@ public class DepartmentController extends BaseController {
         if (bindingResult.hasErrors()) {
             return JoyResult.buildFailedResult(Notice.REQUEST_PARAMETER_IS_ERROR, bindingResult.getFieldError().getDefaultMessage());
         } else {
-            // copy
-            return departmentService.delete(req.getId());
+            return deviceCategoryService.delete(req.getId());
         }
     }
 
     /**
-     * 获取子部门
+     * 获取子元素
      */
     @PostMapping(
             value = "/getChildren",
             produces = {"application/json;charset=UTF-8"})
-    public JoyResult getChildren(@RequestBody @Valid IdReq req, BindingResult bindingResult) {
+    public JoyResult getChildren(@RequestBody @Valid IdReq req, BindingResult bindingResult, HttpServletRequest request) {
         if (bindingResult.hasErrors()) {
             return JoyResult.buildFailedResult(Notice.REQUEST_PARAMETER_IS_ERROR, bindingResult.getFieldError().getDefaultMessage());
         } else {
-            // copy
-            return departmentService.getChildren(req.getId());
+            return deviceCategoryService.getChildren(req.getId(), getLoginUser(request));
         }
     }
 
     /**
-     * 获取子部门树
+     * 获取子节点树
      */
     @PostMapping(
             value = "/getTree",
             produces = {"application/json;charset=UTF-8"})
-    public JoyResult getTree(@RequestBody @Valid IdReq req, BindingResult bindingResult) {
+    public JoyResult getTree(@RequestBody @Valid IdReq req, BindingResult bindingResult, HttpServletRequest request) {
         if (bindingResult.hasErrors()) {
             return JoyResult.buildFailedResult(Notice.REQUEST_PARAMETER_IS_ERROR, bindingResult.getFieldError().getDefaultMessage());
         } else {
             // copy
-            return departmentService.getTree(req.getId());
+            return deviceCategoryService.getTree(req.getId(), getLoginUser(request));
         }
-    }
-
-    // 获取当前用户权限范围内所能展示的公司/平台列表
-    @RequestMapping(
-            value = "/getCompanyList")
-    public JoyResult getCompanyList(HttpServletRequest request) {
-        return departmentService.getCompanyList(getLoginUser(request));
     }
 
     // 获取父部门遍历树（包含自身）
@@ -132,7 +123,7 @@ public class DepartmentController extends BaseController {
             return JoyResult.buildFailedResult(Notice.REQUEST_PARAMETER_IS_ERROR, bindingResult.getFieldError().getDefaultMessage());
         } else {
             // copy
-            return departmentService.getParentNodes(req.getId());
+            return deviceCategoryService.getParentNodes(req.getId());
         }
     }
 
@@ -145,7 +136,7 @@ public class DepartmentController extends BaseController {
             return JoyResult.buildFailedResult(Notice.REQUEST_PARAMETER_IS_ERROR, bindingResult.getFieldError().getDefaultMessage());
         } else {
             // copy
-            return departmentService.getParentNodesJustIds(req.getId());
+            return deviceCategoryService.getParentNodesJustIds(req.getId());
         }
     }
 }

@@ -387,6 +387,10 @@ public class StaffEntryService {
             if(req.getReviewStatus() != null){
                 predicates.add(builder.equal(root.get("reviewStatus"), req.getReviewStatus()));
             }
+            // sex =
+            if(req.getSex() != null){
+                predicates.add(builder.equal(root.get("staffPersonal").get("sex"), req.getSex()));
+            }
             // position =
             if(req.getPositionId() != null){
                 predicates.add(builder.equal(root.get("position").get("id"), req.getPositionId()));

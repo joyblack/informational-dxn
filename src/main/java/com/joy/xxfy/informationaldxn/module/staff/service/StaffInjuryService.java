@@ -75,13 +75,14 @@ public class StaffInjuryService {
         injuryInfo.setHospital(req.getHospital());
         // 医治时间
         injuryInfo.setTreatTime(req.getTreatTime());
+        // 工伤原因
+        injuryInfo.setInjuryReasons(req.getInjuryReasons());
         // 工伤描述
         injuryInfo.setInjuryDescribes(req.getInjuryDescribes());
         // 工伤时间
         injuryInfo.setInjuryTime(req.getInjuryTime());
         // 备注信息
         injuryInfo.setRemarks(req.getRemarks());
-        LogUtil.info("New Injury info is：{}", injuryInfo);
         // save.
         return JoyResult.buildSuccessResultWithData(staffInjuryRepository.save(injuryInfo));
     }
@@ -139,7 +140,6 @@ public class StaffInjuryService {
             if(!StringUtil.isEmpty(req.getPhone())){
                 predicates.add(builder.like(root.get("staffPersonal").get("phone"), "%" + req.getPhone() +"%"));
             }
-
             // injury_reasons like
             if(req.getInjuryReasons() != null){
                 predicates.add(builder.like(root.get("injuryReasons"), "%" + req.getInjuryReasons() + "%"));

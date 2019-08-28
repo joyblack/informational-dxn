@@ -101,6 +101,12 @@ public enum Notice{
     SAFE_INSPECTION_ALREADY_EXIST("安全巡检信息已存在", 112001),
     VIOLATION_NOT_EXIST("违章信息不存在", 112002),
 
+    // 设备
+    DEVICE_CATEGORY_PARENT_NOT_EXIST("父设备类型信息不存在", 113000),
+    DEVICE_CATEGORY_NOT_EXIST("设备类型信息不存在", 113001),
+    DEVICE_CATEGORY_ALREADY_EXIST("设备类型信息已存在", 113002),
+    DEVICE_CATEGORY_NAME_EXIST("设备类型名称已存在", 113003),
+
     ;
 
 
