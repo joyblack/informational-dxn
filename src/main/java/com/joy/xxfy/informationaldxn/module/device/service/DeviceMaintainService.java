@@ -5,6 +5,8 @@ import com.joy.xxfy.informationaldxn.module.device.domain.defaults.DeviceInfoDef
 import com.joy.xxfy.informationaldxn.module.device.domain.entity.DeviceCategoryEntity;
 import com.joy.xxfy.informationaldxn.module.device.domain.entity.DeviceInfoEntity;
 import com.joy.xxfy.informationaldxn.module.device.domain.entity.DeviceMaintainEntity;
+import com.joy.xxfy.informationaldxn.module.device.domain.enums.DeviceStatusEnum;
+import com.joy.xxfy.informationaldxn.module.device.domain.enums.MaintainStatusEnum;
 import com.joy.xxfy.informationaldxn.module.device.domain.repository.DeviceCategoryRepository;
 import com.joy.xxfy.informationaldxn.module.device.domain.repository.DeviceInfoRepository;
 import com.joy.xxfy.informationaldxn.module.device.domain.repository.DeviceMaintainRepository;
@@ -43,7 +45,6 @@ public class DeviceMaintainService {
      * 添加
      */
     public JoyResult add(DeviceMaintainAddReq req, UserEntity loginUser) {
-        DepartmentEntity belongCompany = loginUser.getCompany();
         // 设备信息是否存在
         DeviceInfoEntity deviceInfo = deviceInfoRepository.findAllById(req.getDeviceInfoId());
         if(deviceInfo == null){
@@ -52,12 +53,24 @@ public class DeviceMaintainService {
 
         DeviceMaintainEntity deviceMaintainInfo = new DeviceMaintainEntity();
         JoyBeanUtil.copyPropertiesIgnoreSourceNullProperties(req, deviceMaintainInfo);
+        // 更新设备的上一次维保日期
+        deviceInfo.setUpdateTime(new Date());
+        // 若是维保完成，设置为在用状态；
+        // 若是维保未完成，设置为维保状态；
+        if(req.getMaintainStatus().equals(MaintainStatusEnum.COMPLETE)){
+            deviceInfo.setDeviceStatus(DeviceStatusEnum.DEVICE_STATUS_USING);
+        }else{
+            deviceInfo.setDeviceStatus(DeviceStatusEnum.DEVICE_STATUS_MAINTAINING);
+        }
+        // 更新最近一次维保时间
+        deviceInfo.setBeforeMaintainTime(req.getMaintainTime());
+        // 下次保养日期，取决于是否同时填写保养间隔时间、最近保养时间
+        if(deviceInfo.getBeforeMaintainTime()!= null && deviceInfo.getMaintainIntervalTime() != null){
+            deviceInfo.setNextMaintainTime(DateUtil.addDay(deviceInfo.getBeforeMaintainTime(),deviceInfo.getMaintainIntervalTime().intValue()));
+        }
+
         // 设置设备信息
         deviceMaintainInfo.setDeviceInfo(deviceInfo);
-
-        // 设置设备的维保日期
-
-        // 如果维保完成，则设置
         // 新增添加
         return JoyResult.buildSuccessResultWithData(deviceMaintainRepository.save(deviceMaintainInfo));
     }
