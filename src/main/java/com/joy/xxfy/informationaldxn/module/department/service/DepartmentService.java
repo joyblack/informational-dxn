@@ -175,6 +175,9 @@ public class DepartmentService{
         List<DepartmentEntity> departments = new ArrayList<>();
         while(id != 0){
             DepartmentEntity department = departmentRepository.findAllById(id);
+            if(department == null){
+                break;
+            }
             departments.add(department);
             id = department.getParentId();
         }

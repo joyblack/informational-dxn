@@ -142,6 +142,9 @@ public class DeviceCategoryService {
         List<DeviceCategoryEntity> cs = new ArrayList<>();
         while(id != 0){
             DeviceCategoryEntity c = deviceCategoryRepository.findAllById(id);
+            if(c == null){
+                break;
+            }
             cs.add(c);
             id = c.getParentId();
         }

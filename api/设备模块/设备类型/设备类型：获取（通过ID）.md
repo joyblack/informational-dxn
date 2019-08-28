@@ -14,12 +14,12 @@ JSON
 ## 请求数据
 |参数名|类型|必填|说明|
 |-|-|-|-|
-|id|[number]|是|部门的ID|
+|id|[number]|是|记录的ID|
 
 ## 请求示例
 ```json
 {
-    "id": 14
+    "id": 2
 }
 ```
 
@@ -31,19 +31,31 @@ JSON
     "message": "操作成功",
     "detailMessage": "",
     "data": {
-        "id": 14,
+        "id": 2,
         "isDelete": false,
-        "createTime": "2019-08-17 10:47:38",
-        "updateTime": "2019-08-17 10:47:38",
+        "createTime": "2019-08-28 14:27:18",
+        "updateTime": "2019-08-28 14:29:26",
         "remarks": null,
-        "departmentName": "信息分院3",
-        "code": "00",
-        "parentId": 10,
-        "responseUser": "jake",
-        "phone": "13535565497",
-        "departmentType": null,
-        "path": "10-14-",
-        "children": null
+        "belongCompany": {
+            "id": 1,
+            "isDelete": false,
+            "createTime": "2019-08-26 20:07:29",
+            "updateTime": "2019-08-26 20:07:29",
+            "remarks": null,
+            "departmentName": "大西南矿业集团",
+            "code": "SUPER-COMPANY",
+            "parentId": 0,
+            "responseUser": null,
+            "phone": null,
+            "departmentType": "CP_GROUP",
+            "path": "1-",
+            "children": []
+        },
+        "categoryName": "皮带运输机类_CHANGE",
+        "parentId": 1,
+        "path": "1-2-",
+        "children": null,
+        "parent": true
     },
     "code": 200
 }
