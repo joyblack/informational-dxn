@@ -27,8 +27,22 @@ public class AccountController extends BaseController {
      */
     @RequestMapping(
             value = "getMyInformation")
-    public JoyResult test(HttpServletRequest request) {
+    public JoyResult getMyInformation(HttpServletRequest request) {
         return JoyResult.buildSuccessResultWithData(getLoginUser(request));
     }
+
+    @RequestMapping(
+            value = "getMyCompany")
+    public JoyResult getMyCompany(HttpServletRequest request) {
+        return JoyResult.buildSuccessResultWithData(getLoginUser(request).getCompany());
+    }
+
+    @RequestMapping(
+            value = "getMyDepartment")
+    public JoyResult getMyDepartment(HttpServletRequest request) {
+        return JoyResult.buildSuccessResultWithData(getLoginUser(request).getDepartment());
+    }
+
+
 
 }

@@ -125,7 +125,8 @@ public enum Notice{
     PAN_PARENT_FOLDER_NOT_EXIST("父文件夹不存在", 114002),
     NOT_SUPPORT_THIS_PERMISSION_TYPE("不支持此种权限类型", 114003),
     BORROW_INFO_NOT_EXIST("借阅信息不存在", 114004),
-
+    LICENCE_NOT_EXIST("证照信息不存在", 114005),
+    LICENCE_ALREADY_EXIST("证照信息已存在", 114006),
 
 
     ;
