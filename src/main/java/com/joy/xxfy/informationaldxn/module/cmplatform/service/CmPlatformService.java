@@ -11,6 +11,8 @@ import com.joy.xxfy.informationaldxn.module.common.web.req.ChangePasswordReq;
 import com.joy.xxfy.informationaldxn.module.department.domain.entity.DepartmentEntity;
 import com.joy.xxfy.informationaldxn.module.department.domain.enums.DepartmentTypeEnum;
 import com.joy.xxfy.informationaldxn.module.department.domain.repository.DepartmentRepository;
+import com.joy.xxfy.informationaldxn.module.driving.domain.entity.DrivingFaceEntity;
+import com.joy.xxfy.informationaldxn.module.driving.web.req.DrivingFaceGetListReq;
 import com.joy.xxfy.informationaldxn.publish.constant.DepartmentConstant;
 import com.joy.xxfy.informationaldxn.publish.constant.SystemConstant;
 import com.joy.xxfy.informationaldxn.publish.result.JoyResult;
@@ -172,30 +174,18 @@ public class CmPlatformService {
      * 获取分页数据
      */
     public JoyResult getAllList(GetCmPlatformListReq req) {
-        return JoyResult.buildSuccessResultWithData(cmPlatformRepository.findAll(new Specification<CmPlatformEntity>() {
-            @Override
-            public Predicate toPredicate(Root<CmPlatformEntity> root, CriteriaQuery<?> query, CriteriaBuilder builder) {
-                List<Predicate> predicates = new ArrayList<>();
-                if(!StringUtil.isEmpty(req.getLoginName())){
-                    predicates.add(builder.like(root.get("user").get("loginName"),"%" + req.getLoginName() + "%"));
-                }
-                if(!StringUtil.isEmpty(req.getCmName())){
-                    predicates.add(builder.like(root.get("cmName"),"%" + req.getCmName() + "%"));
-                }
-                if(predicates.size() == 0){
-                    return query.getRestriction();
-                }else{
-                    return query.where(builder.or(predicates.toArray(new Predicate[predicates.size()]))).getRestriction();
-                }
-            }
-        }));
+        return JoyResult.buildSuccessResultWithData(cmPlatformRepository.findAll(getPredicates(req)));
     }
 
     /**
      * 获取全部数据
      */
     public JoyResult getPagerList(GetCmPlatformListReq req) {
-        return JoyResult.buildSuccessResultWithData(cmPlatformRepository.findAll((Specification<CmPlatformEntity>) (root, query, builder) -> {
+        return JoyResult.buildSuccessResultWithData(cmPlatformRepository.findAll(getPredicates(req),JpaPagerUtil.getPageable(req)));
+    }
+
+    private Specification<CmPlatformEntity> getPredicates(GetCmPlatformListReq req){
+        return (Specification<CmPlatformEntity>) (root, query, builder) -> {
             List<Predicate> predicates = new ArrayList<>();
             if(!StringUtil.isEmpty(req.getLoginName())){
                 predicates.add(builder.like(root.get("user").get("loginName"),"%" + req.getLoginName() + "%"));
@@ -203,12 +193,8 @@ public class CmPlatformService {
             if(!StringUtil.isEmpty(req.getCmName())){
                 predicates.add(builder.like(root.get("cmName"),"%" + req.getCmName() + "%"));
             }
-            if(predicates.size() == 0){
-                return query.getRestriction();
-            }else{
-                return query.where(builder.or(predicates.toArray(new Predicate[predicates.size()]))).getRestriction();
-            }
-        },JpaPagerUtil.getPageable(req)));
+            return builder.and(predicates.toArray(new Predicate[predicates.size()]));
+        };
     }
 
     /**

@@ -80,9 +80,9 @@ public class FileService {
     }
 
 
-//    /**
-//     * 上传资料
-//     */
+    /**
+     * 上传资料
+     */
 //    public JoyResult upload(MultipartFile file, Long parentId) {
 //        TrainingEntity trainingEntity = trainingRepository.findAllById(id);
 //        if(trainingEntity == null){
