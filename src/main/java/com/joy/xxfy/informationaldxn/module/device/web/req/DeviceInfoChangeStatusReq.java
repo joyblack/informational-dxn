@@ -16,7 +16,7 @@ import java.util.List;
 
 @Data
 @ToString
-public class DeviceInfoChangeStatusReq extends BaseUpdateReq {
+public class DeviceInfoChangeStatusReq {
     /**
      * 整改记录的ID列表
      */
@@ -28,7 +28,4 @@ public class DeviceInfoChangeStatusReq extends BaseUpdateReq {
      */
     @NotNull(message = "设备状态不能为空")
     private DeviceStatusEnum deviceStatus;
-
-
-
 }

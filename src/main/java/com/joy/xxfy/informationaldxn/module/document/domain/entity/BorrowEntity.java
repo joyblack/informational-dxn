@@ -1,6 +1,7 @@
 package com.joy.xxfy.informationaldxn.module.document.domain.entity;
 
 import com.joy.xxfy.informationaldxn.module.common.domain.entity.BaseEntity;
+import com.joy.xxfy.informationaldxn.module.common.enums.CommonYesEnum;
 import com.joy.xxfy.informationaldxn.module.department.domain.entity.DepartmentEntity;
 import com.joy.xxfy.informationaldxn.module.document.domain.enums.PermissionTypeEnum;
 import com.joy.xxfy.informationaldxn.module.user.domain.entity.UserEntity;
@@ -22,6 +23,13 @@ import java.util.Date;
 public class BorrowEntity extends BaseEntity {
 
     /**
+     * 所属平台
+     */
+    @JoinColumn(name = "belong_company_id")
+    @ManyToOne(cascade = {}, fetch = FetchType.EAGER)
+    private DepartmentEntity belongCompany;
+
+    /**
      * 资料名称
      */
     @Column(nullable = false)
@@ -34,9 +42,21 @@ public class BorrowEntity extends BaseEntity {
     private String borrowPeople;
 
     /**
-     * 借阅时间
+     * 归还期限
      */
     @Column(nullable = false)
-    private Date borrowTime;
+    private Date deadTime;
+
+    /**
+     * 归还状态
+     */
+    @Column(nullable = false)
+    private CommonYesEnum returnStatus;
+
+
+    /**
+     * 超时归还，这里需要一个定时任务，定时设置是否超时
+     */
+    private CommonYesEnum isOverTime;
 
 }

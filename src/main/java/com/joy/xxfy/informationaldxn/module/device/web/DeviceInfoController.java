@@ -117,16 +117,15 @@ public class DeviceInfoController extends BaseController {
     }
 
     /**
-     * 变更整改状态
+     * 变更状态
      */
     @RequestMapping(
-            value = "changeRectificationStatus",
+            value = "changeDeviceStatus",
             produces = {"application/json;charset=UTF-8"})
-    public JoyResult changeRectificationStatus(@RequestBody @Valid DeviceInfoChangeStatusReq req, BindingResult bindingResult, HttpServletRequest request) {
+    public JoyResult changeDeviceStatus(@RequestBody @Valid DeviceInfoChangeStatusReq req, BindingResult bindingResult, HttpServletRequest request) {
         if (bindingResult.hasErrors()) {
             return JoyResult.buildFailedResult(Notice.REQUEST_PARAMETER_IS_ERROR, bindingResult.getFieldError().getDefaultMessage());
         } else {
-            // copy
             return deviceInfoService.changeDeviceStatus(req, getLoginUser(request));
         }
     }

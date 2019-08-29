@@ -101,9 +101,6 @@ public class DeviceInfoService {
             }
             deviceInfoRepository.save(device);
         }
-
-        // 设备的名字列表
-        devices.stream().forEach(d -> System.out.println("=================" + d.getDeviceName()));
         // save.
         return JoyResult.buildSuccessResultWithData(req);
     }
