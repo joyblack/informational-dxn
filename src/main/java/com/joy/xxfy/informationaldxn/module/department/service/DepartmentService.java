@@ -140,11 +140,20 @@ public class DepartmentService{
     }
 
     // 获取部门树
-    public JoyResult getTree(Long parentId) {
+    public JoyResult getTree(Long parentId,UserEntity loginUser) {
         DepartmentEntity department = departmentRepository.findAllById(parentId);
         String path = department == null? SystemConstant.EMPTY_VALUE : department.getPath();
         List<DepartmentEntity> children = departmentRepository.findAllByPathStartingWith(path);
         return JoyResult.buildSuccessResultWithData(TreeUtil.getDeptTree(children, department == null ? 0 : department.getId()));
+    }
+
+
+    // 获取具体某个平台/集团的树
+    public JoyResult getCompanyTree(UserEntity loginUser){
+        DepartmentEntity company = loginUser.getCompany();
+        List<DepartmentEntity> children = departmentRepository.findAllByPathStartingWith(company.getPath());
+        System.out.println(children);
+        return JoyResult.buildSuccessResultWithData(TreeUtil.getDeptTree(children, company.getId()));
     }
 
     /*

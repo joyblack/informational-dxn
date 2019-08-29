@@ -1,6 +1,6 @@
 package com.joy.xxfy.informationaldxn.module.pan.domain.enums;
 
-public enum FilePermissionType {
+public enum PermissionTypeEnum {
     PER_PUBLIC("公开"),
     PER_PRIVATE("私有"),
     PER_SEPARATE("部分"),
@@ -8,10 +8,10 @@ public enum FilePermissionType {
 
     private String describes;
 
-    FilePermissionType() {
+    PermissionTypeEnum() {
     }
 
-    FilePermissionType(String describes) {
+    PermissionTypeEnum(String describes) {
         this.describes = describes;
     }
 

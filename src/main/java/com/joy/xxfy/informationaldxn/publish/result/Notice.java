@@ -117,6 +117,12 @@ public enum Notice{
 
     DEVICE_MAINTAIN_ALREADY_EXIST("设备维保信息已存在", 113007),
     DEVICE_MAINTAIN_NOT_EXIST("设备维保信息不存在", 113008),
+
+
+    // 云盘
+    PAN_FILE_NOT_EXIST("文件不存在", 114000),
+    PAN_FILE_NAME_ALREADY_EXIST("文件名称已存在", 114001),
+    PAN_PARENT_FOLDER_NOT_EXIST("父文件夹不存在", 114002),
     ;
 
 

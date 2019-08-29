@@ -22,7 +22,7 @@ public interface DepartmentRepository extends BaseRepository<DepartmentEntity>, 
 
     // 根据父路径查询所有子节点
     List<DepartmentEntity> findAllByPathStartingWith(String path);
-
+    
     // 更新所有相关的节点的路径
     @Modifying
     @Query(value = "UPDATE all_department SET path = REPLACE(path, :oldPath, :newPath) WHERE path LIKE CONCAT('',:oldPath,'%')", nativeQuery = true)

@@ -107,14 +107,23 @@ public class DepartmentController extends BaseController {
     @PostMapping(
             value = "/getTree",
             produces = {"application/json;charset=UTF-8"})
-    public JoyResult getTree(@RequestBody @Valid IdReq req, BindingResult bindingResult) {
+    public JoyResult getTree(@RequestBody @Valid IdReq req, BindingResult bindingResult, HttpServletRequest request) {
         if (bindingResult.hasErrors()) {
             return JoyResult.buildFailedResult(Notice.REQUEST_PARAMETER_IS_ERROR, bindingResult.getFieldError().getDefaultMessage());
         } else {
             // copy
-            return departmentService.getTree(req.getId());
+            return departmentService.getTree(req.getId(), getLoginUser(request));
         }
     }
+
+    // 获取当前用户权限范围内所能展示的部门列表
+    @RequestMapping(
+            value = "/getCompanyTree")
+    public JoyResult getCompanyTree(HttpServletRequest request) {
+        return departmentService.getCompanyTree(getLoginUser(request));
+    }
+
+
 
     // 获取当前用户权限范围内所能展示的公司/平台列表
     @RequestMapping(
