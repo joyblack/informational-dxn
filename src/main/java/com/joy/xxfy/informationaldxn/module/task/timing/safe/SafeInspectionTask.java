@@ -1,4 +1,4 @@
-package com.joy.xxfy.informationaldxn.module.task.timing;
+package com.joy.xxfy.informationaldxn.module.task.timing.safe;
 
 import com.joy.xxfy.informationaldxn.module.common.enums.CommonYesEnum;
 import com.joy.xxfy.informationaldxn.module.safe.domain.enums.RectificationStatusEnum;
@@ -29,7 +29,6 @@ public class SafeInspectionTask {
 
     // 每天凌晨零点：更新所有超时了的未整改的记录的超时状态为超时
 
-//    @Scheduled(cron = "0/10 * * * * *")
     @Scheduled(cron = "0 0 0 * * *")
     public void updateIsOvertTime(){
         LogUtil.info("[Timing task]：update all not rectification record, if overtime, set it overtime is Yes...");
@@ -38,7 +37,6 @@ public class SafeInspectionTask {
                 new Date(),
                 RectificationStatusEnum.RECTIFICATION_NO
         );
-
     }
 
 }
