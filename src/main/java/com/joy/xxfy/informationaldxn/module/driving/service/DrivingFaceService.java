@@ -104,7 +104,7 @@ public class DrivingFaceService {
      */
     public JoyResult getByName(String name, UserEntity loginUser) {
         // get older
-        return JoyResult.buildSuccessResultWithData(drivingFaceRepository.findAllByDrivingFaceName(name));
+        return JoyResult.buildSuccessResultWithData(drivingFaceRepository.findAllByBelongCompanyAndDrivingFaceNameContaining(loginUser.getCompany(), name));
     }
 
 

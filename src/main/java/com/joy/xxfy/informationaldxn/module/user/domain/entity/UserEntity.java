@@ -45,7 +45,7 @@ public class UserEntity extends BaseEntity implements Serializable {
     /**
      * 用户类型
      */
-    private UserTypeEnum userType = UserTypeEnum.CM_COMMON;
+    private UserTypeEnum userType = UserTypeEnum.CM_ADMIN;
 
     /**
      * 用户状态

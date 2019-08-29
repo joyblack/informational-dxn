@@ -87,7 +87,7 @@ public class CpStatisticService {
     public JoyResult getData(UserEntity loginUser, Date time) {
         LogUtil.info("Now user type is : {}", loginUser.getUserType());
         // 必须是集团账户
-        if(!loginUser.getUserType().equals(UserTypeEnum.CP_ADMIN) && !loginUser.getUserType().equals(UserTypeEnum.CP_COMMON)){
+        if(!loginUser.getUserType().equals(UserTypeEnum.CP_ADMIN)){
             return JoyResult.buildFailedResult(Notice.PERMISSION_FORBIDDEN);
         }
         // 返回结果

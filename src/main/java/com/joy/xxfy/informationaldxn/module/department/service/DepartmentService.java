@@ -171,7 +171,7 @@ public class DepartmentService{
     public JoyResult getCompanyList(UserEntity user) {
         // 集团用户可以管理所有煤矿平台，煤矿平台只能管理自己所属的平台
         List<DepartmentEntity> companyList = new ArrayList<>();
-        if(user.getUserType().equals(UserTypeEnum.CM_ADMIN) || user.getUserType().equals(UserTypeEnum.CM_COMMON)){
+        if(user.getUserType().equals(UserTypeEnum.CM_ADMIN)){
             companyList.add(user.getCompany());
         }else{// 集团用户获取所有
             companyList = departmentRepository.findAllByParentId(0L);

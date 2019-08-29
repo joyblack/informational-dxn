@@ -14,6 +14,9 @@ public interface DrivingFaceRepository extends BaseRepository<DrivingFaceEntity>
     // driving_face_name = ?
     DrivingFaceEntity findAllByDrivingFaceName(String drivingFaceName);
 
+    // driving_face_name like %?% and belong_company = ?
+    DrivingFaceEntity findAllByBelongCompanyAndDrivingFaceNameContaining(DepartmentEntity departmentEntity, String drivingFaceName);
+
     // name = ? and id != ?
     DrivingFaceEntity findAllByDrivingFaceNameAndIdNot(String drivingFaceName, Long id);
 

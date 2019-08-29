@@ -42,10 +42,10 @@ public class FileEntity extends BaseEntity {
 
 
     /**
-     * 原始名称
+     * 新名称
      */
     @Column(nullable = false)
-    private String originalName;
+    private String newFileName;
 
     /**
      * 文件名称
