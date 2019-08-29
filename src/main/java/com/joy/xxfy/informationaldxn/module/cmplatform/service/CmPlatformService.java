@@ -76,6 +76,9 @@ public class CmPlatformService {
         // 创建部门
         DepartmentEntity department = createCmPlatformDepartment(addCmPlatformReq);
         DepartmentEntity departmentEntity = departmentRepository.save(department);
+        // 路径信息更新
+        department.setPath(departmentEntity.getId() + DepartmentConstant.DEPARTMENT_PATH_SEPARATOR);
+        departmentRepository.save(department);
         LogUtil.info("插入后的部门信息为：{}", departmentEntity);
 
         // 创建用户

@@ -6,6 +6,7 @@ import lombok.Data;
 import lombok.ToString;
 import org.hibernate.annotations.Where;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Transient;
 import javax.validation.constraints.NotEmpty;
@@ -55,6 +56,7 @@ public class DepartmentEntity extends BaseEntity implements Serializable {
     /**
      * 部门路径
      */
+    @Column(nullable = false)
     private String path;
 
     /**
