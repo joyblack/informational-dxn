@@ -48,7 +48,7 @@ public class DeviceMaintainService {
         // 设备信息是否存在
         DeviceInfoEntity deviceInfo = deviceInfoRepository.findAllById(req.getDeviceInfoId());
         if(deviceInfo == null){
-            return JoyResult.buildFailedResult(Notice.DEVICE_INFO_NAME_NOT_EXIST);
+            return JoyResult.buildFailedResult(Notice.DEVICE_INFO_NOT_EXIST);
         }
         DeviceMaintainEntity deviceMaintainInfo = new DeviceMaintainEntity();
         JoyBeanUtil.copyPropertiesIgnoreSourceNullProperties(req, deviceMaintainInfo);
@@ -67,7 +67,6 @@ public class DeviceMaintainService {
         if(deviceInfo.getBeforeMaintainTime()!= null && deviceInfo.getMaintainIntervalTime() != null){
             deviceInfo.setNextMaintainTime(DateUtil.addDay(deviceInfo.getBeforeMaintainTime(),deviceInfo.getMaintainIntervalTime().intValue()));
         }
-        // 设置设备信息
         deviceMaintainInfo.setDeviceInfo(deviceInfo);
         // 将所有关于该设备的旧未完成的记录更新为已完成
         deviceMaintainRepository.updateCompletedByDeviceInfo(deviceInfo, MaintainStatusEnum.COMPLETE);
@@ -85,25 +84,30 @@ public class DeviceMaintainService {
         if(maintainInfo == null){
             return JoyResult.buildFailedResult(Notice.DEVICE_MAINTAIN_NOT_EXIST);
         }
-        // 拷贝修改信息
-        JoyBeanUtil.copyPropertiesIgnoreSourceNullProperties(req, maintainInfo);
         // 关联的设备信息
         DeviceInfoEntity deviceInfo = maintainInfo.getDeviceInfo();
-        // 更新设备的修改时间
-        deviceInfo.setUpdateTime(new Date());
-        // 若是维保完成，设置为在用状态；
-        // 若是维保未完成，设置为维保状态；
-        if(req.getMaintainStatus().equals(MaintainStatusEnum.COMPLETE)){
-            deviceInfo.setDeviceStatus(DeviceStatusEnum.DEVICE_STATUS_USING);
-        }else{
-            deviceInfo.setDeviceStatus(DeviceStatusEnum.DEVICE_STATUS_MAINTAINING);
+        // 获取设备最新一条维保信息，若当前修改的不是最新记录，则无需修改关联设备的信息。
+        // 用户可能只是修改一条维保记录的状态而已。
+        DeviceMaintainEntity newestMaintainInfo = deviceMaintainRepository.findFirstByDeviceInfoOrderByMaintainTimeDesc(deviceInfo);
+        if(newestMaintainInfo.getId().equals(maintainInfo.getId())){
+            // 更新设备的修改时间
+            deviceInfo.setUpdateTime(new Date());
+            // 若是维保完成，设置为在用状态；
+            // 若是维保未完成，设置为维保状态；
+            if(req.getMaintainStatus().equals(MaintainStatusEnum.COMPLETE)){
+                deviceInfo.setDeviceStatus(DeviceStatusEnum.DEVICE_STATUS_USING);
+            }else{
+                deviceInfo.setDeviceStatus(DeviceStatusEnum.DEVICE_STATUS_MAINTAINING);
+            }
+            // 更新最近一次维保时间
+            deviceInfo.setBeforeMaintainTime(req.getMaintainTime());
+            // 下次保养日期，取决于是否同时填写保养间隔时间、最近保养时间
+            if(deviceInfo.getBeforeMaintainTime()!= null && deviceInfo.getMaintainIntervalTime() != null){
+                deviceInfo.setNextMaintainTime(DateUtil.addDay(deviceInfo.getBeforeMaintainTime(),deviceInfo.getMaintainIntervalTime().intValue()));
+            }
         }
-        // 更新最近一次维保时间
-        deviceInfo.setBeforeMaintainTime(req.getMaintainTime());
-        // 下次保养日期，取决于是否同时填写保养间隔时间、最近保养时间
-        if(deviceInfo.getBeforeMaintainTime()!= null && deviceInfo.getMaintainIntervalTime() != null){
-            deviceInfo.setNextMaintainTime(DateUtil.addDay(deviceInfo.getBeforeMaintainTime(),deviceInfo.getMaintainIntervalTime().intValue()));
-        }
+        // 拷贝修改信息
+        JoyBeanUtil.copyPropertiesIgnoreSourceNullProperties(req, maintainInfo);
         // 修改
         return JoyResult.buildSuccessResultWithData(deviceMaintainRepository.save(maintainInfo));
     }
@@ -112,9 +116,8 @@ public class DeviceMaintainService {
      * 删除
      */
     public JoyResult delete(Long id, UserEntity loginUser) {
-        // 是否处于正在使用状态，或者把这些信息也给删除了？
         DeviceMaintainEntity info = deviceMaintainRepository.findAllById(id);
-        if(info != null){
+        if(info == null){
             return JoyResult.buildFailedResult(Notice.DEVICE_MAINTAIN_NOT_EXIST);
         }
         // 删除
@@ -151,7 +154,7 @@ public class DeviceMaintainService {
     private Specification<DeviceMaintainEntity> getPredicates(DeviceMaintainGetListReq req, UserEntity loginUser){
         return (Specification<DeviceMaintainEntity>) (root, query, builder) -> {
             List<Predicate> predicates = new ArrayList<>();
-            predicates.add(builder.equal(root.get("belongCompany"),loginUser.getCompany()));
+            predicates.add(builder.equal(root.get("deviceInfo").get("belongCompany"),loginUser.getCompany()));
             // 设备名称
             if(!StringUtil.isEmpty(req.getDeviceName())){
                 predicates.add(builder.like(root.get("deviceInfo").get("deviceName"), "%" + req.getDeviceName() +"%"));

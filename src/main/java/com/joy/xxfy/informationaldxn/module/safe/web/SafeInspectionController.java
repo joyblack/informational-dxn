@@ -2,10 +2,7 @@ package com.joy.xxfy.informationaldxn.module.safe.web;
 
 import com.joy.xxfy.informationaldxn.module.common.web.req.IdReq;
 import com.joy.xxfy.informationaldxn.module.safe.service.SafeInspectionService;
-import com.joy.xxfy.informationaldxn.module.safe.web.req.ChangeRectificationStatusReq;
-import com.joy.xxfy.informationaldxn.module.safe.web.req.SafeInspectionAddReq;
-import com.joy.xxfy.informationaldxn.module.safe.web.req.SafeInspectionGetListReq;
-import com.joy.xxfy.informationaldxn.module.safe.web.req.SafeInspectionUpdateReq;
+import com.joy.xxfy.informationaldxn.module.safe.web.req.*;
 import com.joy.xxfy.informationaldxn.publish.result.JoyResult;
 import com.joy.xxfy.informationaldxn.publish.result.Notice;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,6 +28,21 @@ public class SafeInspectionController {
             value = "/add",
             produces = {"application/json;charset=UTF-8"})
     public JoyResult add(@RequestBody @Valid SafeInspectionAddReq req, BindingResult bindingResult) {
+        if (bindingResult.hasErrors()) {
+            return JoyResult.buildFailedResult(Notice.REQUEST_PARAMETER_IS_ERROR, bindingResult.getFieldError().getDefaultMessage());
+        } else {
+            // copy
+            return safeInspectionService.add(req);
+        }
+    }
+
+    /**
+     * 添加
+     */
+    @PostMapping(
+            value = "/batchAdd",
+            produces = {"application/json;charset=UTF-8"})
+    public JoyResult batchAdd(@RequestBody @Valid SafeInspectionBatchAddReq req, BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
             return JoyResult.buildFailedResult(Notice.REQUEST_PARAMETER_IS_ERROR, bindingResult.getFieldError().getDefaultMessage());
         } else {

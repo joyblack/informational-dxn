@@ -1,21 +1,19 @@
 package com.joy.xxfy.informationaldxn.module.safe.web.req;
 
-import com.joy.xxfy.informationaldxn.module.common.enums.CommonYesEnum;
 import com.joy.xxfy.informationaldxn.module.common.web.req.BaseAddReq;
-import com.joy.xxfy.informationaldxn.module.department.domain.entity.DepartmentEntity;
 import com.joy.xxfy.informationaldxn.module.safe.domain.enums.InspectType;
-import com.joy.xxfy.informationaldxn.module.safe.domain.enums.RectificationStatusEnum;
 import lombok.Data;
 import lombok.ToString;
 
-import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import java.util.Date;
+import java.util.List;
 
 @Data
 @ToString(callSuper = true)
-public class SafeInspectionAddReq extends BaseAddReq {
+public class SafeInspectionBatchAddReq extends BaseAddReq {
     /**
      * 巡检日期
      */
@@ -42,20 +40,8 @@ public class SafeInspectionAddReq extends BaseAddReq {
     private InspectType inspectType;
 
     /**
-     * 巡检地点
+     * 问题项
      */
-    @NotBlank(message = "巡检地点不能为空")
-    private String inspectPlace;
-
-    /**
-     * 问题描述
-     */
-    @NotBlank(message = "问题描述不能为空")
-    private String problemDescribes;
-
-    /**
-     * 整改人
-     */
-    private String rectificationPeople;
-
+    @NotEmpty(message = "问题项不能为空")
+    private List<SafeInspectionProblemItem> problemItems;
 }

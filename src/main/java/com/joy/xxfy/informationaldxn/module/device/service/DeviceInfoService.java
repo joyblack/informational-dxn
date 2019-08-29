@@ -105,7 +105,7 @@ public class DeviceInfoService {
         // 设备的名字列表
         devices.stream().forEach(d -> System.out.println("=================" + d.getDeviceName()));
         // save.
-        return JoyResult.buildSuccessResult(ResultDataConstant.MESSAGE_ADD_SUCCESS);
+        return JoyResult.buildSuccessResultWithData(req);
     }
 
     /**

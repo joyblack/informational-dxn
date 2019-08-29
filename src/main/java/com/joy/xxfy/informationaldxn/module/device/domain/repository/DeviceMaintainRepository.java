@@ -23,4 +23,6 @@ public interface DeviceMaintainRepository extends BaseRepository<DeviceMaintainE
     @Query("update DeviceMaintainEntity m set m.maintainStatus = :maintainStatus where m.deviceInfo = :deviceInfo")
     void updateCompletedByDeviceInfo(@Param("deviceInfo") DeviceInfoEntity deviceInfoEntity, @Param("maintainStatus") MaintainStatusEnum maintainStatus);
 
+    // 获取维保信息最新的一条记录信息
+    DeviceMaintainEntity findFirstByDeviceInfoOrderByMaintainTimeDesc(DeviceInfoEntity deviceInfoEntity);
 }

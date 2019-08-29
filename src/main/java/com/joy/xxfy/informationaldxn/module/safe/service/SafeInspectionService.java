@@ -6,10 +6,7 @@ import com.joy.xxfy.informationaldxn.module.department.domain.repository.Departm
 import com.joy.xxfy.informationaldxn.module.safe.domain.entity.SafeInspectionEntity;
 import com.joy.xxfy.informationaldxn.module.safe.domain.enums.RectificationStatusEnum;
 import com.joy.xxfy.informationaldxn.module.safe.domain.repository.SafeInspectionRepository;
-import com.joy.xxfy.informationaldxn.module.safe.web.req.ChangeRectificationStatusReq;
-import com.joy.xxfy.informationaldxn.module.safe.web.req.SafeInspectionAddReq;
-import com.joy.xxfy.informationaldxn.module.safe.web.req.SafeInspectionGetListReq;
-import com.joy.xxfy.informationaldxn.module.safe.web.req.SafeInspectionUpdateReq;
+import com.joy.xxfy.informationaldxn.module.safe.web.req.*;
 import com.joy.xxfy.informationaldxn.module.train.domain.entity.TrainingEntity;
 import com.joy.xxfy.informationaldxn.module.train.web.req.TrainingAddReq;
 import com.joy.xxfy.informationaldxn.module.train.web.req.TrainingGetListReq;
@@ -65,6 +62,41 @@ public class SafeInspectionService {
         info.setIsOverTime(CommonYesEnum.NO);
         // save.
         return JoyResult.buildSuccessResultWithData(safeInspectionRepository.save(info));
+    }
+
+    /**
+     * 批量添加
+     */
+    public JoyResult add(SafeInspectionBatchAddReq req) {
+        // 验证巡检煤矿是否存在
+        DepartmentEntity inspectCompany = departmentRepository.findAllById(req.getInspectCompanyId());
+        if(inspectCompany == null){
+            return JoyResult.buildFailedResult(Notice.CM_PLATFORM_NOT_EXIST);
+        }
+        // 验证巡检部门是否存在
+        DepartmentEntity inspectDepartment = departmentRepository.findAllById(req.getInspectDepartmentId());
+        if(inspectDepartment == null){
+            return JoyResult.buildFailedResult(Notice.DEPARTMENT_NOT_EXIST);
+        }
+
+        List<SafeInspectionEntity> infos = new ArrayList<>();
+        for (SafeInspectionProblemItem problemItem : req.getProblemItems()) {
+            // 装配数据
+            SafeInspectionEntity info = new SafeInspectionEntity();
+            JoyBeanUtil.copyPropertiesIgnoreSourceNullProperties(req, info);
+            JoyBeanUtil.copyPropertiesIgnoreSourceNullProperties(problemItem, info);
+
+            System.out.println(info);
+            info.setInspectCompany(inspectCompany);
+            info.setInspectDepartment(inspectDepartment);
+            // 整改状态为未整改
+            info.setRectificationStatus(RectificationStatusEnum.RECTIFICATION_NO);
+            // 是否超时未超时
+            info.setIsOverTime(CommonYesEnum.NO);
+            infos.add(info);
+        }
+        // save.
+        return JoyResult.buildSuccessResultWithData(safeInspectionRepository.saveAll(infos));
     }
 
     /**

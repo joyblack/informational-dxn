@@ -21,13 +21,6 @@ import java.util.Date;
 @Where(clause = "is_delete = 0")
 public class DeviceMaintainEntity extends BaseEntity {
     /**
-     * 所属平台
-     */
-    @JoinColumn(name = "company_id")
-    @ManyToOne(cascade = {}, fetch = FetchType.EAGER)
-    private DepartmentEntity belongCompany;
-
-    /**
      * 设备信息
      */
     @JoinColumn(name = "device_info_id")
