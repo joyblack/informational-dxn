@@ -2,6 +2,7 @@ package com.joy.xxfy.informationaldxn.publish.utils;
 
 import com.joy.xxfy.informationaldxn.publish.exception.JoyException;
 import com.joy.xxfy.informationaldxn.publish.result.JoyResult;
+import com.joy.xxfy.informationaldxn.publish.result.Notice;
 import org.springframework.http.HttpStatus;
 
 import javax.servlet.http.HttpServletRequest;
@@ -31,9 +32,6 @@ public class FileUtil {
 
     /**
      * By zhaoyi. 下载文件
-     * @param fileName
-     * @param request
-     * @param response
      */
     public static void downloadFile(String fileName, String path, HttpServletRequest request, HttpServletResponse response) {
             File file = new File(path);
@@ -118,5 +116,17 @@ public class FileUtil {
 
     public static void getOutputStream(String filePath,HttpServletRequest request,HttpServletResponse response) {
 
+    }
+
+    // 获取文件类型后缀
+    public static String getFileExtension(String filename){
+        if(StringUtil.isEmpty(filename)){
+            return "";
+        }
+        String[] names = filename.trim().split("\\.");
+        if (null == names || names.length == 0 || names.length == 1) {
+            return "";
+        }
+        return names[names.length - 1];
     }
 }

@@ -123,6 +123,8 @@ public enum Notice{
     PAN_FILE_NOT_EXIST("文件不存在", 114000),
     PAN_FILE_NAME_ALREADY_EXIST("文件名称已存在", 114001),
     PAN_PARENT_FOLDER_NOT_EXIST("父文件夹不存在", 114002),
+
+    NOT_SUPPORT_THIS_PERMISSION_TYPE("不支持此种权限类型", 114003),
     ;
 
 

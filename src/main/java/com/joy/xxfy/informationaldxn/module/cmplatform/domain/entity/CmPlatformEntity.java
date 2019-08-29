@@ -26,8 +26,8 @@ public class CmPlatformEntity extends BaseEntity {
      * 对应的管理账户
      */
     @NotNull
-    @OneToOne(cascade = {},fetch = FetchType.EAGER)
-    @JoinColumn(name = "userId", nullable = false)
+    @ManyToOne(cascade = {},fetch = FetchType.EAGER)
+    @JoinColumn(name = "user_id", nullable = false)
     private UserEntity user;
 
     /**

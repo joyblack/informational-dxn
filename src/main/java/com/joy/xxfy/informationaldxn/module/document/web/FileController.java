@@ -1,13 +1,10 @@
-package com.joy.xxfy.informationaldxn.module.pan.web;
+package com.joy.xxfy.informationaldxn.module.document.web;
 
 import com.joy.xxfy.informationaldxn.module.common.web.BaseController;
-import com.joy.xxfy.informationaldxn.module.common.web.req.TimeReq;
-import com.joy.xxfy.informationaldxn.module.pan.service.FileService;
-import com.joy.xxfy.informationaldxn.module.pan.web.req.MkdirReq;
-import com.joy.xxfy.informationaldxn.module.user.domain.entity.UserEntity;
+import com.joy.xxfy.informationaldxn.module.document.service.FileService;
+import com.joy.xxfy.informationaldxn.module.document.web.req.MkdirReq;
 import com.joy.xxfy.informationaldxn.publish.result.JoyResult;
 import com.joy.xxfy.informationaldxn.publish.result.Notice;
-import com.joy.xxfy.informationaldxn.publish.utils.jwt.TokenUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -18,7 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
-@RequestMapping("pan-file")
+@RequestMapping("document-file")
 @RestController
 public class FileController extends BaseController {
 

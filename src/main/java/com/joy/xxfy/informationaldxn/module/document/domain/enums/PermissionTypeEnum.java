@@ -1,4 +1,4 @@
-package com.joy.xxfy.informationaldxn.module.pan.domain.enums;
+package com.joy.xxfy.informationaldxn.module.document.domain.enums;
 
 public enum PermissionTypeEnum {
     PER_PUBLIC("公开"),

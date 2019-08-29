@@ -1,7 +1,7 @@
-package com.joy.xxfy.informationaldxn.module.pan.web.req;
+package com.joy.xxfy.informationaldxn.module.document.web.req;
 
 import com.joy.xxfy.informationaldxn.module.common.web.req.BaseAddReq;
-import com.joy.xxfy.informationaldxn.module.pan.domain.enums.PermissionTypeEnum;
+import com.joy.xxfy.informationaldxn.module.document.domain.enums.PermissionTypeEnum;
 import lombok.Data;
 import lombok.ToString;
 

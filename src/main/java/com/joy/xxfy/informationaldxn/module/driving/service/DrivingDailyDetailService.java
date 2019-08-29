@@ -260,9 +260,6 @@ public class DrivingDailyDetailService {
         return (Specification<DrivingDailyDetailEntity>) (root, query, builder) -> {
             List<Predicate> predicates = new ArrayList<>();
             predicates.add(builder.equal(root.get("drivingDaily").get("drivingFace").get("belongCompany"), loginUser.getCompany()));
-            // belong
-            predicates.add(builder.equal(root.get("belongCompany"),loginUser.getCompany()));
-
             if(req.getDrivingFaceId() != null){
                 predicates.add(builder.equal(root.get("drivingDaily").get("drivingFace").get("id"), req.getDrivingFaceId()));
             }
