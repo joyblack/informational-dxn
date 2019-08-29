@@ -3,6 +3,7 @@ package com.joy.xxfy.informationaldxn.module.document.domain.repository;
 import com.joy.xxfy.informationaldxn.module.common.domain.repository.BaseRepository;
 import com.joy.xxfy.informationaldxn.module.department.domain.entity.DepartmentEntity;
 import com.joy.xxfy.informationaldxn.module.document.domain.entity.FileEntity;
+import com.joy.xxfy.informationaldxn.module.document.domain.enums.PermissionTypeEnum;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface FileRepository  extends BaseRepository<FileEntity>, JpaRepository<FileEntity, Long> {
@@ -10,5 +11,5 @@ public interface FileRepository  extends BaseRepository<FileEntity>, JpaReposito
     FileEntity findAllByIdAndIsFolder(Long id, Boolean isFolder);
 
     // 查找同名文件
-    FileEntity findFirstByBelongCompanyAndParentIdAndFileName(DepartmentEntity belongCompany, Long parentId, String filename);
+    FileEntity findFirstByPermissionTypeAndBelongCompanyAndParentIdAndFileName(PermissionTypeEnum permissionType, DepartmentEntity belongCompany, Long parentId, String filename);
 }

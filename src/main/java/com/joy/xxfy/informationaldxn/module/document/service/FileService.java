@@ -60,7 +60,7 @@ public class FileService extends BaseService {
             return JoyResult.buildFailedResult(Notice.COMPANY_NOT_EXIST);
         }
         // 判断是否重名
-        FileEntity same = fileRepository.findFirstByBelongCompanyAndParentIdAndFileName(belongCompany, parentId, req.getFileName());
+        FileEntity same = fileRepository.findFirstByPermissionTypeAndBelongCompanyAndParentIdAndFileName(req.getPermissionType(),belongCompany, parentId, req.getFileName());
         if(same != null){
             return JoyResult.buildFailedResult(Notice.PAN_FILE_NAME_ALREADY_EXIST);
         }
@@ -78,15 +78,15 @@ public class FileService extends BaseService {
         // 文件名称
         folder.setFileName(req.getFileName());
         // 文件大小
-        folder.setFileSize(FileConstant.FILE_SIZE);
+        folder.setFileSize(null);
         // 文件格式
         folder.setFileType(null);
         // 文件路径 p_path/name
         folder.setPath(parentFolder==null? (FileConstant.PATH_SEPARATE + req.getFileName()) : (parentFolder.getPath() + FileConstant.PATH_SEPARATE + req.getFileName()));
         // 存储路径
-        folder.setStorePath(null);
+        folder.setStorePath("");
         // 权限类型:以父文件夹的为准，若不存在，则以请求的参数为准
-        folder.setPermissionType(parentFolder == null? parentFolder.getPermissionType(): req.getPermissionType());
+        folder.setPermissionType(parentFolder == null? req.getPermissionType():parentFolder.getPermissionType());
 
         if(!folder.getPermissionType().equals(PermissionTypeEnum.PER_PUBLIC) && !folder.getPermissionType().equals(PermissionTypeEnum.PER_PRIVATE)){
             return JoyResult.buildFailedResult(Notice.NOT_SUPPORT_THIS_PERMISSION_TYPE);
@@ -95,7 +95,7 @@ public class FileService extends BaseService {
         folder.setIsFolder(true);
         // 创建者
         folder.setCreateUser(loginUser);
-        return JoyResult.buildSuccessResultWithData(fileRepository.save(parentFolder));
+        return JoyResult.buildSuccessResultWithData(fileRepository.save(folder));
     }
 
 
@@ -190,21 +190,21 @@ public class FileService extends BaseService {
     /**
      * 获取分页数据
      */
-    public JoyResult getPagerList(FileGetListReq req) {
-        return JoyResult.buildSuccessResultWithData(fileRepository.findAll(getPredicates(req), JpaPagerUtil.getPageable(req)));
+    public JoyResult getPagerList(FileGetListReq req, UserEntity loginUser) {
+        return JoyResult.buildSuccessResultWithData(fileRepository.findAll(getPredicates(req,loginUser), JpaPagerUtil.getPageable(req)));
     }
 
     /**
      * 获取全部
      */
-    public JoyResult getAllList(FileGetListReq req) {
-        return JoyResult.buildSuccessResultWithData(fileRepository.findAll(getPredicates(req)));
+    public JoyResult getAllList(FileGetListReq req, UserEntity loginUser) {
+        return JoyResult.buildSuccessResultWithData(fileRepository.findAll(getPredicates(req,loginUser)));
     }
 
     /**
      * 获取分页数据、全部数据的谓词条件
      */
-    private Specification<FileEntity> getPredicates(FileGetListReq req){
+    private Specification<FileEntity> getPredicates(FileGetListReq req, UserEntity loginUser){
         return (Specification<FileEntity>) (root, query, builder) -> {
             List<Predicate> predicates = new ArrayList<>();
             // 必要条件
@@ -212,6 +212,10 @@ public class FileService extends BaseService {
             predicates.add(builder.equal(root.get("parentId"), req.getParentId()));
             // 权限类型：私有 or 公开
             predicates.add(builder.equal(root.get("permissionType"), req.getPermissionType()));
+            // 若为私有，则还要添加该用户的所属信息，定位私有文件
+            if(req.getPermissionType().equals(PermissionTypeEnum.PER_PRIVATE)){
+                predicates.add(builder.equal(root.get("createUser"), loginUser));
+            }
             // 所属平台/公司
             if(req.getBelongCompanyId() != null){
                 predicates.add(builder.equal(root.get("belongCompany").get("id"), req.getBelongCompanyId()));

@@ -14,7 +14,7 @@ import javax.persistence.*;
  * 资料
  */
 @Entity
-@Table(name = "pan_file")
+@Table(name = "document_pan_file")
 @Data
 @ToString(callSuper = true)
 @Where(clause = "is_delete = 0")
@@ -24,7 +24,7 @@ public class FileEntity extends BaseEntity {
      * 创建者
      */
     @ManyToOne(cascade = {}, fetch = FetchType.EAGER)
-    @JoinColumn(name = "upload_user_id", nullable = false)
+    @JoinColumn(name = "create_user_id")
     private UserEntity createUser;
 
     /**

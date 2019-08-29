@@ -179,6 +179,21 @@ public class DepartmentService{
         return JoyResult.buildSuccessResultWithData(companyList);
     }
 
+    // 获取当前用户权限范围内所能展示的公司/平台列表
+    public JoyResult getCmPlatformList(UserEntity user) {
+        // 集团用户可以管理所有煤矿平台，煤矿平台只能管理自己所属的平台
+        List<DepartmentEntity> companyList = new ArrayList<>();
+        if(user.getUserType().equals(UserTypeEnum.CM_ADMIN)){
+            companyList.add(user.getCompany());
+        }else{// 集团用户获取除了自身之外的煤矿平台
+            companyList = departmentRepository.findAllByParentId(0L)
+                    .stream()
+                    .filter(p -> p.getDepartmentType().equals(DepartmentTypeEnum.CM_PLATFORM))
+                    .collect(Collectors.toList());
+        }
+        return JoyResult.buildSuccessResultWithData(companyList);
+    }
+
     // 获取父部门遍历树（包含自身）
     public JoyResult getParentNodes(Long id) {
         List<DepartmentEntity> departments = new ArrayList<>();

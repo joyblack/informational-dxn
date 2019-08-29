@@ -116,7 +116,7 @@ public class DepartmentController extends BaseController {
         }
     }
 
-    // 获取当前用户权限范围内所能展示的部门列表
+    // 获取当前用户权限范围内所能展示的部门树
     @RequestMapping(
             value = "/getCompanyTree")
     public JoyResult getCompanyTree(HttpServletRequest request) {
@@ -124,12 +124,18 @@ public class DepartmentController extends BaseController {
     }
 
 
-
     // 获取当前用户权限范围内所能展示的公司/平台列表
     @RequestMapping(
             value = "/getCompanyList")
     public JoyResult getCompanyList(HttpServletRequest request) {
         return departmentService.getCompanyList(getLoginUser(request));
+    }
+
+    // 获取当前用户权限范围内所能展示的公司/平台列表
+    @RequestMapping(
+            value = "/getCmPlatformList")
+    public JoyResult getCmPlatformList(HttpServletRequest request) {
+        return departmentService.getCmPlatformList(getLoginUser(request));
     }
 
     // 获取父部门遍历树（包含自身）
