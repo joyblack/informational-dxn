@@ -461,7 +461,7 @@ public class CmStatisticService extends BaseService {
         writer.merge(startRow,writer.getCurrentRow() - 1,7,11, produceCmDailyEntity == null? null: produceCmDailyEntity.getRemarks(),false);
 
         // 设置全部列自动宽度
-        writer.autoSizeColumn(5);
+//        writer.autoSizeColumnAll();
 
         ExportUtil.exportData(request, response, fileName, writer);
     }
