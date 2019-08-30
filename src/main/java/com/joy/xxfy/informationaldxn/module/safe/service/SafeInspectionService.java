@@ -243,7 +243,7 @@ public class SafeInspectionService {
                     // 设置为已整改
                     safeInspectionEntity.setRectificationStatus(req.getRectificationStatus());
                     // 是否超时
-                    if(DateUtil.compare(now,safeInspectionEntity.getDeadTime()) < 0){
+                    if(DateUtil.compare(now,safeInspectionEntity.getDeadTime()) > 0){
                         safeInspectionEntity.setIsOverTime(CommonYesEnum.YES);
                     }else{
                         safeInspectionEntity.setIsOverTime(CommonYesEnum.NO);
