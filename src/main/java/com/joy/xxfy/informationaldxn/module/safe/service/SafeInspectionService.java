@@ -236,19 +236,14 @@ public class SafeInspectionService {
         // 修改为已整改
         if(req.getRectificationStatus().equals(RectificationStatusEnum.RECTIFICATION_YES)){
             // 当前时间
-            Date now = DateUtil.getDateJustYMD(new Date());
             for (SafeInspectionEntity safeInspectionEntity : safeInspectionEntities) {
+                Date now = new Date();
                 // 若原来的状态就是处理状态，则无需处理
                 if(safeInspectionEntity.getRectificationStatus().equals(RectificationStatusEnum.RECTIFICATION_NO)){
                     // 设置为已整改
                     safeInspectionEntity.setRectificationStatus(req.getRectificationStatus());
                     // 是否超时
-                    System.out.println("当前日期：" + now);
-                    System.out.println("整改截止日期：" + safeInspectionEntity.getDeadTime());
-                    System.out.println("当前日期：" + now.getTime());
-                    System.out.println("整改截止日期：" + safeInspectionEntity.getDeadTime().getTime());
-                    if(now.after(safeInspectionEntity.getDeadTime())){
-                        System.out.println("超时了！");
+                    if(DateUtil.compare(now,safeInspectionEntity.getDeadTime()) > 0){
                         safeInspectionEntity.setIsOverTime(CommonYesEnum.YES);
                     }else{
                         safeInspectionEntity.setIsOverTime(CommonYesEnum.NO);
