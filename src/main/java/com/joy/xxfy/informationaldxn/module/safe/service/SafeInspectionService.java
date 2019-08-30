@@ -21,6 +21,7 @@ import com.joy.xxfy.informationaldxn.publish.utils.StringUtil;
 import com.joy.xxfy.informationaldxn.publish.utils.project.JpaPagerUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.domain.Specification;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -244,6 +245,8 @@ public class SafeInspectionService {
                     // 是否超时
                     System.out.println("当前日期：" + now);
                     System.out.println("整改截止日期：" + safeInspectionEntity.getDeadTime());
+                    System.out.println("当前日期：" + now.getTime());
+                    System.out.println("整改截止日期：" + safeInspectionEntity.getDeadTime().getTime());
                     if(now.after(safeInspectionEntity.getDeadTime())){
                         System.out.println("超时了！");
                         safeInspectionEntity.setIsOverTime(CommonYesEnum.YES);
