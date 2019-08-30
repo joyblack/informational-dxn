@@ -93,8 +93,14 @@ public class SafeInspectionService {
             info.setInspectDepartment(inspectDepartment);
             // 整改状态为未整改
             info.setRectificationStatus(RectificationStatusEnum.RECTIFICATION_NO);
-            // 是否超时未超时
-            info.setIsOverTime(CommonYesEnum.NO);
+            // 是否超时
+            Date now = new Date();
+            if(DateUtil.compare(now, info.getDeadTime()) > 0){
+                info.setIsOverTime(CommonYesEnum.YES);
+            }else{
+                info.setIsOverTime(CommonYesEnum.NO);
+            }
+
             infos.add(info);
         }
         // save.
