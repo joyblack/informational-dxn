@@ -2,6 +2,7 @@ package com.joy.xxfy.informationaldxn.publish.utils.project;
 
 import com.joy.xxfy.informationaldxn.module.department.domain.entity.DepartmentEntity;
 import com.joy.xxfy.informationaldxn.module.device.domain.entity.DeviceCategoryEntity;
+import com.joy.xxfy.informationaldxn.module.system.domain.entity.ResourceEntity;
 import com.joy.xxfy.informationaldxn.publish.utils.JoyBeanUtil;
 
 import java.util.ArrayList;
@@ -47,24 +48,24 @@ public class TreeUtil {
         }
         return result;
     }
-//
-//    /**
-//     * 将资源列表转化为树结构
-//     */
-//    public  static List<Resources> getResourcesTree(List<Resources> list, Long pid){
-//        List<Resources> result =  new ArrayList<>();
-//        List<Resources> temp;
-//        for(Resources entity : list){
-//            if(entity.getParentId().equals(pid)){
-//                Resources scopeMode = new Resources();
-//                JoyBeanUtil.copyPropertiesIgnoreSourceNullProperties(entity,scopeMode);
-//                temp = getResourcesTree(list,entity.getId());
-//                if(temp.size() > 0){
-//                    scopeMode.setChildren(temp);
-//                }
-//                result.add(scopeMode);
-//            }
-//        }
-//        return result;
-//    }
+
+    /**
+     * 将资源列表转化为树结构
+     */
+    public  static List<ResourceEntity> getResourcesTree(List<ResourceEntity> list, Long pid){
+        List<ResourceEntity> result =  new ArrayList<>();
+        List<ResourceEntity> temp;
+        for(ResourceEntity entity : list){
+            if(entity.getParentId().equals(pid)){
+                ResourceEntity scopeMode = new ResourceEntity();
+                JoyBeanUtil.copyPropertiesIgnoreSourceNullProperties(entity,scopeMode);
+                temp = getResourcesTree(list,entity.getId());
+                if(temp.size() > 0){
+                    scopeMode.setChildren(temp);
+                }
+                result.add(scopeMode);
+            }
+        }
+        return result;
+    }
 }

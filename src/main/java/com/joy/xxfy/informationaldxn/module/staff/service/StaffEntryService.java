@@ -1,15 +1,23 @@
 package com.joy.xxfy.informationaldxn.module.staff.service;
 
+import cn.hutool.core.collection.CollUtil;
+import cn.hutool.poi.excel.ExcelUtil;
+import cn.hutool.poi.excel.ExcelWriter;
+import com.joy.xxfy.informationaldxn.module.common.enums.LimitUserTypeEnum;
+import com.joy.xxfy.informationaldxn.module.common.service.BaseService;
 import com.joy.xxfy.informationaldxn.module.department.domain.entity.DepartmentEntity;
 import com.joy.xxfy.informationaldxn.module.department.domain.repository.DepartmentRepository;
 import com.joy.xxfy.informationaldxn.module.staff.domain.enetiy.PositionEntity;
 import com.joy.xxfy.informationaldxn.module.staff.domain.repository.PositionRepository;
-import com.joy.xxfy.informationaldxn.module.user.domain.entity.UserEntity;
+import com.joy.xxfy.informationaldxn.module.system.domain.entity.UserEntity;
+import com.joy.xxfy.informationaldxn.publish.constant.ExportConstant;
+import com.joy.xxfy.informationaldxn.publish.exception.JoyException;
 import com.joy.xxfy.informationaldxn.publish.result.JoyResult;
 import com.joy.xxfy.informationaldxn.publish.result.Notice;
 import com.joy.xxfy.informationaldxn.publish.utils.LogUtil;
 import com.joy.xxfy.informationaldxn.publish.utils.PhoneUtil;
 import com.joy.xxfy.informationaldxn.publish.utils.StringUtil;
+import com.joy.xxfy.informationaldxn.publish.utils.excel.ExportUtil;
 import com.joy.xxfy.informationaldxn.publish.utils.identity.IdNumberUtil;
 import com.joy.xxfy.informationaldxn.publish.utils.project.JpaPagerUtil;
 import com.joy.xxfy.informationaldxn.module.staff.domain.enetiy.*;
@@ -25,12 +33,15 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.criteria.Predicate;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
 @Transactional
 @Service
-public class StaffEntryService {
+public class StaffEntryService extends BaseService {
 
     @Autowired
     private PositionRepository positionRepository;
@@ -217,11 +228,6 @@ public class StaffEntryService {
         // 姓名
         entryInfo.getStaffPersonal().setUsername(req.getUsername());
         // 身份证号:暂时不允许修改,若允许修改，要验证唯一性。
-//        if(!IdNumberUtil.isIDNumber((req.getIdNumber()))){
-//            return JoyResult.buildFailedResult(Notice.IDENTITY_NUMBER_ERROR);
-//        }else{
-//            entryInfo.getStaffPersonal().setIdNumber(req.getIdNumber());
-//        }
         // 出生日期
         entryInfo.getStaffPersonal().setBirthDate(req.getBirthDate());
         // 性别
@@ -413,4 +419,52 @@ public class StaffEntryService {
         };
     }
 
+    public void exportData(StaffEntryGetListReq req, UserEntity loginUser, HttpServletRequest request, HttpServletResponse response) {
+        // 权限验证
+        if(!hasPermission(loginUser, 0L, LimitUserTypeEnum.ALL)){
+            throw new JoyException(Notice.PERMISSION_FORBIDDEN);
+        }
+        // 获取查询结果
+        List<StaffEntryEntity> staffEntryEntities = (List<StaffEntryEntity>)getAllList(req, loginUser).getData();
+
+        // 日期导出格式
+        SimpleDateFormat dateFormat = new SimpleDateFormat(ExportConstant.DATE_FORMAT);
+        List<List<String>> rows = new ArrayList<List<String>>();
+        rows.add(CollUtil.newArrayList(ExportConstant.FIELD_STAFF_ENTRY));
+
+        for (StaffEntryEntity entryInfo : staffEntryEntities) {
+            List<String> row = CollUtil.newArrayList(
+                    // 姓名
+                    entryInfo.getStaffPersonal().getUsername(),
+                    // 出生日期
+                    dateFormat.format(entryInfo.getStaffPersonal().getBirthDate()),
+                    // 性别
+                    entryInfo.getStaffPersonal().getSex().getDescribe(),
+                    // 民族
+                    entryInfo.getStaffPersonal().getNationality(),
+                    // 入职时间
+                    dateFormat.format(entryInfo.getEntryTime()),
+                    // 入职公司/煤矿
+                    entryInfo.getCompany().getDepartmentName(),
+                    // 入职部门
+                    entryInfo.getDepartment().getDepartmentName(),
+                    // 入职职务/工种
+                    entryInfo.getPosition().getPositionName(),
+                    // 联系方式
+                    entryInfo.getStaffPersonal().getPhone(),
+                    // 审核状态
+                    entryInfo.getReviewStatus().getDescribes(),
+                    // 备注
+                    entryInfo.getRemarks()
+            );
+            rows.add(row);
+        }
+        // rows.add(CollUtil.newArrayList("合计", "", "", "",regularAttendanceEntity.getTotal().toString(),"" ));
+        ExcelWriter writer = ExcelUtil.getWriter();
+        // 合并列
+        //writer.merge(ExportConstant.FIELD_STAFF_ENTRY.length - 1, regularAttendanceEntity.getDepartment().getName() + simpleDateFormat.format(regularAttendanceEntity.getDateTime()) + "考勤记录");
+        writer.write(rows, true);
+        String fileName = "员工入职信息表";
+        ExportUtil.exportData(request, response, fileName, writer);
+    }
 }

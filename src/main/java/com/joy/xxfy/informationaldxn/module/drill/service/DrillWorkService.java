@@ -9,7 +9,7 @@ import com.joy.xxfy.informationaldxn.module.drill.web.req.DrillWorkAddReq;
 import com.joy.xxfy.informationaldxn.module.drill.web.req.DrillWorkGetListReq;
 import com.joy.xxfy.informationaldxn.module.drill.web.req.DrillWorkUpdateReq;
 import com.joy.xxfy.informationaldxn.module.drill.web.res.DrillWorkRes;
-import com.joy.xxfy.informationaldxn.module.user.domain.entity.UserEntity;
+import com.joy.xxfy.informationaldxn.module.system.domain.entity.UserEntity;
 import com.joy.xxfy.informationaldxn.publish.constant.BigDecimalValueConstant;
 import com.joy.xxfy.informationaldxn.publish.constant.LongValueConstant;
 import com.joy.xxfy.informationaldxn.publish.constant.ResultDataConstant;
@@ -25,7 +25,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.criteria.Predicate;
-import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;

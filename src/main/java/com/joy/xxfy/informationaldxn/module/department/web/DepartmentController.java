@@ -7,7 +7,6 @@ import com.joy.xxfy.informationaldxn.module.department.web.req.DepartmentAddReq;
 import com.joy.xxfy.informationaldxn.module.department.web.req.DepartmentUpdateReq;
 import com.joy.xxfy.informationaldxn.publish.result.JoyResult;
 import com.joy.xxfy.informationaldxn.publish.result.Notice;
-import com.joy.xxfy.informationaldxn.module.user.domain.entity.UserEntity;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.PostMapping;

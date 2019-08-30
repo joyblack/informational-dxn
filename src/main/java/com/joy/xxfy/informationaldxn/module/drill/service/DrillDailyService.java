@@ -9,7 +9,7 @@ import com.joy.xxfy.informationaldxn.module.drill.domain.repository.DrillDailyRe
 import com.joy.xxfy.informationaldxn.module.drill.domain.repository.DrillWorkRepository;
 import com.joy.xxfy.informationaldxn.module.drill.web.req.*;
 import com.joy.xxfy.informationaldxn.module.drill.web.res.DrillDailyRes;
-import com.joy.xxfy.informationaldxn.module.user.domain.entity.UserEntity;
+import com.joy.xxfy.informationaldxn.module.system.domain.entity.UserEntity;
 import com.joy.xxfy.informationaldxn.publish.constant.ResultDataConstant;
 import com.joy.xxfy.informationaldxn.publish.result.JoyResult;
 import com.joy.xxfy.informationaldxn.publish.result.Notice;

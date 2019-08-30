@@ -7,7 +7,7 @@ import com.joy.xxfy.informationaldxn.module.driving.domain.repository.DrivingFac
 import com.joy.xxfy.informationaldxn.module.driving.web.req.DrivingFaceAddReq;
 import com.joy.xxfy.informationaldxn.module.driving.web.req.DrivingFaceGetListReq;
 import com.joy.xxfy.informationaldxn.module.driving.web.req.DrivingFaceUpdateReq;
-import com.joy.xxfy.informationaldxn.module.user.domain.entity.UserEntity;
+import com.joy.xxfy.informationaldxn.module.system.domain.entity.UserEntity;
 import com.joy.xxfy.informationaldxn.publish.result.JoyResult;
 import com.joy.xxfy.informationaldxn.publish.result.Notice;
 import com.joy.xxfy.informationaldxn.publish.utils.JoyBeanUtil;

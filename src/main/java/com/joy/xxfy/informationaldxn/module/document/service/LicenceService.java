@@ -1,31 +1,22 @@
 package com.joy.xxfy.informationaldxn.module.document.service;
 
-import com.joy.xxfy.informationaldxn.module.common.enums.CommonYesEnum;
 import com.joy.xxfy.informationaldxn.module.department.domain.entity.DepartmentEntity;
 import com.joy.xxfy.informationaldxn.module.department.domain.repository.DepartmentRepository;
 import com.joy.xxfy.informationaldxn.module.document.domain.defaults.LicenceDefault;
-import com.joy.xxfy.informationaldxn.module.document.domain.entity.BorrowEntity;
 import com.joy.xxfy.informationaldxn.module.document.domain.entity.LicenceEntity;
 import com.joy.xxfy.informationaldxn.module.document.domain.enums.LicenceTypeEnum;
-import com.joy.xxfy.informationaldxn.module.document.domain.repository.BorrowRepository;
 import com.joy.xxfy.informationaldxn.module.document.domain.repository.LicenceRepository;
 import com.joy.xxfy.informationaldxn.module.document.web.req.*;
-import com.joy.xxfy.informationaldxn.module.user.domain.entity.UserEntity;
+import com.joy.xxfy.informationaldxn.module.system.domain.entity.UserEntity;
 import com.joy.xxfy.informationaldxn.publish.constant.ResultDataConstant;
 import com.joy.xxfy.informationaldxn.publish.result.JoyResult;
 import com.joy.xxfy.informationaldxn.publish.result.Notice;
 import com.joy.xxfy.informationaldxn.publish.utils.JoyBeanUtil;
-import com.joy.xxfy.informationaldxn.publish.utils.StringUtil;
-import com.joy.xxfy.informationaldxn.publish.utils.project.JpaPagerUtil;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.persistence.criteria.Predicate;
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
 
 @Transactional
 @Service

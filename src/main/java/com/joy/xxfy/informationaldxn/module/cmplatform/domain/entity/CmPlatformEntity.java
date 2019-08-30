@@ -2,7 +2,7 @@ package com.joy.xxfy.informationaldxn.module.cmplatform.domain.entity;
 
 import com.joy.xxfy.informationaldxn.module.common.domain.entity.BaseEntity;
 import com.joy.xxfy.informationaldxn.module.common.enums.CommonStatusEnum;
-import com.joy.xxfy.informationaldxn.module.user.domain.entity.UserEntity;
+import com.joy.xxfy.informationaldxn.module.system.domain.entity.UserEntity;
 import lombok.Data;
 import lombok.ToString;
 import org.hibernate.annotations.Where;

@@ -3,7 +3,7 @@ package com.joy.xxfy.informationaldxn.module.produce.web;
 import com.joy.xxfy.informationaldxn.module.common.web.req.TimeReq;
 import com.joy.xxfy.informationaldxn.module.produce.service.CmStatisticService;
 import com.joy.xxfy.informationaldxn.module.produce.web.req.SetRemarkReq;
-import com.joy.xxfy.informationaldxn.module.user.domain.entity.UserEntity;
+import com.joy.xxfy.informationaldxn.module.system.domain.entity.UserEntity;
 import com.joy.xxfy.informationaldxn.publish.result.JoyResult;
 import com.joy.xxfy.informationaldxn.publish.result.Notice;
 import com.joy.xxfy.informationaldxn.publish.utils.jwt.TokenUtil;

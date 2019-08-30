@@ -5,15 +5,14 @@ import com.joy.xxfy.informationaldxn.module.department.domain.enums.DepartmentTy
 import com.joy.xxfy.informationaldxn.module.department.domain.repository.DepartmentRepository;
 import com.joy.xxfy.informationaldxn.module.department.web.req.DepartmentAddReq;
 import com.joy.xxfy.informationaldxn.module.department.web.req.DepartmentUpdateReq;
-import com.joy.xxfy.informationaldxn.module.user.domain.enums.UserTypeEnum;
+import com.joy.xxfy.informationaldxn.module.system.domain.enums.UserTypeEnum;
 import com.joy.xxfy.informationaldxn.publish.constant.DepartmentConstant;
 import com.joy.xxfy.informationaldxn.publish.constant.SystemConstant;
 import com.joy.xxfy.informationaldxn.publish.result.JoyResult;
 import com.joy.xxfy.informationaldxn.publish.result.Notice;
 import com.joy.xxfy.informationaldxn.publish.utils.LogUtil;
-import com.joy.xxfy.informationaldxn.publish.utils.SqlUtil;
 import com.joy.xxfy.informationaldxn.publish.utils.project.TreeUtil;
-import com.joy.xxfy.informationaldxn.module.user.domain.entity.UserEntity;
+import com.joy.xxfy.informationaldxn.module.system.domain.entity.UserEntity;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

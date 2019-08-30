@@ -23,7 +23,7 @@ import com.joy.xxfy.informationaldxn.module.produce.domain.vo.CmStatisticVo;
 import com.joy.xxfy.informationaldxn.module.produce.domain.vo.DrillStatisticVo;
 import com.joy.xxfy.informationaldxn.module.produce.web.req.SetRemarkReq;
 import com.joy.xxfy.informationaldxn.module.produce.web.res.CmStatisticRes;
-import com.joy.xxfy.informationaldxn.module.user.domain.entity.UserEntity;
+import com.joy.xxfy.informationaldxn.module.system.domain.entity.UserEntity;
 import com.joy.xxfy.informationaldxn.publish.constant.BigDecimalValueConstant;
 import com.joy.xxfy.informationaldxn.publish.constant.ResultDataConstant;
 import com.joy.xxfy.informationaldxn.publish.result.JoyResult;

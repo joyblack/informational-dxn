@@ -7,10 +7,8 @@ import com.joy.xxfy.informationaldxn.module.backmining.domain.repository.BackMin
 import com.joy.xxfy.informationaldxn.module.backmining.web.req.BackMiningFaceAddReq;
 import com.joy.xxfy.informationaldxn.module.backmining.web.req.BackMiningFaceGetListReq;
 import com.joy.xxfy.informationaldxn.module.backmining.web.req.BackMiningFaceUpdateReq;
-import com.joy.xxfy.informationaldxn.module.drill.domain.entity.DrillDailyEntity;
-import com.joy.xxfy.informationaldxn.module.user.domain.entity.UserEntity;
+import com.joy.xxfy.informationaldxn.module.system.domain.entity.UserEntity;
 import com.joy.xxfy.informationaldxn.publish.constant.BigDecimalValueConstant;
-import com.joy.xxfy.informationaldxn.publish.constant.SystemConstant;
 import com.joy.xxfy.informationaldxn.publish.result.JoyResult;
 import com.joy.xxfy.informationaldxn.publish.result.Notice;
 import com.joy.xxfy.informationaldxn.publish.utils.JoyBeanUtil;
@@ -23,7 +21,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.criteria.Predicate;
-import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;

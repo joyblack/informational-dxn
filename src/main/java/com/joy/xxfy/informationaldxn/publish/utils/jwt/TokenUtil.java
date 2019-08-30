@@ -2,7 +2,7 @@ package com.joy.xxfy.informationaldxn.publish.utils.jwt;
 
 import cn.hutool.json.JSONUtil;
 import com.joy.xxfy.informationaldxn.publish.exception.JoyException;
-import com.joy.xxfy.informationaldxn.module.user.domain.entity.UserEntity;
+import com.joy.xxfy.informationaldxn.module.system.domain.entity.UserEntity;
 import io.jsonwebtoken.Claims;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

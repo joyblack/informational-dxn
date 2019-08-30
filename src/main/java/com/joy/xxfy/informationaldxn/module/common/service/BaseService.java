@@ -2,12 +2,11 @@ package com.joy.xxfy.informationaldxn.module.common.service;
 
 import com.joy.xxfy.informationaldxn.module.common.enums.LimitUserTypeEnum;
 import com.joy.xxfy.informationaldxn.module.common.web.res.FileInfoRes;
-import com.joy.xxfy.informationaldxn.module.user.domain.entity.UserEntity;
+import com.joy.xxfy.informationaldxn.module.system.domain.entity.UserEntity;
 import com.joy.xxfy.informationaldxn.publish.result.JoyResult;
 import com.joy.xxfy.informationaldxn.publish.result.Notice;
 import com.joy.xxfy.informationaldxn.publish.utils.FileUtil;
 import com.joy.xxfy.informationaldxn.publish.utils.StringUtil;
-import org.apache.commons.collections4.ListUtils;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

@@ -23,8 +23,8 @@ import com.joy.xxfy.informationaldxn.module.produce.domain.entity.ProduceCmDaily
 import com.joy.xxfy.informationaldxn.module.produce.domain.repository.ProduceCmDailyRepository;
 import com.joy.xxfy.informationaldxn.module.produce.domain.vo.*;
 import com.joy.xxfy.informationaldxn.module.produce.web.res.CpStatisticRes;
-import com.joy.xxfy.informationaldxn.module.user.domain.entity.UserEntity;
-import com.joy.xxfy.informationaldxn.module.user.domain.enums.UserTypeEnum;
+import com.joy.xxfy.informationaldxn.module.system.domain.entity.UserEntity;
+import com.joy.xxfy.informationaldxn.module.system.domain.enums.UserTypeEnum;
 import com.joy.xxfy.informationaldxn.publish.constant.BigDecimalValueConstant;
 import com.joy.xxfy.informationaldxn.publish.constant.ResultDataConstant;
 import com.joy.xxfy.informationaldxn.publish.result.JoyResult;
@@ -32,12 +32,10 @@ import com.joy.xxfy.informationaldxn.publish.result.Notice;
 import com.joy.xxfy.informationaldxn.publish.utils.CompareUtil;
 import com.joy.xxfy.informationaldxn.publish.utils.DateUtil;
 import com.joy.xxfy.informationaldxn.publish.utils.LogUtil;
-import com.mysql.jdbc.log.LogUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;

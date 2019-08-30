@@ -8,20 +8,20 @@ public enum ReviewStatusEnum {
 
     NOT_PASS("未通过");
 
-    private String name;
+    private String describes;
 
-    ReviewStatusEnum(String name) {
-        this.name = name;
+    ReviewStatusEnum(String describes) {
+        this.describes = describes;
     }
 
     ReviewStatusEnum() {
     }
 
-    public String getName() {
-        return name;
+    public String getDescribes() {
+        return describes;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setDescribes(String describes) {
+        this.describes = describes;
     }
 }

@@ -1,8 +1,5 @@
 package com.joy.xxfy.informationaldxn.module.device.service;
 
-import com.joy.xxfy.informationaldxn.module.department.domain.entity.DepartmentEntity;
-import com.joy.xxfy.informationaldxn.module.device.domain.defaults.DeviceInfoDefault;
-import com.joy.xxfy.informationaldxn.module.device.domain.entity.DeviceCategoryEntity;
 import com.joy.xxfy.informationaldxn.module.device.domain.entity.DeviceInfoEntity;
 import com.joy.xxfy.informationaldxn.module.device.domain.entity.DeviceMaintainEntity;
 import com.joy.xxfy.informationaldxn.module.device.domain.enums.DeviceStatusEnum;
@@ -11,7 +8,7 @@ import com.joy.xxfy.informationaldxn.module.device.domain.repository.DeviceCateg
 import com.joy.xxfy.informationaldxn.module.device.domain.repository.DeviceInfoRepository;
 import com.joy.xxfy.informationaldxn.module.device.domain.repository.DeviceMaintainRepository;
 import com.joy.xxfy.informationaldxn.module.device.web.req.*;
-import com.joy.xxfy.informationaldxn.module.user.domain.entity.UserEntity;
+import com.joy.xxfy.informationaldxn.module.system.domain.entity.UserEntity;
 import com.joy.xxfy.informationaldxn.publish.constant.ResultDataConstant;
 import com.joy.xxfy.informationaldxn.publish.result.JoyResult;
 import com.joy.xxfy.informationaldxn.publish.result.Notice;

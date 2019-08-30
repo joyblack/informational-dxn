@@ -8,7 +8,7 @@ import com.joy.xxfy.informationaldxn.module.driving.domain.repository.DrivingFac
 import com.joy.xxfy.informationaldxn.module.driving.domain.vo.SumDrivingDailyDetailVo;
 import com.joy.xxfy.informationaldxn.module.driving.web.req.DrivingDailyAddReq;
 import com.joy.xxfy.informationaldxn.module.driving.web.res.DrivingDailyRes;
-import com.joy.xxfy.informationaldxn.module.user.domain.entity.UserEntity;
+import com.joy.xxfy.informationaldxn.module.system.domain.entity.UserEntity;
 import com.joy.xxfy.informationaldxn.publish.constant.BigDecimalValueConstant;
 import com.joy.xxfy.informationaldxn.publish.constant.LongValueConstant;
 import com.joy.xxfy.informationaldxn.publish.constant.ResultDataConstant;

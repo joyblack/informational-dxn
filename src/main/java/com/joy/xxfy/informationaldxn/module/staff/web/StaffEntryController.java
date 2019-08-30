@@ -2,6 +2,7 @@ package com.joy.xxfy.informationaldxn.module.staff.web;
 
 import com.joy.xxfy.informationaldxn.module.common.web.BaseController;
 import com.joy.xxfy.informationaldxn.module.common.web.req.IdReq;
+import com.joy.xxfy.informationaldxn.publish.exception.JoyException;
 import com.joy.xxfy.informationaldxn.publish.result.JoyResult;
 import com.joy.xxfy.informationaldxn.publish.result.Notice;
 import com.joy.xxfy.informationaldxn.module.staff.service.StaffEntryService;
@@ -17,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 
 @RestController
@@ -143,6 +145,19 @@ public class StaffEntryController extends BaseController {
         } else {
             // copy
             return staffEntryService.delete(req.getId());
+        }
+    }
+
+    /**
+     * 导出查询结果的数据
+     */
+    @RequestMapping("exportData")
+    public void update(@RequestBody @Valid StaffEntryGetListReq req, BindingResult bindingResult, HttpServletRequest request, HttpServletResponse response) {
+        if (bindingResult.hasErrors()) {
+            throw new JoyException(Notice.REQUEST_PARAMETER_IS_ERROR);
+        } else {
+            // copy
+            staffEntryService.exportData(req, getLoginUser(request), request, response);
         }
     }
 

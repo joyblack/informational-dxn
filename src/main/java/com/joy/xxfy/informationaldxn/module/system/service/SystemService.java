@@ -6,10 +6,10 @@ import com.joy.xxfy.informationaldxn.module.department.domain.enums.DepartmentTy
 import com.joy.xxfy.informationaldxn.module.department.domain.repository.DepartmentRepository;
 import com.joy.xxfy.informationaldxn.module.system.domain.entity.SystemConfigEntity;
 import com.joy.xxfy.informationaldxn.module.system.domain.repository.SystemConfigRepository;
-import com.joy.xxfy.informationaldxn.module.system.enums.SystemConfigEnum;
-import com.joy.xxfy.informationaldxn.module.user.domain.entity.UserEntity;
-import com.joy.xxfy.informationaldxn.module.user.domain.enums.UserTypeEnum;
-import com.joy.xxfy.informationaldxn.module.user.domain.repository.UserRepository;
+import com.joy.xxfy.informationaldxn.module.system.domain.enums.SystemConfigEnum;
+import com.joy.xxfy.informationaldxn.module.system.domain.entity.UserEntity;
+import com.joy.xxfy.informationaldxn.module.system.domain.enums.UserTypeEnum;
+import com.joy.xxfy.informationaldxn.module.system.domain.repository.UserRepository;
 import com.joy.xxfy.informationaldxn.publish.constant.DepartmentConstant;
 import com.joy.xxfy.informationaldxn.publish.constant.SystemConstant;
 import com.joy.xxfy.informationaldxn.publish.result.JoyResult;

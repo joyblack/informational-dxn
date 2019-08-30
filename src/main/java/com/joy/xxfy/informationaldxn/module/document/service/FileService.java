@@ -10,7 +10,7 @@ import com.joy.xxfy.informationaldxn.module.document.domain.enums.PermissionType
 import com.joy.xxfy.informationaldxn.module.document.domain.repository.FileRepository;
 import com.joy.xxfy.informationaldxn.module.document.web.req.FileGetListReq;
 import com.joy.xxfy.informationaldxn.module.document.web.req.MkdirReq;
-import com.joy.xxfy.informationaldxn.module.user.domain.entity.UserEntity;
+import com.joy.xxfy.informationaldxn.module.system.domain.entity.UserEntity;
 import com.joy.xxfy.informationaldxn.publish.constant.ResultDataConstant;
 import com.joy.xxfy.informationaldxn.publish.constant.StoreFilePathConstant;
 import com.joy.xxfy.informationaldxn.publish.result.JoyResult;

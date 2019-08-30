@@ -7,7 +7,7 @@ import com.joy.xxfy.informationaldxn.module.device.domain.repository.DeviceCateg
 import com.joy.xxfy.informationaldxn.module.device.domain.repository.DeviceInfoRepository;
 import com.joy.xxfy.informationaldxn.module.device.web.req.DeviceCategoryAddReq;
 import com.joy.xxfy.informationaldxn.module.device.web.req.DeviceCategoryUpdateReq;
-import com.joy.xxfy.informationaldxn.module.user.domain.entity.UserEntity;
+import com.joy.xxfy.informationaldxn.module.system.domain.entity.UserEntity;
 import com.joy.xxfy.informationaldxn.publish.constant.DeviceCategoryConstant;
 import com.joy.xxfy.informationaldxn.publish.constant.ResultDataConstant;
 import com.joy.xxfy.informationaldxn.publish.constant.SystemConstant;

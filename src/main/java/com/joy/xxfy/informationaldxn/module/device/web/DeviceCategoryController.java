@@ -2,13 +2,9 @@ package com.joy.xxfy.informationaldxn.module.device.web;
 
 import com.joy.xxfy.informationaldxn.module.common.web.BaseController;
 import com.joy.xxfy.informationaldxn.module.common.web.req.IdReq;
-import com.joy.xxfy.informationaldxn.module.department.service.DepartmentService;
-import com.joy.xxfy.informationaldxn.module.department.web.req.DepartmentAddReq;
-import com.joy.xxfy.informationaldxn.module.department.web.req.DepartmentUpdateReq;
 import com.joy.xxfy.informationaldxn.module.device.service.DeviceCategoryService;
 import com.joy.xxfy.informationaldxn.module.device.web.req.DeviceCategoryAddReq;
 import com.joy.xxfy.informationaldxn.module.device.web.req.DeviceCategoryUpdateReq;
-import com.joy.xxfy.informationaldxn.module.user.domain.entity.UserEntity;
 import com.joy.xxfy.informationaldxn.publish.result.JoyResult;
 import com.joy.xxfy.informationaldxn.publish.result.Notice;
 import org.springframework.beans.factory.annotation.Autowired;
