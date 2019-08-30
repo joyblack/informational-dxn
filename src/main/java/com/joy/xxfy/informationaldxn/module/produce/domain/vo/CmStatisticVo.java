@@ -28,6 +28,21 @@ public class CmStatisticVo {
     private Long eveningPeople = 0L;
     private Long shiftTotalPeople = 0L;
 
+    /**
+     * 月累计进尺
+     */
+    private BigDecimal monthLength = BigDecimal.ZERO;
+
+    /**
+     * 今日产煤
+     */
+    private BigDecimal dayOutput = BigDecimal.ZERO;
+
+    /**
+     * 月累计产煤
+     */
+    private BigDecimal monthOutput = BigDecimal.ZERO;
+
     public CmStatisticVo() {
     }
 
@@ -40,21 +55,7 @@ public class CmStatisticVo {
         this.monthOutput = monthOutput;
     }
 
-    /**
-     * 月累计进尺
-     */
-    private BigDecimal monthLength = BigDecimal.ZERO;
 
-    /**
-     * 今日产煤
-     */
-    private BigDecimal dayOutput = BigDecimal.ZERO;
-
-
-    /**
-     * 月累计产煤
-     */
-    private BigDecimal monthOutput = BigDecimal.ZERO;
 
 
 }

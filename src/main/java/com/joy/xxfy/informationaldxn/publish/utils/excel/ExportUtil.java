@@ -30,8 +30,8 @@ public class ExportUtil {
             try {
                 response.setHeader(
                         "content-disposition",
-                        //"attachment;filename=" + new String(fileName.getBytes(), "ISO8859-1") + ".xls");
-                        "attachment;filename=" + new String(codedFileName.getBytes(), "ISO8859-1") + ".xls");
+                        "attachment;filename=" + new String(fileName.getBytes(), "ISO8859-1") + ".xls");
+                        //"attachment;filename=" + new String(codedFileName.getBytes(), "ISO8859-1") + ".xls");
             } catch (UnsupportedEncodingException e) {
                 e.printStackTrace();
             }

@@ -1,9 +1,12 @@
 package com.joy.xxfy.informationaldxn.module.produce.web;
 
+import com.joy.xxfy.informationaldxn.module.common.web.BaseController;
 import com.joy.xxfy.informationaldxn.module.common.web.req.TimeReq;
 import com.joy.xxfy.informationaldxn.module.produce.service.CmStatisticService;
 import com.joy.xxfy.informationaldxn.module.produce.web.req.SetRemarkReq;
+import com.joy.xxfy.informationaldxn.module.staff.web.req.StaffEntryGetListReq;
 import com.joy.xxfy.informationaldxn.module.system.domain.entity.UserEntity;
+import com.joy.xxfy.informationaldxn.publish.exception.JoyException;
 import com.joy.xxfy.informationaldxn.publish.result.JoyResult;
 import com.joy.xxfy.informationaldxn.publish.result.Notice;
 import com.joy.xxfy.informationaldxn.publish.utils.jwt.TokenUtil;
@@ -15,16 +18,14 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 
 @RequestMapping("produce-cm-statistic")
 @RestController
-public class CmStatisticController {
+public class CmStatisticController extends BaseController {
     @Autowired
     private CmStatisticService cmStatisticService;
-    /**
-     * 添加
-     */
     @PostMapping(
             value = "/getStatisticData",
             produces = {"application/json;charset=UTF-8"})
@@ -49,6 +50,20 @@ public class CmStatisticController {
         } else {
             UserEntity user = TokenUtil.getUser(request);
             return cmStatisticService.setRemarks(req, user);
+        }
+    }
+
+
+    /**
+     * 导出
+     */
+    @RequestMapping(value = "exportData",produces = {"application/json;charset=UTF-8"})
+    public void update(@RequestBody @Valid TimeReq req, BindingResult bindingResult, HttpServletRequest request, HttpServletResponse response) {
+        if (bindingResult.hasErrors()) {
+            throw new JoyException(Notice.REQUEST_PARAMETER_IS_ERROR);
+        } else {
+            // copy
+            cmStatisticService.exportData(req, getLoginUser(request), request, response);
         }
     }
 

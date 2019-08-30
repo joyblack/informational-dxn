@@ -15,6 +15,7 @@ import com.joy.xxfy.informationaldxn.module.train.web.res.TrainingRes;
 import com.joy.xxfy.informationaldxn.publish.constant.ResultDataConstant;
 import com.joy.xxfy.informationaldxn.publish.result.JoyResult;
 import com.joy.xxfy.informationaldxn.publish.result.Notice;
+import com.joy.xxfy.informationaldxn.publish.utils.DateUtil;
 import com.joy.xxfy.informationaldxn.publish.utils.JoyBeanUtil;
 import com.joy.xxfy.informationaldxn.publish.utils.StringUtil;
 import com.joy.xxfy.informationaldxn.publish.utils.project.JpaPagerUtil;
@@ -234,7 +235,7 @@ public class SafeInspectionService {
         // 修改为已整改
         if(req.getRectificationStatus().equals(RectificationStatusEnum.RECTIFICATION_YES)){
             // 当前时间
-            Date now = new Date();
+            Date now = DateUtil.getDateJustYMD(new Date());
             for (SafeInspectionEntity safeInspectionEntity : safeInspectionEntities) {
                 // 若原来的状态就是处理状态，则无需处理
                 if(safeInspectionEntity.getRectificationStatus().equals(RectificationStatusEnum.RECTIFICATION_NO)){

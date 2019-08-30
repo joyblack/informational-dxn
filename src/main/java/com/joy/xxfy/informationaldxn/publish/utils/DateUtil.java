@@ -40,4 +40,16 @@ public class DateUtil {
         ca.add(Calendar.DATE, days);
         return ca.getTime();
     }
+
+    /**
+     * 获得指定日期的零点时间
+     */
+    public static Date getDateJustYMD(Date currentTime){
+        Calendar ca = Calendar.getInstance();
+        ca.setTime(currentTime);
+        ca.set(Calendar.HOUR_OF_DAY, 0);
+        ca.set(Calendar.MINUTE, 0);
+        ca.set(Calendar.SECOND, 0);
+        return ca.getTime();
+    }
 }

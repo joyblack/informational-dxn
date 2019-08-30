@@ -1,11 +1,17 @@
 package com.joy.xxfy.informationaldxn.module.produce.service;
 
+import cn.hutool.core.collection.CollUtil;
+import cn.hutool.poi.excel.ExcelUtil;
+import cn.hutool.poi.excel.ExcelWriter;
 import com.joy.xxfy.informationaldxn.module.backmining.domain.entity.BackMiningDailyDetailEntity;
 import com.joy.xxfy.informationaldxn.module.backmining.domain.entity.BackMiningDailyEntity;
 import com.joy.xxfy.informationaldxn.module.backmining.domain.entity.BackMiningFaceEntity;
 import com.joy.xxfy.informationaldxn.module.backmining.domain.repository.BackMiningDailyDetailRepository;
 import com.joy.xxfy.informationaldxn.module.backmining.domain.repository.BackMiningDailyRepository;
 import com.joy.xxfy.informationaldxn.module.backmining.domain.repository.BackMiningFaceRepository;
+import com.joy.xxfy.informationaldxn.module.common.enums.LimitUserTypeEnum;
+import com.joy.xxfy.informationaldxn.module.common.service.BaseService;
+import com.joy.xxfy.informationaldxn.module.common.web.req.TimeReq;
 import com.joy.xxfy.informationaldxn.module.department.domain.entity.DepartmentEntity;
 import com.joy.xxfy.informationaldxn.module.drill.domain.entity.DrillDailyEntity;
 import com.joy.xxfy.informationaldxn.module.drill.domain.entity.DrillWorkEntity;
@@ -23,27 +29,40 @@ import com.joy.xxfy.informationaldxn.module.produce.domain.vo.CmStatisticVo;
 import com.joy.xxfy.informationaldxn.module.produce.domain.vo.DrillStatisticVo;
 import com.joy.xxfy.informationaldxn.module.produce.web.req.SetRemarkReq;
 import com.joy.xxfy.informationaldxn.module.produce.web.res.CmStatisticRes;
+import com.joy.xxfy.informationaldxn.module.staff.domain.enetiy.StaffEntryEntity;
 import com.joy.xxfy.informationaldxn.module.system.domain.entity.UserEntity;
 import com.joy.xxfy.informationaldxn.publish.constant.BigDecimalValueConstant;
+import com.joy.xxfy.informationaldxn.publish.constant.ExportConstant;
 import com.joy.xxfy.informationaldxn.publish.constant.ResultDataConstant;
+import com.joy.xxfy.informationaldxn.publish.exception.JoyException;
 import com.joy.xxfy.informationaldxn.publish.result.JoyResult;
+import com.joy.xxfy.informationaldxn.publish.result.Notice;
 import com.joy.xxfy.informationaldxn.publish.utils.DateUtil;
 import com.joy.xxfy.informationaldxn.publish.utils.JoyBeanUtil;
 import com.joy.xxfy.informationaldxn.publish.utils.LogUtil;
+import com.joy.xxfy.informationaldxn.publish.utils.excel.ExportUtil;
+import com.joy.xxfy.informationaldxn.publish.utils.format.FormatToStringValueUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.File;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+
+import static com.joy.xxfy.informationaldxn.publish.utils.format.FormatToStringValueUtil.*;
+import static com.joy.xxfy.informationaldxn.publish.utils.format.FormatToStringValueUtil.numberFormat;
 
 /**
  * 煤矿生产日报服务
  */
 @Transactional
 @Service
-public class CmStatisticService {
+public class CmStatisticService extends BaseService {
 
     @Autowired
     private ProduceCmDailyRepository produceCmDailyRepository;
@@ -82,7 +101,6 @@ public class CmStatisticService {
         LogUtil.info("Start statistic company: {}", company.getDepartmentName());
         // 返回结果
         CmStatisticRes res = new CmStatisticRes();
-        // copy数据
         ProduceCmDailyEntity produceCmDailyEntity = produceCmDailyRepository.findAllByBelongCompanyAndDailyTime(company, time);
         if(produceCmDailyEntity != null){
             JoyBeanUtil.copyPropertiesIgnoreSourceNullProperties(produceCmDailyEntity,res);
@@ -314,4 +332,139 @@ public class CmStatisticService {
         produceCmDailyEntity.setRemarks(req.getRemarks());
         return JoyResult.buildSuccessResultWithData(produceCmDailyRepository.save(produceCmDailyEntity));
     }
+
+
+    public void exportData(TimeReq req, UserEntity loginUser, HttpServletRequest request, HttpServletResponse response) {
+        // 权限验证
+        if(!hasPermission(loginUser, 0L, LimitUserTypeEnum.ALL)){
+            throw new JoyException(Notice.PERMISSION_FORBIDDEN);
+        }
+        // 日期导出格式
+        SimpleDateFormat dateFormat = new SimpleDateFormat(ExportConstant.DATE_FORMAT);
+        List<List<String>> rows;
+
+        // 三段数据
+        ExcelWriter writer = ExcelUtil.getWriter();
+        // 文件名，也是表格的头
+        String fileName = loginUser.getCompany().getDepartmentName() + "日报表  " + dateFormat.format(req.getTime());
+        writer.merge(11, fileName);
+        // == 1. 掘进面处理
+        rows = new ArrayList<>();
+        int currentRow = writer.getCurrentRow();
+        writer.merge(currentRow,currentRow + 1,0,0,"掘进面名称",false);
+        writer.merge(currentRow,currentRow,1,4,"掘进进尺（米）",false);
+        writer.merge(currentRow,currentRow + 1,5,5,"月累计进尺（米）",false);
+        writer.merge(currentRow,currentRow,6,9,"入井人数",false);
+        writer.merge(currentRow,currentRow + 1,10,10,"今日产煤（吨）",false);
+        writer.merge(currentRow,currentRow + 1,11,11,"月累计产煤（吨）",false);
+        // 前进
+        writer.setCurrentRow(writer.getCurrentRow() + 1);
+        // 添加标题头
+        writer.writeRow(CollUtil.newArrayList(ExportConstant.FIELD_CM_PRODUCE));
+        // 装配数据部分
+        List<CmStatisticVo> drivingData = getDrivingData(loginUser.getCompany(), req.getTime());
+        for (CmStatisticVo d : drivingData) {
+            List<String> row = CollUtil.newArrayList(
+                    // == 掘进面名称
+                    numberFormat(d.getWorkName()),
+                    // == 掘进进尺（早、中、晚、圆、月累计）
+                    numberFormat(d.getMorningLength()),
+                    numberFormat(d.getNoonLength()),
+                    numberFormat(d.getEveningLength()),
+                    numberFormat(d.getShiftTotalLength()),
+                    numberFormat(d.getMonthLength()),
+                     // == 入井人数：早、中、晚、圆）
+                    numberFormat(d.getMorningPeople()),
+                    numberFormat(d.getNoonPeople()),
+                    numberFormat(d.getEveningPeople()),
+                    numberFormat(d.getShiftTotalPeople()),
+                    // == 今日产煤
+                    numberFormat(d.getDayOutput()),
+                    // == 月累计产煤
+                    numberFormat(d.getMonthOutput())
+            );
+            rows.add(row);
+        }
+        writer.write(rows, true);
+
+        // == 2.回采
+        rows = new ArrayList<>();
+        currentRow = writer.getCurrentRow();
+        writer.merge(currentRow,currentRow + 1,0,0,"回采面名称",false);
+        writer.merge(currentRow,currentRow,1,4,"采煤进尺（米）",false);
+        writer.merge(currentRow,currentRow + 1,5,5,"月累计进尺（米）",false);
+        writer.merge(currentRow,currentRow,6,9,"入井人数",false);
+        writer.merge(currentRow,currentRow + 1,10,10,"今日产煤（吨）",false);
+        writer.merge(currentRow,currentRow + 1,11,11,"月累计产煤（吨）",false);
+        // 前进
+        writer.setCurrentRow(writer.getCurrentRow() + 1);
+        // 添加标题头
+        writer.writeRow(CollUtil.newArrayList(ExportConstant.FIELD_CM_PRODUCE));
+        // 装配数据部分
+        List<CmStatisticVo> backMiningData = getBackMiningData(loginUser.getCompany(), req.getTime());
+        for (CmStatisticVo d : backMiningData) {
+            List<String> row = CollUtil.newArrayList(
+                    // == 掘进面名称
+                    numberFormat(d.getWorkName()),
+                    // == 进尺（早、中、晚、圆、月累计）
+                    numberFormat(d.getMorningLength()),
+                    numberFormat(d.getNoonLength()),
+                    numberFormat(d.getEveningLength()),
+                    numberFormat(d.getShiftTotalLength()),
+                    numberFormat(d.getMonthLength()),
+                    // == 入井人数：早、中、晚、圆）
+                    numberFormat(d.getMorningPeople()),
+                    numberFormat(d.getNoonPeople()),
+                    numberFormat(d.getEveningPeople()),
+                    numberFormat(d.getShiftTotalPeople()),
+                    // == 今日产煤
+                    numberFormat(d.getDayOutput()),
+                    // == 月累计产煤
+                    numberFormat(d.getMonthOutput())
+            );
+            rows.add(row);
+        }
+        writer.write(rows, true);
+
+
+        // == 3.打钻
+        rows = new ArrayList<>();
+        int startRow = writer.getCurrentRow();
+        writer.merge(startRow,startRow + 1,0,0,"钻孔工作",false);
+        writer.merge(startRow,startRow,1,4,"打钻进尺（米）",false);
+        writer.merge(startRow,startRow + 1,5,5,"月累计进尺（米）",false);
+
+        // 前进
+        writer.setCurrentRow(writer.getCurrentRow() + 1);
+        // 添加标题头
+        writer.writeRow(CollUtil.newArrayList(ExportConstant.FIELD_CM_PRODUCE));
+        // 装配数据部分
+        List<CmStatisticVo> drillData = getDrillData(loginUser.getCompany(), req.getTime());
+        for (CmStatisticVo d : drillData) {
+            List<String> row = CollUtil.newArrayList(
+                    // == 面名称
+                    numberFormat(d.getWorkName()),
+                    // == 进尺（早、中、晚、圆、月累计）
+                    numberFormat(d.getMorningLength()),
+                    numberFormat(d.getNoonLength()),
+                    numberFormat(d.getEveningLength()),
+                    numberFormat(d.getShiftTotalLength()),
+                    numberFormat(d.getMonthLength())
+            );
+            rows.add(row);
+        }
+        writer.write(rows, true);
+        // 备注部分
+        writer.merge(startRow,writer.getCurrentRow() - 1,6,6,"备注",false);
+        CmStatisticRes res = new CmStatisticRes();
+        ProduceCmDailyEntity produceCmDailyEntity = produceCmDailyRepository.findAllByBelongCompanyAndDailyTime(loginUser.getCompany(), req.getTime());
+        writer.merge(startRow,writer.getCurrentRow() - 1,7,11, produceCmDailyEntity == null? null: produceCmDailyEntity.getRemarks(),false);
+
+        // 设置全部列自动宽度
+        writer.autoSizeColumn(5);
+
+        ExportUtil.exportData(request, response, fileName, writer);
+    }
+
+
 }
