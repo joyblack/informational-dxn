@@ -345,9 +345,11 @@ public class CmStatisticService extends BaseService {
 
         // 三段数据
         ExcelWriter writer = ExcelUtil.getWriter();
-        // 文件名，也是表格的头
+        // 文件名，也是表格的头信息
         String fileName = loginUser.getCompany().getDepartmentName() + "日报表  " + dateFormat.format(req.getTime());
-        writer.merge(11, fileName);
+        // 头合并两行
+        writer.merge(0,1,0,11, fileName,true);
+        writer.setCurrentRow(writer.getCurrentRow() + 2);
         // == 1. 掘进面处理
         rows = new ArrayList<>();
         int currentRow = writer.getCurrentRow();
@@ -437,7 +439,7 @@ public class CmStatisticService extends BaseService {
         // 前进
         writer.setCurrentRow(writer.getCurrentRow() + 1);
         // 添加标题头
-        writer.writeRow(CollUtil.newArrayList(ExportConstant.FIELD_CM_PRODUCE));
+        writer.writeRow(CollUtil.newArrayList(ExportConstant.FIELD_CM_PRODUCE_SHORT));
         // 装配数据部分
         List<CmStatisticVo> drillData = getDrillData(loginUser.getCompany(), req.getTime());
         for (CmStatisticVo d : drillData) {
@@ -460,8 +462,11 @@ public class CmStatisticService extends BaseService {
         ProduceCmDailyEntity produceCmDailyEntity = produceCmDailyRepository.findAllByBelongCompanyAndDailyTime(loginUser.getCompany(), req.getTime());
         writer.merge(startRow,writer.getCurrentRow() - 1,7,11, produceCmDailyEntity == null? null: produceCmDailyEntity.getRemarks(),false);
 
-        // 设置全部列自动宽度
-//        writer.autoSizeColumnAll();
+        // 设置宽度
+        writer.setColumnWidth(0,28);
+        writer.setColumnWidth(5,20);
+        writer.setColumnWidth(10,20);
+        writer.setColumnWidth(11,20);
 
         ExportUtil.exportData(request, response, fileName, writer);
     }

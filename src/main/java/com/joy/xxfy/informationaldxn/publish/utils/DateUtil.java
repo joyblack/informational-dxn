@@ -69,4 +69,8 @@ public class DateUtil {
         ca.set(Calendar.SECOND, 0);
         return ca.getTime();
     }
+
+    public static void main(String[] args) {
+        System.out.println(addDay(new Date(), -32));
+    }
 }

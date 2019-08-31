@@ -29,23 +29,29 @@ public class StaffReviewService {
     /**
      * 获取分页数据，相比较员工列表，这里只选取处于审核状态以及审核不通过的员工信息
      */
-    public JoyResult getPagerList(StaffEntryGetListReq req) {
-        return JoyResult.buildSuccessResultWithData(staffEntryRepository.findAll(getPredicates(req), JpaPagerUtil.getPageable(req)));
+    public JoyResult getPagerList(StaffEntryGetListReq req, UserEntity loginUser) {
+        return JoyResult.buildSuccessResultWithData(staffEntryRepository.findAll(getPredicates(req, loginUser), JpaPagerUtil.getPageable(req)));
     }
 
     /**
      * 获取全部数据，相比较员工列表，这里只选取处于审核状态以及审核不通过的员工信息
      */
-    public JoyResult getAllList(StaffEntryGetListReq req) {
-        return JoyResult.buildSuccessResultWithData(staffEntryRepository.findAll(getPredicates(req)));
+    public JoyResult getAllList(StaffEntryGetListReq req, UserEntity loginUser) {
+        return JoyResult.buildSuccessResultWithData(staffEntryRepository.findAll(getPredicates(req, loginUser)));
     }
 
     /**
      * 获取分页数据、全部数据的谓词条件
      */
-    private Specification<StaffEntryEntity> getPredicates(StaffEntryGetListReq req){
+    private Specification<StaffEntryEntity> getPredicates(StaffEntryGetListReq req, UserEntity loginUser){
         return (Specification<StaffEntryEntity>) (root, query, builder) -> {
             List<Predicate> predicates = new ArrayList<>();
+            if(req.getCompanyId() != null){
+                predicates.add(builder.equal(root.get("company").get("id"), req.getCompanyId()));
+            }else{
+                // 集团，所有；非集团，只返回本煤矿
+                predicates.add(builder.equal(root.get("company"), loginUser.getCompany()));
+            }
             // username like
             if(!StringUtil.isEmpty(req.getUsername())){
                 predicates.add(builder.like(root.get("staffPersonal").get("username"), "%" + req.getUsername() +"%"));

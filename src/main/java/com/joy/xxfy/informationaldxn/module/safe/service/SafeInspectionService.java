@@ -7,21 +7,15 @@ import com.joy.xxfy.informationaldxn.module.safe.domain.entity.SafeInspectionEnt
 import com.joy.xxfy.informationaldxn.module.safe.domain.enums.RectificationStatusEnum;
 import com.joy.xxfy.informationaldxn.module.safe.domain.repository.SafeInspectionRepository;
 import com.joy.xxfy.informationaldxn.module.safe.web.req.*;
-import com.joy.xxfy.informationaldxn.module.train.domain.entity.TrainingEntity;
-import com.joy.xxfy.informationaldxn.module.train.web.req.TrainingAddReq;
-import com.joy.xxfy.informationaldxn.module.train.web.req.TrainingGetListReq;
-import com.joy.xxfy.informationaldxn.module.train.web.req.TrainingUpdateReq;
-import com.joy.xxfy.informationaldxn.module.train.web.res.TrainingRes;
+import com.joy.xxfy.informationaldxn.module.system.domain.entity.UserEntity;
 import com.joy.xxfy.informationaldxn.publish.constant.ResultDataConstant;
 import com.joy.xxfy.informationaldxn.publish.result.JoyResult;
 import com.joy.xxfy.informationaldxn.publish.result.Notice;
 import com.joy.xxfy.informationaldxn.publish.utils.DateUtil;
 import com.joy.xxfy.informationaldxn.publish.utils.JoyBeanUtil;
-import com.joy.xxfy.informationaldxn.publish.utils.StringUtil;
 import com.joy.xxfy.informationaldxn.publish.utils.project.JpaPagerUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.domain.Specification;
-import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -54,14 +48,19 @@ public class SafeInspectionService {
             return JoyResult.buildFailedResult(Notice.DEPARTMENT_NOT_EXIST);
         }
         // 装配数据
+        Date now = new Date();
         SafeInspectionEntity info = new SafeInspectionEntity();
         JoyBeanUtil.copyPropertiesIgnoreSourceNullProperties(req, info);
         info.setInspectCompany(inspectCompany);
         info.setInspectDepartment(inspectDepartment);
         // 整改状态为未整改
         info.setRectificationStatus(RectificationStatusEnum.RECTIFICATION_NO);
-        // 是否超时未超时
-        info.setIsOverTime(CommonYesEnum.NO);
+        // 是否超时
+        if(DateUtil.compare(now,info.getDeadTime()) > 0){
+            info.setIsOverTime(CommonYesEnum.YES);
+        }else{
+            info.setIsOverTime(CommonYesEnum.NO);
+        }
         // save.
         return JoyResult.buildSuccessResultWithData(safeInspectionRepository.save(info));
     }
@@ -100,7 +99,8 @@ public class SafeInspectionService {
             }else{
                 info.setIsOverTime(CommonYesEnum.NO);
             }
-
+            // 开始提示的时间
+            info.setTipStartTime(DateUtil.addDay(now, - info.getTipDays().intValue()));
             infos.add(info);
         }
         // save.
@@ -130,6 +130,19 @@ public class SafeInspectionService {
         JoyBeanUtil.copyPropertiesIgnoreSourceNullProperties(req, safeInspectionEntity);
         safeInspectionEntity.setInspectDepartment(inspectDepartment);
         safeInspectionEntity.setInspectCompany(inspectCompany);
+        // 若当前处在未整改状态，修改超时状态以及提示时间
+        Date now = new Date();
+        if(safeInspectionEntity.getRectificationStatus().equals(RectificationStatusEnum.RECTIFICATION_NO)){
+            if(DateUtil.compare(now, safeInspectionEntity.getDeadTime()) > 0){
+                safeInspectionEntity.setIsOverTime(CommonYesEnum.YES);
+            }else{
+                safeInspectionEntity.setIsOverTime(CommonYesEnum.NO);
+            }
+            // 开始提示的时间
+            safeInspectionEntity.setTipStartTime(DateUtil.addDay(now, - safeInspectionEntity.getTipDays().intValue()));
+        }else{
+
+        }
         // save.
         return JoyResult.buildSuccessResultWithData(safeInspectionRepository.save(safeInspectionEntity));
     }
@@ -143,7 +156,6 @@ public class SafeInspectionService {
         if(safeInspectionEntity == null){
             return JoyResult.buildFailedResult(Notice.SAFE_INSPECTION_NOT_EXIST);
         }
-        //
         safeInspectionEntity.setIsDelete(true);
         safeInspectionRepository.save(safeInspectionEntity);
         return JoyResult.buildSuccessResult(ResultDataConstant.MESSAGE_DELETE_SUCCESS);
@@ -267,5 +279,13 @@ public class SafeInspectionService {
         }
         // 保存所有信息
         return JoyResult.buildSuccessResultWithData(safeInspectionRepository.saveAll(safeInspectionEntities));
+    }
+
+    public JoyResult getApproachRectificationNum(UserEntity loginUser) {
+        return JoyResult.buildSuccessResultWithData(safeInspectionRepository.getAllApproach(RectificationStatusEnum.RECTIFICATION_NO, new Date()).size());
+    }
+
+    public JoyResult getApproachRectification(UserEntity loginUser) {
+        return JoyResult.buildSuccessResultWithData(safeInspectionRepository.getAllApproach(RectificationStatusEnum.RECTIFICATION_NO, new Date()));
     }
 }

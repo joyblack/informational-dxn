@@ -1,7 +1,7 @@
 # 简介
 
 # 访问地址
-produce-cm-statistic/exportData
+produce-cp-statistic/exportData
 
 # 请求参数
 

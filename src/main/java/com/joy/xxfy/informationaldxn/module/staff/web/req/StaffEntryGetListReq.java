@@ -63,6 +63,11 @@ public class StaffEntryGetListReq extends BasePageReq {
     private ReviewStatusEnum ReviewStatus;
 
     /**
+     * 入职煤矿/平台
+     */
+    private Long companyId;
+
+    /**
      * 入职部门
      */
     private Long departmentId;

@@ -12,4 +12,7 @@ public class ExportConstant {
     public static final String[] FIELD_CM_PRODUCE = {"","早班","中班","晚班","圆班","","早班","中班","晚班","圆班"};
     // 煤矿生产日报标题头(短)，打钻部分
     public static final String[] FIELD_CM_PRODUCE_SHORT = {"","早班","中班","晚班","圆班",""};
+
+    // 集团生产日报标题头
+    public static final String[] FIELD_CP_PRODUCE = {"","","早班","中班","晚班","","","","早班","中班","晚班","","","","",""};
 }

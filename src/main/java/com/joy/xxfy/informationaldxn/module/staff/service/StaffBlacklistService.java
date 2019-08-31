@@ -56,7 +56,7 @@ public class StaffBlacklistService {
             return JoyResult.buildFailedResult(Notice.STAFF_PERSONAL_INFO_NOT_EXIST);
         }
         // 查找黑名单中是否存在该员工
-        StaffBlacklistEntity checkResult = staffBlacklistRepository.findAllByStaffPersonal(personalInfo);
+        StaffBlacklistEntity checkResult = staffBlacklistRepository.findFirstByStaffPersonal(personalInfo);
         if(checkResult != null){
             return JoyResult.buildFailedResult(Notice.STAFF_BLACKLIST_ALREADY_EXIST);
         }

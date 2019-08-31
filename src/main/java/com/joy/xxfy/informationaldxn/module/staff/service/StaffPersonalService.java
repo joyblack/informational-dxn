@@ -153,7 +153,7 @@ public class StaffPersonalService extends BaseService {
         }
 
         // 黑名单
-        StaffBlacklistEntity staffPersonal = staffBlacklistRepository.findAllByStaffPersonal(personal);
+        StaffBlacklistEntity staffPersonal = staffBlacklistRepository.findFirstByStaffPersonal(personal);
         if(staffPersonal != null){
             return JoyResult.buildSuccessResultWithData(PersonalStatusEnum.BLACKLIST);
         }

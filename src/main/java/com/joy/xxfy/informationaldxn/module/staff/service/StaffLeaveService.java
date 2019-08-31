@@ -1,5 +1,6 @@
 package com.joy.xxfy.informationaldxn.module.staff.service;
 
+import com.joy.xxfy.informationaldxn.module.system.domain.entity.UserEntity;
 import com.joy.xxfy.informationaldxn.publish.result.JoyResult;
 import com.joy.xxfy.informationaldxn.publish.result.Notice;
 import com.joy.xxfy.informationaldxn.publish.utils.*;
@@ -104,6 +105,9 @@ public class StaffLeaveService {
                 // 查找离职信息表中员工最后一条离职的信息
                 StaffLeaveEntity lastLeaveInfo = staffLeaveRepository.findFirstByStaffPersonalOrderByCreateTimeDesc(personalInfo);
                 if(lastLeaveInfo != null){
+                    // 删除旧黑名单信息
+                    LogUtil.info("Delete old black list info.");
+                    staffBlacklistRepository.updateIsDeleteByStaffPersonal(true, lastLeaveInfo.getStaffPersonal());
                     LogUtil.info("The last leave job info: {}", lastLeaveInfo);
                     // 加入黑名单
                     StaffBlacklistEntity staffBlacklistInfo = new StaffBlacklistEntity();
@@ -173,23 +177,30 @@ public class StaffLeaveService {
     /**
      * 获取分页数据
      */
-    public JoyResult getPagerList(StaffLeaveGetListReq req) {
-        return JoyResult.buildSuccessResultWithData(staffLeaveRepository.findAll(getPredicates(req), JpaPagerUtil.getPageable(req)));
+    public JoyResult getPagerList(StaffLeaveGetListReq req, UserEntity loginUser) {
+        return JoyResult.buildSuccessResultWithData(staffLeaveRepository.findAll(getPredicates(req, loginUser), JpaPagerUtil.getPageable(req)));
     }
 
     /**
      * 获取全部
      */
-    public JoyResult getAllList(StaffLeaveGetListReq req) {
-        return JoyResult.buildSuccessResultWithData(staffLeaveRepository.findAll(getPredicates(req)));
+    public JoyResult getAllList(StaffLeaveGetListReq req, UserEntity loginUser) {
+        return JoyResult.buildSuccessResultWithData(staffLeaveRepository.findAll(getPredicates(req, loginUser)));
     }
 
     /**
      * 获取分页数据、全部数据的谓词条件
      */
-    private Specification<StaffLeaveEntity> getPredicates(StaffLeaveGetListReq req){
+    private Specification<StaffLeaveEntity> getPredicates(StaffLeaveGetListReq req, UserEntity loginUser){
         return (Specification<StaffLeaveEntity>) (root, query, builder) -> {
             List<Predicate> predicates = new ArrayList<>();
+            if(req.getCompanyId() != null){
+                predicates.add(builder.equal(root.get("company").get("id"), req.getCompanyId()));
+            }else{
+                // 集团，所有；非集团，只返回本煤矿
+                predicates.add(builder.equal(root.get("company"), loginUser.getCompany()));
+            }
+
             // username like
             if(!StringUtil.isEmpty(req.getUsername())){
                 predicates.add(builder.like(root.get("staffPersonal").get("username"), "%" + req.getUsername() +"%"));
@@ -209,10 +220,6 @@ public class StaffLeaveService {
             // leave_type =
             if(req.getLeaveType() != null){
                 predicates.add(builder.equal(root.get("leaveType"), req.getLeaveType()));
-            }
-            // company =
-            if(req.getCompanyId() != null){
-                predicates.add(builder.equal(root.get("company").get("id"), req.getCompanyId()));
             }
             // department =
             if(req.getDepartmentId() != null){

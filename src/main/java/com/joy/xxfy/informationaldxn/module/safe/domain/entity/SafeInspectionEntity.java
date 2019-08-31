@@ -68,6 +68,12 @@ public class SafeInspectionEntity extends BaseEntity {
     private Date deadTime;
 
     /**
+     * 提示开始时间
+     */
+    private Date tipStartTime;
+
+
+    /**
      * 超时前提示天数
      */
     @Column(nullable = false)

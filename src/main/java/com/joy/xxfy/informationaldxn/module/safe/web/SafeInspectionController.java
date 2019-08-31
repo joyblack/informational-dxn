@@ -1,5 +1,6 @@
 package com.joy.xxfy.informationaldxn.module.safe.web;
 
+import com.joy.xxfy.informationaldxn.module.common.web.BaseController;
 import com.joy.xxfy.informationaldxn.module.common.web.req.IdReq;
 import com.joy.xxfy.informationaldxn.module.safe.service.SafeInspectionService;
 import com.joy.xxfy.informationaldxn.module.safe.web.req.*;
@@ -12,11 +13,12 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
 @RestController
 @RequestMapping("safe-inspection")
-public class SafeInspectionController {
+public class SafeInspectionController extends BaseController {
 
     @Autowired
     private SafeInspectionService safeInspectionService;
@@ -139,5 +141,25 @@ public class SafeInspectionController {
             // copy
             return safeInspectionService.changeRectificationStatus(req);
         }
+    }
+
+    /**
+     * 获取临近截止日期的项目数量
+     */
+    @PostMapping(
+            value = "/getApproachRectificationNum",
+            produces = {"application/json;charset=UTF-8"})
+    public JoyResult getApproachRectificationNum(HttpServletRequest req) {
+        return safeInspectionService.getApproachRectificationNum(getLoginUser(req));
+    }
+
+    /**
+     * 获取临近截止日期的项目信息
+     */
+    @PostMapping(
+            value = "/getApproachRectification",
+            produces = {"application/json;charset=UTF-8"})
+    public JoyResult getApproachRectification(HttpServletRequest req) {
+        return safeInspectionService.getApproachRectification(getLoginUser(req));
     }
 }

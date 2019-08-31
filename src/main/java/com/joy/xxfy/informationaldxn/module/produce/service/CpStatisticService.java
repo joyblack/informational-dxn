@@ -1,5 +1,8 @@
 package com.joy.xxfy.informationaldxn.module.produce.service;
 
+import cn.hutool.core.collection.CollUtil;
+import cn.hutool.poi.excel.ExcelUtil;
+import cn.hutool.poi.excel.ExcelWriter;
 import com.joy.xxfy.informationaldxn.module.backmining.domain.entity.BackMiningDailyDetailEntity;
 import com.joy.xxfy.informationaldxn.module.backmining.domain.entity.BackMiningDailyEntity;
 import com.joy.xxfy.informationaldxn.module.backmining.domain.entity.BackMiningFaceEntity;
@@ -8,6 +11,9 @@ import com.joy.xxfy.informationaldxn.module.backmining.domain.repository.BackMin
 import com.joy.xxfy.informationaldxn.module.backmining.domain.repository.BackMiningFaceRepository;
 import com.joy.xxfy.informationaldxn.module.cmplatform.domain.entity.CmPlatformEntity;
 import com.joy.xxfy.informationaldxn.module.cmplatform.domain.repository.CmPlatformRepository;
+import com.joy.xxfy.informationaldxn.module.common.enums.LimitUserTypeEnum;
+import com.joy.xxfy.informationaldxn.module.common.service.BaseService;
+import com.joy.xxfy.informationaldxn.module.common.web.req.TimeReq;
 import com.joy.xxfy.informationaldxn.module.department.domain.entity.DepartmentEntity;
 import com.joy.xxfy.informationaldxn.module.drill.domain.entity.DrillDailyEntity;
 import com.joy.xxfy.informationaldxn.module.drill.domain.entity.DrillWorkEntity;
@@ -22,31 +28,40 @@ import com.joy.xxfy.informationaldxn.module.driving.domain.repository.DrivingFac
 import com.joy.xxfy.informationaldxn.module.produce.domain.entity.ProduceCmDailyEntity;
 import com.joy.xxfy.informationaldxn.module.produce.domain.repository.ProduceCmDailyRepository;
 import com.joy.xxfy.informationaldxn.module.produce.domain.vo.*;
+import com.joy.xxfy.informationaldxn.module.produce.web.res.CmStatisticRes;
 import com.joy.xxfy.informationaldxn.module.produce.web.res.CpStatisticRes;
 import com.joy.xxfy.informationaldxn.module.system.domain.entity.UserEntity;
 import com.joy.xxfy.informationaldxn.module.system.domain.enums.UserTypeEnum;
 import com.joy.xxfy.informationaldxn.publish.constant.BigDecimalValueConstant;
+import com.joy.xxfy.informationaldxn.publish.constant.ExportConstant;
 import com.joy.xxfy.informationaldxn.publish.constant.ResultDataConstant;
+import com.joy.xxfy.informationaldxn.publish.exception.JoyException;
 import com.joy.xxfy.informationaldxn.publish.result.JoyResult;
 import com.joy.xxfy.informationaldxn.publish.result.Notice;
 import com.joy.xxfy.informationaldxn.publish.utils.CompareUtil;
 import com.joy.xxfy.informationaldxn.publish.utils.DateUtil;
 import com.joy.xxfy.informationaldxn.publish.utils.LogUtil;
+import com.joy.xxfy.informationaldxn.publish.utils.excel.ExportUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 
+import static com.joy.xxfy.informationaldxn.publish.utils.format.FormatToStringValueUtil.numberFormat;
+
 /**
- * 煤矿生产日报服务
+ * 集团调度日报服务
  */
 @Transactional
 @Service
-public class CpStatisticService {
+public class CpStatisticService extends BaseService {
 
     @Autowired
     private ProduceCmDailyRepository produceCmDailyRepository;
@@ -84,15 +99,17 @@ public class CpStatisticService {
      */
     public JoyResult getData(UserEntity loginUser, Date time) {
         LogUtil.info("Now user type is : {}", loginUser.getUserType());
-        // 必须是集团账户
-        if(!loginUser.getUserType().equals(UserTypeEnum.CP_ADMIN)){
-            return JoyResult.buildFailedResult(Notice.PERMISSION_FORBIDDEN);
+        // 权限验证
+        if(!hasPermission(loginUser, 0L, LimitUserTypeEnum.CP_ADMIN)){
+            throw new JoyException(Notice.PERMISSION_FORBIDDEN);
         }
         // 返回结果
         List<CpStatisticRes> result = new ArrayList<>();
         // 依次处理每一个煤矿的数据
         List<CmPlatformEntity> cms = cmPlatformRepository.findAll();
         for (CmPlatformEntity cm : cms) {
+
+            System.out.println("煤矿平台信息：" + cm);
             // 返回结果的子元素
             CpStatisticRes res = new CpStatisticRes();
 
@@ -337,5 +354,122 @@ public class CpStatisticService {
         }
         result.add(amount);
         return result;
+    }
+
+
+    public void exportData(TimeReq req, UserEntity loginUser, HttpServletRequest request, HttpServletResponse response) {
+        // 权限验证
+        if(!hasPermission(loginUser, 0L, LimitUserTypeEnum.CP_ADMIN)){
+            throw new JoyException(Notice.PERMISSION_FORBIDDEN);
+        }
+        // 日期导出格式
+        SimpleDateFormat dateFormat = new SimpleDateFormat(ExportConstant.DATE_FORMAT);
+        // 三段数据
+        ExcelWriter writer = ExcelUtil.getWriter();
+        // 文件名，也是表格的头信息
+        String fileName = loginUser.getCompany().getDepartmentName() + "日报表  " + dateFormat.format(req.getTime());
+        // 头合并两行
+        writer.merge(0,1,0,16, fileName,true);
+        writer.setCurrentRow(writer.getCurrentRow() + 2);
+        int currentRow = writer.getCurrentRow();
+        writer.merge(currentRow,currentRow + 1,0,0,"煤矿名称",false);
+        writer.merge(currentRow,currentRow + 1,1,1,"回采面名称",false);
+        writer.merge(currentRow,currentRow,2,4,"班产量（吨）",false);
+        writer.merge(currentRow,currentRow + 1,5,5,"日产量（吨）",false);
+        writer.merge(currentRow,currentRow + 1,6,6,"月累计产量（吨）",false);
+        writer.merge(currentRow,currentRow + 1,7,7,"掘进面名称",false);
+        writer.merge(currentRow,currentRow,8,10,"班掘进进尺（米）",false);
+        writer.merge(currentRow,currentRow + 1,11,11,"日掘进进尺（米）",false);
+        writer.merge(currentRow,currentRow + 1,12,12,"月累计掘进进尺（米）",false);
+        writer.merge(currentRow,currentRow + 1,13,13,"钻孔工作名称",false);
+        writer.merge(currentRow,currentRow + 1,14,14,"日打钻进尺（米）",false);
+        writer.merge(currentRow,currentRow + 1,15,15,"月累计打钻进尺（米）",false);
+        writer.merge(currentRow,currentRow + 1,16,16,"备注",false);
+        // 前进
+        writer.setCurrentRow(writer.getCurrentRow() + 1);
+        // 添加标题头
+        writer.writeRow(CollUtil.newArrayList(ExportConstant.FIELD_CP_PRODUCE));
+
+        // 填充数据
+        List<CpStatisticRes> allData = (List<CpStatisticRes>)(getData(loginUser, req.getTime()).getData());
+        for(CpStatisticRes data : allData){
+            int startRow = writer.getCurrentRow();
+            List<List<String>> rows = new ArrayList<>();
+            // 若不是最后的统计数据（全平台）且只有一条数据,填充一条空行记录
+            if(data.getStatisticData().size() == 1 && !data.getCmPlatformName().equals(ResultDataConstant.AMOUNT_OF_ALL_CM_PLATFORM)){
+//                    List<String> row = CollUtil.newArrayList("");
+//                    rows.add(row);
+                writer.passCurrentRow();
+            }
+            for (CpStatisticVo st : data.getStatisticData()) {
+                    List<String> row = CollUtil.newArrayList(
+                            // == 煤矿名称：待合并
+                            "",
+                            // == 回采工作面
+                            // * 名称
+                            numberFormat(st.getBackMiningFaceName()),
+                            // * 班产量
+                            numberFormat(st.getBackMiningMorningOutput()),
+                            numberFormat(st.getBackMiningNoonOutput()),
+                            numberFormat(st.getBackMiningEveningOutput()),
+                            // * 日、月产量
+                            numberFormat(st.getBackMiningDayOutput()),
+                            numberFormat(st.getBackMiningMonthOutput()),
+
+                            // == 掘进工作面
+                            // * 名称
+                            numberFormat(st.getDrivingFaceName()),
+                            // * 班掘进进尺
+                            numberFormat(st.getDrivingMorningLength()),
+                            numberFormat(st.getDrivingNoonLength()),
+                            numberFormat(st.getDrivingEveningLength()),
+                            // 日、月
+                            numberFormat(st.getDrivingDayLength()),
+                            numberFormat(st.getDrivingMonthLength()),
+                            // == 钻孔工作
+                            // * 名称
+                            numberFormat(st.getDrillWorkName()),
+                            // * 日打钻进尺
+                            numberFormat(st.getDrillDayLength()),
+                            // * 月累计打钻进尺
+                            numberFormat(st.getDrillMonthLength()),
+
+                            // 备注信息
+                            numberFormat(data.getRemarks())
+
+                    );
+                    rows.add(row);
+                }
+                // 写入
+                writer.write(rows,true);
+                // 写入煤矿名称
+                if(data.getCmPlatformName().equals(ResultDataConstant.AMOUNT_OF_ALL_CM_PLATFORM)){
+                    // 综合只需一行，并且吃掉前两列
+                    writer.merge(startRow, startRow,0,1,data.getCmPlatformName(),false);
+
+                }else{
+                    writer.merge(startRow, writer.getCurrentRow() - 1,16,16,data.getRemarks(),false);
+                    writer.merge(startRow, writer.getCurrentRow() - 1,0,0,data.getCmPlatformName(),false);
+                }
+//                // 写入备注信息
+//
+            }
+
+        // 设置宽度
+        writer.setColumnWidth(0,22);
+        writer.setColumnWidth(1,20);
+        writer.setColumnWidth(5,16);
+        writer.setColumnWidth(6,16);
+        writer.setColumnWidth(7,16);
+
+        writer.setColumnWidth(11,16);
+        writer.setColumnWidth(12,16);
+        writer.setColumnWidth(13,16);
+        writer.setColumnWidth(14,16);
+        writer.setColumnWidth(15,16);
+        writer.setColumnWidth(16,16);
+
+
+        ExportUtil.exportData(request, response, fileName, writer);
     }
 }

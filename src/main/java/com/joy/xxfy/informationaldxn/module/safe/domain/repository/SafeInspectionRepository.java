@@ -10,6 +10,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
 import java.util.Date;
+import java.util.List;
 
 public interface SafeInspectionRepository extends BaseRepository<SafeInspectionEntity>, JpaRepository<SafeInspectionEntity, Long> {
     // 所有未整改的记录若超过截止时间，则都设置为超时状态
@@ -18,4 +19,12 @@ public interface SafeInspectionRepository extends BaseRepository<SafeInspectionE
     void updateIsOvertTimeByNowAndRectificationStatus(@Param("isOverTime") CommonYesEnum isOverTime,
                                 @Param("now") Date now,
                                 @Param("rectificationStatus")RectificationStatusEnum rectificationStatus);
+
+    /**
+     * 获取所有待提醒项，即当前时间大于梯形时间，且未完成的
+     * rectificationStatus = No
+     */
+    @Query("select s from SafeInspectionEntity s where s.rectificationStatus = :rectificationStatus and s.tipStartTime <= :now")
+    List<SafeInspectionEntity> getAllApproach(@Param("rectificationStatus") RectificationStatusEnum rectificationStatus,
+                                              Date now);
 }

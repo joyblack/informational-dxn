@@ -181,7 +181,7 @@ public class StaffEntryService extends BaseService {
             // 记录审核的原因
 
             // 黑名单校验
-            StaffBlacklistEntity blacklist = staffBlacklistRepository.findAllByStaffPersonal(personalCheck);
+            StaffBlacklistEntity blacklist = staffBlacklistRepository.findFirstByStaffPersonal(personalCheck);
             if(blacklist != null){
                 LogUtil.info("This is a blacklist staff: {}", blacklist);
                 // 设置审核状态（等待审核）、原因等信息
@@ -363,8 +363,12 @@ public class StaffEntryService extends BaseService {
     private Specification<StaffEntryEntity> getPredicates(StaffEntryGetListReq req,UserEntity loginUser){
         return (Specification<StaffEntryEntity>) (root, query, builder) -> {
             List<Predicate> predicates = new ArrayList<>();
-            // 只返回本平台的数据
-            predicates.add(builder.equal(root.get("company"), loginUser.getCompany()));
+            if(req.getCompanyId() != null){
+                predicates.add(builder.equal(root.get("company").get("id"), req.getCompanyId()));
+            }else{
+                // 集团，所有；非集团，只返回本煤矿
+                predicates.add(builder.equal(root.get("company"), loginUser.getCompany()));
+            }
             // username like
             if(!StringUtil.isEmpty(req.getUsername())){
                 predicates.add(builder.like(root.get("staffPersonal").get("username"), "%" + req.getUsername() +"%"));
