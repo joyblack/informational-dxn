@@ -1,6 +1,7 @@
 package com.joy.xxfy.informationaldxn.module.staff.service;
 
 import com.joy.xxfy.informationaldxn.module.system.domain.entity.UserEntity;
+import com.joy.xxfy.informationaldxn.module.system.domain.enums.UserTypeEnum;
 import com.joy.xxfy.informationaldxn.publish.result.JoyResult;
 import com.joy.xxfy.informationaldxn.publish.result.Notice;
 import com.joy.xxfy.informationaldxn.publish.utils.StringUtil;
@@ -50,7 +51,9 @@ public class StaffReviewService {
                 predicates.add(builder.equal(root.get("company").get("id"), req.getCompanyId()));
             }else{
                 // 集团，所有；非集团，只返回本煤矿
-                predicates.add(builder.equal(root.get("company"), loginUser.getCompany()));
+                if(loginUser.getUserType().equals(UserTypeEnum.CM_ADMIN)){
+                    predicates.add(builder.equal(root.get("company"), loginUser.getCompany()));
+                }
             }
             // username like
             if(!StringUtil.isEmpty(req.getUsername())){

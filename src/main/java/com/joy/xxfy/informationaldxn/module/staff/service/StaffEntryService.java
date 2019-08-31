@@ -10,6 +10,7 @@ import com.joy.xxfy.informationaldxn.module.department.domain.repository.Departm
 import com.joy.xxfy.informationaldxn.module.staff.domain.enetiy.PositionEntity;
 import com.joy.xxfy.informationaldxn.module.staff.domain.repository.PositionRepository;
 import com.joy.xxfy.informationaldxn.module.system.domain.entity.UserEntity;
+import com.joy.xxfy.informationaldxn.module.system.domain.enums.UserTypeEnum;
 import com.joy.xxfy.informationaldxn.publish.constant.ExportConstant;
 import com.joy.xxfy.informationaldxn.publish.exception.JoyException;
 import com.joy.xxfy.informationaldxn.publish.result.JoyResult;
@@ -367,7 +368,9 @@ public class StaffEntryService extends BaseService {
                 predicates.add(builder.equal(root.get("company").get("id"), req.getCompanyId()));
             }else{
                 // 集团，所有；非集团，只返回本煤矿
-                predicates.add(builder.equal(root.get("company"), loginUser.getCompany()));
+                if(loginUser.getUserType().equals(UserTypeEnum.CM_ADMIN)){
+                    predicates.add(builder.equal(root.get("company"), loginUser.getCompany()));
+                }
             }
             // username like
             if(!StringUtil.isEmpty(req.getUsername())){
