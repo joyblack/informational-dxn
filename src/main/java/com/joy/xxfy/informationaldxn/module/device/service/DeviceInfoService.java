@@ -1,5 +1,7 @@
 package com.joy.xxfy.informationaldxn.module.device.service;
 
+import com.joy.xxfy.informationaldxn.module.common.enums.LimitUserTypeEnum;
+import com.joy.xxfy.informationaldxn.module.common.service.BaseService;
 import com.joy.xxfy.informationaldxn.module.department.domain.entity.DepartmentEntity;
 import com.joy.xxfy.informationaldxn.module.device.domain.defaults.DeviceInfoDefault;
 import com.joy.xxfy.informationaldxn.module.device.domain.entity.DeviceCategoryEntity;
@@ -12,7 +14,9 @@ import com.joy.xxfy.informationaldxn.module.device.web.req.DeviceInfoAddReq;
 import com.joy.xxfy.informationaldxn.module.device.web.req.DeviceInfoChangeStatusReq;
 import com.joy.xxfy.informationaldxn.module.device.web.req.DeviceInfoGetListReq;
 import com.joy.xxfy.informationaldxn.module.device.web.req.DeviceInfoUpdateReq;
+import com.joy.xxfy.informationaldxn.module.safe.domain.enums.RectificationStatusEnum;
 import com.joy.xxfy.informationaldxn.module.system.domain.entity.UserEntity;
+import com.joy.xxfy.informationaldxn.permission.constant.ResourceIdConfig;
 import com.joy.xxfy.informationaldxn.publish.constant.ResultDataConstant;
 import com.joy.xxfy.informationaldxn.publish.result.JoyResult;
 import com.joy.xxfy.informationaldxn.publish.result.Notice;
@@ -32,7 +36,7 @@ import java.util.List;
 
 @Transactional
 @Service
-public class DeviceInfoService {
+public class DeviceInfoService extends BaseService {
     @Autowired
     private DeviceInfoRepository deviceInfoRepository;
 
@@ -46,6 +50,9 @@ public class DeviceInfoService {
      * 添加
      */
     public JoyResult add(DeviceInfoAddReq req, UserEntity loginUser) {
+        if(!hasPermission(loginUser, ResourceIdConfig.DEVICE_INFO_ADD, LimitUserTypeEnum.CM_ADMIN)){
+            return JoyResult.buildFailedResult(Notice.PERMISSION_FORBIDDEN);
+        }
         DepartmentEntity belongCompany = loginUser.getCompany();
         // 获取设备类型
         DeviceCategoryEntity category = deviceCategoryRepository.findAllById(req.getDeviceCategoryId());
@@ -84,8 +91,13 @@ public class DeviceInfoService {
             device.setDeviceStatus(DeviceInfoDefault.deviceStatus);
 
             // 下次保养日期，取决于是否同时填写保养间隔时间、最近保养时间
+            // 填写了下次保养日期，那么开始提示日期也会生效。
             if(device.getBeforeMaintainTime()!= null && device.getMaintainIntervalTime() != null){
                 device.setNextMaintainTime(DateUtil.addDay(device.getBeforeMaintainTime(),device.getMaintainIntervalTime().intValue()));
+                device.setTipStartTime(DateUtil.addDay(device.getNextMaintainTime(), - device.getTipDays().intValue()));
+            }else{
+                // 置空，此条目也不会进入统计范畴。
+                device.setTipStartTime(null);
             }
             deviceInfoRepository.save(device);
         }
@@ -97,6 +109,9 @@ public class DeviceInfoService {
      * 改
      */
     public JoyResult update(DeviceInfoUpdateReq req, UserEntity loginUser) {
+        if(!hasPermission(loginUser, ResourceIdConfig.DEVICE_INFO_UPDATE, LimitUserTypeEnum.CM_ADMIN)){
+            return JoyResult.buildFailedResult(Notice.PERMISSION_FORBIDDEN);
+        }
         // 信息是否存在
         DeviceInfoEntity info = deviceInfoRepository.findAllById(req.getId());
         if(info == null){
@@ -129,9 +144,16 @@ public class DeviceInfoService {
         info.setDeviceCategory(category);
         // 修改时间
         info.setUpdateTime(new Date());
+        if(info.getTipDays() == null){
+            info.setTipDays(DeviceInfoDefault.tipDays);
+        }
         // 下次保养日期，取决于是否同时填写保养间隔时间、最近保养时间
         if(info.getBeforeMaintainTime()!= null && info.getMaintainIntervalTime() != null){
             info.setNextMaintainTime(DateUtil.addDay(info.getBeforeMaintainTime(),info.getMaintainIntervalTime().intValue()));
+            info.setTipStartTime(DateUtil.addDay(info.getNextMaintainTime(), - info.getTipDays().intValue()));
+        }else{
+            // 置空，此条目也不会进入统计范畴。
+            info.setTipStartTime(null);
         }
         // save.
         return JoyResult.buildSuccessResultWithData(deviceInfoRepository.save(info));
@@ -141,6 +163,9 @@ public class DeviceInfoService {
      * 删除
      */
     public JoyResult delete(Long id, UserEntity loginUser) {
+        if(!hasPermission(loginUser, ResourceIdConfig.DEVICE_INFO_DELETE, LimitUserTypeEnum.CM_ADMIN)){
+            return JoyResult.buildFailedResult(Notice.PERMISSION_FORBIDDEN);
+        }
         DeviceInfoEntity info = deviceInfoRepository.findAllById(id);
         if(info == null){
             return JoyResult.buildFailedResult(Notice.DEVICE_INFO_NOT_EXIST);
@@ -161,6 +186,9 @@ public class DeviceInfoService {
      * 获取数据
      */
     public JoyResult get(Long id, UserEntity loginUser) {
+        if(!hasPermission(loginUser, ResourceIdConfig.DEVICE_INFO_GET, LimitUserTypeEnum.CM_ADMIN)){
+            return JoyResult.buildFailedResult(Notice.PERMISSION_FORBIDDEN);
+        }
         return JoyResult.buildSuccessResultWithData(deviceInfoRepository.findAllById(id));
     }
 
@@ -168,6 +196,9 @@ public class DeviceInfoService {
      * 获取分页数据
      */
     public JoyResult getPagerList(DeviceInfoGetListReq req, UserEntity loginUser) {
+        if(!hasPermission(loginUser, ResourceIdConfig.DEVICE_INFO_GET_LIST, LimitUserTypeEnum.CM_ADMIN)){
+            return JoyResult.buildFailedResult(Notice.PERMISSION_FORBIDDEN);
+        }
         return JoyResult.buildSuccessResultWithData(deviceInfoRepository.findAll(getPredicates(req,loginUser), JpaPagerUtil.getPageable(req)));
     }
 
@@ -175,6 +206,9 @@ public class DeviceInfoService {
      * 获取全部
      */
     public JoyResult getAllList(DeviceInfoGetListReq req, UserEntity loginUser) {
+        if(!hasPermission(loginUser, ResourceIdConfig.DEVICE_INFO_GET_LIST, LimitUserTypeEnum.CM_ADMIN)){
+            return JoyResult.buildFailedResult(Notice.PERMISSION_FORBIDDEN);
+        }
         return JoyResult.buildSuccessResultWithData(deviceInfoRepository.findAll(getPredicates(req, loginUser)));
     }
 
@@ -230,6 +264,9 @@ public class DeviceInfoService {
      * 变更设备状态
      */
     public JoyResult changeDeviceStatus(DeviceInfoChangeStatusReq req, UserEntity loginUser) {
+        if(!hasPermission(loginUser, ResourceIdConfig.DEVICE_INFO_CHANGE_STATUS, LimitUserTypeEnum.CM_ADMIN)){
+            return JoyResult.buildFailedResult(Notice.PERMISSION_FORBIDDEN);
+        }
         List<DeviceInfoEntity> devices = new ArrayList<>();
         // 获取每一条信息
         for (Long id : req.getIds()) {
@@ -259,5 +296,13 @@ public class DeviceInfoService {
         }else{
             return JoyResult.buildFailedResult(Notice.DEVICE_INFO_NAME_NOT_EXIST);
         }
+    }
+
+    public JoyResult getApproachMaintainNum(UserEntity loginUser) {
+        return JoyResult.buildSuccessResultWithData(deviceInfoRepository.getApproachMaintain(new Date()).size());
+    }
+
+    public JoyResult getApproachMaintain(UserEntity loginUser) {
+        return JoyResult.buildSuccessResultWithData(deviceInfoRepository.getApproachMaintain(new Date()));
     }
 }

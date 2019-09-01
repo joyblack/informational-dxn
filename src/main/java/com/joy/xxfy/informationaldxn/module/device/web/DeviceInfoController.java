@@ -144,4 +144,24 @@ public class DeviceInfoController extends BaseController {
             return deviceInfoService.whetherExistSameNameDevice(req, getLoginUser(request));
         }
     }
+
+    /**
+     * 获取临近截止维保日期的设备信息
+     */
+    @PostMapping(
+            value = "/getApproachMaintainNum",
+            produces = {"application/json;charset=UTF-8"})
+    public JoyResult getApproachMaintainNum(HttpServletRequest req) {
+        return deviceInfoService.getApproachMaintainNum(getLoginUser(req));
+    }
+
+    /**
+     * 获取临近截止维保日期的设备信息
+     */
+    @PostMapping(
+            value = "/getApproachMaintain",
+            produces = {"application/json;charset=UTF-8"})
+    public JoyResult getApproachMaintain(HttpServletRequest req) {
+        return deviceInfoService.getApproachMaintain(getLoginUser(req));
+    }
 }

@@ -83,6 +83,11 @@ public class DeviceInfoEntity extends BaseEntity {
      */
     private Long tipDays;
 
+    /**
+     * 开始提示的时间
+     */
+    private Date tipStartTime;
+
 
     /**
      * 设备状态

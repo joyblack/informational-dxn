@@ -1,5 +1,7 @@
 package com.joy.xxfy.informationaldxn.module.device.service;
 
+import com.joy.xxfy.informationaldxn.module.common.enums.LimitUserTypeEnum;
+import com.joy.xxfy.informationaldxn.module.common.service.BaseService;
 import com.joy.xxfy.informationaldxn.module.device.domain.entity.DeviceInfoEntity;
 import com.joy.xxfy.informationaldxn.module.device.domain.entity.DeviceMaintainEntity;
 import com.joy.xxfy.informationaldxn.module.device.domain.enums.DeviceStatusEnum;
@@ -9,6 +11,7 @@ import com.joy.xxfy.informationaldxn.module.device.domain.repository.DeviceInfoR
 import com.joy.xxfy.informationaldxn.module.device.domain.repository.DeviceMaintainRepository;
 import com.joy.xxfy.informationaldxn.module.device.web.req.*;
 import com.joy.xxfy.informationaldxn.module.system.domain.entity.UserEntity;
+import com.joy.xxfy.informationaldxn.permission.constant.ResourceIdConfig;
 import com.joy.xxfy.informationaldxn.publish.constant.ResultDataConstant;
 import com.joy.xxfy.informationaldxn.publish.result.JoyResult;
 import com.joy.xxfy.informationaldxn.publish.result.Notice;
@@ -28,7 +31,7 @@ import java.util.List;
 
 @Transactional
 @Service
-public class DeviceMaintainService {
+public class DeviceMaintainService extends BaseService {
     @Autowired
     private DeviceInfoRepository deviceInfoRepository;
 
@@ -42,6 +45,9 @@ public class DeviceMaintainService {
      * 添加
      */
     public JoyResult add(DeviceMaintainAddReq req, UserEntity loginUser) {
+        if(!hasPermission(loginUser, ResourceIdConfig.DEVICE_MAINTAIN_ADD, LimitUserTypeEnum.CM_ADMIN)){
+            return JoyResult.buildFailedResult(Notice.PERMISSION_FORBIDDEN);
+        }
         // 设备信息是否存在
         DeviceInfoEntity deviceInfo = deviceInfoRepository.findAllById(req.getDeviceInfoId());
         if(deviceInfo == null){
@@ -61,8 +67,13 @@ public class DeviceMaintainService {
         // 更新最近一次维保时间
         deviceInfo.setBeforeMaintainTime(req.getMaintainTime());
         // 下次保养日期，取决于是否同时填写保养间隔时间、最近保养时间
+        // 更新下次提示的时间
         if(deviceInfo.getBeforeMaintainTime()!= null && deviceInfo.getMaintainIntervalTime() != null){
             deviceInfo.setNextMaintainTime(DateUtil.addDay(deviceInfo.getBeforeMaintainTime(),deviceInfo.getMaintainIntervalTime().intValue()));
+            deviceInfo.setTipStartTime(DateUtil.addDay(deviceInfo.getNextMaintainTime(), - deviceInfo.getTipDays().intValue()));
+        }else{
+            // 置空，此条目也不会进入统计范畴。
+            deviceInfo.setTipStartTime(null);
         }
         deviceMaintainInfo.setDeviceInfo(deviceInfo);
         // 将所有关于该设备的旧未完成的记录更新为已完成
@@ -76,6 +87,9 @@ public class DeviceMaintainService {
      * 改
      */
     public JoyResult update(DeviceMaintainUpdateReq req, UserEntity loginUser) {
+        if(!hasPermission(loginUser, ResourceIdConfig.DEVICE_MAINTAIN_UPDATE, LimitUserTypeEnum.CM_ADMIN)){
+            return JoyResult.buildFailedResult(Notice.PERMISSION_FORBIDDEN);
+        }
         // 设备信息是否存在
         DeviceMaintainEntity maintainInfo = deviceMaintainRepository.findAllById(req.getId());
         if(maintainInfo == null){
@@ -99,8 +113,13 @@ public class DeviceMaintainService {
             // 更新最近一次维保时间
             deviceInfo.setBeforeMaintainTime(req.getMaintainTime());
             // 下次保养日期，取决于是否同时填写保养间隔时间、最近保养时间
+            // 更新下次提示维保的时间
             if(deviceInfo.getBeforeMaintainTime()!= null && deviceInfo.getMaintainIntervalTime() != null){
                 deviceInfo.setNextMaintainTime(DateUtil.addDay(deviceInfo.getBeforeMaintainTime(),deviceInfo.getMaintainIntervalTime().intValue()));
+                deviceInfo.setTipStartTime(DateUtil.addDay(deviceInfo.getNextMaintainTime(), - deviceInfo.getTipDays().intValue()));
+            }else{
+                // 置空，此条目也不会进入统计范畴。
+                deviceInfo.setTipStartTime(null);
             }
         }
         // 拷贝修改信息
@@ -113,6 +132,9 @@ public class DeviceMaintainService {
      * 删除
      */
     public JoyResult delete(Long id, UserEntity loginUser) {
+        if(!hasPermission(loginUser, ResourceIdConfig.DEVICE_MAINTAIN_DELETE, LimitUserTypeEnum.CM_ADMIN)){
+            return JoyResult.buildFailedResult(Notice.PERMISSION_FORBIDDEN);
+        }
         DeviceMaintainEntity info = deviceMaintainRepository.findAllById(id);
         if(info == null){
             return JoyResult.buildFailedResult(Notice.DEVICE_MAINTAIN_NOT_EXIST);
@@ -128,6 +150,9 @@ public class DeviceMaintainService {
      * 获取数据
      */
     public JoyResult get(Long id, UserEntity loginUser) {
+        if(!hasPermission(loginUser, ResourceIdConfig.DEVICE_MAINTAIN_GET, LimitUserTypeEnum.CM_ADMIN)){
+            return JoyResult.buildFailedResult(Notice.PERMISSION_FORBIDDEN);
+        }
         return JoyResult.buildSuccessResultWithData(deviceMaintainRepository.findAllById(id));
     }
 
@@ -135,6 +160,9 @@ public class DeviceMaintainService {
      * 获取分页数据
      */
     public JoyResult getPagerList(DeviceMaintainGetListReq req, UserEntity loginUser) {
+        if(!hasPermission(loginUser, ResourceIdConfig.DEVICE_INFO_GET_LIST, LimitUserTypeEnum.CM_ADMIN)){
+            return JoyResult.buildFailedResult(Notice.PERMISSION_FORBIDDEN);
+        }
         return JoyResult.buildSuccessResultWithData(deviceMaintainRepository.findAll(getPredicates(req,loginUser), JpaPagerUtil.getPageable(req)));
     }
 
@@ -142,6 +170,9 @@ public class DeviceMaintainService {
      * 获取全部
      */
     public JoyResult getAllList(DeviceMaintainGetListReq req, UserEntity loginUser) {
+        if(!hasPermission(loginUser, ResourceIdConfig.DEVICE_MAINTAIN_GET_LIST, LimitUserTypeEnum.CM_ADMIN)){
+            return JoyResult.buildFailedResult(Notice.PERMISSION_FORBIDDEN);
+        }
         return JoyResult.buildSuccessResultWithData(deviceMaintainRepository.findAll(getPredicates(req, loginUser)));
     }
 
