@@ -60,6 +60,11 @@ public class LicenceEntity extends BaseEntity {
      */
     private Long tipDays;
 
+    /**
+     * 提示证照有效期快要临近的开始时间，其值等于证照有效期 - 提示天数
+     */
+    private Date tipStartTime;
+
     /* 如下是采矿许可证多出来的属性 */
     /**
      * 矿区面积（km2）

@@ -11,7 +11,9 @@ import com.joy.xxfy.informationaldxn.module.system.domain.entity.UserEntity;
 import com.joy.xxfy.informationaldxn.publish.constant.ResultDataConstant;
 import com.joy.xxfy.informationaldxn.publish.result.JoyResult;
 import com.joy.xxfy.informationaldxn.publish.result.Notice;
+import com.joy.xxfy.informationaldxn.publish.utils.DateUtil;
 import com.joy.xxfy.informationaldxn.publish.utils.JoyBeanUtil;
+import com.sun.scenario.effect.impl.sw.sse.SSEBlend_SRC_OUTPeer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -58,6 +60,8 @@ public class LicenceService {
         if(info.getTipDays() == null){
             info.setTipDays(LicenceDefault.TIP_DAYS);
         }
+        // == 开始提示日期
+        info.setTipStartTime(DateUtil.addDay(info.getExpiryTime(), - info.getTipDays().intValue()));
         // == 设置所属平台
         info.setBelongCompany(belongCompany);
         // save.
@@ -72,15 +76,17 @@ public class LicenceService {
         if(info == null){
             return JoyResult.buildFailedResult(Notice.LICENCE_NOT_EXIST);
         }
-        // copy
-        JoyBeanUtil.copyPropertiesIgnoreSourceNullProperties(req, info);
-        // 获取所属平台信息
         DepartmentEntity belongCompany = departmentRepository.findAllById(req.getBelongCompanyId());
         if(belongCompany == null){
             return JoyResult.buildFailedResult(Notice.COMPANY_NOT_EXIST);
         }
         // 检查证件信息是否已经存在
-        LicenceEntity check = licenceRepository.findFirstByBelongCompanyAndLicenceType(belongCompany, info.getLicenceType());
+        LicenceEntity check = licenceRepository.findFirstByBelongCompanyAndLicenceType(belongCompany, req.getLicenceType());
+        // copy
+        JoyBeanUtil.copyPropertiesIgnoreSourceNullProperties(req, info);
+        // 获取所属平台信息
+        System.out.println(info);
+        System.out.println(check);
         if(check != null && !check.getId().equals(info.getId())){
             return JoyResult.buildFailedResult(Notice.LICENCE_ALREADY_EXIST);
         }
@@ -95,9 +101,12 @@ public class LicenceService {
         if(info.getTipDays() == null){
             info.setTipDays(LicenceDefault.TIP_DAYS);
         }
+        // == 开始提示日期
+        info.setTipStartTime(DateUtil.addDay(info.getExpiryTime(), - info.getTipDays().intValue()));
         // == 设置所属平台
         info.setBelongCompany(belongCompany);
         // save.
+        System.out.println("====================================");
         return JoyResult.buildSuccessResultWithData(licenceRepository.save(info));
     }
 
@@ -152,6 +161,14 @@ public class LicenceService {
      */
     public JoyResult getByBelongCompany(Long belongCompanyId, UserEntity loginUser) {
         return JoyResult.buildSuccessResultWithData(licenceRepository.findAllByBelongCompany(departmentRepository.findAllById(belongCompanyId)));
+    }
+
+    public JoyResult getApproachNum(UserEntity loginUser) {
+        return JoyResult.buildSuccessResultWithData(licenceRepository.getApproach(new Date()).size());
+    }
+
+    public JoyResult getApproach(UserEntity loginUser) {
+        return JoyResult.buildSuccessResultWithData(licenceRepository.getApproach(new Date()));
     }
 
 

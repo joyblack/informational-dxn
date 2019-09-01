@@ -146,22 +146,22 @@ public class DeviceInfoController extends BaseController {
     }
 
     /**
-     * 获取临近截止维保日期的设备信息
+     * 获取临近截止维保日期的设备数量
      */
     @PostMapping(
-            value = "/getApproachMaintainNum",
+            value = "/getApproachNum",
             produces = {"application/json;charset=UTF-8"})
-    public JoyResult getApproachMaintainNum(HttpServletRequest req) {
-        return deviceInfoService.getApproachMaintainNum(getLoginUser(req));
+    public JoyResult getApproachNum(HttpServletRequest req) {
+        return deviceInfoService.getApproachNum(getLoginUser(req));
     }
 
     /**
      * 获取临近截止维保日期的设备信息
      */
     @PostMapping(
-            value = "/getApproachMaintain",
+            value = "/getApproach",
             produces = {"application/json;charset=UTF-8"})
-    public JoyResult getApproachMaintain(HttpServletRequest req) {
-        return deviceInfoService.getApproachMaintain(getLoginUser(req));
+    public JoyResult getApproach(HttpServletRequest req) {
+        return deviceInfoService.getApproach(getLoginUser(req));
     }
 }

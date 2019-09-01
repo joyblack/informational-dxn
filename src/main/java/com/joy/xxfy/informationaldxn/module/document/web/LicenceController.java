@@ -132,7 +132,26 @@ public class LicenceController extends BaseController {
         } else {
             return licenceService.getByBelongCompany(req.getBelongCompanyId(), getLoginUser(request));
         }
+    }
 
+    /**
+     * 获取需要提示过期的证照信息
+     */
+    @PostMapping(
+            value = "/getApproachNum",
+            produces = {"application/json;charset=UTF-8"})
+    public JoyResult getApproachNum(HttpServletRequest req) {
+        return licenceService.getApproachNum(getLoginUser(req));
+    }
+
+    /**
+     * 获取需要提示过期的证照信息
+     */
+    @PostMapping(
+            value = "/getApproach",
+            produces = {"application/json;charset=UTF-8"})
+    public JoyResult getApproach(HttpServletRequest req) {
+        return licenceService.getApproach(getLoginUser(req));
     }
 
 }

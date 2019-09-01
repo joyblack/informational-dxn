@@ -20,5 +20,5 @@ public interface DeviceInfoRepository extends BaseRepository<DeviceInfoEntity>, 
 
     // 获取需要提示维保的设备信息
     @Query("select d from DeviceInfoEntity d where d.tipStartTime is not null and d.tipStartTime <= :now ")
-    List<DeviceInfoEntity> getApproachMaintain(@Param("now") Date now);
+    List<DeviceInfoEntity> getApproach(@Param("now") Date now);
 }

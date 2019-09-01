@@ -298,11 +298,11 @@ public class DeviceInfoService extends BaseService {
         }
     }
 
-    public JoyResult getApproachMaintainNum(UserEntity loginUser) {
-        return JoyResult.buildSuccessResultWithData(deviceInfoRepository.getApproachMaintain(new Date()).size());
+    public JoyResult getApproachNum(UserEntity loginUser) {
+        return JoyResult.buildSuccessResultWithData(deviceInfoRepository.getApproach(new Date()).size());
     }
 
-    public JoyResult getApproachMaintain(UserEntity loginUser) {
-        return JoyResult.buildSuccessResultWithData(deviceInfoRepository.getApproachMaintain(new Date()));
+    public JoyResult getApproach(UserEntity loginUser) {
+        return JoyResult.buildSuccessResultWithData(deviceInfoRepository.getApproach(new Date()));
     }
 }
