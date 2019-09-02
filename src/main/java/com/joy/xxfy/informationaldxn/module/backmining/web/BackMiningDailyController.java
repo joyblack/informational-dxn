@@ -1,8 +1,9 @@
 package com.joy.xxfy.informationaldxn.module.backmining.web;
 
+import com.joy.xxfy.informationaldxn.module.backmining.web.req.*;
+import com.joy.xxfy.informationaldxn.module.common.web.BaseController;
 import com.joy.xxfy.informationaldxn.module.common.web.req.IdReq;
 import com.joy.xxfy.informationaldxn.module.backmining.service.BackMiningDailyService;
-import com.joy.xxfy.informationaldxn.module.backmining.web.req.BackMiningDailyAddReq;
 import com.joy.xxfy.informationaldxn.publish.result.JoyResult;
 import com.joy.xxfy.informationaldxn.publish.result.Notice;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,11 +13,12 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
 @RestController
 @RequestMapping("produce-back-mining-daily")
-public class BackMiningDailyController {
+public class BackMiningDailyController extends BaseController {
     @Autowired
     private BackMiningDailyService backMiningDailyService;
 
@@ -62,6 +64,49 @@ public class BackMiningDailyController {
         } else {
             // copy
             return backMiningDailyService.get(req.getId());
+        }
+    }
+
+    /**
+     * 更新
+     */
+    @PostMapping(
+            value = "/update",
+            produces = {"application/json;charset=UTF-8"})
+    public JoyResult update(@RequestBody @Valid BackMiningDailyUpdateReq req, BindingResult bindingResult) {
+        if (bindingResult.hasErrors()) {
+            return JoyResult.buildFailedResult(Notice.REQUEST_PARAMETER_IS_ERROR, bindingResult.getFieldError().getDefaultMessage());
+        } else {
+            // copy
+            return backMiningDailyService.update(req);
+        }
+    }
+
+    /**
+     * 获取分页数据
+     */
+    @PostMapping(
+            value = "/getPagerList",
+            produces = {"application/json;charset=UTF-8"})
+    public JoyResult getPagerList(@RequestBody @Valid BackMiningDailyGetListReq req, BindingResult bindingResult, HttpServletRequest request) {
+        if (bindingResult.hasErrors()) {
+            return JoyResult.buildFailedResult(Notice.REQUEST_PARAMETER_IS_ERROR, bindingResult.getFieldError().getDefaultMessage());
+        } else {
+            return backMiningDailyService.getPagerList(req,getLoginUser(request));
+        }
+    }
+
+    /**
+     * 获取所有数据
+     */
+    @PostMapping(
+            value = "/getAllList",
+            produces = {"application/json;charset=UTF-8"})
+    public JoyResult getAllList(@RequestBody @Valid BackMiningDailyGetListReq req, BindingResult bindingResult, HttpServletRequest request) {
+        if (bindingResult.hasErrors()) {
+            return JoyResult.buildFailedResult(Notice.REQUEST_PARAMETER_IS_ERROR, bindingResult.getFieldError().getDefaultMessage());
+        } else {
+            return backMiningDailyService.getAllList(req,getLoginUser(request));
         }
     }
 }

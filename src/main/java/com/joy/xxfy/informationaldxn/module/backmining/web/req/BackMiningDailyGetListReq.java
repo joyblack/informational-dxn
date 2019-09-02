@@ -9,7 +9,7 @@ import java.util.Date;
 
 @Data
 @ToString(callSuper = true)
-public class BackMiningDailyDetailGetListReq extends BasePageReq {
+public class BackMiningDailyGetListReq extends BasePageReq {
 
     /**
      * 掘进工作面ID

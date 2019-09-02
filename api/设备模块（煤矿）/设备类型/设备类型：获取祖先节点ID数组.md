@@ -2,7 +2,7 @@
 返回当前节点的所有祖先节点的信息，同时包含自身的信息。
 
 # 访问地址
-device-category/getParentTreeJustIds
+device-category/getParentNodesJustIds
 
 # 请求参数
 

@@ -43,12 +43,18 @@ public class CmStatisticVo {
      */
     private BigDecimal monthOutput = BigDecimal.ZERO;
 
+
+
     public CmStatisticVo() {
     }
+
+
 
     public CmStatisticVo(BigDecimal monthLength) {
         this.monthLength = monthLength;
     }
+
+
 
     public CmStatisticVo(BigDecimal monthLength, BigDecimal monthOutput) {
         this.monthLength = monthLength;

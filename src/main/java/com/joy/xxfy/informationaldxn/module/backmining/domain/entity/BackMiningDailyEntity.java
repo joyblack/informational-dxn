@@ -1,6 +1,8 @@
 package com.joy.xxfy.informationaldxn.module.backmining.domain.entity;
 
 import com.joy.xxfy.informationaldxn.module.common.domain.entity.BaseEntity;
+import com.joy.xxfy.informationaldxn.module.common.enums.DailyShiftEnum;
+import com.joy.xxfy.informationaldxn.module.department.domain.entity.DepartmentEntity;
 import com.joy.xxfy.informationaldxn.module.driving.domain.entity.DrivingFaceEntity;
 import lombok.Data;
 import lombok.ToString;
@@ -34,19 +36,39 @@ public class BackMiningDailyEntity extends BaseEntity {
 
 
     /**
-     * 总人数
-     */
-    private Long totalPeopleNumber;
-
-    /**
-     * 总推进度
+     * 班次
      */
     @Column(nullable = false)
-    private BigDecimal totalDoneLength;
+    private DailyShiftEnum shifts;
 
     /**
-     * 总产量(t)
+     * 回采队伍
      */
-    private BigDecimal totalOutput;
+    @ManyToOne(cascade = {},fetch = FetchType.EAGER)
+    @JoinColumn(name = "department_id", nullable = false)
+    private DepartmentEntity team;
+
+    /**
+     * 人数
+     */
+    private Long peopleNumber;
+
+    /**
+     * 推进度
+     */
+    @Column(nullable = false)
+    private BigDecimal doneLength;
+
+
+    /**
+     * 产量(t)
+     */
+    private BigDecimal output;
+
+    /**
+     * 工作内容
+     */
+    @Lob
+    private String workContent;
 
 }

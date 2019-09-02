@@ -33,7 +33,7 @@ public class CpStatisticController extends BaseController {
         if (bindingResult.hasErrors()) {
             return JoyResult.buildFailedResult(Notice.REQUEST_PARAMETER_IS_ERROR, bindingResult.getFieldError().getDefaultMessage());
         } else {
-            return cpStatisticService.getData( TokenUtil.getUser(request),req.getTime());
+            return cpStatisticService.getData(getLoginUser(request),req.getTime());
         }
     }
 

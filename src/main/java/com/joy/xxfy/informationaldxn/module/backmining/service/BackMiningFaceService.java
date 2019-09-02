@@ -18,6 +18,7 @@ import com.joy.xxfy.informationaldxn.publish.utils.LogUtil;
 import com.joy.xxfy.informationaldxn.publish.utils.RateUtil;
 import com.joy.xxfy.informationaldxn.publish.utils.StringUtil;
 import com.joy.xxfy.informationaldxn.publish.utils.project.JpaPagerUtil;
+import org.apache.poi.ss.formula.functions.Rate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
@@ -53,6 +54,10 @@ public class BackMiningFaceService {
         JoyBeanUtil.copyPropertiesIgnoreTargetNotNullProperties(req, info);
         // 已采长度：(回风顺槽 + 运输顺槽)/2
         info.setDoneLength(info.getReturnAirChute().add(info.getTransportChute()).divide(BigDecimalValueConstant.TWO, BigDecimal.ROUND_HALF_UP));
+        // 剩余长度
+        info.setLeftLength(info.getSlopeLength().subtract(info.getDoneLength()));
+        // 进度
+        info.setProgress(RateUtil.compute(info.getDoneLength(), info.getSlopeLength(), false));
         LogUtil.info("Last back mining face info is: {}", info);
         // save.
         info.setBelongCompany(loginUser.getCompany());
@@ -75,6 +80,10 @@ public class BackMiningFaceService {
         JoyBeanUtil.copyPropertiesIgnoreSourceNullProperties(req, info);
         // 计算已采长度
         info.setDoneLength(info.getReturnAirChute().add(info.getTransportChute()).divide(BigDecimalValueConstant.TWO, BigDecimal.ROUND_HALF_UP));
+        // 剩余长度
+        info.setLeftLength(info.getSlopeLength().subtract(info.getDoneLength()));
+        // 进度
+        info.setProgress(RateUtil.compute(info.getDoneLength(), info.getSlopeLength(), false));
         // 修改时间
         info.setUpdateTime(new Date());
         // save.
@@ -90,8 +99,8 @@ public class BackMiningFaceService {
             return JoyResult.buildFailedResult(Notice.BACK_MINING_NOT_EXIST);
         }
         // == 已添加日报的不能删除
-        List<BackMiningDailyEntity> dailies = backMiningDailyRepository.findAllByBackMiningFace(info);
-        if(dailies.size() > 0){
+        BackMiningDailyEntity daily = backMiningDailyRepository.findFirstByBackMiningFace(info);
+        if(daily != null){
             return JoyResult.buildFailedResult(Notice.DAILY_EXIST_CANT_DELETE);
         }
         // 修改时间

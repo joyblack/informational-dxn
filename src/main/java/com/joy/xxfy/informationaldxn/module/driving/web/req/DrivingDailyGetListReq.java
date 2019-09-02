@@ -14,7 +14,7 @@ import java.util.Date;
 
 @Data
 @ToString(callSuper = true)
-public class DrivingDailyDetailGetListReq extends BasePageReq {
+public class DrivingDailyGetListReq extends BasePageReq {
 
     /**
      * 掘进工作面ID

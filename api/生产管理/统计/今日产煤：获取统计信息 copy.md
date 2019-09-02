@@ -1,7 +1,7 @@
 # 简介
 
 # 访问地址
-produce-drill-work/getWorkProgress
+produce-statistic/getTodayOutput
 
 # 请求参数
 
@@ -51,7 +51,7 @@ JSON
         }
     ],
     "code": 200
-}
+} 
 ```
 
 **返回数据解析**

@@ -1,17 +1,16 @@
-package com.joy.xxfy.informationaldxn.module.driving.web.req;
+package com.joy.xxfy.informationaldxn.module.backmining.web.req;
 
 import com.joy.xxfy.informationaldxn.module.common.enums.DailyShiftEnum;
 import com.joy.xxfy.informationaldxn.module.common.web.req.BaseUpdateReq;
 import lombok.Data;
 import lombok.ToString;
 
-import javax.persistence.Column;
 import javax.validation.constraints.NotNull;
 import java.math.BigDecimal;
 
 @Data
 @ToString(callSuper = true)
-public class DrivingDailyDetailUpdateReq extends BaseUpdateReq {
+public class BackMiningDailyUpdateReq extends BaseUpdateReq {
     /**
      * 班次
      */
@@ -21,8 +20,8 @@ public class DrivingDailyDetailUpdateReq extends BaseUpdateReq {
     /**
      * 队伍
      */
-    @NotNull(message = "掘进队伍不能为空")
-    private Long drivingTeamId;
+    @NotNull(message = "回采队伍不能为空")
+    private Long teamId;
 
     /**
      * 人数
@@ -32,7 +31,7 @@ public class DrivingDailyDetailUpdateReq extends BaseUpdateReq {
     /**
      * 进尺
      */
-    @NotNull(message = "进尺不能为空")
+    @NotNull(message = "推进度不能为空")
     private BigDecimal doneLength;
 
     /**

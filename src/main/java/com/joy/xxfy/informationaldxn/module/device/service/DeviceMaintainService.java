@@ -57,9 +57,10 @@ public class DeviceMaintainService extends BaseService {
         JoyBeanUtil.copyPropertiesIgnoreSourceNullProperties(req, deviceMaintainInfo);
         // 更新设备的修改时间
         deviceInfo.setUpdateTime(new Date());
-        // 若是维保完成，设置为在用状态；
+        // 若是维保完成，设置为在用状态，维保次数 + 1
         // 若是维保未完成，设置为维保状态；
         if(req.getMaintainStatus().equals(MaintainStatusEnum.COMPLETE)){
+            deviceInfo.setMaintainNumber(deviceInfo.getMaintainNumber() + 1);
             deviceInfo.setDeviceStatus(DeviceStatusEnum.DEVICE_STATUS_USING);
         }else{
             deviceInfo.setDeviceStatus(DeviceStatusEnum.DEVICE_STATUS_MAINTAINING);
@@ -103,9 +104,10 @@ public class DeviceMaintainService extends BaseService {
         if(newestMaintainInfo.getId().equals(maintainInfo.getId())){
             // 更新设备的修改时间
             deviceInfo.setUpdateTime(new Date());
-            // 若是维保完成，设置为在用状态；
+            // 若是维保完成，设置为在用状态，维保次数+1
             // 若是维保未完成，设置为维保状态；
             if(req.getMaintainStatus().equals(MaintainStatusEnum.COMPLETE)){
+                deviceInfo.setMaintainNumber(deviceInfo.getMaintainNumber() + 1);
                 deviceInfo.setDeviceStatus(DeviceStatusEnum.DEVICE_STATUS_USING);
             }else{
                 deviceInfo.setDeviceStatus(DeviceStatusEnum.DEVICE_STATUS_MAINTAINING);

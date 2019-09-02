@@ -1,25 +1,33 @@
 package com.joy.xxfy.informationaldxn.module.driving.service;
 
+import com.joy.xxfy.informationaldxn.module.department.domain.entity.DepartmentEntity;
+import com.joy.xxfy.informationaldxn.module.department.domain.repository.DepartmentRepository;
 import com.joy.xxfy.informationaldxn.module.driving.domain.entity.DrivingDailyEntity;
 import com.joy.xxfy.informationaldxn.module.driving.domain.entity.DrivingFaceEntity;
-import com.joy.xxfy.informationaldxn.module.driving.domain.repository.DrivingDailyDetailRepository;
 import com.joy.xxfy.informationaldxn.module.driving.domain.repository.DrivingDailyRepository;
 import com.joy.xxfy.informationaldxn.module.driving.domain.repository.DrivingFaceRepository;
-import com.joy.xxfy.informationaldxn.module.driving.domain.vo.SumDrivingDailyDetailVo;
 import com.joy.xxfy.informationaldxn.module.driving.web.req.DrivingDailyAddReq;
-import com.joy.xxfy.informationaldxn.module.driving.web.res.DrivingDailyRes;
+import com.joy.xxfy.informationaldxn.module.driving.web.req.DrivingDailyGetListReq;
+import com.joy.xxfy.informationaldxn.module.driving.web.req.DrivingDailyUpdateReq;
 import com.joy.xxfy.informationaldxn.module.system.domain.entity.UserEntity;
-import com.joy.xxfy.informationaldxn.publish.constant.BigDecimalValueConstant;
-import com.joy.xxfy.informationaldxn.publish.constant.LongValueConstant;
 import com.joy.xxfy.informationaldxn.publish.constant.ResultDataConstant;
 import com.joy.xxfy.informationaldxn.publish.result.JoyResult;
 import com.joy.xxfy.informationaldxn.publish.result.Notice;
-import com.joy.xxfy.informationaldxn.publish.utils.JoyBeanUtil;
+import com.joy.xxfy.informationaldxn.publish.utils.RateUtil;
+import com.joy.xxfy.informationaldxn.publish.utils.project.JpaPagerUtil;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.persistence.criteria.Predicate;
+import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
+
+import static com.joy.xxfy.informationaldxn.publish.utils.ComputeUtils.less;
+import static com.joy.xxfy.informationaldxn.publish.utils.ComputeUtils.more;
 
 @Transactional
 @Service
@@ -31,8 +39,10 @@ public class DrivingDailyService {
     @Autowired
     private DrivingDailyRepository drivingDailyRepository;
 
+
     @Autowired
-    private DrivingDailyDetailRepository drivingDailyDetailRepository;
+    private DepartmentRepository departmentRepository;
+
 
     /**
      * 添加
@@ -43,25 +53,62 @@ public class DrivingDailyService {
         if(drivingFace == null){
             return JoyResult.buildFailedResult(Notice.DRIVING_FACE_NOT_EXIST);
         }
-        // 验证该日期的掘进日报是否已经填写(不会有多个煤矿平台操作的，因此这个变量无需考虑)
-        DrivingDailyEntity drivingDaily = drivingDailyRepository.findAllByDrivingFaceAndDailyTime(drivingFace, req.getDailyTime());
-        if(drivingDaily != null){
-            return JoyResult.buildFailedResult(Notice.DAILY_ALREADY_EXIST, ResultDataConstant.MESSAGE_DAILY_REPEAT);
+        // == 验证队伍是否存在
+        DepartmentEntity team = departmentRepository.findAllById(req.getDrivingTeamId());
+        if(team == null){
+            return JoyResult.buildFailedResult(Notice.DEPARTMENT_NOT_EXIST);
         }
-        // 装配实体：日报信息
-        DrivingDailyEntity dailyEntity = new DrivingDailyEntity();
-        // 日期
-        dailyEntity.setDailyTime(req.getDailyTime());
-        // 工作面信息
-        dailyEntity.setDrivingFace(drivingFace);
-        dailyEntity.setTotalDoneLength(BigDecimalValueConstant.ZERO);
-        dailyEntity.setTotalOutput(BigDecimalValueConstant.ZERO);
-        dailyEntity.setTotalPeopleNumber(LongValueConstant.ZERO);
+        // 验证该记录是否重复(同工作面、同日期、同队伍、同班次)
+        DrivingDailyEntity detailRepeat = drivingDailyRepository.findFirstByDrivingFaceAndDailyTimeAndDrivingTeamAndShifts(drivingFace, req.getDailyTime(), team, req.getShifts());
+        if(detailRepeat != null){
+            return JoyResult.buildFailedResult(Notice.DAILY_ALREADY_EXIST, ResultDataConstant.MESSAGE_DAILY_DETAIL_REPEAT);
+        }
+        // 若提交的长度需要小0
+        if(less(req.getDoneLength(), BigDecimal.ZERO)){
+            return JoyResult.buildFailedResult(Notice.LENGTH_SHOULD_MORE_ZERO);
+        }
+        // 若当前提交的长度大于工作面的剩余长度，不合法
+        if(more(req.getDoneLength(),drivingFace.getLeftLength())){
+            return JoyResult.buildFailedResult(Notice.SET_LENGTH_MORE_LEFT_LENGTH,
+                    ResultDataConstant.MESSAGE_LEFT_LENGTH + drivingFace.getLeftLength());
+        }
 
-        // 修改工作面修改时间
+        // 初始化某些值
+        req.setPeopleNumber(req.getPeopleNumber() == null ? 0L : req.getPeopleNumber());
+        req.setOutput(req.getOutput() == null? BigDecimal.ZERO : req.getOutput());
+
+        // == 修改工作面信息
+        // 已掘长度：oldDoneLength + doneLength
+        drivingFace.setDoneLength(drivingFace.getDoneLength().add(req.getDoneLength()));
+        // 剩余长度：total - doneLength
+        drivingFace.setLeftLength(drivingFace.getTotalLength().subtract(drivingFace.getDoneLength()));
+        drivingFace.setProgress(RateUtil.compute(drivingFace.getDoneLength(), drivingFace.getTotalLength(), false));
+        // 修改时间
         drivingFace.setUpdateTime(new Date());
-        // 添加信息
-        return JoyResult.buildSuccessResultWithData(drivingDailyRepository.save(dailyEntity));
+
+
+        // 添加日报信息
+        DrivingDailyEntity daily = new DrivingDailyEntity();
+        daily.setDailyTime(req.getDailyTime());
+        daily.setDrivingFace(drivingFace);
+        // 班次
+        daily.setShifts(req.getShifts());
+        // 掘进队伍
+        daily.setDrivingTeam(team);
+        // 人数
+        daily.setPeopleNumber(req.getPeopleNumber());
+        // 进尺(工作长度)
+        daily.setDoneLength(req.getDoneLength());
+        // 产量
+        daily.setOutput(req.getOutput());
+        // 其他工作内容
+        daily.setWorkContent(req.getWorkContent());
+        // 备注信息
+        daily.setRemarks(req.getRemarks());
+
+        // 添加日报
+        // 更新：工作面信息（已掘长度，剩余长度）
+        return JoyResult.buildSuccessResultWithData(drivingDailyRepository.save(daily));
     }
 
 
@@ -74,24 +121,20 @@ public class DrivingDailyService {
         if(info == null){
             return JoyResult.buildFailedResult(Notice.DAILY_NOT_EXIST);
         }
-        // 计算日报详细信息得到的总长度
-        SumDrivingDailyDetailVo vo = drivingDailyDetailRepository.aggDailyDetail(info);
-        // 刷新工作面已掘长度信息
+        // == 修改工作面信息
         DrivingFaceEntity drivingFace = info.getDrivingFace();
-        if(vo.getTotalDoneLengthSum() != null){
-            drivingFace.setDoneLength(drivingFace.getDoneLength().subtract(vo.getTotalDoneLengthSum()));
-        }
+        // 修改已掘长度
+        drivingFace.setDoneLength(drivingFace.getDoneLength().subtract(info.getDoneLength()));
+        // 修改剩余长度
         drivingFace.setLeftLength(drivingFace.getTotalLength().subtract(drivingFace.getDoneLength()));
-        // 修改工作面修改时间
+        drivingFace.setProgress(RateUtil.compute(drivingFace.getDoneLength(), drivingFace.getTotalLength(), false));
+        // 修改时间
         drivingFace.setUpdateTime(new Date());
 
-        // 删除该日报的详情信息
-        drivingDailyDetailRepository.updateIsDeleteByDrivingDaily(info, true);
         // 删除日报信息
         info.setUpdateTime(new Date());
         info.setIsDelete(true);
         drivingDailyRepository.save(info);
-
         return JoyResult.buildSuccessResult(ResultDataConstant.MESSAGE_DELETE_SUCCESS);
     }
 
@@ -99,16 +142,117 @@ public class DrivingDailyService {
      * 获取数据
      */
     public JoyResult get(Long id, UserEntity loginUser) {
-        DrivingDailyRes res = new DrivingDailyRes();
-        DrivingDailyEntity info = drivingDailyRepository.findAllById(id);
-        if(info != null){
-            JoyBeanUtil.copyProperties(info, res);
-            // 设置详情信息
-            res.setDrivingDailyDetail(drivingDailyDetailRepository.findAllByDrivingDaily(info));
-        }else{
-            res = null;
+        return JoyResult.buildSuccessResultWithData(drivingDailyRepository.findAllById(id));
+    }
+
+    /**
+     * 改
+     */
+    public JoyResult update(DrivingDailyUpdateReq req, UserEntity loginUser) {
+        // 获取日报信息
+        DrivingDailyEntity info = drivingDailyRepository.findAllById(req.getId());
+        if(info == null){
+            return JoyResult.buildFailedResult(Notice.DAILY_NOT_EXIST);
         }
-        return JoyResult.buildSuccessResultWithData(res);
+        // == 验证队伍是否存在
+        DepartmentEntity team = departmentRepository.findAllById(req.getDrivingTeamId());
+        if(team == null){
+            return JoyResult.buildFailedResult(Notice.DEPARTMENT_NOT_EXIST);
+        }
+        // 验证该记录是否重复(同工作面、同日期、同队伍、同班次)
+        DrivingDailyEntity repeat = drivingDailyRepository.findFirstByDrivingFaceAndDailyTimeAndDrivingTeamAndShifts(info.getDrivingFace(), info.getDailyTime(), team, req.getShifts());
+        if(repeat != null && !repeat.getId().equals(info.getId())){
+            return JoyResult.buildFailedResult(Notice.DAILY_ALREADY_EXIST, ResultDataConstant.MESSAGE_DAILY_DETAIL_REPEAT);
+        }
+        // 若提交的长度需要大于0
+        if(less(req.getDoneLength(), BigDecimal.ZERO)){
+            return JoyResult.buildFailedResult(Notice.LENGTH_SHOULD_MORE_ZERO);
+        }
+        // 初始化某些值
+        req.setPeopleNumber(req.getPeopleNumber() == null ? 0L: req.getPeopleNumber());
+        req.setOutput(req.getOutput() == null? BigDecimal.ZERO: req.getOutput());
+
+        // 变化值
+        Long offsetPeopleNumber = req.getPeopleNumber() - info.getPeopleNumber();
+        BigDecimal offsetDoneLength = req.getDoneLength().subtract(info.getDoneLength());
+        BigDecimal offsetOutput = req.getOutput().subtract(info.getOutput());
+
+        // 若差值大于工作面的剩余长度，不合法
+        DrivingFaceEntity drivingFace = info.getDrivingFace();
+        if(more(offsetDoneLength,drivingFace.getLeftLength())){
+            return JoyResult.buildFailedResult(Notice.SET_LENGTH_MORE_LEFT_LENGTH,
+                    ResultDataConstant.MESSAGE_LEFT_LENGTH + drivingFace.getLeftLength());
+        }
+
+        // 班次
+        info.setShifts(req.getShifts());
+        // 掘进队伍
+        info.setDrivingTeam(departmentRepository.findAllById(req.getDrivingTeamId()));
+        // 人数
+        info.setPeopleNumber(req.getPeopleNumber());
+        // 进尺(工作长度)
+        info.setDoneLength(req.getDoneLength());
+        // 产量
+        info.setOutput(req.getOutput());
+        // 其他工作内容
+        info.setWorkContent(req.getWorkContent());
+        // 备注信息
+        info.setRemarks(req.getRemarks());
+
+
+        // == 修改工作面信息
+        // 修改已掘长度
+        drivingFace.setDoneLength(drivingFace.getDoneLength().add(offsetDoneLength));
+        // 修改剩余长度
+        drivingFace.setLeftLength(drivingFace.getTotalLength().subtract(drivingFace.getDoneLength()));
+        // 进度计算
+        drivingFace.setProgress(RateUtil.compute(drivingFace.getDoneLength(), drivingFace.getTotalLength(), false));
+        // 修改时间
+        drivingFace.setUpdateTime(new Date());
+        // save.
+        return JoyResult.buildSuccessResultWithData(drivingDailyRepository.save(info));
+    }
+
+
+    /**
+     * 获取分页数据
+     */
+    public JoyResult getPagerList(DrivingDailyGetListReq req, UserEntity loginUser) {
+        return JoyResult.buildSuccessResultWithData(drivingDailyRepository.findAll(getPredicates(req,loginUser), JpaPagerUtil.getPageable(req)));
+    }
+
+    /**
+     * 获取全部
+     */
+    public JoyResult getAllList(DrivingDailyGetListReq req, UserEntity loginUser) {
+        return JoyResult.buildSuccessResultWithData(drivingDailyRepository.findAll(getPredicates(req,loginUser)));
+    }
+
+    /**
+     * 获取分页数据、全部数据的谓词条件
+     */
+    private Specification<DrivingDailyEntity> getPredicates(DrivingDailyGetListReq req, UserEntity loginUser){
+        return (Specification<DrivingDailyEntity>) (root, query, builder) -> {
+            List<Predicate> predicates = new ArrayList<>();
+            predicates.add(builder.equal(root.get("drivingFace").get("belongCompany"), loginUser.getCompany()));
+            if(req.getDrivingFaceId() != null){
+                predicates.add(builder.equal(root.get("drivingFace").get("id"), req.getDrivingFaceId()));
+            }
+            // drill_time between
+            if(req.getDailyTimeStart() != null){
+                predicates.add(builder.greaterThanOrEqualTo(root.get("dailyTime"), req.getDailyTimeStart()));
+            }
+            if(req.getDailyTimeEnd() != null){
+                predicates.add(builder.lessThanOrEqualTo(root.get("dailyTime"), req.getDailyTimeEnd()));
+            }
+            if(req.getShifts() != null){
+                predicates.add(builder.equal(root.get("shifts"), req.getShifts()));
+            }
+            if(req.getDrivingTeamId() != null){
+                predicates.add(builder.equal(root.get("drivingTeam").get("id"), req.getDrivingTeamId()));
+            }
+            return builder.and(predicates.toArray(new Predicate[predicates.size()]));
+        };
     }
 
 

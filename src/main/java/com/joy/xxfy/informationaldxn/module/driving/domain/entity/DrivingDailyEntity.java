@@ -42,19 +42,38 @@ public class DrivingDailyEntity extends BaseEntity {
 
 
     /**
-     * 总人数
-     */
-    private Long totalPeopleNumber;
-
-    /**
-     * 总进尺
+     * 班次
      */
     @Column(nullable = false)
-    private BigDecimal totalDoneLength;
+    private DailyShiftEnum shifts;
 
     /**
-     * 总产量(t)
+     * 掘进队伍
      */
-    private BigDecimal totalOutput;
+    @ManyToOne(cascade = {},fetch = FetchType.EAGER)
+    @JoinColumn(name = "department_id", nullable = false)
+    private DepartmentEntity drivingTeam;
+
+    /**
+     * 人数
+     */
+    private Long peopleNumber;
+
+    /**
+     * 进尺
+     */
+    @Column(nullable = false)
+    private BigDecimal doneLength;
+
+    /**
+     * 产量(t)
+     */
+    private BigDecimal output;
+
+    /**
+     * 工作内容
+     */
+    @Lob
+    private String workContent;
 
 }

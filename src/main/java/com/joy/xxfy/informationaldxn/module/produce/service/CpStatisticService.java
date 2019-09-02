@@ -3,10 +3,8 @@ package com.joy.xxfy.informationaldxn.module.produce.service;
 import cn.hutool.core.collection.CollUtil;
 import cn.hutool.poi.excel.ExcelUtil;
 import cn.hutool.poi.excel.ExcelWriter;
-import com.joy.xxfy.informationaldxn.module.backmining.domain.entity.BackMiningDailyDetailEntity;
 import com.joy.xxfy.informationaldxn.module.backmining.domain.entity.BackMiningDailyEntity;
 import com.joy.xxfy.informationaldxn.module.backmining.domain.entity.BackMiningFaceEntity;
-import com.joy.xxfy.informationaldxn.module.backmining.domain.repository.BackMiningDailyDetailRepository;
 import com.joy.xxfy.informationaldxn.module.backmining.domain.repository.BackMiningDailyRepository;
 import com.joy.xxfy.informationaldxn.module.backmining.domain.repository.BackMiningFaceRepository;
 import com.joy.xxfy.informationaldxn.module.cmplatform.domain.entity.CmPlatformEntity;
@@ -19,19 +17,15 @@ import com.joy.xxfy.informationaldxn.module.drill.domain.entity.DrillDailyEntity
 import com.joy.xxfy.informationaldxn.module.drill.domain.entity.DrillWorkEntity;
 import com.joy.xxfy.informationaldxn.module.drill.domain.repository.DrillDailyRepository;
 import com.joy.xxfy.informationaldxn.module.drill.domain.repository.DrillWorkRepository;
-import com.joy.xxfy.informationaldxn.module.driving.domain.entity.DrivingDailyDetailEntity;
 import com.joy.xxfy.informationaldxn.module.driving.domain.entity.DrivingDailyEntity;
 import com.joy.xxfy.informationaldxn.module.driving.domain.entity.DrivingFaceEntity;
-import com.joy.xxfy.informationaldxn.module.driving.domain.repository.DrivingDailyDetailRepository;
 import com.joy.xxfy.informationaldxn.module.driving.domain.repository.DrivingDailyRepository;
 import com.joy.xxfy.informationaldxn.module.driving.domain.repository.DrivingFaceRepository;
 import com.joy.xxfy.informationaldxn.module.produce.domain.entity.ProduceCmDailyEntity;
 import com.joy.xxfy.informationaldxn.module.produce.domain.repository.ProduceCmDailyRepository;
 import com.joy.xxfy.informationaldxn.module.produce.domain.vo.*;
-import com.joy.xxfy.informationaldxn.module.produce.web.res.CmStatisticRes;
 import com.joy.xxfy.informationaldxn.module.produce.web.res.CpStatisticRes;
 import com.joy.xxfy.informationaldxn.module.system.domain.entity.UserEntity;
-import com.joy.xxfy.informationaldxn.module.system.domain.enums.UserTypeEnum;
 import com.joy.xxfy.informationaldxn.publish.constant.BigDecimalValueConstant;
 import com.joy.xxfy.informationaldxn.publish.constant.ExportConstant;
 import com.joy.xxfy.informationaldxn.publish.constant.ResultDataConstant;
@@ -45,6 +39,7 @@ import com.joy.xxfy.informationaldxn.publish.utils.excel.ExportUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import com.joy.xxfy.informationaldxn.module.produce.domain.vo.CmStatisticVo;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -72,9 +67,6 @@ public class CpStatisticService extends BaseService {
     @Autowired
     private DrivingFaceRepository drivingFaceRepository;
 
-    @Autowired
-    private DrivingDailyDetailRepository drivingDailyDetailRepository;
-
 
     @Autowired
     private BackMiningFaceRepository backMiningFaceRepository;
@@ -82,8 +74,6 @@ public class CpStatisticService extends BaseService {
     @Autowired
     private BackMiningDailyRepository backMiningDailyRepository;
 
-    @Autowired
-    private BackMiningDailyDetailRepository backMiningDailyDetailRepository;
 
     @Autowired
     private DrillWorkRepository drillWorkRepository;
@@ -108,14 +98,11 @@ public class CpStatisticService extends BaseService {
         // 依次处理每一个煤矿的数据
         List<CmPlatformEntity> cms = cmPlatformRepository.findAll();
         for (CmPlatformEntity cm : cms) {
-
             System.out.println("煤矿平台信息：" + cm);
             // 返回结果的子元素
             CpStatisticRes res = new CpStatisticRes();
-
             // == 填充平台名字
             res.setCmPlatformName(cm.getCmName());
-
             // == 填充统计数据
             // 子元素的子元素：统计数据部分
             List<CpStatisticVo> statisticData = new ArrayList<>();
@@ -219,31 +206,32 @@ public class CpStatisticService extends BaseService {
         for (BackMiningFaceEntity face : faces) {
             BackMiningStatisticVo vo = new BackMiningStatisticVo();
             // 获取该工作面对应的本日的日报信息
-            BackMiningDailyEntity daily = backMiningDailyRepository.findAllByBackMiningFaceAndDailyTime(face, time);
+            List<BackMiningDailyEntity> dailies = backMiningDailyRepository.findAllByBackMiningFaceAndDailyTime(face, time);
             // 若日报有填写, 获取日报详情信息
-            if(daily != null){
-                List<BackMiningDailyDetailEntity> details = backMiningDailyDetailRepository.findAllByBackMiningDaily(daily);
+            if(dailies.size() > 0){
+
                 // 同一个班次会出现很多次(因为队伍不同)，和平台不同的是，这里统计的是煤产量，而不是进尺。
-                for (BackMiningDailyDetailEntity detail : details) {
-                    switch (detail.getShifts()) {
+                for (BackMiningDailyEntity daily : dailies) {
+                    switch (daily.getShifts()) {
                         case MORNING:
                             // 进尺
-                            vo.setMorningOutput(vo.getMorningOutput().add(detail.getOutput()));
+                            vo.setMorningOutput(vo.getMorningOutput().add(daily.getOutput()));
                             break;
                         case NOON:
-                            vo.setNoonOutput(vo.getNoonOutput().add(detail.getOutput()));
+                            vo.setNoonOutput(vo.getNoonOutput().add(daily.getOutput()));
                             break;
                         case EVENING:
-                            vo.setEveningOutput(vo.getEveningOutput().add(detail.getOutput()));
+                            vo.setEveningOutput(vo.getEveningOutput().add(daily.getOutput()));
                             break;
                         default:break;
                     }
                     // 以日统计
-                    vo.setDayOutput(vo.getDayOutput().add(detail.getOutput()));
+                    vo.setDayOutput(vo.getDayOutput().add(daily.getOutput()));
                 }
             }
             // 统计月信息
-            CmStatisticVo temp = backMiningDailyRepository.statisticOutPut(face, DateUtil.getMonthFirstDay(time), DateUtil.getMonthLastDay(time));
+            String ym = DateUtil.getYMString(new Date(),false);
+            CmStatisticVo temp = backMiningDailyRepository.statisticOutput(face,ym);
              // 月累计产煤
             vo.setMonthOutput(temp.getMonthOutput() == null? BigDecimalValueConstant.ZERO : temp.getMonthOutput());
             // 工作面名称
@@ -277,31 +265,31 @@ public class CpStatisticService extends BaseService {
         for (DrivingFaceEntity face : faces) {
             DrivingStatisticVo vo = new DrivingStatisticVo();
             // 获取该工作面对应的本日的日报信息
-            DrivingDailyEntity daily = drivingDailyRepository.findAllByDrivingFaceAndDailyTime(face, time);
+            List<DrivingDailyEntity> dailies = drivingDailyRepository.findAllByDrivingFaceAndDailyTime(face, time);
             // 若日报有填写, 获取日报详情信息
-            if(daily != null){
-                List<DrivingDailyDetailEntity> details = drivingDailyDetailRepository.findAllByDrivingDaily(daily);
+            if(dailies.size() > 0){
                 // 不同队伍的统计
-                for (DrivingDailyDetailEntity detail : details) {
-                    switch (detail.getShifts()) {
+                for (DrivingDailyEntity daily : dailies) {
+                    switch (daily.getShifts()) {
                         case MORNING:
                             // 进尺
-                            vo.setMorningLength(vo.getMorningLength().add(detail.getDoneLength()));
+                            vo.setMorningLength(vo.getMorningLength().add(daily.getDoneLength()));
                             break;
                         case NOON:
-                            vo.setNoonLength(vo.getNoonLength().add(detail.getDoneLength()));
+                            vo.setNoonLength(vo.getNoonLength().add(daily.getDoneLength()));
                             break;
                         case EVENING:
-                            vo.setEveningLength(vo.getEveningLength().add(detail.getDoneLength()));
+                            vo.setEveningLength(vo.getEveningLength().add(daily.getDoneLength()));
                             break;
                         default:break;
                     }
                     // 日统计
-                    vo.setDayLength(vo.getDayLength().add(detail.getDoneLength()));
+                    vo.setDayLength(vo.getDayLength().add(daily.getDoneLength()));
                 }
             }
             // 统计月信息
-            DrivingStatisticVo monthData = drivingDailyRepository.statisticDoneLength(face, DateUtil.getMonthFirstDay(time), DateUtil.getMonthLastDay(time));
+            String ym = DateUtil.getYMString(new Date(),false);
+            DrivingStatisticVo monthData = drivingDailyRepository.statisticDoneLength(face, ym);
             vo.setMonthLength(monthData.getMonthLength() == null? BigDecimalValueConstant.ZERO :monthData.getMonthLength());
             // 工作面名称
             vo.setName(face.getDrivingFaceName());
@@ -341,7 +329,8 @@ public class CpStatisticService extends BaseService {
                 vo.setDayLength(vo.getDayLength().add(daily.getTotalDoneLength()));
             }
             // == 统计月信息
-            DrillStatisticVo temp = drillDailyRepository.statisticDoneLength(work, DateUtil.getMonthFirstDay(time), DateUtil.getMonthLastDay(time));
+            String ym = DateUtil.getYMString(new Date(),false);
+            DrillStatisticVo temp = drillDailyRepository.statisticDoneLength(work, ym);
             // 月累计进尺
             vo.setMonthLength(temp.getMonthLength() == null? BigDecimalValueConstant.ZERO :temp.getMonthLength());
             // 工作名称

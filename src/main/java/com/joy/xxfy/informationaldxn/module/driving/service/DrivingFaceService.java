@@ -51,7 +51,8 @@ public class DrivingFaceService {
         JoyBeanUtil.copyPropertiesIgnoreTargetNotNullProperties(req, drivingFaceInfo);
         // 长度计算：设计长度-已掘长度
         drivingFaceInfo.setLeftLength(req.getTotalLength().subtract(req.getDoneLength()));
-        LogUtil.info("Last drive face info is: {}", drivingFaceInfo);
+        // 进度计算
+        drivingFaceInfo.setProgress(RateUtil.compute(req.getDoneLength(), req.getTotalLength(), false));
         // save.
         drivingFaceInfo.setBelongCompany(loginUser.getCompany());
         return JoyResult.buildSuccessResultWithData(drivingFaceRepository.save(drivingFaceInfo));
@@ -71,6 +72,10 @@ public class DrivingFaceService {
             return JoyResult.buildFailedResult(Notice.DRIVING_FACE_NAME_ALREADY_EXIST);
         }
         JoyBeanUtil.copyPropertiesIgnoreSourceNullProperties(req, drivingFaceInfo);
+        // 长度计算：设计长度-已掘长度
+        drivingFaceInfo.setLeftLength(req.getTotalLength().subtract(req.getDoneLength()));
+        // 进度计算
+        drivingFaceInfo.setProgress(RateUtil.compute(req.getDoneLength(), req.getTotalLength(), false));
         drivingFaceInfo.setUpdateTime(new Date());
         // save.
         return JoyResult.buildSuccessResultWithData(drivingFaceRepository.save(drivingFaceInfo));
@@ -85,8 +90,8 @@ public class DrivingFaceService {
             return JoyResult.buildFailedResult(Notice.DRIVING_FACE_NOT_EXIST);
         }
         // 已添加日报的工作面无法删除（必须将日报删除了，才能删工作面）
-        List<DrivingDailyEntity> dailies = drivingDailyRepository.findAllByDrivingFace(drivingFaceInfo);
-        if(dailies.size() > 0){
+        DrivingDailyEntity daily = drivingDailyRepository.findFirstByDrivingFace(drivingFaceInfo);
+        if(daily != null){
             return JoyResult.buildFailedResult(Notice.DAILY_EXIST_CANT_DELETE);
         }
         drivingFaceInfo.setUpdateTime(new Date());

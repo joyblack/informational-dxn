@@ -5,10 +5,7 @@ import com.joy.xxfy.informationaldxn.module.common.web.req.IdReq;
 import com.joy.xxfy.informationaldxn.module.common.web.req.NameReq;
 import com.joy.xxfy.informationaldxn.module.driving.service.DrivingDailyService;
 import com.joy.xxfy.informationaldxn.module.driving.service.DrivingFaceService;
-import com.joy.xxfy.informationaldxn.module.driving.web.req.DrivingDailyAddReq;
-import com.joy.xxfy.informationaldxn.module.driving.web.req.DrivingFaceAddReq;
-import com.joy.xxfy.informationaldxn.module.driving.web.req.DrivingFaceGetListReq;
-import com.joy.xxfy.informationaldxn.module.driving.web.req.DrivingFaceUpdateReq;
+import com.joy.xxfy.informationaldxn.module.driving.web.req.*;
 import com.joy.xxfy.informationaldxn.publish.result.JoyResult;
 import com.joy.xxfy.informationaldxn.publish.result.Notice;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -69,6 +66,50 @@ public class DrivingDailyController extends BaseController {
         } else {
             // copy
             return drivingDailyService.get(req.getId(), getLoginUser(request));
+        }
+    }
+
+
+    /**
+     * 更新
+     */
+    @PostMapping(
+            value = "/update",
+            produces = {"application/json;charset=UTF-8"})
+    public JoyResult update(@RequestBody @Valid DrivingDailyUpdateReq req, BindingResult bindingResult, HttpServletRequest request) {
+        if (bindingResult.hasErrors()) {
+            return JoyResult.buildFailedResult(Notice.REQUEST_PARAMETER_IS_ERROR, bindingResult.getFieldError().getDefaultMessage());
+        } else {
+            // copy
+            return drivingDailyService.update(req, getLoginUser(request));
+        }
+    }
+
+    /**
+     * 获取分页数据
+     */
+    @PostMapping(
+            value = "/getPagerList",
+            produces = {"application/json;charset=UTF-8"})
+    public JoyResult getPagerList(@RequestBody @Valid DrivingDailyGetListReq req, BindingResult bindingResult, HttpServletRequest request) {
+        if (bindingResult.hasErrors()) {
+            return JoyResult.buildFailedResult(Notice.REQUEST_PARAMETER_IS_ERROR, bindingResult.getFieldError().getDefaultMessage());
+        } else {
+            return drivingDailyService.getPagerList(req, getLoginUser(request));
+        }
+    }
+
+    /**
+     * 获取所有数据
+     */
+    @PostMapping(
+            value = "/getAllList",
+            produces = {"application/json;charset=UTF-8"})
+    public JoyResult getAllList(@RequestBody @Valid DrivingDailyGetListReq req, BindingResult bindingResult, HttpServletRequest request) {
+        if (bindingResult.hasErrors()) {
+            return JoyResult.buildFailedResult(Notice.REQUEST_PARAMETER_IS_ERROR, bindingResult.getFieldError().getDefaultMessage());
+        } else {
+            return drivingDailyService.getAllList(req, getLoginUser(request));
         }
     }
 }

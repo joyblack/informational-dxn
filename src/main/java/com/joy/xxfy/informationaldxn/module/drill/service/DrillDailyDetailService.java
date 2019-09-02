@@ -54,7 +54,7 @@ public class DrillDailyDetailService {
         // 日报固定的情况下：班次、日期、队伍都固定了。
         DrillDailyDetailEntity exist = drillDailyDetailRepository.findAllByDrillDailyAndDrillHole(drillDaily, drillHole);
         if(exist != null){
-            return JoyResult.buildFailedResult(Notice.DAILY_DETAIL_ALREADY_EXIST);
+            return JoyResult.buildFailedResult(Notice.DAILY_ALREADY_EXIST);
         }
         // 验证打孔长度是否超标，获取钻孔的剩余长度
         // 若提交的长度需要小0
@@ -121,7 +121,7 @@ public class DrillDailyDetailService {
         // 获取打钻详情信息
         DrillDailyDetailEntity detail = drillDailyDetailRepository.findAllById(req.getId());
         if(detail == null){
-            return JoyResult.buildFailedResult(Notice.DAILY_DETAIL_NOT_EXIST);
+            return JoyResult.buildFailedResult(Notice.DAILY_NOT_EXIST);
         }
         // 若提交的长度需要大于0
         if(less(req.getDoneLength(), BigDecimal.ZERO)){
@@ -183,7 +183,7 @@ public class DrillDailyDetailService {
         // 获取日报详情信息
         DrillDailyDetailEntity detail = drillDailyDetailRepository.findAllById(id);
         if(detail == null){
-            return JoyResult.buildFailedResult(Notice.DAILY_DETAIL_NOT_EXIST);
+            return JoyResult.buildFailedResult(Notice.DAILY_NOT_EXIST);
         }
         DrillHoleEntity drillHole = detail.getDrillHole();
         DrillWorkEntity drillWork = drillHole.getDrillWork();

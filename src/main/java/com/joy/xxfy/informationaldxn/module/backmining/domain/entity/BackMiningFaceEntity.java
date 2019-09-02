@@ -61,6 +61,18 @@ public class BackMiningFaceEntity extends BaseEntity {
     @Column(nullable = false)
     private BigDecimal doneLength;
 
+    /**
+     * 剩余长度
+     */
+    @Column(nullable = false)
+    private BigDecimal leftLength;
+
+    /**
+     * 进度
+     */
+    @Column(nullable = false)
+    private String progress;
+
 
     /**
      * 采面走向长度

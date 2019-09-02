@@ -43,12 +43,6 @@ public class BackMiningFaceAddReq extends BaseAddReq {
 
 
     /**
-     * 已采长度
-     */
-    @NotNull(message = "已采长度不能为空")
-    private BigDecimal doneLength;
-
-    /**
      * 采面走向长度
      */
     private BigDecimal trendLength;

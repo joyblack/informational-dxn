@@ -58,6 +58,11 @@ public class DrivingFaceEntity extends BaseEntity {
     private BigDecimal leftLength;
 
     /**
+     * 进度
+     */
+    private String progress;
+
+    /**
      * 开掘日期
      */
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
