@@ -162,4 +162,15 @@ public class SafeInspectionController extends BaseController {
     public JoyResult getApproachRectification(HttpServletRequest req) {
         return safeInspectionService.getApproachRectification(getLoginUser(req));
     }
+
+    /**
+     * 获取本月状态统计信息
+     */
+    @PostMapping(
+            value = "/getThisMonthStatusCount",
+            produces = {"application/json;charset=UTF-8"})
+    public JoyResult getThisMonthStatusCount(HttpServletRequest req) {
+        return safeInspectionService.getThisMonthStatusCount(getLoginUser(req));
+    }
+
 }

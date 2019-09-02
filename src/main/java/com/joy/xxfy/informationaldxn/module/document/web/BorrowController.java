@@ -129,5 +129,25 @@ public class BorrowController extends BaseController {
         }
     }
 
+    /**
+     * 获取到底未归还信息数
+     */
+    @PostMapping(
+            value = "/getNotReturnNum",
+            produces = {"application/json;charset=UTF-8"})
+    public JoyResult getNotReturnNum(HttpServletRequest req) {
+        return borrowService.getNotReturnNum(getLoginUser(req));
+    }
+
+    /**
+     * 获取到底未归还信息
+     */
+    @PostMapping(
+            value = "/getNotReturn",
+            produces = {"application/json;charset=UTF-8"})
+    public JoyResult getNotReturn(HttpServletRequest req) {
+        return borrowService.getNotReturn(getLoginUser(req));
+    }
+
 
 }

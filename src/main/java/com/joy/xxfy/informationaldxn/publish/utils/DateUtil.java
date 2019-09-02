@@ -70,7 +70,22 @@ public class DateUtil {
         return ca.getTime();
     }
 
+    /**
+     * 获得指定日期的年月:yyyyMM
+     * fitZero：月份是否自动补0
+     */
+    public static String getYMString(Date currentTime,boolean fitZero){
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyyMM");
+        if(!fitZero){
+            dateFormat = new SimpleDateFormat("yyyyM");
+        }
+        return dateFormat.format(currentTime);
+    }
+
     public static void main(String[] args) {
-        System.out.println(addDay(new Date(), -32));
+        Calendar ca = Calendar.getInstance();
+        ca.setTime(new Date());
+        ca.add(Calendar.MONTH, 2);
+        System.out.println(getYMString(ca.getTime(), false));
     }
 }

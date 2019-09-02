@@ -11,6 +11,7 @@ import com.joy.xxfy.informationaldxn.module.system.domain.entity.UserEntity;
 import com.joy.xxfy.informationaldxn.publish.constant.ResultDataConstant;
 import com.joy.xxfy.informationaldxn.publish.result.JoyResult;
 import com.joy.xxfy.informationaldxn.publish.result.Notice;
+import com.joy.xxfy.informationaldxn.publish.utils.DateUtil;
 import com.joy.xxfy.informationaldxn.publish.utils.JoyBeanUtil;
 import com.joy.xxfy.informationaldxn.publish.utils.StringUtil;
 import com.joy.xxfy.informationaldxn.publish.utils.project.JpaPagerUtil;
@@ -158,5 +159,14 @@ public class BorrowService {
         }
         // 保存所有信息
         return JoyResult.buildSuccessResultWithData(borrowRepository.saveAll(borrows));
+    }
+
+    public JoyResult getNotReturnNum(UserEntity loginUser) {
+        // 是否超时、是否未归还
+        return JoyResult.buildSuccessResultWithData(borrowRepository.getNotReturn(CommonYesEnum.YES, CommonYesEnum.NO, loginUser.getCompany()).size());
+    }
+
+    public JoyResult getNotReturn(UserEntity loginUser) {
+        return JoyResult.buildSuccessResultWithData(borrowRepository.getNotReturn(CommonYesEnum.YES, CommonYesEnum.NO, loginUser.getCompany()));
     }
 }

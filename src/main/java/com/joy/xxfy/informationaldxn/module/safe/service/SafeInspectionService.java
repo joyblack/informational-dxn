@@ -6,13 +6,17 @@ import com.joy.xxfy.informationaldxn.module.department.domain.repository.Departm
 import com.joy.xxfy.informationaldxn.module.safe.domain.entity.SafeInspectionEntity;
 import com.joy.xxfy.informationaldxn.module.safe.domain.enums.RectificationStatusEnum;
 import com.joy.xxfy.informationaldxn.module.safe.domain.repository.SafeInspectionRepository;
+import com.joy.xxfy.informationaldxn.module.safe.domain.vo.RectificationStatusCountVo;
 import com.joy.xxfy.informationaldxn.module.safe.web.req.*;
+import com.joy.xxfy.informationaldxn.module.safe.web.res.ThisMonthStatusCountRes;
 import com.joy.xxfy.informationaldxn.module.system.domain.entity.UserEntity;
 import com.joy.xxfy.informationaldxn.publish.constant.ResultDataConstant;
 import com.joy.xxfy.informationaldxn.publish.result.JoyResult;
 import com.joy.xxfy.informationaldxn.publish.result.Notice;
+import com.joy.xxfy.informationaldxn.publish.utils.ComputeUtils;
 import com.joy.xxfy.informationaldxn.publish.utils.DateUtil;
 import com.joy.xxfy.informationaldxn.publish.utils.JoyBeanUtil;
+import com.joy.xxfy.informationaldxn.publish.utils.RateUtil;
 import com.joy.xxfy.informationaldxn.publish.utils.project.JpaPagerUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.domain.Specification;
@@ -282,10 +286,39 @@ public class SafeInspectionService {
     }
 
     public JoyResult getApproachRectificationNum(UserEntity loginUser) {
-        return JoyResult.buildSuccessResultWithData(safeInspectionRepository.getAllApproach(RectificationStatusEnum.RECTIFICATION_NO, new Date()).size());
+        return JoyResult.buildSuccessResultWithData(safeInspectionRepository.getAllApproach(RectificationStatusEnum.RECTIFICATION_NO, new Date(),loginUser.getCompany()).size());
     }
 
     public JoyResult getApproachRectification(UserEntity loginUser) {
-        return JoyResult.buildSuccessResultWithData(safeInspectionRepository.getAllApproach(RectificationStatusEnum.RECTIFICATION_NO, new Date()));
+        return JoyResult.buildSuccessResultWithData(safeInspectionRepository.getAllApproach(RectificationStatusEnum.RECTIFICATION_NO, new Date(),loginUser.getCompany()));
+    }
+
+
+    public JoyResult getThisMonthStatusCount(UserEntity loginUser) {
+        // 不想自动补0，为了个数据库进行搭配
+        String ym = DateUtil.getYMString(new Date(),false);
+        List<RectificationStatusCountVo> rectificationStatusCountVos = safeInspectionRepository.rectificationStatusCountByMonth(loginUser.getCompany(), ym);
+        // 组装返回数据：总数、已整改、未整改、整改率
+        ThisMonthStatusCountRes res = new ThisMonthStatusCountRes();
+        for (RectificationStatusCountVo vo : rectificationStatusCountVos) {
+            if(vo.getRectificationStatusEnum().equals(RectificationStatusEnum.RECTIFICATION_NO)){
+                res.setNoNumber(vo.getCt());
+            }
+            if(vo.getRectificationStatusEnum().equals(RectificationStatusEnum.RECTIFICATION_YES)){
+                res.setYesNumber(vo.getCt());
+            }
+        }
+        // 若没有数据的设置
+        if(res.getNoNumber() == null){
+            res.setNoNumber(0L);
+        }
+        if(res.getYesNumber() == null){
+            res.setYesNumber(0L);
+        }
+        // 总数统计
+        res.setTotalNumber(res.getNoNumber() + res.getYesNumber());
+        // 完成率统计
+        res.setRate(RateUtil.compute(res.getYesNumber(), res.getTotalNumber(),true));
+        return JoyResult.buildSuccessResultWithData(res);
     }
 }
