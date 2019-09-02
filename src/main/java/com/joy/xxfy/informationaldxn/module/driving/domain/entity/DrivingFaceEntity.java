@@ -38,7 +38,6 @@ public class DrivingFaceEntity extends BaseEntity {
     @Column(nullable = false)
     private String drivingFaceName;
 
-
     /**
      * 设计长度(总长度)
      */

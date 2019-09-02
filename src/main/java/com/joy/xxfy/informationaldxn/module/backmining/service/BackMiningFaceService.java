@@ -7,12 +7,15 @@ import com.joy.xxfy.informationaldxn.module.backmining.domain.repository.BackMin
 import com.joy.xxfy.informationaldxn.module.backmining.web.req.BackMiningFaceAddReq;
 import com.joy.xxfy.informationaldxn.module.backmining.web.req.BackMiningFaceGetListReq;
 import com.joy.xxfy.informationaldxn.module.backmining.web.req.BackMiningFaceUpdateReq;
+import com.joy.xxfy.informationaldxn.module.common.domain.vo.WorkProgressVo;
+import com.joy.xxfy.informationaldxn.module.common.web.res.WorkProgressRes;
 import com.joy.xxfy.informationaldxn.module.system.domain.entity.UserEntity;
 import com.joy.xxfy.informationaldxn.publish.constant.BigDecimalValueConstant;
 import com.joy.xxfy.informationaldxn.publish.result.JoyResult;
 import com.joy.xxfy.informationaldxn.publish.result.Notice;
 import com.joy.xxfy.informationaldxn.publish.utils.JoyBeanUtil;
 import com.joy.xxfy.informationaldxn.publish.utils.LogUtil;
+import com.joy.xxfy.informationaldxn.publish.utils.RateUtil;
 import com.joy.xxfy.informationaldxn.publish.utils.StringUtil;
 import com.joy.xxfy.informationaldxn.publish.utils.project.JpaPagerUtil;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,6 +24,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.criteria.Predicate;
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -48,7 +52,7 @@ public class BackMiningFaceService {
         BackMiningFaceEntity info = new BackMiningFaceEntity();
         JoyBeanUtil.copyPropertiesIgnoreTargetNotNullProperties(req, info);
         // 已采长度：(回风顺槽 + 运输顺槽)/2
-        info.setDoneLength(info.getReturnAirChute().add(info.getTransportChute()).divide(BigDecimalValueConstant.TWO));
+        info.setDoneLength(info.getReturnAirChute().add(info.getTransportChute()).divide(BigDecimalValueConstant.TWO, BigDecimal.ROUND_HALF_UP));
         LogUtil.info("Last back mining face info is: {}", info);
         // save.
         info.setBelongCompany(loginUser.getCompany());
@@ -70,7 +74,7 @@ public class BackMiningFaceService {
         }
         JoyBeanUtil.copyPropertiesIgnoreSourceNullProperties(req, info);
         // 计算已采长度
-        info.setDoneLength(info.getReturnAirChute().add(info.getTransportChute()).divide(BigDecimalValueConstant.TWO));
+        info.setDoneLength(info.getReturnAirChute().add(info.getTransportChute()).divide(BigDecimalValueConstant.TWO, BigDecimal.ROUND_HALF_UP));
         // 修改时间
         info.setUpdateTime(new Date());
         // save.
@@ -152,5 +156,26 @@ public class BackMiningFaceService {
             }
             return builder.and(predicates.toArray(new Predicate[predicates.size()]));
         };
+    }
+
+    /**
+     * 工作完成进度，目前全统计
+     */
+    public JoyResult getWorkProgress(UserEntity loginUser) {
+        List<WorkProgressVo> workProgress = backMiningFaceRepository.getWorkProgress(loginUser.getCompany());
+        // 装配返回数据
+        List<WorkProgressRes> result = new ArrayList<>();
+        for (WorkProgressVo progress : workProgress) {
+            WorkProgressRes res = new WorkProgressRes();
+            res.setDoneLength(progress.getDoneLength());
+            res.setTotalLength(progress.getTotalLength());
+            res.setWorkName(progress.getWorkName());
+            // 计算剩余、百分比
+            res.setLeftLength(res.getTotalLength().subtract(res.getDoneLength()));
+            res.setProgress(RateUtil.compute(res.getDoneLength(), res.getTotalLength(),false));
+            res.setProgressUsePercent(RateUtil.compute(res.getDoneLength(), res.getTotalLength(),true));
+            result.add(res);
+        }
+        return JoyResult.buildSuccessResultWithData(result);
     }
 }

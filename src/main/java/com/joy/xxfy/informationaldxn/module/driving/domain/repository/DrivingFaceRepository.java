@@ -1,6 +1,7 @@
 package com.joy.xxfy.informationaldxn.module.driving.domain.repository;
 
 import com.joy.xxfy.informationaldxn.module.common.domain.repository.BaseRepository;
+import com.joy.xxfy.informationaldxn.module.common.domain.vo.WorkProgressVo;
 import com.joy.xxfy.informationaldxn.module.department.domain.entity.DepartmentEntity;
 import com.joy.xxfy.informationaldxn.module.driving.domain.entity.DrivingFaceEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -27,5 +28,9 @@ public interface DrivingFaceRepository extends BaseRepository<DrivingFaceEntity>
     @Query("select distinct(d.drivingFace) from DrivingDailyEntity d where d.dailyTime = :dailyTime and d.drivingFace.belongCompany = :belongCompany")
     List<DrivingFaceEntity> findAllByDailyTimeAndBelongCompany(@Param("dailyTime") Date dailyTime, @Param("belongCompany") DepartmentEntity belongCompany);
 
-
+    /**
+     * 统计工作完成进度信息
+     */
+    @Query("select new com.joy.xxfy.informationaldxn.module.common.domain.vo.WorkProgressVo(w.drivingFaceName, w.doneLength, w.totalLength) from DrivingFaceEntity w where w.belongCompany = :belongCompany")
+    List<WorkProgressVo> getWorkProgress(@Param("belongCompany") DepartmentEntity belongCompany);
 }

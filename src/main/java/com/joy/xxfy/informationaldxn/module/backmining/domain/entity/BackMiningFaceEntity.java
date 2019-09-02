@@ -37,7 +37,7 @@ public class BackMiningFaceEntity extends BaseEntity {
     private String backMiningFaceName;
 
     /**
-     * 采面斜长
+     * 采面斜长，也是总长
      */
     @Column(nullable = false)
     private BigDecimal slopeLength;

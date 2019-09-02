@@ -128,4 +128,14 @@ public class BackMiningFaceController extends BaseController {
             return backMiningFaceService.getAllList(req,getLoginUser(request));
         }
     }
+
+    /**
+     * 获取统计进度信息
+     */
+    @PostMapping(
+            value = "/getWorkProgress",
+            produces = {"application/json;charset=UTF-8"})
+    public JoyResult getWorkProgress(HttpServletRequest request) {
+        return backMiningFaceService.getWorkProgress(getLoginUser(request));
+    }
 }
