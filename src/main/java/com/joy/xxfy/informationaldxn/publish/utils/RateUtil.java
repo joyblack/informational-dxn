@@ -22,7 +22,10 @@ public class RateUtil {
     }
 
     public static String compute(Long var1, Long val2, boolean withPercent){
-        double result = var1.doubleValue() / val2.doubleValue();
+        double result = 0;
+        if(!val2.equals(0L)){
+            result = var1.doubleValue() / val2.doubleValue();
+        }
         if(withPercent){
             return nf.format(result);
         }else{
@@ -31,8 +34,10 @@ public class RateUtil {
     }
 
     public static String compute(BigDecimal var1, BigDecimal val2, boolean withPercent){
-        BigDecimal result = var1.divide(val2, RoundingMode.HALF_UP);
-        System.out.println(result);
+        BigDecimal result = BigDecimal.ZERO;
+        if(!(val2.compareTo(BigDecimal.ZERO) == 0)){
+            result = var1.divide(val2, RoundingMode.HALF_UP);
+        }
         if(withPercent){
             return nf.format(result);
         }else{
