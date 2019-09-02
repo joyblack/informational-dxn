@@ -79,6 +79,11 @@ public class DrillWorkEntity extends BaseEntity {
     private BigDecimal totalLength;
 
     /**
+     * 进度
+     */
+    private String progress;
+
+    /**
      * 已打总量
      */
     private BigDecimal totalDoneLength;

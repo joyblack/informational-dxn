@@ -24,13 +24,13 @@ import javax.validation.Valid;
 public class StatisticController extends BaseController {
     @Autowired
     private StatisticService statisticService;
-//    /**
-//     * 添加
-//     */
-//    @RequestMapping(value = "/getTodayOutput")
-//    public JoyResult getTodayOutput( HttpServletRequest request) {
-//        return statisticService.getTodayOutput(getLoginUser(request));
-//    }
+    /**
+     * 统计今日产煤
+     */
+    @RequestMapping(value = "/getTodayOutput")
+    public JoyResult getTodayOutput( HttpServletRequest request) {
+        return statisticService.getTodayOutput(getLoginUser(request));
+    }
 
 
 

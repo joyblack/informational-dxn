@@ -72,6 +72,8 @@ public class DrillWorkService {
         info.setTotalDoneLength(BigDecimalValueConstant.ZERO);
         // 未打总量：钻孔总量 - 已打总量
         info.setTotalLeftLength(info.getTotalLength().subtract(info.getTotalDoneLength()));
+        // 进度
+        info.setProgress(RateUtil.compute(info.getTotalDoneLength(), info.getTotalLength(),false));
         // 所属平台
         info.setBelongCompany(loginUser.getCompany());
         DrillWorkEntity save = drillWorkRepository.save(info);

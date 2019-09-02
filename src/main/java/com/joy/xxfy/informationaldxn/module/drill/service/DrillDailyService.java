@@ -66,8 +66,7 @@ public class DrillDailyService {
         DrillDailyEntity drillDailyEntity = new DrillDailyEntity();
         JoyBeanUtil.copyPropertiesIgnoreSourceNullProperties(req, drillDailyEntity);
         // 当日打钻总量
-        drillDailyEntity.setTotalDoneLength(BigDecimal.ZERO
-        );
+        drillDailyEntity.setTotalDoneLength(BigDecimal.ZERO);
         drillDailyEntity.setDrillTeam(drillTeam);
         drillDailyEntity.setDrillWork(drillWorkInfo);
         // 添加信息

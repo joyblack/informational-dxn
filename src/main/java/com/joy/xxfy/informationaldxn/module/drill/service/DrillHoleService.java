@@ -16,6 +16,7 @@ import com.joy.xxfy.informationaldxn.publish.result.JoyResult;
 import com.joy.xxfy.informationaldxn.publish.result.Notice;
 import com.joy.xxfy.informationaldxn.publish.utils.ComputeUtils;
 import com.joy.xxfy.informationaldxn.publish.utils.JoyBeanUtil;
+import com.joy.xxfy.informationaldxn.publish.utils.RateUtil;
 import com.joy.xxfy.informationaldxn.publish.utils.project.JpaPagerUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.domain.Specification;
@@ -72,6 +73,8 @@ public class DrillHoleService {
         // 已打总量: 不变
         // 未打总量：钻孔总量 - 已打总量 = 当前未打总量 + req.totalLength
         drillWork.setTotalLeftLength(drillWork.getTotalLength().subtract(drillWork.getTotalDoneLength()));
+        // 进度
+        drillWork.setProgress(RateUtil.compute(drillWork.getTotalDoneLength(), drillWork.getTotalLength(),false));
         // 修改时间
         drillWork.setUpdateTime(new Date());
         // 设置关联
@@ -106,6 +109,8 @@ public class DrillHoleService {
                 drillWork.setTotalLength(drillWork.getTotalLength().add(info.getTotalLength().subtract(req.getTotalLength())));
                 // 未打总量：钻孔总量 - 已打总量
                 drillWork.setTotalLeftLength(drillWork.getTotalLength().subtract(drillWork.getTotalDoneLength()));
+                // 进度
+                drillWork.setProgress(RateUtil.compute(drillWork.getTotalDoneLength(), drillWork.getTotalLength(),false));
             }
         }
 
@@ -145,6 +150,8 @@ public class DrillHoleService {
             // 已打总量: 不变
             // 未打总量
             drillWork.setTotalLeftLength(drillWork.getTotalLength().subtract(drillWork.getTotalDoneLength()));
+            // 进度
+            drillWork.setProgress(RateUtil.compute(drillWork.getTotalDoneLength(), drillWork.getTotalLength(),false));
         }
         info.setIsDelete(true);
         drillHoleRepository.save(info);

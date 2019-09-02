@@ -62,6 +62,12 @@ public class DrillHoleEntity extends BaseEntity {
     private BigDecimal leftLength;
 
     /**
+     * 进度
+     */
+    @Column(nullable = false)
+    private String progress;
+
+    /**
      * 倾角
      */
     private BigDecimal dipAngle;

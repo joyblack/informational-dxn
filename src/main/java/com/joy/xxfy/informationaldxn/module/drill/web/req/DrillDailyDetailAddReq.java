@@ -29,8 +29,6 @@ public class DrillDailyDetailAddReq extends BaseAddReq {
     @NotNull(message = "打孔长度不能为空")
     private BigDecimal doneLength;
 
-
-
     /**
      * 所属的日报信息
      */

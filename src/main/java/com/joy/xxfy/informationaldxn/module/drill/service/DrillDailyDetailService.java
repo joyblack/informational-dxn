@@ -15,6 +15,7 @@ import com.joy.xxfy.informationaldxn.publish.constant.ResultDataConstant;
 import com.joy.xxfy.informationaldxn.publish.result.JoyResult;
 import com.joy.xxfy.informationaldxn.publish.result.Notice;
 import com.joy.xxfy.informationaldxn.publish.utils.ComputeUtils;
+import com.joy.xxfy.informationaldxn.publish.utils.RateUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -163,6 +164,8 @@ public class DrillDailyDetailService {
         drillWork.setNotCompletedDrillHoleNumber(drillWork.getTotalDrillHoleNumber() - drillWork.getCompletedDrillHoleNumber());
         // 未打总量：钻孔总量 - 已打总量
         drillWork.setTotalLeftLength(drillWork.getTotalLength().subtract(drillWork.getTotalDoneLength()));
+        // 进度
+        drillWork.setProgress(RateUtil.compute(drillWork.getTotalDoneLength(), drillWork.getTotalLength(),false));
 
         // == 修改打钻详情信息
         // 工作长度
@@ -217,6 +220,8 @@ public class DrillDailyDetailService {
         drillWork.setTotalDoneLength(drillWork.getTotalDoneLength().subtract(detail.getDoneLength()));
         // 未打总量：钻孔总量 - 已打总量
         drillWork.setTotalLeftLength(drillWork.getTotalLength().subtract(drillWork.getTotalDoneLength()));
+        // 进度
+        drillWork.setProgress(RateUtil.compute(drillWork.getTotalDoneLength(), drillWork.getTotalLength(),false));
 
         // 软删除
         detail.setIsDelete(true);

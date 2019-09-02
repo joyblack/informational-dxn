@@ -7,6 +7,7 @@ import com.joy.xxfy.informationaldxn.module.driving.domain.entity.DrivingDailyEn
 import com.joy.xxfy.informationaldxn.module.driving.domain.entity.DrivingFaceEntity;
 import com.joy.xxfy.informationaldxn.module.produce.domain.vo.CmStatisticVo;
 import com.joy.xxfy.informationaldxn.module.produce.domain.vo.DrivingStatisticVo;
+import com.joy.xxfy.informationaldxn.module.produce.domain.vo.StatisticOutputVo;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -67,4 +68,15 @@ public interface DrivingDailyRepository extends BaseRepository<DrivingDailyEntit
     DrivingStatisticVo statisticDoneLength(@Param("face") DrivingFaceEntity drivingFace, @Param("ym")String ym);
 
 
+    /**
+     * 今日累计产煤
+     */
+    @Query("select new com.joy.xxfy.informationaldxn.module.produce.domain.vo.StatisticOutputVo(sum(d.output)) from DrivingDailyEntity d where d.dailyTime = :dailyTime and d.drivingFace.belongCompany = :belongCompany")
+    StatisticOutputVo statisticTodayOutput(@Param("belongCompany") DepartmentEntity belongCompany, @Param("dailyTime") Date dailyTime);
+
+    /**
+     * 今日早中晚班次累计产煤
+     */
+    @Query("select new com.joy.xxfy.informationaldxn.module.produce.domain.vo.StatisticOutputVo(d.shifts, sum(d.output)) from DrivingDailyEntity d where d.dailyTime = :dailyTime and d.drivingFace.belongCompany = :belongCompany group by d.shifts")
+    List<StatisticOutputVo> statisticTodayOutputGroupByShifts(@Param("belongCompany") DepartmentEntity belongCompany, @Param("dailyTime") Date dailyTime);
 }

@@ -67,6 +67,7 @@ public class DateUtil {
         ca.set(Calendar.HOUR_OF_DAY, 0);
         ca.set(Calendar.MINUTE, 0);
         ca.set(Calendar.SECOND, 0);
+        ca.set(Calendar.MILLISECOND,0);
         return ca.getTime();
     }
 
@@ -95,5 +96,16 @@ public class DateUtil {
         ca.setTime(new Date());
         ca.add(Calendar.MONTH, 2);
         System.out.println(getYMString(ca.getTime(), false));
+    }
+
+    /**
+     * 指定年月日获取时间
+     */
+    public static Date getDate(int year, int month, int day){
+        Calendar ca = Calendar.getInstance();
+        ca.set(year,month -1, day,0,0,0);
+        // 不要微秒时间
+        ca.set(Calendar.MILLISECOND,0);
+        return ca.getTime();
     }
 }
