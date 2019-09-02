@@ -173,4 +173,14 @@ public class SafeInspectionController extends BaseController {
         return safeInspectionService.getThisMonthStatusCount(getLoginUser(req));
     }
 
+    /**
+     * 获取本月状态统计信息
+     */
+    @PostMapping(
+            value = "/getPerMonthTotalCount",
+            produces = {"application/json;charset=UTF-8"})
+    public JoyResult getPerMonthTotalCount(HttpServletRequest req) {
+        return safeInspectionService.getPerMonthTotalCount(getLoginUser(req));
+    }
+
 }

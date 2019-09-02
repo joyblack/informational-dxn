@@ -6,6 +6,7 @@ import com.joy.xxfy.informationaldxn.module.department.domain.repository.Departm
 import com.joy.xxfy.informationaldxn.module.safe.domain.entity.SafeInspectionEntity;
 import com.joy.xxfy.informationaldxn.module.safe.domain.enums.RectificationStatusEnum;
 import com.joy.xxfy.informationaldxn.module.safe.domain.repository.SafeInspectionRepository;
+import com.joy.xxfy.informationaldxn.module.safe.domain.vo.PerMonthTotalCountVo;
 import com.joy.xxfy.informationaldxn.module.safe.domain.vo.RectificationStatusCountVo;
 import com.joy.xxfy.informationaldxn.module.safe.web.req.*;
 import com.joy.xxfy.informationaldxn.module.safe.web.res.ThisMonthStatusCountRes;
@@ -18,6 +19,7 @@ import com.joy.xxfy.informationaldxn.publish.utils.DateUtil;
 import com.joy.xxfy.informationaldxn.publish.utils.JoyBeanUtil;
 import com.joy.xxfy.informationaldxn.publish.utils.RateUtil;
 import com.joy.xxfy.informationaldxn.publish.utils.project.JpaPagerUtil;
+import com.joy.xxfy.informationaldxn.publish.utils.project.StatisticYMFitUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
@@ -320,5 +322,13 @@ public class SafeInspectionService {
         // 完成率统计
         res.setRate(RateUtil.compute(res.getYesNumber(), res.getTotalNumber(),true));
         return JoyResult.buildSuccessResultWithData(res);
+    }
+
+
+    public JoyResult getPerMonthTotalCount(UserEntity loginUser) {
+        // 不想自动补0，为了个数据库进行搭配
+        String year = DateUtil.getYearString(new Date());
+        List<PerMonthTotalCountVo> perMonthTotalCount = safeInspectionRepository.getPerMonthTotalCount(loginUser.getCompany(), Integer.valueOf(year));
+        return JoyResult.buildSuccessResultWithData(StatisticYMFitUtil.format(perMonthTotalCount));
     }
 }

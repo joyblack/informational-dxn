@@ -82,6 +82,14 @@ public class DateUtil {
         return dateFormat.format(currentTime);
     }
 
+    /**
+     * 获得指定日期的年份
+     */
+    public static String getYearString(Date time){
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy");
+        return dateFormat.format(time);
+    }
+
     public static void main(String[] args) {
         Calendar ca = Calendar.getInstance();
         ca.setTime(new Date());

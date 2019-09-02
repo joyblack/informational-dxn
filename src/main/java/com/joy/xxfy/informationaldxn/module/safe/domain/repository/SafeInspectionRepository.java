@@ -5,6 +5,7 @@ import com.joy.xxfy.informationaldxn.module.common.enums.CommonYesEnum;
 import com.joy.xxfy.informationaldxn.module.department.domain.entity.DepartmentEntity;
 import com.joy.xxfy.informationaldxn.module.safe.domain.entity.SafeInspectionEntity;
 import com.joy.xxfy.informationaldxn.module.safe.domain.enums.RectificationStatusEnum;
+import com.joy.xxfy.informationaldxn.module.safe.domain.vo.PerMonthTotalCountVo;
 import com.joy.xxfy.informationaldxn.module.safe.domain.vo.RectificationStatusCountVo;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
@@ -36,4 +37,11 @@ public interface SafeInspectionRepository extends BaseRepository<SafeInspectionE
      */
     @Query("select new com.joy.xxfy.informationaldxn.module.safe.domain.vo.RectificationStatusCountVo(s.rectificationStatus,count(s.id)) from SafeInspectionEntity s where s.inspectCompany = :inspectCompany and concat(year(s.inspectTime), month(s.inspectTime))  = :month group by s.rectificationStatus")
     List<RectificationStatusCountVo> rectificationStatusCountByMonth(@Param("inspectCompany") DepartmentEntity inspectCompany, @Param("month") String month);
+
+    /**
+     * 统计本年度巡检总数，按月份分组
+     */
+    @Query("select new com.joy.xxfy.informationaldxn.module.safe.domain.vo.PerMonthTotalCountVo(month(s.inspectTime),count(s.id)) from SafeInspectionEntity s where s.inspectCompany = :inspectCompany and year(s.inspectTime) = :year group by month(s.inspectTime)")
+    List<PerMonthTotalCountVo> getPerMonthTotalCount(@Param("inspectCompany") DepartmentEntity inspectCompany, @Param("year") Integer year);
+
 }
