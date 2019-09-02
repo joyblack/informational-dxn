@@ -1,5 +1,7 @@
 package com.joy.xxfy.informationaldxn.module.drill.service;
 
+import com.joy.xxfy.informationaldxn.module.common.domain.vo.WorkProgressVo;
+import com.joy.xxfy.informationaldxn.module.common.web.res.WorkProgressRes;
 import com.joy.xxfy.informationaldxn.module.drill.domain.entity.DrillDailyEntity;
 import com.joy.xxfy.informationaldxn.module.drill.domain.entity.DrillWorkEntity;
 import com.joy.xxfy.informationaldxn.module.drill.domain.repository.DrillDailyRepository;
@@ -17,6 +19,7 @@ import com.joy.xxfy.informationaldxn.publish.result.JoyResult;
 import com.joy.xxfy.informationaldxn.publish.result.Notice;
 import com.joy.xxfy.informationaldxn.publish.utils.JoyBeanUtil;
 import com.joy.xxfy.informationaldxn.publish.utils.LogUtil;
+import com.joy.xxfy.informationaldxn.publish.utils.RateUtil;
 import com.joy.xxfy.informationaldxn.publish.utils.StringUtil;
 import com.joy.xxfy.informationaldxn.publish.utils.project.JpaPagerUtil;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -202,5 +205,26 @@ public class DrillWorkService {
             }
             return builder.and(predicates.toArray(new Predicate[predicates.size()]));
         };
+    }
+
+    /**
+     * 工作完成进度，目前全统计
+     */
+    public JoyResult getWorkProgress(UserEntity loginUser) {
+        List<WorkProgressVo> workProgress = drillWorkRepository.getWorkProgress(loginUser.getCompany());
+        // 装配返回数据
+        List<WorkProgressRes> result = new ArrayList<>();
+        for (WorkProgressVo progress : workProgress) {
+            WorkProgressRes res = new WorkProgressRes();
+            res.setDoneLength(progress.getDoneLength());
+            res.setTotalLength(progress.getTotalLength());
+            res.setWorkName(progress.getWorkName());
+            // 计算剩余、百分比
+            res.setLeftLength(res.getTotalLength().subtract(res.getDoneLength()));
+            res.setProgress(RateUtil.compute(res.getDoneLength(), res.getTotalLength(),false));
+            res.setProgressUsePercent(RateUtil.compute(res.getDoneLength(), res.getTotalLength(),true));
+            result.add(res);
+        }
+        return JoyResult.buildSuccessResultWithData(result);
     }
 }

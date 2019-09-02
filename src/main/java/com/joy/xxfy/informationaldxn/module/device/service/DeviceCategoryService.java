@@ -65,6 +65,7 @@ public class DeviceCategoryService {
         category.setParent(false);
         category.setCategoryName(req.getCategoryName());
         category.setBelongCompany(belongCompany);
+        category.setRemarks(req.getRemarks());
 
         DeviceCategoryEntity save = deviceCategoryRepository.save(category);
         // 通过ID回写路径信息
@@ -91,6 +92,7 @@ public class DeviceCategoryService {
 
         info.setCategoryName(req.getCategoryName());
         info.setUpdateTime(new Date());
+        info.setRemarks(req.getRemarks());
         return JoyResult.buildSuccessResultWithData(deviceCategoryRepository.save(info));
     }
 
