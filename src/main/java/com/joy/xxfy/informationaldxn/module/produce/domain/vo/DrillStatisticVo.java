@@ -15,8 +15,8 @@ public class DrillStatisticVo {
     private String name;
 
     // 打钻进尺
-    private BigDecimal dayLength= BigDecimal.ZERO;
-    private BigDecimal monthLength= BigDecimal.ZERO;
+    private BigDecimal dayLength = BigDecimal.ZERO;
+    private BigDecimal monthLength = BigDecimal.ZERO;
 
     public DrillStatisticVo() {
     }

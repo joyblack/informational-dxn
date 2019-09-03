@@ -1,21 +1,13 @@
 package com.joy.xxfy.informationaldxn.module.statistic.service;
 
 import com.joy.xxfy.informationaldxn.module.backmining.domain.repository.BackMiningDailyRepository;
-import com.joy.xxfy.informationaldxn.module.backmining.domain.repository.BackMiningFaceRepository;
-import com.joy.xxfy.informationaldxn.module.cmplatform.domain.repository.CmPlatformRepository;
-import com.joy.xxfy.informationaldxn.module.statistic.domain.vo.IkAndBvVo;
-import com.joy.xxfy.informationaldxn.module.statistic.domain.vo.ShiftsAndBValueVo;
-import com.joy.xxfy.informationaldxn.module.statistic.domain.vo.SingleValueVo;
-import com.joy.xxfy.informationaldxn.module.statistic.domain.vo.SkAndBvVo;
 import com.joy.xxfy.informationaldxn.module.common.enums.DailyShiftEnum;
 import com.joy.xxfy.informationaldxn.module.department.domain.entity.DepartmentEntity;
-import com.joy.xxfy.informationaldxn.module.drill.domain.repository.DrillDailyRepository;
-import com.joy.xxfy.informationaldxn.module.drill.domain.repository.DrillWorkRepository;
 import com.joy.xxfy.informationaldxn.module.driving.domain.repository.DrivingDailyRepository;
-import com.joy.xxfy.informationaldxn.module.driving.domain.repository.DrivingFaceRepository;
-import com.joy.xxfy.informationaldxn.module.produce.domain.repository.ProduceCmDailyRepository;
-import com.joy.xxfy.informationaldxn.module.produce.web.res.GetThisMonthLengthRes;
-import com.joy.xxfy.informationaldxn.module.produce.web.res.GetTodayLengthRes;
+import com.joy.xxfy.informationaldxn.module.statistic.domain.vo.KeyAndValueVo;
+import com.joy.xxfy.informationaldxn.module.statistic.domain.vo.SingleValueVo;
+import com.joy.xxfy.informationaldxn.module.statistic.web.res.GetThisMonthLengthRes;
+import com.joy.xxfy.informationaldxn.module.statistic.web.res.GetTodayLengthRes;
 import com.joy.xxfy.informationaldxn.module.system.domain.entity.UserEntity;
 import com.joy.xxfy.informationaldxn.publish.result.JoyResult;
 import com.joy.xxfy.informationaldxn.publish.utils.DateUtil;
@@ -24,38 +16,18 @@ import com.joy.xxfy.informationaldxn.publish.utils.format.AntVFormatUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
 @Service
 public class StatisticLengthService {
-
-    @Autowired
-    private ProduceCmDailyRepository produceCmDailyRepository;
-
     @Autowired
     private DrivingDailyRepository drivingDailyRepository;
 
     @Autowired
-    private DrivingFaceRepository drivingFaceRepository;
-
-    @Autowired
-    private BackMiningFaceRepository backMiningFaceRepository;
-
-    @Autowired
     private BackMiningDailyRepository backMiningDailyRepository;
-
-    @Autowired
-    private DrillWorkRepository drillWorkRepository;
-
-    @Autowired
-    private DrillDailyRepository drillDailyRepository;
-
-    @Autowired
-    private CmPlatformRepository cmPlatformRepository;
-
-
 
     /**
      * 统计今日进尺：回采 + 掘进
@@ -66,8 +38,9 @@ public class StatisticLengthService {
         /**
          * 按班次统计
          */
-        List<ShiftsAndBValueVo> sd = drivingDailyRepository.statisticTodayLengthGroupByShifts(belongCompany, now);
-        List<ShiftsAndBValueVo> sm = backMiningDailyRepository.statisticTodayLengthGroupByShifts(belongCompany, now);
+
+        List<KeyAndValueVo<DailyShiftEnum, BigDecimal>> sd = drivingDailyRepository.statisticTodayLengthGroupByShifts(belongCompany, now);
+        List<KeyAndValueVo<DailyShiftEnum, BigDecimal>> sm = backMiningDailyRepository.statisticTodayLengthGroupByShifts(belongCompany, now);
 
         /**
          * 返回结果
@@ -77,14 +50,14 @@ public class StatisticLengthService {
          * 第一个数组元素代表今日累计掘进数据
          */
         GetTodayLengthRes driving = new GetTodayLengthRes();
-        for (ShiftsAndBValueVo vo : sd) {
-            if(vo.getShifts().equals(DailyShiftEnum.MORNING)){
+        for (KeyAndValueVo<DailyShiftEnum, BigDecimal> vo : sd) {
+            if(vo.getKey().equals(DailyShiftEnum.MORNING)){
                 driving.setMorningLength(TransferValueUtil.get(vo.getValue()));
             }
-            if(vo.getShifts().equals(DailyShiftEnum.NOON)){
+            if(vo.getKey().equals(DailyShiftEnum.NOON)){
                 driving.setNoonLength(TransferValueUtil.get(vo.getValue()));
             }
-            if(vo.getShifts().equals(DailyShiftEnum.EVENING)){
+            if(vo.getKey().equals(DailyShiftEnum.EVENING)){
                 driving.setEveningLength(TransferValueUtil.get(vo.getValue()));
             }
         }
@@ -97,14 +70,14 @@ public class StatisticLengthService {
          * 第二个数组元素代表今日回采数据
          */
         GetTodayLengthRes mining = new GetTodayLengthRes();
-        for (ShiftsAndBValueVo vo : sm) {
-            if(vo.getShifts().equals(DailyShiftEnum.MORNING)){
+        for (KeyAndValueVo<DailyShiftEnum, BigDecimal> vo : sm) {
+            if(vo.getKey().equals(DailyShiftEnum.MORNING)){
                 mining.setMorningLength(TransferValueUtil.get(vo.getValue()));
             }
-            if(vo.getShifts().equals(DailyShiftEnum.NOON)){
+            if(vo.getKey().equals(DailyShiftEnum.NOON)){
                 mining.setNoonLength(TransferValueUtil.get(vo.getValue()));
             }
-            if(vo.getShifts().equals(DailyShiftEnum.EVENING)){
+            if(vo.getKey().equals(DailyShiftEnum.EVENING)){
                 mining.setEveningLength(TransferValueUtil.get(vo.getValue()));
             }
         }
@@ -128,8 +101,8 @@ public class StatisticLengthService {
         /**
          * 分别统计掘进、回采产煤
          */
-        List<SkAndBvVo> driving = drivingDailyRepository.statisticEveryDayLengthByTimeZone(belongCompany, start, end);
-        List<SkAndBvVo> mining = backMiningDailyRepository.statisticEveryDayLengthByTimeZone(belongCompany, start, end);
+        List<KeyAndValueVo<String, BigDecimal>> driving = drivingDailyRepository.statisticEveryDayLengthByTimeZone(belongCompany, start, end);
+        List<KeyAndValueVo<String, BigDecimal>> mining = backMiningDailyRepository.statisticEveryDayLengthByTimeZone(belongCompany, start, end);
         return JoyResult.buildSuccessResultWithData(AntVFormatUtil.formatNear15DayOutput(driving, mining,start));
     }
 
@@ -146,15 +119,15 @@ public class StatisticLengthService {
         /**
          * 掘进、回采
          */
-        SingleValueVo driving = drivingDailyRepository.statisticThisMonthLength(belongCompany, start, end);
-        SingleValueVo mining = backMiningDailyRepository.statisticThisMonthLength(belongCompany, start, end);
+        SingleValueVo<BigDecimal> driving = drivingDailyRepository.statisticThisMonthLength(belongCompany, start, end);
+        SingleValueVo<BigDecimal> mining = backMiningDailyRepository.statisticThisMonthLength(belongCompany, start, end);
 
         /**
          * 返回结果
          */
         GetThisMonthLengthRes res = new GetThisMonthLengthRes();
-        res.setDrivingLength(TransferValueUtil.get(driving.getBigDecimalValue()));
-        res.setMiningLength(TransferValueUtil.get(mining.getBigDecimalValue()));
+        res.setDrivingLength(TransferValueUtil.get(driving.getValue()));
+        res.setMiningLength(TransferValueUtil.get(mining.getValue()));
         return JoyResult.buildSuccessResultWithData(res);
     }
 
@@ -170,8 +143,8 @@ public class StatisticLengthService {
         /**
          * 分别统计月度掘进、回采进尺
          */
-        List<IkAndBvVo> driving = drivingDailyRepository.statisticEveryMonthLengthByTimeZone(belongCompany, start, end);
-        List<IkAndBvVo> mining = backMiningDailyRepository.statisticEveryMonthLengthByTimeZone(belongCompany, start, end);
+        List<KeyAndValueVo<Integer, BigDecimal>> driving = drivingDailyRepository.statisticEveryMonthLengthByTimeZone(belongCompany, start, end);
+        List<KeyAndValueVo<Integer, BigDecimal>> mining = backMiningDailyRepository.statisticEveryMonthLengthByTimeZone(belongCompany, start, end);
         return JoyResult.buildSuccessResultWithData(AntVFormatUtil.formatEveryMonthLength(driving, mining));
     }
 

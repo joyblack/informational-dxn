@@ -5,20 +5,16 @@ import lombok.ToString;
 
 import java.math.BigDecimal;
 
-/**
- * k - string
- * v - bigDecimal
- */
 @Data
 @ToString
-public class SkAndBvVo {
-    private String key;
-    private BigDecimal value;
+public class KeyAndValueVo<T,V> {
+    private T key;
+    private V value;
 
-    public SkAndBvVo() {
+    public KeyAndValueVo() {
     }
 
-    public SkAndBvVo(String key, BigDecimal value) {
+    public KeyAndValueVo(T key, V value) {
         this.key = key;
         this.value = value;
     }

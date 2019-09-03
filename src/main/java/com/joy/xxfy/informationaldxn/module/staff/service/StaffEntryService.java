@@ -165,7 +165,7 @@ public class StaffEntryService extends BaseService {
         // 查看用户是否在系统中
         StaffPersonalEntity personalCheck= staffPersonalRepository.findAllByIdNumber(personalInfo.getIdNumber());
         if(personalCheck == null){
-            LogUtil.info("个人信息第一次录入.");
+            LogUtil.info("Personal information first login in system.");
             // 新增个人信息
             personalInfo = staffPersonalRepository.save(personalInfo);
             // 审核状态为通过，可能以后需要查找黑名单
@@ -180,7 +180,6 @@ public class StaffEntryService extends BaseService {
                 return JoyResult.buildFailedResult(Notice.STAFF_ALREADY_IN_DEPARTMENT);
             }
             // 记录审核的原因
-
             // 黑名单校验
             StaffBlacklistEntity blacklist = staffBlacklistRepository.findFirstByStaffPersonal(personalCheck);
             if(blacklist != null){
@@ -466,10 +465,7 @@ public class StaffEntryService extends BaseService {
             );
             rows.add(row);
         }
-        // rows.add(CollUtil.newArrayList("合计", "", "", "",regularAttendanceEntity.getTotal().toString(),"" ));
         ExcelWriter writer = ExcelUtil.getWriter();
-        // 合并列
-        //writer.merge(ExportConstant.FIELD_STAFF_ENTRY.length - 1, regularAttendanceEntity.getDepartment().getName() + simpleDateFormat.format(regularAttendanceEntity.getDateTime()) + "考勤记录");
         writer.write(rows, true);
         String fileName = "员工入职信息表";
         ExportUtil.exportData(request, response, fileName, writer);

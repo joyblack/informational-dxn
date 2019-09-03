@@ -1,4 +1,4 @@
-package com.joy.xxfy.informationaldxn.module.produce.web.res;
+package com.joy.xxfy.informationaldxn.module.statistic.web.res;
 
 import lombok.Data;
 import lombok.ToString;

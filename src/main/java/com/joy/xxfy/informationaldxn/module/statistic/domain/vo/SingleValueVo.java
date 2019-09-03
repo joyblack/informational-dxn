@@ -7,25 +7,13 @@ import java.math.BigDecimal;
 
 @Data
 @ToString
-public class SingleValueVo {
-    private Integer intValue;
-
-    private Long longValue;
-
-    private BigDecimal bigDecimalValue;
+public class SingleValueVo<T> {
+    private T value;
 
     public SingleValueVo() {
     }
 
-    public SingleValueVo(Integer intValue) {
-        this.intValue = intValue;
-    }
-
-    public SingleValueVo(Long longValue) {
-        this.longValue = longValue;
-    }
-
-    public SingleValueVo(BigDecimal bigDecimalValue) {
-        this.bigDecimalValue = bigDecimalValue;
+    public SingleValueVo(T value) {
+        this.value = value;
     }
 }

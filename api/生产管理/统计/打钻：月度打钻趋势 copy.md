@@ -2,7 +2,7 @@
 统计月度数据，需要注意的是，由于前年没有数据信息，因此在此处我们不展示同比数据（红色折线），因此只需展示堆叠柱状图即可。
 
 # 访问地址
-produce-statistic/getEveryMonthLength
+statistic-drill/getEveryMonth
 
 # 请求参数
 
@@ -27,123 +27,51 @@ JSON
     "detailMessage": "",
     "data": [
         {
-            "name": "今年掘进",
-            "month": "01月",
+            "name": "01月",
             "value": 0
         },
         {
-            "name": "今年掘进",
-            "month": "02月",
+            "name": "02月",
             "value": 0
         },
         {
-            "name": "今年掘进",
-            "month": "03月",
+            "name": "03月",
             "value": 0
         },
         {
-            "name": "今年掘进",
-            "month": "04月",
+            "name": "04月",
             "value": 0
         },
         {
-            "name": "今年掘进",
-            "month": "05月",
+            "name": "05月",
             "value": 0
         },
         {
-            "name": "今年掘进",
-            "month": "06月",
+            "name": "06月",
             "value": 0
         },
         {
-            "name": "今年掘进",
-            "month": "07月",
+            "name": "07月",
             "value": 0
         },
         {
-            "name": "今年掘进",
-            "month": "08月",
-            "value": 1300.00
-        },
-        {
-            "name": "今年掘进",
-            "month": "09月",
-            "value": 2558.00
-        },
-        {
-            "name": "今年掘进",
-            "month": "10月",
+            "name": "08月",
             "value": 0
         },
         {
-            "name": "今年掘进",
-            "month": "11月",
+            "name": "09月",
             "value": 0
         },
         {
-            "name": "今年掘进",
-            "month": "12月",
+            "name": "10月",
             "value": 0
         },
         {
-            "name": "今年回采",
-            "month": "01月",
+            "name": "11月",
             "value": 0
         },
         {
-            "name": "今年回采",
-            "month": "02月",
-            "value": 0
-        },
-        {
-            "name": "今年回采",
-            "month": "03月",
-            "value": 0
-        },
-        {
-            "name": "今年回采",
-            "month": "04月",
-            "value": 0
-        },
-        {
-            "name": "今年回采",
-            "month": "05月",
-            "value": 0
-        },
-        {
-            "name": "今年回采",
-            "month": "06月",
-            "value": 0
-        },
-        {
-            "name": "今年回采",
-            "month": "07月",
-            "value": 0
-        },
-        {
-            "name": "今年回采",
-            "month": "08月",
-            "value": 2500.00
-        },
-        {
-            "name": "今年回采",
-            "month": "09月",
-            "value": 2500.00
-        },
-        {
-            "name": "今年回采",
-            "month": "10月",
-            "value": 0
-        },
-        {
-            "name": "今年回采",
-            "month": "11月",
-            "value": 0
-        },
-        {
-            "name": "今年回采",
-            "month": "12月",
+            "name": "12月",
             "value": 0
         }
     ],

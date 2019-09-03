@@ -1,9 +1,9 @@
 package com.joy.xxfy.informationaldxn.publish.utils.format;
 
-import com.joy.xxfy.informationaldxn.module.statistic.domain.vo.IkAndBvVo;
-import com.joy.xxfy.informationaldxn.module.statistic.domain.vo.SkAndBvVo;
+import com.joy.xxfy.informationaldxn.module.common.web.res.NameValueRes;
 import com.joy.xxfy.informationaldxn.module.safe.domain.vo.PerMonthStringTotalCountVo;
 import com.joy.xxfy.informationaldxn.module.safe.domain.vo.PerMonthTotalCountVo;
+import com.joy.xxfy.informationaldxn.module.statistic.domain.vo.KeyAndValueVo;
 import com.joy.xxfy.informationaldxn.publish.utils.DateUtil;
 
 import java.math.BigDecimal;
@@ -13,6 +13,48 @@ import java.util.*;
  * 本工具类目的是将返回数据包装为AntV需求的数据格式
  */
 public class AntVFormatUtil {
+
+    /**
+     * 最近15日打钻
+     */
+    public static List<KeyAndValueVo<String,BigDecimal>> formatNear15DayLength(List<KeyAndValueVo<String,BigDecimal>> drill, Date start){
+        List<KeyAndValueVo<String,BigDecimal>> res = new ArrayList<>();
+        // 数据
+        for (int i = 0; i < 15; i++) {
+            Date now = DateUtil.addDay(start, i);
+            String md = DateUtil.getMDString(now, false); // 5-20
+            BigDecimal v = BigDecimal.ZERO;
+            for (KeyAndValueVo<String,BigDecimal> d : drill) {
+                if(d.getKey().equals(md)){
+                    v = d.getValue();
+                    drill.remove(v);
+                    break;
+                }
+            }
+            res.add(new KeyAndValueVo<>(md, v));
+        }
+        return res;
+    }
+
+    /**
+     * 打钻月度格式化
+     */
+    public static List<NameValueRes<BigDecimal>> formatDrillEveryMonth(List<KeyAndValueVo<Integer,BigDecimal>> drill){
+        List<NameValueRes<BigDecimal>> result = new ArrayList<>();
+        for (int month = 1; month <= 12; month++) {
+            BigDecimal ct = BigDecimal.ZERO;
+            for (KeyAndValueVo<Integer,BigDecimal> datum : drill) {
+                if(datum.getKey().equals(month)){
+                    ct = datum.getValue();
+                    drill.remove(datum);
+                    break;
+                }
+            }
+            result.add(new NameValueRes<>(FormatToStringValueUtil.addLeftZero(month) + "月", ct));
+        }
+        return result;
+    }
+
     /**
      * 月度巡检柱状图,月份使用字符串形式，并添加补全0，以及月这样的信息
      */
@@ -27,7 +69,7 @@ public class AntVFormatUtil {
                     break;
                 }
             }
-            result.add(new PerMonthStringTotalCountVo(FormatToStringValueUtil.addLeftZero(month) + " 月", ct));
+            result.add(new PerMonthStringTotalCountVo(FormatToStringValueUtil.addLeftZero(month) + "月", ct));
         }
         return result;
     }
@@ -47,7 +89,7 @@ public class AntVFormatUtil {
      *     ...
      *   }];
      */
-    public static List<Map<String, Object>> formatNear15DayOutput(List<SkAndBvVo> driving, List<SkAndBvVo> mining, Date start){
+    public static List<Map<String, Object>> formatNear15DayOutput(List<KeyAndValueVo<String,BigDecimal>> driving, List<KeyAndValueVo<String,BigDecimal>> mining, Date start){
         List<Map<String, Object>> res = new ArrayList<>();
         // 返回数据
         Map<String, Object> dr = new LinkedHashMap<>();
@@ -61,14 +103,14 @@ public class AntVFormatUtil {
             String md = DateUtil.getMDString(now, false); // 5-20
             BigDecimal drV = BigDecimal.ZERO;
             BigDecimal miV = BigDecimal.ZERO;
-            for (SkAndBvVo v : driving) {
+            for (KeyAndValueVo<String,BigDecimal> v : driving) {
                 if(v.getKey().equals(md)){
                     drV = v.getValue();
                     driving.remove(v);
                     break;
                 }
             }
-            for (SkAndBvVo v : mining) {
+            for (KeyAndValueVo<String,BigDecimal> v : mining) {
                 if(v.getKey().equals(md)){
                     miV = v.getValue();
                     driving.remove(v);
@@ -83,6 +125,8 @@ public class AntVFormatUtil {
         res.add(mi);
         return res;
     }
+
+
 
     /**
      * 最近15日采进尺
@@ -99,7 +143,7 @@ public class AntVFormatUtil {
      *     ...
      *   }];
      */
-    public static List<Map<String, Object>> formatNear15DayLength(List<SkAndBvVo> driving, List<SkAndBvVo> mining, Date start){
+    public static List<Map<String, Object>> formatNear15DayLength(List<KeyAndValueVo<String,BigDecimal>> driving, List<KeyAndValueVo<String,BigDecimal>> mining, Date start){
         List<Map<String, Object>> res = new ArrayList<>();
         // 返回数据
         Map<String, Object> dr = new LinkedHashMap<>();
@@ -113,14 +157,14 @@ public class AntVFormatUtil {
             String md = DateUtil.getMDString(now, false); // 5-20
             BigDecimal drV = BigDecimal.ZERO;
             BigDecimal miV = BigDecimal.ZERO;
-            for (SkAndBvVo v : driving) {
+            for (KeyAndValueVo<String,BigDecimal> v : driving) {
                 if(v.getKey().equals(md)){
                     drV = v.getValue();
                     driving.remove(v);
                     break;
                 }
             }
-            for (SkAndBvVo v : mining) {
+            for (KeyAndValueVo<String,BigDecimal> v : mining) {
                 if(v.getKey().equals(md)){
                     miV = v.getValue();
                     driving.remove(v);
@@ -156,7 +200,7 @@ public class AntVFormatUtil {
      *     "月均降雨量": 23.2
      * },
      */
-    public static List<Map<String, Object>> formatEveryMonthOutput(List<IkAndBvVo> driving, List<IkAndBvVo> mining) {
+    public static List<Map<String, Object>> formatEveryMonthOutput(List<KeyAndValueVo<Integer,BigDecimal>> driving, List<KeyAndValueVo<Integer,BigDecimal>> mining) {
         List<Map<String, Object>> res = new ArrayList<>();
         /**
          * 本年度掘进
@@ -164,7 +208,7 @@ public class AntVFormatUtil {
         for (int month = 1; month <= 12; month++) {
             Map<String, Object> map = new LinkedHashMap<>();
             BigDecimal v = BigDecimal.ZERO;
-            for (IkAndBvVo datum : driving) {
+            for (KeyAndValueVo<Integer,BigDecimal> datum : driving) {
                 if(datum.getKey().equals(month)){
                     v = datum.getValue();
                     driving.remove(datum);
@@ -182,7 +226,7 @@ public class AntVFormatUtil {
         for (int month = 1; month <= 12; month++) {
             Map<String, Object> map = new LinkedHashMap<>();
             BigDecimal v = BigDecimal.ZERO;
-            for (IkAndBvVo datum : mining) {
+            for (KeyAndValueVo<Integer,BigDecimal> datum : mining) {
                 if(datum.getKey().equals(month)){
                     v = datum.getValue();
                     driving.remove(datum);
@@ -217,7 +261,7 @@ public class AntVFormatUtil {
      *     "月均降雨量": 23.2
      * },
      */
-    public static List<Map<String, Object>> formatEveryMonthLength(List<IkAndBvVo> driving, List<IkAndBvVo> mining) {
+    public static List<Map<String, Object>> formatEveryMonthLength(List<KeyAndValueVo<Integer,BigDecimal>> driving, List<KeyAndValueVo<Integer,BigDecimal>> mining) {
         List<Map<String, Object>> res = new ArrayList<>();
         /**
          * 本年度掘进
@@ -225,7 +269,7 @@ public class AntVFormatUtil {
         for (int month = 1; month <= 12; month++) {
             Map<String, Object> map = new LinkedHashMap<>();
             BigDecimal v = BigDecimal.ZERO;
-            for (IkAndBvVo datum : driving) {
+            for (KeyAndValueVo<Integer,BigDecimal> datum : driving) {
                 if(datum.getKey().equals(month)){
                     v = datum.getValue();
                     driving.remove(datum);
@@ -243,7 +287,7 @@ public class AntVFormatUtil {
         for (int month = 1; month <= 12; month++) {
             Map<String, Object> map = new LinkedHashMap<>();
             BigDecimal v = BigDecimal.ZERO;
-            for (IkAndBvVo datum : mining) {
+            for (KeyAndValueVo<Integer,BigDecimal> datum : mining) {
                 if(datum.getKey().equals(month)){
                     v = datum.getValue();
                     driving.remove(datum);
