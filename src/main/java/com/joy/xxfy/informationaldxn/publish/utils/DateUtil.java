@@ -12,10 +12,14 @@ public class DateUtil {
      */
     public static Date getMonthFirstDay(Date time){
         // 获取前月的第一天
-        Calendar cale = Calendar.getInstance();
-        cale.setTime(time);
-        cale.set(Calendar.DAY_OF_MONTH, 1);
-        return cale.getTime();
+        Calendar ca = Calendar.getInstance();
+        ca.setTime(time);
+        ca.set(Calendar.DAY_OF_MONTH,1);
+        ca.set(Calendar.HOUR_OF_DAY, 0);
+        ca.set(Calendar.MINUTE, 0);
+        ca.set(Calendar.SECOND, 0);
+        ca.set(Calendar.MILLISECOND,0);
+        return ca.getTime();
     }
 
     /**
@@ -23,12 +27,15 @@ public class DateUtil {
      */
     public static Date getMonthLastDay(Date time)
     {
-        Calendar cale = Calendar.getInstance();
-        cale.setTime(time);
-        //获取某月最大天数
-        //设置日历中月份的最大天数
-        cale.set(Calendar.DAY_OF_MONTH, cale.getActualMaximum(Calendar.DAY_OF_MONTH));
-        return cale.getTime();
+        Calendar ca = Calendar.getInstance();
+        ca.setTime(time);
+        //获取某月最大天数: 设置日历中月份的最大天数
+        ca.set(Calendar.DAY_OF_MONTH, ca.getActualMaximum(Calendar.DAY_OF_MONTH));
+        ca.set(Calendar.HOUR_OF_DAY, 0);
+        ca.set(Calendar.MINUTE, 0);
+        ca.set(Calendar.SECOND, 0);
+        ca.set(Calendar.MILLISECOND,0);
+        return ca.getTime();
     }
 
     /**
@@ -73,13 +80,13 @@ public class DateUtil {
     }
 
     /**
-     * 获得指年初时间
+     * 获得指定日期年初时间
      */
     public static Date getDateYearStart(Date currentTime){
         Calendar ca = Calendar.getInstance();
         ca.setTime(currentTime);
         ca.set(Calendar.MONTH, 0);
-        ca.set(Calendar.DAY_OF_MONTH,0);
+        ca.set(Calendar.DAY_OF_MONTH,1);
         ca.set(Calendar.HOUR_OF_DAY, 0);
         ca.set(Calendar.MINUTE, 0);
         ca.set(Calendar.SECOND, 0);
@@ -88,13 +95,13 @@ public class DateUtil {
     }
 
     /**
-     * 获得指定日期的零点时间
+     * 获得指定日期的年尾时间
      */
     public static Date getDateYearEnd(Date currentTime){
         Calendar ca = Calendar.getInstance();
         ca.setTime(currentTime);
         ca.set(Calendar.MONTH, 11);
-        ca.set(Calendar.DAY_OF_MONTH, 30);
+        ca.set(Calendar.DAY_OF_MONTH, 31);
         ca.set(Calendar.HOUR_OF_DAY, 23);
         ca.set(Calendar.MINUTE, 59);
         ca.set(Calendar.SECOND, 59);
@@ -149,7 +156,7 @@ public class DateUtil {
 
 
     public static void main(String[] args) {
-        System.out.println(getMDString(new Date(), true));
+        System.out.println(getDateYearStart(new Date()));
     }
 
 }

@@ -79,6 +79,6 @@ public class LicenceEntity extends BaseEntity {
     /**
      * 准采标高
      */
-    private BigDecimal mineElevation;
+    private String mineElevation;
 
 }

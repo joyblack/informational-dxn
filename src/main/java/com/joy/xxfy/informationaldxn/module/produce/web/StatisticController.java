@@ -25,7 +25,7 @@ public class StatisticController extends BaseController {
     @Autowired
     private StatisticService statisticService;
     /**
-     * 统计今日产煤
+     * 今日产煤
      */
     @RequestMapping(value = "/getTodayOutput")
     public JoyResult getTodayOutput( HttpServletRequest request) {
@@ -33,7 +33,7 @@ public class StatisticController extends BaseController {
     }
 
     /**
-     * 最近15日产煤趋势
+     * 最近15日：产煤
      */
     @RequestMapping(value = "/getNear15DayOutput")
     public JoyResult getNear15DayOutput( HttpServletRequest request) {
@@ -41,7 +41,40 @@ public class StatisticController extends BaseController {
     }
 
     /**
-     * 月度掘进回采趋势
+     * 本月累计产煤
+     */
+    @RequestMapping(value = "/getThisMonthOutput")
+    public JoyResult getThisMonthOutput( HttpServletRequest request) {
+        return statisticService.getThisMonthOutput(getLoginUser(request));
+    }
+
+    /**
+     * 月度产煤趋势：产煤
+     */
+    @RequestMapping(value = "/getEveryMonthOutput")
+    public JoyResult getEveryMonthOutput( HttpServletRequest request) {
+        return statisticService.getEveryMonthOutput(getLoginUser(request));
+    }
+
+
+    /**
+     * 今日进尺
+     */
+    @RequestMapping(value = "/getTodayLength")
+    public JoyResult getTodayLength( HttpServletRequest request) {
+        return statisticService.getTodayLength(getLoginUser(request));
+    }
+
+    /**
+     * 最近15日：进尺
+     */
+    @RequestMapping(value = "/getNear15DayLength")
+    public JoyResult getNear15DayLength( HttpServletRequest request) {
+        return statisticService.getNear15DayLength(getLoginUser(request));
+    }
+
+    /**
+     * 月度掘进回采趋势：进尺
      */
     @RequestMapping(value = "/getEveryMonthDoneLength")
     public JoyResult getEveryMonthDoneLength( HttpServletRequest request) {

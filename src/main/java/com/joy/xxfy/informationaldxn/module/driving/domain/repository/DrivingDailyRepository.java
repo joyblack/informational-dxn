@@ -1,8 +1,10 @@
 package com.joy.xxfy.informationaldxn.module.driving.domain.repository;
 
 import com.joy.xxfy.informationaldxn.module.common.domain.repository.BaseRepository;
-import com.joy.xxfy.informationaldxn.module.common.domain.vo.IkAndBvVo;
-import com.joy.xxfy.informationaldxn.module.common.domain.vo.SkAndBvVo;
+import com.joy.xxfy.informationaldxn.module.common.domain.vo.statistic.IkAndBvVo;
+import com.joy.xxfy.informationaldxn.module.common.domain.vo.statistic.ShiftsAndBValueVo;
+import com.joy.xxfy.informationaldxn.module.common.domain.vo.statistic.SingleValueVo;
+import com.joy.xxfy.informationaldxn.module.common.domain.vo.statistic.SkAndBvVo;
 import com.joy.xxfy.informationaldxn.module.common.enums.DailyShiftEnum;
 import com.joy.xxfy.informationaldxn.module.department.domain.entity.DepartmentEntity;
 import com.joy.xxfy.informationaldxn.module.driving.domain.entity.DrivingDailyEntity;
@@ -77,20 +79,53 @@ public interface DrivingDailyRepository extends BaseRepository<DrivingDailyEntit
     StatisticOutputVo statisticTodayOutput(@Param("belongCompany") DepartmentEntity belongCompany, @Param("dailyTime") Date dailyTime);
 
     /**
-     * 今日早中晚班次累计产煤
+     * 今日累计进尺
+     */
+    @Query("select new com.joy.xxfy.informationaldxn.module.common.domain.vo.statistic.SingleValueVo(sum(d.doneLength)) from DrivingDailyEntity d where d.dailyTime = :dailyTime and d.drivingFace.belongCompany = :belongCompany")
+    SingleValueVo statisticTodayLength(@Param("belongCompany") DepartmentEntity belongCompany, @Param("dailyTime") Date dailyTime);
+
+    /**
+     * 按时间区间统计累计产煤
+     */
+    @Query("select new com.joy.xxfy.informationaldxn.module.produce.domain.vo.StatisticOutputVo(sum(d.output)) from DrivingDailyEntity d where d.dailyTime between :start and :end and d.drivingFace.belongCompany = :belongCompany")
+    StatisticOutputVo statisticThisMonthOutput(@Param("belongCompany") DepartmentEntity belongCompany, @Param("start") Date start, @Param("end") Date end);
+
+
+    /**
+     * 早中晚班次累计产煤
      */
     @Query("select new com.joy.xxfy.informationaldxn.module.produce.domain.vo.StatisticOutputVo(d.shifts, sum(d.output)) from DrivingDailyEntity d where d.dailyTime = :dailyTime and d.drivingFace.belongCompany = :belongCompany group by d.shifts")
     List<StatisticOutputVo> statisticTodayOutputGroupByShifts(@Param("belongCompany") DepartmentEntity belongCompany, @Param("dailyTime") Date dailyTime);
 
     /**
+     * 早中晚班次累计进尺
+     */
+    @Query("select new com.joy.xxfy.informationaldxn.module.common.domain.vo.statistic.ShiftsAndBValueVo(d.shifts, sum(d.doneLength)) from DrivingDailyEntity d where d.dailyTime = :dailyTime and d.drivingFace.belongCompany = :belongCompany group by d.shifts")
+    List<ShiftsAndBValueVo> statisticTodayLengthGroupByShifts(@Param("belongCompany") DepartmentEntity belongCompany, @Param("dailyTime") Date dailyTime);
+
+    /**
      * 根据时间区间统计每一天的产煤量
      */
-    @Query("select new com.joy.xxfy.informationaldxn.module.common.domain.vo.SkAndBvVo(concat(month(d.dailyTime), '-', day(d.dailyTime)), sum(d.output)) from DrivingDailyEntity d where d.drivingFace.belongCompany = :belongCompany and d.dailyTime between :start and :end group by d.dailyTime")
+    @Query("select new com.joy.xxfy.informationaldxn.module.common.domain.vo.statistic.SkAndBvVo(concat(month(d.dailyTime), '-', day(d.dailyTime)), sum(d.output)) from DrivingDailyEntity d where d.drivingFace.belongCompany = :belongCompany and d.dailyTime between :start and :end group by d.dailyTime")
     List<SkAndBvVo> statisticEveryDayOutputByTimeZone(@Param("belongCompany") DepartmentEntity belongCompany, @Param("start") Date start, @Param("end") Date end);
+
+    /**
+     * 根据时间区间统计每一天的进尺
+     */
+    @Query("select new com.joy.xxfy.informationaldxn.module.common.domain.vo.statistic.SkAndBvVo(concat(month(d.dailyTime), '-', day(d.dailyTime)), sum(d.doneLength)) from DrivingDailyEntity d where d.drivingFace.belongCompany = :belongCompany and d.dailyTime between :start and :end group by d.dailyTime")
+    List<SkAndBvVo> statisticEveryDayLengthByTimeZone(@Param("belongCompany") DepartmentEntity belongCompany, @Param("start") Date start, @Param("end") Date end);
+
+
+    /**
+     * 根据时间区间统计每个月的产煤量
+     */
+    @Query("select new com.joy.xxfy.informationaldxn.module.common.domain.vo.statistic.IkAndBvVo(month(d.dailyTime), sum(d.output)) from DrivingDailyEntity d where d.drivingFace.belongCompany = :belongCompany and d.dailyTime between :start and :end group by month(d.dailyTime)")
+    List<IkAndBvVo> statisticEveryMonthOutputByTimeZone(@Param("belongCompany") DepartmentEntity belongCompany, @Param("start") Date start, @Param("end") Date end);
+
 
     /**
      * 根据时间区间统计每月进尺
      */
-    @Query("select new com.joy.xxfy.informationaldxn.module.common.domain.vo.IkAndBvVo(month(d.dailyTime), sum(d.doneLength)) from DrivingDailyEntity d where d.drivingFace.belongCompany = :belongCompany and d.dailyTime between :start and :end group by month(d.dailyTime)")
+    @Query("select new com.joy.xxfy.informationaldxn.module.common.domain.vo.statistic.IkAndBvVo(month(d.dailyTime), sum(d.doneLength)) from DrivingDailyEntity d where d.drivingFace.belongCompany = :belongCompany and d.dailyTime between :start and :end group by month(d.dailyTime)")
     List<IkAndBvVo> statisticEveryMonthLengthByTimeZone(@Param("belongCompany") DepartmentEntity belongCompany, @Param("start") Date start, @Param("end") Date end);
 }
