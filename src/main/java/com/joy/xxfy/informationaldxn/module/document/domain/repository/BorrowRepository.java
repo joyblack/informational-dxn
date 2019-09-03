@@ -7,6 +7,7 @@ import com.joy.xxfy.informationaldxn.module.document.domain.entity.BorrowEntity;
 import com.joy.xxfy.informationaldxn.module.document.domain.entity.FileEntity;
 import com.joy.xxfy.informationaldxn.module.document.domain.entity.LicenceEntity;
 import com.joy.xxfy.informationaldxn.module.document.domain.enums.PermissionTypeEnum;
+import com.joy.xxfy.informationaldxn.module.document.domain.enums.ReturnStatusEnum;
 import com.joy.xxfy.informationaldxn.module.safe.domain.enums.RectificationStatusEnum;
 import com.sun.tracing.dtrace.ProviderAttributes;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -28,7 +29,7 @@ public interface BorrowRepository extends BaseRepository<BorrowEntity>, JpaRepos
     @Modifying
     void updateIsOvertTimeByNowAndReturnStatus(@Param("isOverTimeNo") CommonYesEnum isOverTimeNo,
                                                       @Param("now") Date now,
-                                                      @Param("returnStatus") CommonYesEnum returnStatusNo);
+                                                      @Param("returnStatus") ReturnStatusEnum returnStatusNo);
 
     /**
      * 获取超时未归还
@@ -38,6 +39,6 @@ public interface BorrowRepository extends BaseRepository<BorrowEntity>, JpaRepos
      */
     @Query("select b from BorrowEntity b where b.isOverTime = :isOverTimeYes and b.returnStatus = :returnStatusNo and b.belongCompany = :belongCompany")
     List<BorrowEntity> getNotReturn(@Param("isOverTimeYes") CommonYesEnum isOverTimeYes,
-                                     @Param("returnStatusNo") CommonYesEnum returnStatusNo,
+                                     @Param("returnStatusNo") ReturnStatusEnum returnStatusNo,
                                      @Param("belongCompany") DepartmentEntity belongCompany);
 }

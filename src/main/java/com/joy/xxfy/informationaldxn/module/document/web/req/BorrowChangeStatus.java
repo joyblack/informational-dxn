@@ -4,6 +4,7 @@ import com.joy.xxfy.informationaldxn.module.common.enums.CommonStatusEnum;
 import com.joy.xxfy.informationaldxn.module.common.enums.CommonYesEnum;
 import com.joy.xxfy.informationaldxn.module.common.web.req.BaseUpdateReq;
 import com.joy.xxfy.informationaldxn.module.device.domain.enums.DeviceStatusEnum;
+import com.joy.xxfy.informationaldxn.module.document.domain.enums.ReturnStatusEnum;
 import lombok.Data;
 import lombok.ToString;
 
@@ -24,5 +25,5 @@ public class BorrowChangeStatus {
      * 归还状态
      */
     @NotNull(message = "归还状态不能为空")
-    private CommonYesEnum returnStatus;
+    private ReturnStatusEnum returnStatus;
 }

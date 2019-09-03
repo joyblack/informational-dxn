@@ -1,6 +1,8 @@
 package com.joy.xxfy.informationaldxn.module.driving.domain.repository;
 
 import com.joy.xxfy.informationaldxn.module.common.domain.repository.BaseRepository;
+import com.joy.xxfy.informationaldxn.module.common.domain.vo.IkAndBvVo;
+import com.joy.xxfy.informationaldxn.module.common.domain.vo.SkAndBvVo;
 import com.joy.xxfy.informationaldxn.module.common.enums.DailyShiftEnum;
 import com.joy.xxfy.informationaldxn.module.department.domain.entity.DepartmentEntity;
 import com.joy.xxfy.informationaldxn.module.driving.domain.entity.DrivingDailyEntity;
@@ -79,4 +81,16 @@ public interface DrivingDailyRepository extends BaseRepository<DrivingDailyEntit
      */
     @Query("select new com.joy.xxfy.informationaldxn.module.produce.domain.vo.StatisticOutputVo(d.shifts, sum(d.output)) from DrivingDailyEntity d where d.dailyTime = :dailyTime and d.drivingFace.belongCompany = :belongCompany group by d.shifts")
     List<StatisticOutputVo> statisticTodayOutputGroupByShifts(@Param("belongCompany") DepartmentEntity belongCompany, @Param("dailyTime") Date dailyTime);
+
+    /**
+     * 根据时间区间统计每一天的产煤量
+     */
+    @Query("select new com.joy.xxfy.informationaldxn.module.common.domain.vo.SkAndBvVo(concat(month(d.dailyTime), '-', day(d.dailyTime)), sum(d.output)) from DrivingDailyEntity d where d.drivingFace.belongCompany = :belongCompany and d.dailyTime between :start and :end group by d.dailyTime")
+    List<SkAndBvVo> statisticEveryDayOutputByTimeZone(@Param("belongCompany") DepartmentEntity belongCompany, @Param("start") Date start, @Param("end") Date end);
+
+    /**
+     * 根据时间区间统计每月进尺
+     */
+    @Query("select new com.joy.xxfy.informationaldxn.module.common.domain.vo.IkAndBvVo(month(d.dailyTime), sum(d.doneLength)) from DrivingDailyEntity d where d.drivingFace.belongCompany = :belongCompany and d.dailyTime between :start and :end group by month(d.dailyTime)")
+    List<IkAndBvVo> statisticEveryMonthLengthByTimeZone(@Param("belongCompany") DepartmentEntity belongCompany, @Param("start") Date start, @Param("end") Date end);
 }

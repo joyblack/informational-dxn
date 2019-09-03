@@ -1,6 +1,7 @@
 package com.joy.xxfy.informationaldxn.module.task.timing.document;
 
 import com.joy.xxfy.informationaldxn.module.common.enums.CommonYesEnum;
+import com.joy.xxfy.informationaldxn.module.document.domain.enums.ReturnStatusEnum;
 import com.joy.xxfy.informationaldxn.module.document.domain.repository.BorrowRepository;
 import com.joy.xxfy.informationaldxn.module.safe.domain.enums.RectificationStatusEnum;
 import com.joy.xxfy.informationaldxn.publish.utils.LogUtil;
@@ -29,7 +30,7 @@ public class BorrowTask {
         borrowRepository.updateIsOvertTimeByNowAndReturnStatus(
                 CommonYesEnum.YES, // 设置为超时
                 new Date(),// 超过当前时间
-                CommonYesEnum.NO// 只处理未归还的记录
+                ReturnStatusEnum.RETURN_STATUS_NO// 只处理未归还的记录
         );
     }
 }

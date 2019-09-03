@@ -18,6 +18,7 @@ import com.joy.xxfy.informationaldxn.publish.utils.ComputeUtils;
 import com.joy.xxfy.informationaldxn.publish.utils.DateUtil;
 import com.joy.xxfy.informationaldxn.publish.utils.JoyBeanUtil;
 import com.joy.xxfy.informationaldxn.publish.utils.RateUtil;
+import com.joy.xxfy.informationaldxn.publish.utils.format.AntVFormatUtil;
 import com.joy.xxfy.informationaldxn.publish.utils.project.JpaPagerUtil;
 import com.joy.xxfy.informationaldxn.publish.utils.project.StatisticYMFitUtil;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -329,6 +330,6 @@ public class SafeInspectionService {
         // 不想自动补0，为了个数据库进行搭配
         String year = DateUtil.getYearString(new Date());
         List<PerMonthTotalCountVo> perMonthTotalCount = safeInspectionRepository.getPerMonthTotalCount(loginUser.getCompany(), Integer.valueOf(year));
-        return JoyResult.buildSuccessResultWithData(StatisticYMFitUtil.format(perMonthTotalCount));
+        return JoyResult.buildSuccessResultWithData(AntVFormatUtil.formatWithKeyString(perMonthTotalCount));
     }
 }

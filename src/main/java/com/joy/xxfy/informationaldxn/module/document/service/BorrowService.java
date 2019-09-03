@@ -2,6 +2,7 @@ package com.joy.xxfy.informationaldxn.module.document.service;
 
 import com.joy.xxfy.informationaldxn.module.common.enums.CommonYesEnum;
 import com.joy.xxfy.informationaldxn.module.document.domain.entity.BorrowEntity;
+import com.joy.xxfy.informationaldxn.module.document.domain.enums.ReturnStatusEnum;
 import com.joy.xxfy.informationaldxn.module.document.domain.repository.BorrowRepository;
 import com.joy.xxfy.informationaldxn.module.document.web.req.BorrowAddReq;
 import com.joy.xxfy.informationaldxn.module.document.web.req.BorrowChangeStatus;
@@ -43,7 +44,7 @@ public class BorrowService {
         // 是否超时
         borrowInfo.setIsOverTime(CommonYesEnum.NO);
         // 是否归还
-        borrowInfo.setReturnStatus(CommonYesEnum.NO);
+        borrowInfo.setReturnStatus(ReturnStatusEnum.RETURN_STATUS_NO);
         // save.
         return JoyResult.buildSuccessResultWithData(borrowRepository.save(borrowInfo));
     }
@@ -163,10 +164,10 @@ public class BorrowService {
 
     public JoyResult getNotReturnNum(UserEntity loginUser) {
         // 是否超时、是否未归还
-        return JoyResult.buildSuccessResultWithData(borrowRepository.getNotReturn(CommonYesEnum.YES, CommonYesEnum.NO, loginUser.getCompany()).size());
+        return JoyResult.buildSuccessResultWithData(borrowRepository.getNotReturn(CommonYesEnum.YES, ReturnStatusEnum.RETURN_STATUS_NO, loginUser.getCompany()).size());
     }
 
     public JoyResult getNotReturn(UserEntity loginUser) {
-        return JoyResult.buildSuccessResultWithData(borrowRepository.getNotReturn(CommonYesEnum.YES, CommonYesEnum.NO, loginUser.getCompany()));
+        return JoyResult.buildSuccessResultWithData(borrowRepository.getNotReturn(CommonYesEnum.YES, ReturnStatusEnum.RETURN_STATUS_NO, loginUser.getCompany()));
     }
 }

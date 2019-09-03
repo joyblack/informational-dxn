@@ -67,6 +67,37 @@ public class DateUtil {
         ca.set(Calendar.HOUR_OF_DAY, 0);
         ca.set(Calendar.MINUTE, 0);
         ca.set(Calendar.SECOND, 0);
+        // 一定要将微妙置为0
+        ca.set(Calendar.MILLISECOND,0);
+        return ca.getTime();
+    }
+
+    /**
+     * 获得指年初时间
+     */
+    public static Date getDateYearStart(Date currentTime){
+        Calendar ca = Calendar.getInstance();
+        ca.setTime(currentTime);
+        ca.set(Calendar.MONTH, 0);
+        ca.set(Calendar.DAY_OF_MONTH,0);
+        ca.set(Calendar.HOUR_OF_DAY, 0);
+        ca.set(Calendar.MINUTE, 0);
+        ca.set(Calendar.SECOND, 0);
+        ca.set(Calendar.MILLISECOND,0);
+        return ca.getTime();
+    }
+
+    /**
+     * 获得指定日期的零点时间
+     */
+    public static Date getDateYearEnd(Date currentTime){
+        Calendar ca = Calendar.getInstance();
+        ca.setTime(currentTime);
+        ca.set(Calendar.MONTH, 11);
+        ca.set(Calendar.DAY_OF_MONTH, 30);
+        ca.set(Calendar.HOUR_OF_DAY, 23);
+        ca.set(Calendar.MINUTE, 59);
+        ca.set(Calendar.SECOND, 59);
         ca.set(Calendar.MILLISECOND,0);
         return ca.getTime();
     }
@@ -84,6 +115,18 @@ public class DateUtil {
     }
 
     /**
+     * 获取指定日期的月日
+     * fitZero：月份、日期是否自动补0
+     */
+    public static String getMDString(Date currentTime,boolean fitZero){
+        SimpleDateFormat dateFormat = new SimpleDateFormat("MM-dd");
+        if(!fitZero){
+            dateFormat = new SimpleDateFormat("M-d");
+        }
+        return dateFormat.format(currentTime);
+    }
+
+    /**
      * 获得指定日期的年份
      */
     public static String getYearString(Date time){
@@ -91,12 +134,7 @@ public class DateUtil {
         return dateFormat.format(time);
     }
 
-    public static void main(String[] args) {
-        Calendar ca = Calendar.getInstance();
-        ca.setTime(new Date());
-        ca.add(Calendar.MONTH, 2);
-        System.out.println(getYMString(ca.getTime(), false));
-    }
+
 
     /**
      * 指定年月日获取时间
@@ -108,4 +146,10 @@ public class DateUtil {
         ca.set(Calendar.MILLISECOND,0);
         return ca.getTime();
     }
+
+
+    public static void main(String[] args) {
+        System.out.println(getMDString(new Date(), true));
+    }
+
 }

@@ -3,6 +3,7 @@ package com.joy.xxfy.informationaldxn.module.document.web.req;
 import com.joy.xxfy.informationaldxn.module.common.enums.CommonYesEnum;
 import com.joy.xxfy.informationaldxn.module.common.web.req.BasePageReq;
 import com.joy.xxfy.informationaldxn.module.document.domain.enums.PermissionTypeEnum;
+import com.joy.xxfy.informationaldxn.module.document.domain.enums.ReturnStatusEnum;
 import lombok.Data;
 import lombok.ToString;
 
@@ -32,7 +33,7 @@ public class BorrowGetListReq extends BasePageReq {
     /**
      * 归还状态
      */
-    private CommonYesEnum returnStatus;
+    private ReturnStatusEnum returnStatus;
 
 
     /**

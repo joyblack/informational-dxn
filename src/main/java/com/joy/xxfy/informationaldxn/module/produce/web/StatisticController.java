@@ -32,6 +32,21 @@ public class StatisticController extends BaseController {
         return statisticService.getTodayOutput(getLoginUser(request));
     }
 
+    /**
+     * 最近15日产煤趋势
+     */
+    @RequestMapping(value = "/getNear15DayOutput")
+    public JoyResult getNear15DayOutput( HttpServletRequest request) {
+        return statisticService.getNear15DayOutput(getLoginUser(request));
+    }
+
+    /**
+     * 月度掘进回采趋势
+     */
+    @RequestMapping(value = "/getEveryMonthDoneLength")
+    public JoyResult getEveryMonthDoneLength( HttpServletRequest request) {
+        return statisticService.getEveryMonthLength(getLoginUser(request));
+    }
 
 
 }

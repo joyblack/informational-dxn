@@ -3,6 +3,8 @@ package com.joy.xxfy.informationaldxn.module.produce.service;
 import com.joy.xxfy.informationaldxn.module.backmining.domain.repository.BackMiningDailyRepository;
 import com.joy.xxfy.informationaldxn.module.backmining.domain.repository.BackMiningFaceRepository;
 import com.joy.xxfy.informationaldxn.module.cmplatform.domain.repository.CmPlatformRepository;
+import com.joy.xxfy.informationaldxn.module.common.domain.vo.IkAndBvVo;
+import com.joy.xxfy.informationaldxn.module.common.domain.vo.SkAndBvVo;
 import com.joy.xxfy.informationaldxn.module.common.enums.DailyShiftEnum;
 import com.joy.xxfy.informationaldxn.module.common.service.BaseService;
 import com.joy.xxfy.informationaldxn.module.department.domain.entity.DepartmentEntity;
@@ -17,6 +19,7 @@ import com.joy.xxfy.informationaldxn.module.system.domain.entity.UserEntity;
 import com.joy.xxfy.informationaldxn.publish.result.JoyResult;
 import com.joy.xxfy.informationaldxn.publish.utils.DateUtil;
 import com.joy.xxfy.informationaldxn.publish.utils.TransferValueUtil;
+import com.joy.xxfy.informationaldxn.publish.utils.format.AntVFormatUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -60,10 +63,7 @@ public class StatisticService extends BaseService {
      * 统计今日产煤：回采 + 掘进
      */
     public JoyResult getTodayOutput(UserEntity loginUser) {
-        // 当前时间
-        // 格式化时间
-        //Date now = DateUtil.getDateJustYMD(new Date());
-        Date now = DateUtil.getDate(2019,8,24);
+        Date now = DateUtil.getDateJustYMD(new Date());
         DepartmentEntity belongCompany = loginUser.getCompany();
         /**
          * 获取今日统计
@@ -110,5 +110,36 @@ public class StatisticService extends BaseService {
         }
 
         return JoyResult.buildSuccessResultWithData(res);
+    }
+
+    /**
+     * 最近15日产煤趋势
+     */
+    public JoyResult getNear15DayOutput(UserEntity loginUser) {
+        // 开始时间、截止时间
+        Date end = DateUtil.getDateJustYMD(new Date());
+        Date start = DateUtil.addDay(end, -15);
+        DepartmentEntity belongCompany = loginUser.getCompany();
+
+        /**
+         * 分别统计掘进、回采产煤
+         */
+        List<SkAndBvVo> driving = drivingDailyRepository.statisticEveryDayOutputByTimeZone(belongCompany, start, end);
+        List<SkAndBvVo> mining = backMiningDailyRepository.statisticEveryDayOutputByTimeZone(belongCompany, start, end);
+        return JoyResult.buildSuccessResultWithData(AntVFormatUtil.formatNear15DayOutput(driving, mining,start));
+    }
+
+    public JoyResult getEveryMonthLength(UserEntity loginUser) {
+        // 开始时间、截止时间
+        Date now = new Date();
+        Date start = DateUtil.getDateYearStart(now);
+        Date end = DateUtil.getDateYearEnd(now);
+        DepartmentEntity belongCompany = loginUser.getCompany();
+        /**
+         * 分别统计月度掘进、回采进尺
+         */
+        List<IkAndBvVo> driving = drivingDailyRepository.statisticEveryMonthLengthByTimeZone(belongCompany, start, end);
+        List<IkAndBvVo> mining = backMiningDailyRepository.statisticEveryMonthLengthByTimeZone(belongCompany, start, end);
+        return JoyResult.buildSuccessResultWithData(AntVFormatUtil.formatEveryMonthLength(driving, mining));
     }
 }
