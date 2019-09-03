@@ -1,4 +1,4 @@
-package com.joy.xxfy.informationaldxn.module.common.domain.vo.statistic;
+package com.joy.xxfy.informationaldxn.module.statistic.domain.vo;
 
 import lombok.Data;
 import lombok.ToString;

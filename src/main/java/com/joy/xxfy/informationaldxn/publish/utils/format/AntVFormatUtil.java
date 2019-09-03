@@ -1,7 +1,7 @@
 package com.joy.xxfy.informationaldxn.publish.utils.format;
 
-import com.joy.xxfy.informationaldxn.module.common.domain.vo.statistic.IkAndBvVo;
-import com.joy.xxfy.informationaldxn.module.common.domain.vo.statistic.SkAndBvVo;
+import com.joy.xxfy.informationaldxn.module.statistic.domain.vo.IkAndBvVo;
+import com.joy.xxfy.informationaldxn.module.statistic.domain.vo.SkAndBvVo;
 import com.joy.xxfy.informationaldxn.module.safe.domain.vo.PerMonthStringTotalCountVo;
 import com.joy.xxfy.informationaldxn.module.safe.domain.vo.PerMonthTotalCountVo;
 import com.joy.xxfy.informationaldxn.publish.utils.DateUtil;

@@ -8,6 +8,7 @@ import java.math.BigDecimal;
 @Data
 @ToString
 public class GetTodayLengthRes {
+    private String name;
     /**
      * 今日累计进尺
      */
