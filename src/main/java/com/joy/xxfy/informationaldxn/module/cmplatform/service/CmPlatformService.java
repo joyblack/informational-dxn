@@ -93,6 +93,9 @@ public class CmPlatformService {
         return JoyResult.buildSuccessResultWithData(save);
     }
 
+    /**
+     * update
+     */
     public JoyResult update(UpdateCmPlatformReq req) {
         // 检查电话号码是否合法,这里没有对电话号码进行唯一性验证。
         // 若后期需要对电话号码进行限制，考虑不要讲此电话作为user的phone，或者强制非法操作。
@@ -133,11 +136,8 @@ public class CmPlatformService {
         if(req.getLoginName() != null){
             user.setLoginName(req.getLoginName());
         }
-        LogUtil.info("cm platform information is: {}", cmPlatform);
-        CmPlatformEntity save = cmPlatformRepository.save(cmPlatform);
-
         // 返回更新后的扁平化数据
-        return JoyResult.buildSuccessResultWithData(save);
+        return JoyResult.buildSuccessResultWithData(cmPlatformRepository.save(cmPlatform));
     }
 
     public JoyResult delete(Long id) {

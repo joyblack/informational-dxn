@@ -4,6 +4,7 @@ import com.joy.xxfy.informationaldxn.module.staff.domain.enums.ReviewStatusEnum;
 import com.joy.xxfy.informationaldxn.publish.result.JoyResult;
 import com.joy.xxfy.informationaldxn.publish.result.Notice;
 import com.joy.xxfy.informationaldxn.publish.utils.DateOperationUtil;
+import com.joy.xxfy.informationaldxn.publish.utils.DateUtil;
 import com.joy.xxfy.informationaldxn.publish.utils.LogUtil;
 import com.joy.xxfy.informationaldxn.publish.utils.StringUtil;
 import com.joy.xxfy.informationaldxn.publish.utils.identity.IdNumberUtil;
@@ -78,7 +79,7 @@ public class StaffBlacklistService {
         if(req.getOverTime() != null){
             staffBlacklistInfo.setOverTime(req.getOverTime());
         }else{
-            staffBlacklistInfo.setOverTime(DateOperationUtil.addMonth(new Date(), overMonth));
+            staffBlacklistInfo.setOverTime(DateUtil.addMonth(DateUtil.getDateJustYMD(new Date()),overMonth));
         }
         // 原因
         staffBlacklistInfo.setBlacklistReasons(req.getBlacklistReasons());

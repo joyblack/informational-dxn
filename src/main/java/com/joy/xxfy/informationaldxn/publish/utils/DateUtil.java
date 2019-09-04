@@ -49,6 +49,19 @@ public class DateUtil {
     }
 
     /**
+     * 追加指定的月数
+     */
+    public static Date addMonth(final Date old,final int month)
+    {
+        //得到日历类的实例
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(old);
+        //在当前日期上追加指定天数
+        calendar.add(Calendar.MONTH, month);
+        return calendar.getTime();
+    }
+
+    /**
      * 比较日期大小，只考虑年月日
      */
     public static int compare(Date date1, Date date2) {

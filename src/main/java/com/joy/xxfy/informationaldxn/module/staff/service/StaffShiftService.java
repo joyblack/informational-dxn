@@ -166,6 +166,10 @@ public class StaffShiftService {
             if(!StringUtil.isEmpty(req.getIdNumber())){
                 predicates.add(builder.like(root.get("staffPersonal").get("idNumber"), "%" + req.getIdNumber() +"%"));
             }
+            // phone like
+            if(!StringUtil.isEmpty(req.getPhone())){
+                predicates.add(builder.like(root.get("staffPersonal").get("phone"), "%" + req.getPhone() +"%"));
+            }
             // target_company_id = ?
             if(req.getTargetCompanyId() != null){
                 predicates.add(builder.equal(root.get("targetCompany").get("id"),  req.getTargetCompanyId()));

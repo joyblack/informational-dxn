@@ -6,6 +6,7 @@ public enum Notice{
 
     PERMISSION_FORBIDDEN("权限禁止", 235),
     DATA_IN_USED_CANT_BE_DELETE("该数据正在使用中，不允许删除。", 236),
+    IMPORT_FILE_IS_NULL("导入文件为空", 237),
 
     // 公共模块
     REQUEST_PARAMETER_IS_ERROR("请求参数缺失或未空值", 100000),

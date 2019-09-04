@@ -116,7 +116,7 @@ public class StaffLeaveService {
                     // 公司：即最后一个离职所在公司
                     staffBlacklistInfo.setCompany(lastLeaveInfo.getCompany());
                     // 解禁时间，取项目时间配置，此处可考虑写入系统配置表
-                    staffBlacklistInfo.setOverTime(DateOperationUtil.addMonth(new Date(), overMonth));
+                    staffBlacklistInfo.setOverTime(DateUtil.addMonth(req.getLeaveTime(),overMonth));
                     // 原因
                     staffBlacklistInfo.setBlacklistReasons(StaffTemplate.LEAVE_THEN_ADD_IN_BLACKLIST_REASONS);
                     // 个人信息

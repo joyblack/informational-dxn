@@ -61,6 +61,6 @@ public class LicenceUpdateReq extends BaseUpdateReq {
     /**
      * 准采标高
      */
-    private BigDecimal mineElevation;
+    private String mineElevation;
 
 }
