@@ -9,15 +9,18 @@ import com.joy.xxfy.informationaldxn.module.document.domain.entity.FileEntity;
 import com.joy.xxfy.informationaldxn.module.document.domain.enums.PermissionTypeEnum;
 import com.joy.xxfy.informationaldxn.module.document.domain.repository.FileRepository;
 import com.joy.xxfy.informationaldxn.module.document.web.req.FileGetListReq;
+import com.joy.xxfy.informationaldxn.module.document.web.req.GetTreeReq;
 import com.joy.xxfy.informationaldxn.module.document.web.req.MkdirReq;
 import com.joy.xxfy.informationaldxn.module.system.domain.entity.UserEntity;
 import com.joy.xxfy.informationaldxn.publish.constant.ResultDataConstant;
 import com.joy.xxfy.informationaldxn.publish.constant.StoreFilePathConstant;
+import com.joy.xxfy.informationaldxn.publish.constant.SystemConstant;
 import com.joy.xxfy.informationaldxn.publish.result.JoyResult;
 import com.joy.xxfy.informationaldxn.publish.result.Notice;
 import com.joy.xxfy.informationaldxn.publish.utils.FileUtil;
 import com.joy.xxfy.informationaldxn.publish.utils.StringUtil;
 import com.joy.xxfy.informationaldxn.publish.utils.project.JpaPagerUtil;
+import com.joy.xxfy.informationaldxn.publish.utils.project.TreeUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
@@ -201,6 +204,15 @@ public class FileService extends BaseService {
         return JoyResult.buildSuccessResultWithData(fileRepository.findAll(getPredicates(req,loginUser)));
     }
 
+    // 获取具体某个平台/集团的树
+    public JoyResult getTree(GetTreeReq req, UserEntity loginUser){
+        DepartmentEntity company = departmentRepository.findAllById(req.getBelongCompanyId());
+        FileEntity topFile = fileRepository.findAllById(req.getId());
+        String path = topFile == null? SystemConstant.EMPTY_VALUE : topFile.getPath();
+        List<FileEntity> children = fileRepository.findAllByPathStartingWithAndBelongCompanyAndIsFolderAndPermissionType(path, company, true,req.getPermissionType());
+        return JoyResult.buildSuccessResultWithData(TreeUtil.getFileTree(children, topFile == null? 0L:topFile.getId()));
+    }
+
     /**
      * 获取分页数据、全部数据的谓词条件
      */
@@ -239,5 +251,8 @@ public class FileService extends BaseService {
             return builder.and(predicates.toArray(new Predicate[predicates.size()]));
         };
     }
+
+
+
 
 }

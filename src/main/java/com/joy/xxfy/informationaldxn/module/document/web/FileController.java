@@ -4,6 +4,7 @@ import com.joy.xxfy.informationaldxn.module.common.web.BaseController;
 import com.joy.xxfy.informationaldxn.module.common.web.req.IdReq;
 import com.joy.xxfy.informationaldxn.module.document.service.FileService;
 import com.joy.xxfy.informationaldxn.module.document.web.req.FileGetListReq;
+import com.joy.xxfy.informationaldxn.module.document.web.req.GetTreeReq;
 import com.joy.xxfy.informationaldxn.module.document.web.req.MkdirReq;
 import com.joy.xxfy.informationaldxn.module.train.web.req.TrainingGetListReq;
 import com.joy.xxfy.informationaldxn.publish.result.JoyResult;
@@ -34,6 +35,20 @@ public class FileController extends BaseController {
             return JoyResult.buildFailedResult(Notice.REQUEST_PARAMETER_IS_ERROR, bindingResult.getFieldError().getDefaultMessage());
         } else {
             return fileService.mkdir(req, getLoginUser(request));
+        }
+    }
+
+    /**
+     * 获取文件夹树
+     */
+    @PostMapping(
+            value = "/getTree",
+            produces = {"application/json;charset=UTF-8"})
+    public JoyResult getTree(@RequestBody @Valid GetTreeReq req, BindingResult bindingResult, HttpServletRequest request) {
+        if (bindingResult.hasErrors()) {
+            return JoyResult.buildFailedResult(Notice.REQUEST_PARAMETER_IS_ERROR, bindingResult.getFieldError().getDefaultMessage());
+        } else {
+            return fileService.getTree(req, getLoginUser(request));
         }
     }
 

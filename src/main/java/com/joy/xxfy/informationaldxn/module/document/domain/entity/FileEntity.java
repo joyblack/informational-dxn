@@ -9,6 +9,8 @@ import lombok.ToString;
 import org.hibernate.annotations.Where;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * 资料
@@ -85,5 +87,11 @@ public class FileEntity extends BaseEntity {
      * 是否是文件夹
      */
     private Boolean isFolder;
+
+    /**
+     * 子文件夹列表
+     */
+    @Transient
+    private List<FileEntity> children = new ArrayList<>();
 
 }
