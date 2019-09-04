@@ -82,6 +82,23 @@ public class DrillHoleController {
         }
     }
 
+    /**
+     * 获取（通过钻孔工作ID，未完成的）
+     */
+    @PostMapping(
+            value = "/getNotCompleteByDrillWorkId",
+            produces = {"application/json;charset=UTF-8"})
+    public JoyResult getNotCompleteByDrillWorkId(@RequestBody @Valid IdReq req, BindingResult bindingResult) {
+        if (bindingResult.hasErrors()) {
+            return JoyResult.buildFailedResult(Notice.REQUEST_PARAMETER_IS_ERROR, bindingResult.getFieldError().getDefaultMessage());
+        } else {
+            // copy
+            return drillHoleService.getNotCompleteByDrillWorkId(req.getId());
+        }
+    }
+
+
+
 
     /**
      * 更新

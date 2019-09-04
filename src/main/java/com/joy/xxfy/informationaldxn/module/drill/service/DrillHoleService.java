@@ -172,12 +172,15 @@ public class DrillHoleService {
      * 获取数据(通过钻孔工作ID)
      */
     public JoyResult getAllByDrillWorkId(Long id) {
-
         return JoyResult.buildSuccessResultWithData(drillHoleRepository.findAllByDrillWorkId(id));
     }
 
-
-
+    /**
+     * 获取未完成的钻孔数据(通过钻孔工作ID)
+     */
+    public JoyResult getNotCompleteByDrillWorkId(Long id) {
+        return JoyResult.buildSuccessResultWithData(drillHoleRepository.getNotCompleteByDrillWorkId(id));
+    }
 
     /**
      * 获取分页数据

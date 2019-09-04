@@ -3,6 +3,7 @@ package com.joy.xxfy.informationaldxn.module.system.web;
 import com.joy.xxfy.informationaldxn.module.common.web.req.BasePageReq;
 import com.joy.xxfy.informationaldxn.module.common.web.req.IdReq;
 import com.joy.xxfy.informationaldxn.module.system.domain.entity.UserEntity;
+import com.joy.xxfy.informationaldxn.module.system.service.RoleService;
 import com.joy.xxfy.informationaldxn.module.system.service.UserService;
 import com.joy.xxfy.informationaldxn.publish.result.JoyResult;
 import com.joy.xxfy.informationaldxn.publish.result.Notice;
@@ -20,7 +21,7 @@ import javax.validation.Valid;
 public class RoleController {
 
     @Autowired
-    private UserService userService;
+    private RoleService roleService;
 
 
 
@@ -35,7 +36,7 @@ public class RoleController {
             return JoyResult.buildFailedResult(Notice.REQUEST_PARAMETER_IS_ERROR, bindingResult.getFieldError().getDefaultMessage());
         } else {
             // copy
-            return userService.add(user);
+            return roleService.add(user);
         }
     }
 
@@ -50,7 +51,7 @@ public class RoleController {
             return JoyResult.buildFailedResult(Notice.REQUEST_PARAMETER_IS_ERROR, bindingResult.getFieldError().getDefaultMessage());
         } else {
             // copy
-            return userService.update(user);
+            return roleService.update(user);
         }
     }
 
@@ -65,7 +66,7 @@ public class RoleController {
             return JoyResult.buildFailedResult(Notice.REQUEST_PARAMETER_IS_ERROR, bindingResult.getFieldError().getDefaultMessage());
         } else {
             // copy
-            return userService.get(req.getId());
+            return roleService.get(req.getId());
         }
     }
 
@@ -80,7 +81,7 @@ public class RoleController {
             return JoyResult.buildFailedResult(Notice.REQUEST_PARAMETER_IS_ERROR, bindingResult.getFieldError().getDefaultMessage());
         } else {
             // copy
-            return userService.delete(req.getId());
+            return roleService.delete(req.getId());
         }
     }
 
@@ -95,7 +96,7 @@ public class RoleController {
             return JoyResult.buildFailedResult(Notice.REQUEST_PARAMETER_IS_ERROR, bindingResult.getFieldError().getDefaultMessage());
         } else {
             // copy
-            return userService.getPagerList(req);
+            return roleService.getPagerList(req);
         }
     }
 
@@ -110,7 +111,7 @@ public class RoleController {
             return JoyResult.buildFailedResult(Notice.REQUEST_PARAMETER_IS_ERROR, bindingResult.getFieldError().getDefaultMessage());
         } else {
             // copy
-            return userService.getAllList(req);
+            return roleService.getAllList(req);
         }
     }
 }
