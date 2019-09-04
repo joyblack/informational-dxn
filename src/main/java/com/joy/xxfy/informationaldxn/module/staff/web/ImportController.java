@@ -51,7 +51,7 @@ public class ImportController extends BaseController {
             }
             reader.setHeaderAlias(headerAlias);
             List<StaffExcelVo> staffExcelVo = reader.readAll(StaffExcelVo.class);
-            return importService.importData(staffExcelVo);
+            return importService.importData(staffExcelVo, getLoginUser(request));
         } catch (IOException e) {
             e.printStackTrace();
             return JoyResult.buildFailedResult(Notice.EXECUTE_IS_FAILED);

@@ -445,7 +445,7 @@ public class StaffEntryService extends BaseService {
                     // 出生日期
                     dateFormat.format(entryInfo.getStaffPersonal().getBirthDate()),
                     // 性别
-                    entryInfo.getStaffPersonal().getSex().getDescribe(),
+                    entryInfo.getStaffPersonal().getSex().getSex(),
                     // 民族
                     entryInfo.getStaffPersonal().getNationality(),
                     // 入职时间

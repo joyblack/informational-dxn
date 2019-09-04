@@ -1,5 +1,7 @@
 package com.joy.xxfy.informationaldxn.module.document.domain.entity;
 
+import cn.hutool.core.date.DateUnit;
+import cn.hutool.core.date.DateUtil;
 import com.joy.xxfy.informationaldxn.module.common.domain.entity.BaseEntity;
 import com.joy.xxfy.informationaldxn.module.common.enums.CommonYesEnum;
 import com.joy.xxfy.informationaldxn.module.department.domain.entity.DepartmentEntity;
@@ -45,6 +47,12 @@ public class LicenceEntity extends BaseEntity {
     private Date expiryTime;
 
     /**
+     * 有效期到期剩余天数
+     */
+    @Transient
+    private Long leftDays;
+
+    /**
      * 发证机关
      */
     private String issueOffice;
@@ -81,4 +89,13 @@ public class LicenceEntity extends BaseEntity {
      */
     private String mineElevation;
 
+    /**
+     * 计算剩余天数
+     */
+    public Long getLeftDays() {
+        if(expiryTime == null){
+            return null;
+        }
+        return DateUtil.between(expiryTime, new Date(), DateUnit.DAY);
+    }
 }

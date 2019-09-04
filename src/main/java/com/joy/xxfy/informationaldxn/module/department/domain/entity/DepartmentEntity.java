@@ -64,4 +64,5 @@ public class DepartmentEntity extends BaseEntity implements Serializable {
      */
     @Transient
     private List<DepartmentEntity> children = new ArrayList<>();
+
 }

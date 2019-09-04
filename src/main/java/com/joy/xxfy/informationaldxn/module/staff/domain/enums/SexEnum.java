@@ -5,31 +5,22 @@ package com.joy.xxfy.informationaldxn.module.staff.domain.enums;
  */
 public enum SexEnum {
 
-    MAN("MAN","男"),
+    MAN("男"),
 
-    WOM("WOM","女");
+    WOM("女");
 
-    private String name;
 
-    private String describe;
+    private String sex;
 
-    SexEnum(String name, String describe) {
-        this.name = name;
-        this.describe = describe;
+    SexEnum(String sex) {
+        this.sex = sex;
     }
 
-    public String getName() {
-        return name;
+
+    public String getSex() {
+        return sex;
     }
 
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getDescribe() {
-        return describe;
-    }
-
-    public void setDescribe(String describe) {
-        this.describe = describe;
+    public void setSex(String sex) {
+        this.sex = sex;
     }}

@@ -35,7 +35,7 @@ public class PositionService {
 
     public JoyResult add(PositionAddReq req) {
         // check name repeat.
-        PositionEntity checkPosition = positionRepository.findAllByPositionName(req.getPositionName());
+        PositionEntity checkPosition = positionRepository.findFirstByPositionName(req.getPositionName());
         if(checkPosition != null){
             return JoyResult.buildFailedResult(Notice.POSITION_NAME_ALREADY_EXIST);
         }
@@ -54,7 +54,7 @@ public class PositionService {
             return JoyResult.buildFailedResult(Notice.POSITION_NOT_EXIST);
         }
         // check name repeat.
-        PositionEntity checkPosition = positionRepository.findAllByPositionNameAndIdNot(position.getPositionName(), position.getId());
+        PositionEntity checkPosition = positionRepository.findFirstByPositionNameAndIdNot(position.getPositionName(), position.getId());
         if(checkPosition != null){
             return JoyResult.buildFailedResult(Notice.POSITION_NAME_ALREADY_EXIST);
         }
