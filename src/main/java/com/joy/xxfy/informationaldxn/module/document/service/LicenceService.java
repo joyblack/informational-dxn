@@ -1,6 +1,7 @@
 package com.joy.xxfy.informationaldxn.module.document.service;
 
 import com.joy.xxfy.informationaldxn.module.department.domain.entity.DepartmentEntity;
+import com.joy.xxfy.informationaldxn.module.department.domain.enums.DepartmentTypeEnum;
 import com.joy.xxfy.informationaldxn.module.department.domain.repository.DepartmentRepository;
 import com.joy.xxfy.informationaldxn.module.document.domain.defaults.LicenceDefault;
 import com.joy.xxfy.informationaldxn.module.document.domain.entity.LicenceEntity;
@@ -42,6 +43,11 @@ public class LicenceService {
         DepartmentEntity belongCompany = departmentRepository.findAllById(req.getBelongCompanyId());
         if(belongCompany == null){
             return JoyResult.buildFailedResult(Notice.COMPANY_NOT_EXIST);
+        }
+
+        // 仅支持对煤矿平台添加证书
+        if(belongCompany.getDepartmentType().equals(DepartmentTypeEnum.CP_GROUP)){
+            return JoyResult.buildFailedResult(Notice.PERMISSION_ONLY_SUPPORT_CM);
         }
         // 检查证件信息是否已经存在
         LicenceEntity check = licenceRepository.findFirstByBelongCompanyAndLicenceType(belongCompany, info.getLicenceType());

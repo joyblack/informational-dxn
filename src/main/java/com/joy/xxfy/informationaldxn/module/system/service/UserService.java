@@ -5,6 +5,7 @@ import com.joy.xxfy.informationaldxn.module.common.web.req.TestReq;
 import com.joy.xxfy.informationaldxn.module.department.domain.entity.DepartmentEntity;
 import com.joy.xxfy.informationaldxn.module.department.domain.repository.DepartmentRepository;
 import com.joy.xxfy.informationaldxn.publish.constant.DepartmentConstant;
+import com.joy.xxfy.informationaldxn.publish.constant.ResultDataConstant;
 import com.joy.xxfy.informationaldxn.publish.result.JoyResult;
 import com.joy.xxfy.informationaldxn.publish.result.Notice;
 import com.joy.xxfy.informationaldxn.publish.utils.JoyBeanUtil;
@@ -85,8 +86,13 @@ public class UserService {
         if(dbUser == null){
             return JoyResult.buildFailedResult(Notice.USER_NOT_EXIST);
         }
-        dbUser.setIsDelete(true);
-        return JoyResult.buildSuccessResultWithData(userRepository.save(dbUser));
+        try{
+            userRepository.deleteById(id);
+        }catch (Exception e){
+            System.out.println(e.getMessage());
+            return JoyResult.buildFailedResult(Notice.DATA_IN_USED_CANT_BE_DELETE);
+        }
+        return JoyResult.buildSuccessResultWithData(ResultDataConstant.MESSAGE_DELETE_SUCCESS);
     }
 
 

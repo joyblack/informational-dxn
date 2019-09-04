@@ -5,8 +5,10 @@ public enum Notice{
     EXECUTE_IS_FAILED("操作失败", 234),
 
     PERMISSION_FORBIDDEN("权限禁止", 235),
-    DATA_IN_USED_CANT_BE_DELETE("该数据正在使用中，不允许删除。", 236),
-    IMPORT_FILE_IS_NULL("导入文件为空", 237),
+    PERMISSION_ONLY_SUPPORT_CM("仅支持煤矿平台执行此操作", 236),
+    PERMISSION_ONLY_SUPPORT_CP("仅支持集团执行此操作", 237),
+    IMPORT_FILE_IS_NULL("导入文件为空", 240),
+    DATA_IN_USED_CANT_BE_DELETE("该数据正在使用中，不允许删除。", 299),
 
     // 公共模块
     REQUEST_PARAMETER_IS_ERROR("请求参数缺失或未空值", 100000),
@@ -22,7 +24,7 @@ public enum Notice{
     // user
     USER_NOT_LOGIN("用户未登录", 101000),
     USER_NOT_EXIST("用户信息不存在", 101001),
-
+    ROLE_NAME_ALREADY_EXIST("角色名称已存在", 102002),
 
     // department
     DEPARTMENT_NOT_EXIST("部门信息不存在",102000),

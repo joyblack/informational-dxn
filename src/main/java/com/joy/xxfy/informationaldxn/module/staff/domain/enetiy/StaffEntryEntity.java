@@ -47,7 +47,6 @@ public class StaffEntryEntity extends BaseEntity {
      * 入职时间
      */
     @NotNull(message = "入职时间不能为空")
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
     private Date entryTime;
 
 
@@ -56,10 +55,6 @@ public class StaffEntryEntity extends BaseEntity {
      */
     private String physicalExaminationHospital;
 
-    /**
-     * 体检时间
-     */
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
     private Date physicalExaminationTime;
 
     /**
@@ -121,6 +116,4 @@ public class StaffEntryEntity extends BaseEntity {
     @OneToOne(cascade = {}, fetch = FetchType.EAGER)
     @JoinColumn(name = "review_user_id")
     private UserEntity reviewUser;
-
-
 }

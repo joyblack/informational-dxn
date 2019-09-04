@@ -76,6 +76,8 @@ public class DrillDailyDetailService {
         drillHole.setDoneLength(drillHole.getDoneLength().add(req.getDoneLength()));
         // 剩余长度
         drillHole.setLeftLength(drillHole.getTotalLength().subtract(drillHole.getDoneLength()));
+        // 钻孔进度
+        drillHole.setProgress(RateUtil.compute(drillHole.getDoneLength(), drillHole.getTotalLength(),false));
         // 若钻孔长度已完成，设置成孔日期参数为日报时间
         if(equal(drillHole.getDoneLength(), drillHole.getTotalLength())){
             drillHole.setCompleteTime(drillDaily.getDailyTime());
@@ -144,6 +146,8 @@ public class DrillDailyDetailService {
         drillHole.setDoneLength(drillHole.getDoneLength().add(offset));
         // 剩余长度
         drillHole.setLeftLength(drillHole.getTotalLength().subtract(drillHole.getDoneLength()));
+        // 钻孔进度
+        drillHole.setProgress(RateUtil.compute(drillHole.getDoneLength(), drillHole.getTotalLength(),false));
         // 若工作已完成，则设置成孔日期参数为日报时间
         if(equal(drillHole.getDoneLength(), drillHole.getTotalLength())){
             drillHole.setCompleteTime(drillDaily.getDailyTime());
@@ -197,6 +201,8 @@ public class DrillDailyDetailService {
         drillHole.setDoneLength(ComputeUtils.sub(drillHole.getDoneLength(), detail.getDoneLength()));
         // 剩余长度: 重新计算
         drillHole.setLeftLength(ComputeUtils.sub(drillHole.getTotalLength(), drillHole.getDoneLength()));
+        // 钻孔进度
+        drillHole.setProgress(RateUtil.compute(drillHole.getDoneLength(), drillHole.getTotalLength(),false));
         // == 如果是钻孔工作已经是完成状态（成孔日期不为空）：
         // 1.修改成孔日期为空
         // 2.钻孔工作的已完成数 - 1，剩余数量 + 1（总-已）

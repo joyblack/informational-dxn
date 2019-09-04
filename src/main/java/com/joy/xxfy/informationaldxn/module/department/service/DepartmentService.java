@@ -7,6 +7,7 @@ import com.joy.xxfy.informationaldxn.module.department.web.req.DepartmentAddReq;
 import com.joy.xxfy.informationaldxn.module.department.web.req.DepartmentUpdateReq;
 import com.joy.xxfy.informationaldxn.module.system.domain.enums.UserTypeEnum;
 import com.joy.xxfy.informationaldxn.publish.constant.DepartmentConstant;
+import com.joy.xxfy.informationaldxn.publish.constant.ResultDataConstant;
 import com.joy.xxfy.informationaldxn.publish.constant.SystemConstant;
 import com.joy.xxfy.informationaldxn.publish.result.JoyResult;
 import com.joy.xxfy.informationaldxn.publish.result.Notice;
@@ -127,8 +128,13 @@ public class DepartmentService{
         if(oldDept == null){
             return JoyResult.buildFailedResult(Notice.DEPARTMENT_NOT_EXIST);
         }
-        oldDept.setIsDelete(true);
-        return JoyResult.buildSuccessResultWithData(departmentRepository.save(oldDept));
+        try{
+            departmentRepository.deleteById(id);
+        }catch (Exception e){
+            System.out.println(e.getMessage());
+            return JoyResult.buildFailedResult(Notice.DATA_IN_USED_CANT_BE_DELETE);
+        }
+        return JoyResult.buildSuccessResultWithData(ResultDataConstant.MESSAGE_DELETE_SUCCESS);
     }
 
     /**

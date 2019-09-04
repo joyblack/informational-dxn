@@ -2,7 +2,9 @@ package com.joy.xxfy.informationaldxn.publish.exception;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.hibernate.ObjectDeletedException;
 import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.dao.InvalidDataAccessApiUsageException;
 import org.springframework.dao.InvalidDataAccessResourceUsageException;
 import org.springframework.http.HttpStatus;
 import org.springframework.orm.jpa.JpaSystemException;
@@ -79,6 +81,20 @@ public class ExceptionHandler implements HandlerExceptionResolver {
             Map<String, Object> map = new HashMap<String, Object>();
             map.put("detailMessage", ex.getMessage());
             map.put("message", "参数解析错误...");
+            map.put("state", false);
+            map.put("data", null);
+            map.put("code", HttpStatus.NOT_ACCEPTABLE.value());
+            mjjv.setAttributesMap(map);
+            mv.setView(mjjv);
+            return mv;
+        }
+
+        if(ex instanceof InvalidDataAccessApiUsageException){
+            ModelAndView mv = new ModelAndView();
+            MappingJackson2JsonView mjjv = new MappingJackson2JsonView();
+            Map<String, Object> map = new HashMap<String, Object>();
+            map.put("detailMessage", ex.getMessage());
+            map.put("message", "数据正在使用中，不允许删除...");
             map.put("state", false);
             map.put("data", null);
             map.put("code", HttpStatus.NOT_ACCEPTABLE.value());

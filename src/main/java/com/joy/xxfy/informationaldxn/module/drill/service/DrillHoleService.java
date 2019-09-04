@@ -60,7 +60,8 @@ public class DrillHoleService {
         drillHoleEntity.setDoneLength(BigDecimal.ZERO);
         // 剩余长度
         drillHoleEntity.setLeftLength(ComputeUtils.sub(drillHoleEntity.getTotalLength(), drillHoleEntity.getDoneLength()));
-        drillHoleEntity.setUpdateTime(new Date());
+        // 进度
+        drillHoleEntity.setProgress(RateUtil.compute(drillHoleEntity.getDoneLength(), drillHoleEntity.getTotalLength(),false));
         // == 设置工作信息
         // 初始化统计参数
         // 钻孔总数: +1
@@ -115,6 +116,8 @@ public class DrillHoleService {
         }
 
         JoyBeanUtil.copyPropertiesIgnoreSourceNullProperties(req, info);
+        // 钻孔进度
+        info.setProgress(RateUtil.compute(info.getDoneLength(), info.getTotalLength(),false));
         // 若钻孔工作还未做完，不允许修改实际见煤、实际止煤等参数
         if(!equal(info.getDoneLength(), info.getTotalLength())){
             info.setRealAppearCoal(null);

@@ -56,6 +56,7 @@ public class UserEntity extends BaseEntity implements Serializable {
     /**
      * 资源列表
      */
+    @Lob
     private String permissions;
 
     /**

@@ -83,7 +83,6 @@ public class StaffPersonalEntity extends BaseEntity {
     /**
      * 参保时间
      */
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
     private Date insuredTime;
 
     /**
@@ -99,7 +98,6 @@ public class StaffPersonalEntity extends BaseEntity {
     /**
      * 毕业时间
      */
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
     private Date graduationTime;
 
     /**
