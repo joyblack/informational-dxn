@@ -2,10 +2,13 @@ package com.joy.xxfy.informationaldxn.module.system.service;
 
 import com.joy.xxfy.informationaldxn.module.common.web.req.BasePageReq;
 import com.joy.xxfy.informationaldxn.module.system.domain.entity.DepartmentEntity;
+import com.joy.xxfy.informationaldxn.module.system.domain.enums.DepartmentTypeEnum;
 import com.joy.xxfy.informationaldxn.module.system.domain.repository.DepartmentRepository;
 import com.joy.xxfy.informationaldxn.module.system.domain.entity.UserEntity;
 import com.joy.xxfy.informationaldxn.module.system.domain.enums.UserTypeEnum;
 import com.joy.xxfy.informationaldxn.module.system.domain.repository.UserRepository;
+import com.joy.xxfy.informationaldxn.module.system.web.req.UserAddReq;
+import com.joy.xxfy.informationaldxn.module.system.web.req.UserUpdateReq;
 import com.joy.xxfy.informationaldxn.publish.constant.DepartmentConstant;
 import com.joy.xxfy.informationaldxn.publish.constant.ResultDataConstant;
 import com.joy.xxfy.informationaldxn.publish.result.JoyResult;
@@ -32,29 +35,46 @@ public class UserService {
     @Autowired
     private DepartmentRepository departmentRepository;
 
-    public JoyResult add(UserEntity user) {
+    public JoyResult add(UserAddReq req) {
         /**
          * 检测密码是否一致
          */
-        if(!StringUtil.equals(user.getPassword(),user.getAffirmPassword())){
+        if(!StringUtil.equals(req.getPassword(),req.getAffirmPassword())){
             return JoyResult.buildFailedResult(Notice.PASSWORD_AFFIRM_ERROR);
         }
         /**
          * 校验登录名
          */
-        UserEntity checkUser = userRepository.findAllByLoginName(user.getLoginName());;
+        UserEntity checkUser = userRepository.findAllByLoginName(req.getLoginName());;
         if(null != checkUser){
             return JoyResult.buildFailedResult(Notice.LOGIN_NAME_ALREADY_EXIST);
         }
-        // 密码
-        user.setPassword(MD5Util.encode(user.getPassword()));
         // 获取所属部门
-        DepartmentEntity department = departmentRepository.findAllById(user.getDepartment().getId());
+        DepartmentEntity department = departmentRepository.findAllById(req.getDepartmentId());
+        if(department == null){
+            return JoyResult.buildFailedResult(Notice.DEPARTMENT_NOT_EXIST);
+        }
+        // 公司
+        DepartmentEntity company = getCompanyByDepartment(department);
+        if(company == null){
+            return JoyResult.buildFailedResult(Notice.COMPANY_NOT_EXIST);
+        }
+
+        UserEntity user = new UserEntity();
+        JoyBeanUtil.copyPropertiesIgnoreSourceNullProperties(req, user);
+        // 用户类型
+        if(department.getDepartmentType().equals(DepartmentTypeEnum.CP_GROUP)){
+            user.setUserType(UserTypeEnum.CP_ADMIN);
+        }else{
+            user.setUserType(UserTypeEnum.CM_ADMIN);
+        }
+        user.setDepartment(department);
         // 获取所属公司信息
         user.setCompany(getCompanyByDepartment(department));
+        // 密码
+        user.setPassword(MD5Util.encode(user.getPassword()));
         // 保存数据
         UserEntity save = userRepository.save(user);
-        save.setPassword(null);
         return JoyResult.buildSuccessResultWithData(save);
     }
 
@@ -76,22 +96,50 @@ public class UserService {
     /**
      * update
      */
-    public JoyResult update(UserEntity user) {
+    public JoyResult add(UserUpdateReq req) {
+        UserEntity info = userRepository.findAllById(req.getId());
+        /**
+         * 检测密码是否一致
+         */
+        if(!StringUtil.equals(req.getPassword(),req.getAffirmPassword())){
+            return JoyResult.buildFailedResult(Notice.PASSWORD_AFFIRM_ERROR);
+        }
+        /**
+         * 校验登录名
+         */
+        UserEntity checkUser = userRepository.findAllByLoginName(req.getLoginName());;
+        if(null != checkUser && !info.getId().equals(checkUser.getId())){
+            return JoyResult.buildFailedResult(Notice.LOGIN_NAME_ALREADY_EXIST);
+        }
+        // 获取所属部门
+        DepartmentEntity department = departmentRepository.findAllById(req.getDepartmentId());
+        if(department == null){
+            return JoyResult.buildFailedResult(Notice.DEPARTMENT_NOT_EXIST);
+        }
+        // 公司
+        DepartmentEntity company = getCompanyByDepartment(department);
+        if(company == null){
+            return JoyResult.buildFailedResult(Notice.COMPANY_NOT_EXIST);
+        }
+
+        // 用户类型
+        if(department.getDepartmentType().equals(DepartmentTypeEnum.CP_GROUP)){
+            info.setUserType(UserTypeEnum.CP_ADMIN);
+        }else{
+            info.setUserType(UserTypeEnum.CM_ADMIN);
+        }
+        JoyBeanUtil.copyPropertiesIgnoreSourceNullProperties(req, info);
+        info.setDepartment(department);
+        // 获取所属公司信息
+        info.setCompany(getCompanyByDepartment(department));
         // 密码
-        if(user.getPassword() != null){
-            user.setPassword(MD5Util.encode(user.getPassword()));
-        }
-        UserEntity dbUser = userRepository.findAllById(user.getId());
-        if(dbUser == null){
-            return JoyResult.buildFailedResult(Notice.USER_NOT_EXIST);
-        }
-        // 拷贝属性到oldUser之上
-        JoyBeanUtil.copyPropertiesIgnoreSourceNullProperties(user, dbUser);
-        UserEntity save = userRepository.save(dbUser);
-        // 置空密码
-        save.setPassword(null);
+        info.setPassword(MD5Util.encode(info.getPassword()));
+        // 保存数据
+        UserEntity save = userRepository.save(info);
         return JoyResult.buildSuccessResultWithData(save);
     }
+
+
 
     public JoyResult delete(Long id) {
         UserEntity dbUser = userRepository.findAllById(id);

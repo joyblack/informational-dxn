@@ -287,6 +287,7 @@ public class CmPlatformService extends BaseService {
      */
     private DepartmentEntity createCmPlatformDepartment(AddCmPlatformReq req){
         DepartmentEntity department = new DepartmentEntity();
+        department.setPath("");
         department.setCode("");
         // 名称设置为平台名称
         department.setDepartmentName(req.getCmName());
