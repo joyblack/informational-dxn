@@ -152,7 +152,7 @@ public class DrillDailyService {
             List<Predicate> predicates = new ArrayList<>();
             predicates.add(builder.equal(root.get("drillWork").get("belongCompany"), loginUser.getCompany()));
             if(req.getDrillWorkId() != null){
-                predicates.add(builder.equal(root.get("drillWork").get("drillWorkId"), req.getDrillWorkId()));
+                predicates.add(builder.equal(root.get("drillWork").get("id"), req.getDrillWorkId()));
             }
             // drill_time between
             if(req.getDailyTimeStart() != null){

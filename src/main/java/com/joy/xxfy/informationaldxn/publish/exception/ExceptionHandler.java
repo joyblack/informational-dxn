@@ -89,12 +89,26 @@ public class ExceptionHandler implements HandlerExceptionResolver {
             return mv;
         }
 
-        if(ex instanceof InvalidDataAccessApiUsageException){
+        if(ex instanceof ObjectDeletedException){
             ModelAndView mv = new ModelAndView();
             MappingJackson2JsonView mjjv = new MappingJackson2JsonView();
             Map<String, Object> map = new HashMap<String, Object>();
             map.put("detailMessage", ex.getMessage());
             map.put("message", "数据正在使用中，不允许删除...");
+            map.put("state", false);
+            map.put("data", null);
+            map.put("code", HttpStatus.NOT_ACCEPTABLE.value());
+            mjjv.setAttributesMap(map);
+            mv.setView(mjjv);
+            return mv;
+        }
+
+        if(ex instanceof InvalidDataAccessApiUsageException){
+            ModelAndView mv = new ModelAndView();
+            MappingJackson2JsonView mjjv = new MappingJackson2JsonView();
+            Map<String, Object> map = new HashMap<String, Object>();
+            map.put("detailMessage", ex.getMessage());
+            map.put("message", "数据正在使用中...");
             map.put("state", false);
             map.put("data", null);
             map.put("code", HttpStatus.NOT_ACCEPTABLE.value());
