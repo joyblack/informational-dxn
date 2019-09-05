@@ -227,6 +227,8 @@ public class FileService extends BaseService {
             predicates.add(builder.equal(root.get("parentId"), req.getParentId()));
             // 权限类型：私有 or 公开
             predicates.add(builder.equal(root.get("permissionType"), req.getPermissionType()));
+            // 只返回文件列表
+            predicates.add(builder.equal(root.get("isFolder"), false));
             // 若为私有，则还要添加该用户的所属信息，定位私有文件
             if(req.getPermissionType().equals(PermissionTypeEnum.PER_PRIVATE)){
                 predicates.add(builder.equal(root.get("createUser"), loginUser));
