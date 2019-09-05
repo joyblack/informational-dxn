@@ -31,7 +31,6 @@ public class BaseEntity {
      */
     @Temporal(TemporalType.TIMESTAMP)
     @Column(nullable = false, name = "create_time")
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     @NotNull(message = "创建日期不能为空")
     private Date createTime = new Date();
 
@@ -40,7 +39,6 @@ public class BaseEntity {
      */
     @Temporal(TemporalType.TIMESTAMP)
     @Column(nullable = false, name = "update_time")
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     @NotNull(message = "修改日期不能为空")
     private Date updateTime = new Date();
     /**

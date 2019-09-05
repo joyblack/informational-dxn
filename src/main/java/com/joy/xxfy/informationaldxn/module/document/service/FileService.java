@@ -17,6 +17,7 @@ import com.joy.xxfy.informationaldxn.publish.constant.StoreFilePathConstant;
 import com.joy.xxfy.informationaldxn.publish.constant.SystemConstant;
 import com.joy.xxfy.informationaldxn.publish.result.JoyResult;
 import com.joy.xxfy.informationaldxn.publish.result.Notice;
+import com.joy.xxfy.informationaldxn.publish.utils.DateUtil;
 import com.joy.xxfy.informationaldxn.publish.utils.FileUtil;
 import com.joy.xxfy.informationaldxn.publish.utils.StringUtil;
 import com.joy.xxfy.informationaldxn.publish.utils.project.JpaPagerUtil;
@@ -156,6 +157,8 @@ public class FileService extends BaseService {
         fileEntity.setIsFolder(false);
         // 创建者
         fileEntity.setCreateUser(loginUser);
+        // 上传时间
+        fileEntity.setUpdateTime(DateUtil.getDateJustYMD());
         // save
         return JoyResult.buildSuccessResultWithData(fileRepository.save(fileEntity));
     }
