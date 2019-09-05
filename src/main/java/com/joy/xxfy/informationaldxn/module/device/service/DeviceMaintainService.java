@@ -152,9 +152,6 @@ public class DeviceMaintainService extends BaseService {
      * 获取数据
      */
     public JoyResult get(Long id, UserEntity loginUser) {
-        if(!hasPermission(loginUser, ResourceIdConfig.DEVICE_MAINTAIN_GET, LimitUserTypeEnum.CM_ADMIN)){
-            return JoyResult.buildFailedResult(Notice.PERMISSION_FORBIDDEN);
-        }
         return JoyResult.buildSuccessResultWithData(deviceMaintainRepository.findAllById(id));
     }
 
@@ -172,9 +169,6 @@ public class DeviceMaintainService extends BaseService {
      * 获取全部
      */
     public JoyResult getAllList(DeviceMaintainGetListReq req, UserEntity loginUser) {
-        if(!hasPermission(loginUser, ResourceIdConfig.DEVICE_MAINTAIN_GET_LIST, LimitUserTypeEnum.CM_ADMIN)){
-            return JoyResult.buildFailedResult(Notice.PERMISSION_FORBIDDEN);
-        }
         return JoyResult.buildSuccessResultWithData(deviceMaintainRepository.findAll(getPredicates(req, loginUser)));
     }
 

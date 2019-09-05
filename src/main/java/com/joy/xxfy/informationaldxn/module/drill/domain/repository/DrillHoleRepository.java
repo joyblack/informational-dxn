@@ -27,6 +27,6 @@ public interface DrillHoleRepository extends BaseRepository<DrillHoleEntity>, Jp
    /**
     * 根据钻孔工作获取未完成的钻孔列表
     */
-   @Query("from DrillHoleEntity d where d.drillWork.id = :drillWorkId and d.doneLength = d.totalLength")
+   @Query("from DrillHoleEntity d where d.drillWork.id = :drillWorkId and d.doneLength < d.totalLength")
    List<DrillHoleEntity> getNotCompleteByDrillWorkId(@Param("drillWorkId") Long drillWorkId);
 }

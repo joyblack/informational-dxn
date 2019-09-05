@@ -11,8 +11,6 @@ import org.springframework.test.context.junit4.SpringRunner;
 @SpringBootTest
 public class InformationalDxnApplicationTests {
 
-    @Autowired
-    private DrillWorkRepository drillWorkRepository;
 
     @Test
     public void contextLoads() {

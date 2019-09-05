@@ -6,11 +6,14 @@ import com.joy.xxfy.informationaldxn.module.cmplatform.web.req.AddCmPlatformReq;
 import com.joy.xxfy.informationaldxn.module.cmplatform.web.req.GetCmPlatformListReq;
 import com.joy.xxfy.informationaldxn.module.cmplatform.web.req.UpdateCmPlatformReq;
 import com.joy.xxfy.informationaldxn.module.common.enums.CommonStatusEnum;
+import com.joy.xxfy.informationaldxn.module.common.enums.LimitUserTypeEnum;
+import com.joy.xxfy.informationaldxn.module.common.service.BaseService;
 import com.joy.xxfy.informationaldxn.module.common.web.req.BasePermissionReq;
 import com.joy.xxfy.informationaldxn.module.common.web.req.ChangePasswordReq;
 import com.joy.xxfy.informationaldxn.module.department.domain.entity.DepartmentEntity;
 import com.joy.xxfy.informationaldxn.module.department.domain.enums.DepartmentTypeEnum;
 import com.joy.xxfy.informationaldxn.module.department.domain.repository.DepartmentRepository;
+import com.joy.xxfy.informationaldxn.permission.constant.ResourceIdConfig;
 import com.joy.xxfy.informationaldxn.publish.constant.DepartmentConstant;
 import com.joy.xxfy.informationaldxn.publish.result.JoyResult;
 import com.joy.xxfy.informationaldxn.publish.result.Notice;
@@ -27,13 +30,14 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.criteria.Predicate;
+import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
 @Transactional
 @Service
-public class CmPlatformService {
+public class CmPlatformService extends BaseService {
     @Autowired
     private CmPlatformRepository cmPlatformRepository;
 
@@ -46,7 +50,10 @@ public class CmPlatformService {
     @Autowired
     private SystemConfigRepository systemConfigRepository;
 
-    public JoyResult add(AddCmPlatformReq addCmPlatformReq) {
+    public JoyResult add(AddCmPlatformReq addCmPlatformReq,UserEntity loginUser) {
+        if(!hasPermission(loginUser,ResourceIdConfig.CM_ADD, LimitUserTypeEnum.CP_ADMIN)){
+            return JoyResult.buildFailedResult(Notice.PERMISSION_FORBIDDEN);
+        }
         // 检测煤矿名称是否重复.
         CmPlatformEntity check = cmPlatformRepository.findAllByCmName(addCmPlatformReq.getCmName());
         if(check != null){
@@ -96,7 +103,10 @@ public class CmPlatformService {
     /**
      * update
      */
-    public JoyResult update(UpdateCmPlatformReq req) {
+    public JoyResult update(UpdateCmPlatformReq req,UserEntity loginUser) {
+        if(!hasPermission(loginUser,ResourceIdConfig.CM_UPDATE, LimitUserTypeEnum.CP_ADMIN)){
+            return JoyResult.buildFailedResult(Notice.PERMISSION_FORBIDDEN);
+        }
         // 检查电话号码是否合法,这里没有对电话号码进行唯一性验证。
         // 若后期需要对电话号码进行限制，考虑不要讲此电话作为user的phone，或者强制非法操作。
         if(req.getPhone() != null ){
@@ -140,7 +150,10 @@ public class CmPlatformService {
         return JoyResult.buildSuccessResultWithData(cmPlatformRepository.save(cmPlatform));
     }
 
-    public JoyResult delete(Long id) {
+    public JoyResult delete(Long id,UserEntity loginUser) {
+        if(!hasPermission(loginUser, ResourceIdConfig.CM_DELETE, LimitUserTypeEnum.CP_ADMIN)){
+            return JoyResult.buildFailedResult(Notice.PERMISSION_FORBIDDEN);
+        }
         // get older
         CmPlatformEntity cmPlatform = cmPlatformRepository.findAllById(id);
         if(cmPlatform == null){
@@ -159,7 +172,7 @@ public class CmPlatformService {
     /**
      * 获取数据
      */
-    public JoyResult get(Long id) {
+    public JoyResult get(Long id,UserEntity loginUser) {
         // get older
         return JoyResult.buildSuccessResultWithData(cmPlatformRepository.findAllById(id));
     }
@@ -168,14 +181,17 @@ public class CmPlatformService {
     /**
      * 获取分页数据
      */
-    public JoyResult getAllList(GetCmPlatformListReq req) {
+    public JoyResult getAllList(GetCmPlatformListReq req,UserEntity loginUser) {
+        if(!hasPermission(loginUser, ResourceIdConfig.CM_GET_LIST, LimitUserTypeEnum.CP_ADMIN)){
+            return JoyResult.buildFailedResult(Notice.PERMISSION_FORBIDDEN);
+        }
         return JoyResult.buildSuccessResultWithData(cmPlatformRepository.findAll(getPredicates(req)));
     }
 
     /**
      * 获取全部数据
      */
-    public JoyResult getPagerList(GetCmPlatformListReq req) {
+    public JoyResult getPagerList(GetCmPlatformListReq req,UserEntity loginUser) {
         return JoyResult.buildSuccessResultWithData(cmPlatformRepository.findAll(getPredicates(req),JpaPagerUtil.getPageable(req)));
     }
 
@@ -195,7 +211,10 @@ public class CmPlatformService {
     /**
      * 禁用
      */
-    public JoyResult disable(Long id) {
+    public JoyResult disable(Long id, UserEntity loginUser) {
+        if(!hasPermission(loginUser, ResourceIdConfig.CM_DISABLE, LimitUserTypeEnum.CP_ADMIN)){
+            return JoyResult.buildFailedResult(Notice.PERMISSION_FORBIDDEN);
+        }
         // get older
         CmPlatformEntity cmPlatformEntity = cmPlatformRepository.findAllById(id);
         if(cmPlatformEntity == null){
@@ -209,7 +228,10 @@ public class CmPlatformService {
     /**
      * 启用
      */
-    public JoyResult enable(Long id) {
+    public JoyResult enable(Long id, UserEntity loginUser) {
+        if(!hasPermission(loginUser, ResourceIdConfig.CM_ENABLE, LimitUserTypeEnum.CP_ADMIN)){
+            return JoyResult.buildFailedResult(Notice.PERMISSION_FORBIDDEN);
+        }
         // get older
         CmPlatformEntity cmPlatformEntity = cmPlatformRepository.findAllById(id);
         if(cmPlatformEntity == null){
@@ -225,8 +247,10 @@ public class CmPlatformService {
      * @param id
      * @return
      */
-    public JoyResult resetPassword(Long id) {
-        // Get older
+    public JoyResult resetPassword(Long id, UserEntity loginUser) {
+        if(!hasPermission(loginUser, ResourceIdConfig.CM_RESET_PASSWORD, LimitUserTypeEnum.CP_ADMIN)){
+            return JoyResult.buildFailedResult(Notice.PERMISSION_FORBIDDEN);
+        }
         CmPlatformEntity cmPlatform = cmPlatformRepository.findAllById(id);
         if(cmPlatform == null){
             return JoyResult.buildFailedResult(Notice.CM_PLATFORM_NOT_EXIST);
@@ -238,23 +262,55 @@ public class CmPlatformService {
         return JoyResult.buildSuccessResultWithData(cmPlatformRepository.save(cmPlatform));
     }
 
+    /**
+     * 修改密码
+     */
+    public JoyResult changePassword(ChangePasswordReq req,UserEntity loginUser) {
+        if(!hasPermission(loginUser, ResourceIdConfig.CM_CHANGE_PASSWORD, LimitUserTypeEnum.CP_ADMIN)){
+            return JoyResult.buildFailedResult(Notice.PERMISSION_FORBIDDEN);
+        }
+        // 检测合法性
+        if(!StringUtil.equals(req.getNewPassword(), req.getAffirmPassword())){
+            return JoyResult.buildFailedResult(Notice.PASSWORD_AFFIRM_ERROR);
+        }
+        // Get older
+        CmPlatformEntity cmPlatform = cmPlatformRepository.findAllById(req.getId());
+        if(cmPlatform == null){
+            return JoyResult.buildFailedResult(Notice.CM_PLATFORM_NOT_EXIST);
+        }
+
+        // 验证密码是否正确
+        UserEntity user = cmPlatform.getUser();
+        String oldPassword = MD5Util.encode(req.getPassword());
+        if(! StringUtil.equals(oldPassword, user.getPassword())){
+            return JoyResult.buildFailedResult(Notice.PASSWORD_ERROR);
+        }
+        // 修改用户密码
+        LogUtil.info("将用户密码修改为: {}", req.getNewPassword());
+        user.setPassword(MD5Util.encode(req.getNewPassword()));
+        return JoyResult.buildSuccessResultWithData(cmPlatformRepository.save(cmPlatform));
+    }
+
 
     /**
-     * 测试数据录入
+     * 设置权限
      */
-    public JoyResult test(){
-        int times = 0;
-        while( ++ times <= 100){
-            AddCmPlatformReq cmPlatform = new AddCmPlatformReq();
-            cmPlatform.setCmName("煤矿平台" + times);
-            cmPlatform.setRemarks("备注信息...");
-            cmPlatform.setLoginName("zhaoyi" + times );
-            cmPlatform.setPhone("13535565498");
-            cmPlatform.setUsername("赵义" + times);
-            add(cmPlatform);
+    public JoyResult updatePermission(BasePermissionReq req,UserEntity loginUser) {
+        if(!hasPermission(loginUser, ResourceIdConfig.CM_UPDATE_PERMISSION, LimitUserTypeEnum.CP_ADMIN)){
+            return JoyResult.buildFailedResult(Notice.PERMISSION_FORBIDDEN);
         }
-        return JoyResult.buildSuccessResult("测试数据录入完成...");
+        // get older
+        CmPlatformEntity cmPlatform = cmPlatformRepository.findAllById(req.getId());
+        if(cmPlatform == null){
+            return JoyResult.buildFailedResult(Notice.CM_PLATFORM_NOT_EXIST);
+        }
+        String permissions = PermissionUtil.transToString(req.getPermission());
+        LogUtil.info("The generated permissions string is: {}", permissions);
+        // update to db.
+        cmPlatform.getUser().setPermissions(permissions);
+        return JoyResult.buildSuccessResultWithData(cmPlatformRepository.save(cmPlatform));
     }
+
 
 
     /*********************************************/
@@ -315,48 +371,7 @@ public class CmPlatformService {
         }
     }
 
-    /**
-     * 修改密码
-     */
-    public JoyResult changePassword(ChangePasswordReq req) {
-        // 检测合法性
-        if(!StringUtil.equals(req.getNewPassword(), req.getAffirmPassword())){
-            return JoyResult.buildFailedResult(Notice.PASSWORD_AFFIRM_ERROR);
-        }
-        // Get older
-        CmPlatformEntity cmPlatform = cmPlatformRepository.findAllById(req.getId());
-        if(cmPlatform == null){
-            return JoyResult.buildFailedResult(Notice.CM_PLATFORM_NOT_EXIST);
-        }
 
-        // 验证密码是否正确
-        UserEntity user = cmPlatform.getUser();
-        String oldPassword = MD5Util.encode(req.getPassword());
-        if(! StringUtil.equals(oldPassword, user.getPassword())){
-            return JoyResult.buildFailedResult(Notice.PASSWORD_ERROR);
-        }
-        // 修改用户密码
-        LogUtil.info("将用户密码修改为: {}", req.getNewPassword());
-        user.setPassword(MD5Util.encode(req.getNewPassword()));
-        return JoyResult.buildSuccessResultWithData(cmPlatformRepository.save(cmPlatform));
-    }
-
-
-    /**
-     * 设置权限
-     */
-    public JoyResult updatePermission(BasePermissionReq req) {
-        // get older
-        CmPlatformEntity cmPlatform = cmPlatformRepository.findAllById(req.getId());
-        if(cmPlatform == null){
-            return JoyResult.buildFailedResult(Notice.CM_PLATFORM_NOT_EXIST);
-        }
-        String permissions = PermissionUtil.transToString(req.getPermission());
-        LogUtil.info("The generated permissions string is: {}", permissions);
-        // update to db.
-        cmPlatform.getUser().setPermissions(permissions);
-        return JoyResult.buildSuccessResultWithData(cmPlatformRepository.save(cmPlatform));
-    }
 
 
 }
