@@ -2,7 +2,7 @@ package com.joy.xxfy.informationaldxn.module.safe.domain.entity;
 
 import com.joy.xxfy.informationaldxn.module.common.domain.entity.BaseEntity;
 import com.joy.xxfy.informationaldxn.module.common.enums.CommonYesEnum;
-import com.joy.xxfy.informationaldxn.module.department.domain.entity.DepartmentEntity;
+import com.joy.xxfy.informationaldxn.module.system.domain.entity.DepartmentEntity;
 import com.joy.xxfy.informationaldxn.module.safe.domain.enums.InspectType;
 import com.joy.xxfy.informationaldxn.module.safe.domain.enums.RectificationStatusEnum;
 import lombok.Data;

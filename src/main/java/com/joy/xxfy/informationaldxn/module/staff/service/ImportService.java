@@ -1,8 +1,8 @@
 package com.joy.xxfy.informationaldxn.module.staff.service;
 
 import com.joy.xxfy.informationaldxn.module.common.constant.ExcelImportConstant;
-import com.joy.xxfy.informationaldxn.module.department.domain.entity.DepartmentEntity;
-import com.joy.xxfy.informationaldxn.module.department.domain.repository.DepartmentRepository;
+import com.joy.xxfy.informationaldxn.module.system.domain.entity.DepartmentEntity;
+import com.joy.xxfy.informationaldxn.module.system.domain.repository.DepartmentRepository;
 import com.joy.xxfy.informationaldxn.module.staff.domain.enetiy.PositionEntity;
 import com.joy.xxfy.informationaldxn.module.staff.domain.enetiy.StaffEntryEntity;
 import com.joy.xxfy.informationaldxn.module.staff.domain.enetiy.StaffPersonalEntity;
@@ -13,7 +13,6 @@ import com.joy.xxfy.informationaldxn.module.staff.domain.repository.StaffPersona
 import com.joy.xxfy.informationaldxn.module.staff.domain.vo.StaffExcelVo;
 import com.joy.xxfy.informationaldxn.module.system.domain.entity.UserEntity;
 import com.joy.xxfy.informationaldxn.publish.result.JoyResult;
-import com.joy.xxfy.informationaldxn.publish.result.Notice;
 import com.joy.xxfy.informationaldxn.publish.utils.DateUtil;
 import com.joy.xxfy.informationaldxn.publish.utils.LogUtil;
 import com.joy.xxfy.informationaldxn.publish.utils.StringUtil;
@@ -21,7 +20,6 @@ import com.joy.xxfy.informationaldxn.publish.utils.identity.IdNumberUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import javax.validation.constraints.NotNull;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;

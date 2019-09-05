@@ -2,7 +2,7 @@ package com.joy.xxfy.informationaldxn.module.staff.domain.repository;
 
 
 import com.joy.xxfy.informationaldxn.module.common.domain.repository.BaseRepository;
-import com.joy.xxfy.informationaldxn.module.department.domain.entity.DepartmentEntity;
+import com.joy.xxfy.informationaldxn.module.system.domain.entity.DepartmentEntity;
 import com.joy.xxfy.informationaldxn.module.staff.domain.enetiy.PositionEntity;
 import com.joy.xxfy.informationaldxn.module.staff.domain.enetiy.StaffEntryEntity;
 import com.joy.xxfy.informationaldxn.module.staff.domain.enetiy.StaffPersonalEntity;
@@ -12,7 +12,6 @@ import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
-import javax.swing.text.Position;
 import java.util.List;
 
 public interface StaffEntryRepository extends BaseRepository<StaffEntryEntity>, JpaRepository<StaffEntryEntity, Long> {

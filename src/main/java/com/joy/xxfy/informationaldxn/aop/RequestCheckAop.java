@@ -62,6 +62,7 @@ public class RequestCheckAop {
         if(loginUser == null){
             LogUtil.info("用户信息: ");
             LogUtil.info("登陆状态：未登录");
+            result = joinPoint.proceed();
         }else{
             LogUtil.info("登陆状态：已登录");
             LogUtil.info("登录名：{}", loginUser.getLoginName());

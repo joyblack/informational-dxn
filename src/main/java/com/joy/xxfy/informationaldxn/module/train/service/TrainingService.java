@@ -1,7 +1,7 @@
 package com.joy.xxfy.informationaldxn.module.train.service;
 
-import com.joy.xxfy.informationaldxn.module.department.domain.entity.DepartmentEntity;
-import com.joy.xxfy.informationaldxn.module.department.domain.repository.DepartmentRepository;
+import com.joy.xxfy.informationaldxn.module.system.domain.entity.DepartmentEntity;
+import com.joy.xxfy.informationaldxn.module.system.domain.repository.DepartmentRepository;
 import com.joy.xxfy.informationaldxn.publish.constant.ResultDataConstant;
 import com.joy.xxfy.informationaldxn.publish.result.JoyResult;
 import com.joy.xxfy.informationaldxn.publish.result.Notice;

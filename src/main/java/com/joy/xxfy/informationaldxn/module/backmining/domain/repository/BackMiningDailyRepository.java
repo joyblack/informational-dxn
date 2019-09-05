@@ -4,7 +4,7 @@ import com.joy.xxfy.informationaldxn.module.backmining.domain.entity.BackMiningD
 import com.joy.xxfy.informationaldxn.module.backmining.domain.entity.BackMiningFaceEntity;
 import com.joy.xxfy.informationaldxn.module.common.domain.repository.BaseRepository;
 import com.joy.xxfy.informationaldxn.module.common.enums.DailyShiftEnum;
-import com.joy.xxfy.informationaldxn.module.department.domain.entity.DepartmentEntity;
+import com.joy.xxfy.informationaldxn.module.system.domain.entity.DepartmentEntity;
 import com.joy.xxfy.informationaldxn.module.produce.domain.vo.CmStatisticVo;
 import com.joy.xxfy.informationaldxn.module.statistic.domain.vo.KeyAndValueVo;
 import com.joy.xxfy.informationaldxn.module.statistic.domain.vo.SingleValueVo;

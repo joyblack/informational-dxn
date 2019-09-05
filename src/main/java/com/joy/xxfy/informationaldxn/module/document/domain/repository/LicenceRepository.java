@@ -1,18 +1,13 @@
 package com.joy.xxfy.informationaldxn.module.document.domain.repository;
 
 import com.joy.xxfy.informationaldxn.module.common.domain.repository.BaseRepository;
-import com.joy.xxfy.informationaldxn.module.common.enums.CommonYesEnum;
-import com.joy.xxfy.informationaldxn.module.department.domain.entity.DepartmentEntity;
-import com.joy.xxfy.informationaldxn.module.device.domain.entity.DeviceInfoEntity;
-import com.joy.xxfy.informationaldxn.module.document.domain.entity.BorrowEntity;
+import com.joy.xxfy.informationaldxn.module.system.domain.entity.DepartmentEntity;
 import com.joy.xxfy.informationaldxn.module.document.domain.entity.LicenceEntity;
 import com.joy.xxfy.informationaldxn.module.document.domain.enums.LicenceTypeEnum;
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
-import java.util.Collection;
 import java.util.Date;
 import java.util.List;
 

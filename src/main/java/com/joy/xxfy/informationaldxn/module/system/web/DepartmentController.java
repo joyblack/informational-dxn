@@ -1,10 +1,10 @@
-package com.joy.xxfy.informationaldxn.module.department.web;
+package com.joy.xxfy.informationaldxn.module.system.web;
 
 import com.joy.xxfy.informationaldxn.module.common.web.BaseController;
 import com.joy.xxfy.informationaldxn.module.common.web.req.IdReq;
-import com.joy.xxfy.informationaldxn.module.department.service.DepartmentService;
-import com.joy.xxfy.informationaldxn.module.department.web.req.DepartmentAddReq;
-import com.joy.xxfy.informationaldxn.module.department.web.req.DepartmentUpdateReq;
+import com.joy.xxfy.informationaldxn.module.system.service.DepartmentService;
+import com.joy.xxfy.informationaldxn.module.system.web.req.DepartmentAddReq;
+import com.joy.xxfy.informationaldxn.module.system.web.req.DepartmentUpdateReq;
 import com.joy.xxfy.informationaldxn.publish.result.JoyResult;
 import com.joy.xxfy.informationaldxn.publish.result.Notice;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,7 +22,6 @@ import javax.validation.Valid;
 public class DepartmentController extends BaseController {
     @Autowired
     private DepartmentService departmentService;
-
 
     /**
      * 获取部门

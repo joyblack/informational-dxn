@@ -2,7 +2,7 @@ package com.joy.xxfy.informationaldxn.module.statistic.service;
 
 import com.joy.xxfy.informationaldxn.module.backmining.domain.repository.BackMiningDailyRepository;
 import com.joy.xxfy.informationaldxn.module.common.enums.DailyShiftEnum;
-import com.joy.xxfy.informationaldxn.module.department.domain.entity.DepartmentEntity;
+import com.joy.xxfy.informationaldxn.module.system.domain.entity.DepartmentEntity;
 import com.joy.xxfy.informationaldxn.module.driving.domain.repository.DrivingDailyRepository;
 import com.joy.xxfy.informationaldxn.module.statistic.domain.vo.KeyAndValueVo;
 import com.joy.xxfy.informationaldxn.module.statistic.domain.vo.SingleValueVo;

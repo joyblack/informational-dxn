@@ -2,9 +2,11 @@ package com.joy.xxfy.informationaldxn.module.system.web.req;
 
 import com.joy.xxfy.informationaldxn.module.common.web.req.BaseAddReq;
 import com.joy.xxfy.informationaldxn.module.system.domain.enums.ResourceType;
+import com.joy.xxfy.informationaldxn.module.system.domain.enums.UserTypeEnum;
 import lombok.Data;
 import lombok.ToString;
 
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 
@@ -14,6 +16,7 @@ public class ResourceAddReq extends BaseAddReq {
     /**
      * 资源URL
      */
+    @NotBlank(message = "资源URL不能为空")
     private String resourceUrl;
 
     /**
@@ -23,15 +26,21 @@ public class ResourceAddReq extends BaseAddReq {
     private ResourceType resourceType;
 
     /**
+     * 限制用户的类型:只允许集团；只允许煤矿平台；亦或是允许所有
+     */
+    @NotNull(message = "限制用户类型不能为空")
+    private UserTypeEnum userType;
+
+    /**
      * 资源名称
      */
-    @NotEmpty(message = "资源名称不能为空")
+    @NotBlank(message = "资源名称不能为空")
     private String resourceName;
 
     /**
      * 资源名称
      */
-    @NotEmpty(message = "资源别称不能为空")
+    @NotBlank(message = "资源别称不能为空")
     private String resourceAliasName;
 
     /**

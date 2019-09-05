@@ -4,7 +4,7 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import com.joy.xxfy.informationaldxn.module.common.domain.entity.BaseEntity;
 import com.joy.xxfy.informationaldxn.module.backmining.domain.enums.BackMiningModeEnum;
 import com.joy.xxfy.informationaldxn.module.backmining.domain.enums.VentilationModeEnum;
-import com.joy.xxfy.informationaldxn.module.department.domain.entity.DepartmentEntity;
+import com.joy.xxfy.informationaldxn.module.system.domain.entity.DepartmentEntity;
 import lombok.Data;
 import lombok.ToString;
 import org.hibernate.annotations.Where;

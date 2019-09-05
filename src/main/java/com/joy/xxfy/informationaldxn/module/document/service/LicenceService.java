@@ -1,8 +1,8 @@
 package com.joy.xxfy.informationaldxn.module.document.service;
 
-import com.joy.xxfy.informationaldxn.module.department.domain.entity.DepartmentEntity;
-import com.joy.xxfy.informationaldxn.module.department.domain.enums.DepartmentTypeEnum;
-import com.joy.xxfy.informationaldxn.module.department.domain.repository.DepartmentRepository;
+import com.joy.xxfy.informationaldxn.module.system.domain.entity.DepartmentEntity;
+import com.joy.xxfy.informationaldxn.module.system.domain.enums.DepartmentTypeEnum;
+import com.joy.xxfy.informationaldxn.module.system.domain.repository.DepartmentRepository;
 import com.joy.xxfy.informationaldxn.module.document.domain.defaults.LicenceDefault;
 import com.joy.xxfy.informationaldxn.module.document.domain.entity.LicenceEntity;
 import com.joy.xxfy.informationaldxn.module.document.domain.enums.LicenceTypeEnum;
@@ -14,7 +14,6 @@ import com.joy.xxfy.informationaldxn.publish.result.JoyResult;
 import com.joy.xxfy.informationaldxn.publish.result.Notice;
 import com.joy.xxfy.informationaldxn.publish.utils.DateUtil;
 import com.joy.xxfy.informationaldxn.publish.utils.JoyBeanUtil;
-import com.sun.scenario.effect.impl.sw.sse.SSEBlend_SRC_OUTPeer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

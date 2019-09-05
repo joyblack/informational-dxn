@@ -1,7 +1,7 @@
 package com.joy.xxfy.informationaldxn.module.device.domain.entity;
 
 import com.joy.xxfy.informationaldxn.module.common.domain.entity.BaseEntity;
-import com.joy.xxfy.informationaldxn.module.department.domain.entity.DepartmentEntity;
+import com.joy.xxfy.informationaldxn.module.system.domain.entity.DepartmentEntity;
 import com.joy.xxfy.informationaldxn.module.device.domain.enums.DeviceStatusEnum;
 import lombok.Data;
 import lombok.ToString;

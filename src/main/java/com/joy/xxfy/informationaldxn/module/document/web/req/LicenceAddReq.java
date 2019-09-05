@@ -1,16 +1,10 @@
 package com.joy.xxfy.informationaldxn.module.document.web.req;
 
 import com.joy.xxfy.informationaldxn.module.common.web.req.BaseAddReq;
-import com.joy.xxfy.informationaldxn.module.department.domain.entity.DepartmentEntity;
 import com.joy.xxfy.informationaldxn.module.document.domain.enums.LicenceTypeEnum;
 import lombok.Data;
 import lombok.ToString;
 
-import javax.persistence.Column;
-import javax.persistence.FetchType;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import java.math.BigDecimal;
 import java.util.Date;

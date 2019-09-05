@@ -1,7 +1,6 @@
 package com.joy.xxfy.informationaldxn.module.device.domain.entity;
 
 import com.joy.xxfy.informationaldxn.module.common.domain.entity.BaseEntity;
-import com.joy.xxfy.informationaldxn.module.department.domain.entity.DepartmentEntity;
 import com.joy.xxfy.informationaldxn.module.device.domain.enums.MaintainStatusEnum;
 import com.joy.xxfy.informationaldxn.module.device.domain.enums.MaintainTypeEnum;
 import lombok.Data;

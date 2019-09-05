@@ -1,8 +1,8 @@
 package com.joy.xxfy.informationaldxn.module.system.service;
 
 import com.joy.xxfy.informationaldxn.module.common.web.req.BasePageReq;
-import com.joy.xxfy.informationaldxn.module.department.domain.entity.DepartmentEntity;
-import com.joy.xxfy.informationaldxn.module.department.domain.repository.DepartmentRepository;
+import com.joy.xxfy.informationaldxn.module.system.domain.entity.DepartmentEntity;
+import com.joy.xxfy.informationaldxn.module.system.domain.repository.DepartmentRepository;
 import com.joy.xxfy.informationaldxn.module.system.domain.entity.UserEntity;
 import com.joy.xxfy.informationaldxn.module.system.domain.enums.UserTypeEnum;
 import com.joy.xxfy.informationaldxn.module.system.domain.repository.UserRepository;

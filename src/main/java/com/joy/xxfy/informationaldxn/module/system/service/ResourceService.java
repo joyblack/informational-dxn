@@ -53,6 +53,8 @@ public class ResourceService extends BaseService {
         // == 资源类型
         info.setResourceType(req.getResourceType());
         info.setResourceUrl(req.getResourceUrl());
+        // == 限制用户的类型
+        info.setUserType(req.getUserType());
         // save
         ResourceEntity save = resourceRepository.save(info);
         // update path

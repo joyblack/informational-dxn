@@ -1,6 +1,6 @@
 package com.joy.xxfy.informationaldxn.publish.utils.project;
 
-import com.joy.xxfy.informationaldxn.module.department.domain.entity.DepartmentEntity;
+import com.joy.xxfy.informationaldxn.module.system.domain.entity.DepartmentEntity;
 import com.joy.xxfy.informationaldxn.module.device.domain.entity.DeviceCategoryEntity;
 import com.joy.xxfy.informationaldxn.module.document.domain.entity.FileEntity;
 import com.joy.xxfy.informationaldxn.module.system.domain.entity.ResourceEntity;

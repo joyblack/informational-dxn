@@ -8,10 +8,9 @@ import com.joy.xxfy.informationaldxn.module.backmining.domain.entity.BackMiningD
 import com.joy.xxfy.informationaldxn.module.backmining.domain.entity.BackMiningFaceEntity;
 import com.joy.xxfy.informationaldxn.module.backmining.domain.repository.BackMiningDailyRepository;
 import com.joy.xxfy.informationaldxn.module.backmining.domain.repository.BackMiningFaceRepository;
-import com.joy.xxfy.informationaldxn.module.common.enums.LimitUserTypeEnum;
 import com.joy.xxfy.informationaldxn.module.common.service.BaseService;
 import com.joy.xxfy.informationaldxn.module.common.web.req.TimeReq;
-import com.joy.xxfy.informationaldxn.module.department.domain.entity.DepartmentEntity;
+import com.joy.xxfy.informationaldxn.module.system.domain.entity.DepartmentEntity;
 import com.joy.xxfy.informationaldxn.module.drill.domain.entity.DrillDailyEntity;
 import com.joy.xxfy.informationaldxn.module.drill.domain.entity.DrillWorkEntity;
 import com.joy.xxfy.informationaldxn.module.drill.domain.repository.DrillDailyRepository;
@@ -22,7 +21,6 @@ import com.joy.xxfy.informationaldxn.module.driving.domain.repository.DrivingDai
 import com.joy.xxfy.informationaldxn.module.driving.domain.repository.DrivingFaceRepository;
 import com.joy.xxfy.informationaldxn.module.produce.domain.entity.ProduceCmDailyEntity;
 import com.joy.xxfy.informationaldxn.module.produce.domain.repository.ProduceCmDailyRepository;
-import com.joy.xxfy.informationaldxn.module.produce.domain.vo.CmStatisticVo;
 import com.joy.xxfy.informationaldxn.module.produce.domain.vo.DrillStatisticVo;
 import com.joy.xxfy.informationaldxn.module.produce.web.req.SetRemarkReq;
 import com.joy.xxfy.informationaldxn.module.produce.web.res.CmStatisticRes;
@@ -30,9 +28,7 @@ import com.joy.xxfy.informationaldxn.module.system.domain.entity.UserEntity;
 import com.joy.xxfy.informationaldxn.publish.constant.BigDecimalValueConstant;
 import com.joy.xxfy.informationaldxn.publish.constant.ExportConstant;
 import com.joy.xxfy.informationaldxn.publish.constant.ResultDataConstant;
-import com.joy.xxfy.informationaldxn.publish.exception.JoyException;
 import com.joy.xxfy.informationaldxn.publish.result.JoyResult;
-import com.joy.xxfy.informationaldxn.publish.result.Notice;
 import com.joy.xxfy.informationaldxn.publish.utils.DateUtil;
 import com.joy.xxfy.informationaldxn.publish.utils.JoyBeanUtil;
 import com.joy.xxfy.informationaldxn.publish.utils.LogUtil;
@@ -49,7 +45,6 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import static com.joy.xxfy.informationaldxn.module.common.enums.DailyShiftEnum.MORNING;
 import static com.joy.xxfy.informationaldxn.publish.utils.format.FormatToStringValueUtil.numberFormat;
 
 /**

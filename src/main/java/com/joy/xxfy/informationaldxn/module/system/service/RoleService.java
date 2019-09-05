@@ -1,10 +1,9 @@
 package com.joy.xxfy.informationaldxn.module.system.service;
 
-import com.joy.xxfy.informationaldxn.module.department.domain.entity.DepartmentEntity;
+import com.joy.xxfy.informationaldxn.module.system.domain.entity.DepartmentEntity;
 import com.joy.xxfy.informationaldxn.module.system.domain.entity.RoleEntity;
 import com.joy.xxfy.informationaldxn.module.system.domain.entity.UserEntity;
 import com.joy.xxfy.informationaldxn.module.system.domain.repository.RoleRepository;
-import com.joy.xxfy.informationaldxn.module.system.domain.repository.UserRepository;
 import com.joy.xxfy.informationaldxn.module.system.web.req.RoleAddReq;
 import com.joy.xxfy.informationaldxn.module.system.web.req.RoleGetListReq;
 import com.joy.xxfy.informationaldxn.module.system.web.req.RoleUpdateReq;

@@ -1,12 +1,8 @@
 package com.joy.xxfy.informationaldxn.module.safe.service;
 
-import com.joy.xxfy.informationaldxn.module.common.enums.CommonYesEnum;
-import com.joy.xxfy.informationaldxn.module.department.domain.entity.DepartmentEntity;
-import com.joy.xxfy.informationaldxn.module.department.domain.repository.DepartmentRepository;
-import com.joy.xxfy.informationaldxn.module.safe.domain.entity.SafeInspectionEntity;
+import com.joy.xxfy.informationaldxn.module.system.domain.entity.DepartmentEntity;
+import com.joy.xxfy.informationaldxn.module.system.domain.repository.DepartmentRepository;
 import com.joy.xxfy.informationaldxn.module.safe.domain.entity.ThreeViolationEntity;
-import com.joy.xxfy.informationaldxn.module.safe.domain.enums.RectificationStatusEnum;
-import com.joy.xxfy.informationaldxn.module.safe.domain.repository.SafeInspectionRepository;
 import com.joy.xxfy.informationaldxn.module.safe.domain.repository.ThreeViolationRepository;
 import com.joy.xxfy.informationaldxn.module.safe.web.req.*;
 import com.joy.xxfy.informationaldxn.publish.constant.ResultDataConstant;
@@ -22,7 +18,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.criteria.Predicate;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 @Transactional

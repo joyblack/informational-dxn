@@ -1,7 +1,7 @@
 package com.joy.xxfy.informationaldxn.module.device.service;
 
 import com.joy.xxfy.informationaldxn.module.common.service.BaseService;
-import com.joy.xxfy.informationaldxn.module.department.domain.entity.DepartmentEntity;
+import com.joy.xxfy.informationaldxn.module.system.domain.entity.DepartmentEntity;
 import com.joy.xxfy.informationaldxn.module.device.domain.defaults.DeviceInfoDefault;
 import com.joy.xxfy.informationaldxn.module.device.domain.entity.DeviceCategoryEntity;
 import com.joy.xxfy.informationaldxn.module.device.domain.entity.DeviceInfoEntity;

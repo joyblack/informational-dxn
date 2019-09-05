@@ -1,7 +1,6 @@
 package com.joy.xxfy.informationaldxn.module.system.domain.repository;
 
 import com.joy.xxfy.informationaldxn.module.common.domain.repository.BaseRepository;
-import com.joy.xxfy.informationaldxn.module.department.domain.entity.DepartmentEntity;
 import com.joy.xxfy.informationaldxn.module.system.domain.entity.ResourceEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 

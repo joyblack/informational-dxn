@@ -1,16 +1,11 @@
 package com.joy.xxfy.informationaldxn.module.system.domain.entity;
 
 import com.joy.xxfy.informationaldxn.module.common.domain.entity.BaseEntity;
-import com.joy.xxfy.informationaldxn.module.common.enums.CommonStatusEnum;
-import com.joy.xxfy.informationaldxn.module.department.domain.entity.DepartmentEntity;
-import com.joy.xxfy.informationaldxn.module.system.domain.enums.UserTypeEnum;
 import lombok.Data;
 import lombok.ToString;
 import org.hibernate.annotations.Where;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 
 /**

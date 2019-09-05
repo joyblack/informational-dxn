@@ -11,7 +11,7 @@ import javax.persistence.Table;
 import java.io.Serializable;
 
 @Entity
-@Table(name = "all_position")
+@Table(name = "staff_position")
 @Data
 @ToString(callSuper = true)
 @Where(clause = "is_delete = 0")

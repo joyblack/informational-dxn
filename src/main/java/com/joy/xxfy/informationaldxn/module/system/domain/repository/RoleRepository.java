@@ -1,9 +1,8 @@
 package com.joy.xxfy.informationaldxn.module.system.domain.repository;
 
 import com.joy.xxfy.informationaldxn.module.common.domain.repository.BaseRepository;
-import com.joy.xxfy.informationaldxn.module.department.domain.entity.DepartmentEntity;
+import com.joy.xxfy.informationaldxn.module.system.domain.entity.DepartmentEntity;
 import com.joy.xxfy.informationaldxn.module.system.domain.entity.RoleEntity;
-import com.sun.tracing.dtrace.ProviderAttributes;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.repository.query.Param;
 

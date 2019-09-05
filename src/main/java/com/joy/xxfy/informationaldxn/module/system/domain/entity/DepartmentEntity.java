@@ -1,7 +1,7 @@
-package com.joy.xxfy.informationaldxn.module.department.domain.entity;
+package com.joy.xxfy.informationaldxn.module.system.domain.entity;
 
 import com.joy.xxfy.informationaldxn.module.common.domain.entity.BaseEntity;
-import com.joy.xxfy.informationaldxn.module.department.domain.enums.DepartmentTypeEnum;
+import com.joy.xxfy.informationaldxn.module.system.domain.enums.DepartmentTypeEnum;
 import lombok.Data;
 import lombok.ToString;
 import org.hibernate.annotations.Where;
@@ -15,7 +15,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-@Entity(name = "all_department")
+@Entity(name = "system_department")
 @Data
 @ToString(callSuper = true)
 @Where(clause = "is_delete = 0")

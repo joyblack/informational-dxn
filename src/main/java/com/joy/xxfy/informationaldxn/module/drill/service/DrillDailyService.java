@@ -1,7 +1,7 @@
 package com.joy.xxfy.informationaldxn.module.drill.service;
 
-import com.joy.xxfy.informationaldxn.module.department.domain.entity.DepartmentEntity;
-import com.joy.xxfy.informationaldxn.module.department.domain.repository.DepartmentRepository;
+import com.joy.xxfy.informationaldxn.module.system.domain.entity.DepartmentEntity;
+import com.joy.xxfy.informationaldxn.module.system.domain.repository.DepartmentRepository;
 import com.joy.xxfy.informationaldxn.module.drill.domain.entity.DrillDailyEntity;
 import com.joy.xxfy.informationaldxn.module.drill.domain.entity.DrillWorkEntity;
 import com.joy.xxfy.informationaldxn.module.drill.domain.repository.DrillDailyDetailRepository;
@@ -14,7 +14,6 @@ import com.joy.xxfy.informationaldxn.publish.constant.ResultDataConstant;
 import com.joy.xxfy.informationaldxn.publish.result.JoyResult;
 import com.joy.xxfy.informationaldxn.publish.result.Notice;
 import com.joy.xxfy.informationaldxn.publish.utils.JoyBeanUtil;
-import com.joy.xxfy.informationaldxn.publish.utils.StringUtil;
 import com.joy.xxfy.informationaldxn.publish.utils.project.JpaPagerUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.domain.Specification;

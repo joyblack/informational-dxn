@@ -7,8 +7,8 @@ import com.joy.xxfy.informationaldxn.module.backmining.domain.repository.BackMin
 import com.joy.xxfy.informationaldxn.module.backmining.web.req.BackMiningDailyAddReq;
 import com.joy.xxfy.informationaldxn.module.backmining.web.req.BackMiningDailyGetListReq;
 import com.joy.xxfy.informationaldxn.module.backmining.web.req.BackMiningDailyUpdateReq;
-import com.joy.xxfy.informationaldxn.module.department.domain.entity.DepartmentEntity;
-import com.joy.xxfy.informationaldxn.module.department.domain.repository.DepartmentRepository;
+import com.joy.xxfy.informationaldxn.module.system.domain.entity.DepartmentEntity;
+import com.joy.xxfy.informationaldxn.module.system.domain.repository.DepartmentRepository;
 import com.joy.xxfy.informationaldxn.module.system.domain.entity.UserEntity;
 import com.joy.xxfy.informationaldxn.publish.constant.ResultDataConstant;
 import com.joy.xxfy.informationaldxn.publish.result.JoyResult;

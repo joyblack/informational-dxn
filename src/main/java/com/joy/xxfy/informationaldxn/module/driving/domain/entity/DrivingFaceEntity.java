@@ -2,7 +2,7 @@ package com.joy.xxfy.informationaldxn.module.driving.domain.entity;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.joy.xxfy.informationaldxn.module.common.domain.entity.BaseEntity;
-import com.joy.xxfy.informationaldxn.module.department.domain.entity.DepartmentEntity;
+import com.joy.xxfy.informationaldxn.module.system.domain.entity.DepartmentEntity;
 import com.joy.xxfy.informationaldxn.module.driving.domain.enums.CrossSectionTypeEnum;
 import com.joy.xxfy.informationaldxn.module.driving.domain.enums.DrivingTechnologyTypeEnum;
 import com.joy.xxfy.informationaldxn.module.driving.domain.enums.RockCharacterEnum;

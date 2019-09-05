@@ -2,7 +2,7 @@ package com.joy.xxfy.informationaldxn.module.drill.domain.entity;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.joy.xxfy.informationaldxn.module.common.domain.entity.BaseEntity;
-import com.joy.xxfy.informationaldxn.module.department.domain.entity.DepartmentEntity;
+import com.joy.xxfy.informationaldxn.module.system.domain.entity.DepartmentEntity;
 import com.joy.xxfy.informationaldxn.module.drill.domain.enums.DrillCategoryEnum;
 import com.joy.xxfy.informationaldxn.module.drill.domain.enums.DrillRockCharacterEnum;
 import com.joy.xxfy.informationaldxn.module.drill.domain.enums.DrillTypeEnum;

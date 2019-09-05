@@ -1,15 +1,11 @@
 package com.joy.xxfy.informationaldxn.module.safe.web.req;
 
-import com.joy.xxfy.informationaldxn.module.common.domain.entity.BaseEntity;
 import com.joy.xxfy.informationaldxn.module.common.enums.DailyShiftEnum;
 import com.joy.xxfy.informationaldxn.module.common.web.req.BaseAddReq;
-import com.joy.xxfy.informationaldxn.module.department.domain.entity.DepartmentEntity;
 import com.joy.xxfy.informationaldxn.module.safe.domain.enums.ThreeViolationTypeEnum;
 import lombok.Data;
 import lombok.ToString;
-import org.hibernate.annotations.Where;
 
-import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import java.util.Date;

@@ -1,10 +1,10 @@
-package com.joy.xxfy.informationaldxn.module.department.service;
+package com.joy.xxfy.informationaldxn.module.system.service;
 
-import com.joy.xxfy.informationaldxn.module.department.domain.entity.DepartmentEntity;
-import com.joy.xxfy.informationaldxn.module.department.domain.enums.DepartmentTypeEnum;
-import com.joy.xxfy.informationaldxn.module.department.domain.repository.DepartmentRepository;
-import com.joy.xxfy.informationaldxn.module.department.web.req.DepartmentAddReq;
-import com.joy.xxfy.informationaldxn.module.department.web.req.DepartmentUpdateReq;
+import com.joy.xxfy.informationaldxn.module.system.domain.entity.DepartmentEntity;
+import com.joy.xxfy.informationaldxn.module.system.domain.enums.DepartmentTypeEnum;
+import com.joy.xxfy.informationaldxn.module.system.domain.repository.DepartmentRepository;
+import com.joy.xxfy.informationaldxn.module.system.web.req.DepartmentAddReq;
+import com.joy.xxfy.informationaldxn.module.system.web.req.DepartmentUpdateReq;
 import com.joy.xxfy.informationaldxn.module.system.domain.enums.UserTypeEnum;
 import com.joy.xxfy.informationaldxn.publish.constant.DepartmentConstant;
 import com.joy.xxfy.informationaldxn.publish.constant.ResultDataConstant;

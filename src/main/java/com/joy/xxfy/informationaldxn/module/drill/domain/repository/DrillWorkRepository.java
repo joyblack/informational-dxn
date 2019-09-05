@@ -2,7 +2,7 @@ package com.joy.xxfy.informationaldxn.module.drill.domain.repository;
 
 import com.joy.xxfy.informationaldxn.module.common.domain.repository.BaseRepository;
 import com.joy.xxfy.informationaldxn.module.common.domain.vo.WorkProgressVo;
-import com.joy.xxfy.informationaldxn.module.department.domain.entity.DepartmentEntity;
+import com.joy.xxfy.informationaldxn.module.system.domain.entity.DepartmentEntity;
 import com.joy.xxfy.informationaldxn.module.drill.domain.entity.DrillWorkEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;

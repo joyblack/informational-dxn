@@ -1,20 +1,13 @@
 package com.joy.xxfy.informationaldxn.module.driving.domain.entity;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
 import com.joy.xxfy.informationaldxn.module.common.domain.entity.BaseEntity;
 import com.joy.xxfy.informationaldxn.module.common.enums.DailyShiftEnum;
-import com.joy.xxfy.informationaldxn.module.department.domain.entity.DepartmentEntity;
-import com.joy.xxfy.informationaldxn.module.drill.domain.entity.DrillWorkEntity;
-import com.joy.xxfy.informationaldxn.module.driving.domain.enums.CrossSectionTypeEnum;
-import com.joy.xxfy.informationaldxn.module.driving.domain.enums.DrivingTechnologyTypeEnum;
-import com.joy.xxfy.informationaldxn.module.driving.domain.enums.RockCharacterEnum;
-import com.joy.xxfy.informationaldxn.module.driving.domain.enums.SupportMethodEnum;
+import com.joy.xxfy.informationaldxn.module.system.domain.entity.DepartmentEntity;
 import lombok.Data;
 import lombok.ToString;
 import org.hibernate.annotations.Where;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotNull;
 import java.math.BigDecimal;
 import java.util.Date;
 

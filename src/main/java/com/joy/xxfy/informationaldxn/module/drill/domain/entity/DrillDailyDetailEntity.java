@@ -1,7 +1,6 @@
 package com.joy.xxfy.informationaldxn.module.drill.domain.entity;
 
 import com.joy.xxfy.informationaldxn.module.common.domain.entity.BaseEntity;
-import com.joy.xxfy.informationaldxn.module.department.domain.entity.DepartmentEntity;
 import lombok.Data;
 import lombok.ToString;
 import org.hibernate.annotations.Where;

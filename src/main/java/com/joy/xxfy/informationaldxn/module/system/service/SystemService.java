@@ -1,9 +1,9 @@
 package com.joy.xxfy.informationaldxn.module.system.service;
 
 import com.joy.xxfy.informationaldxn.module.common.enums.CommonStatusEnum;
-import com.joy.xxfy.informationaldxn.module.department.domain.entity.DepartmentEntity;
-import com.joy.xxfy.informationaldxn.module.department.domain.enums.DepartmentTypeEnum;
-import com.joy.xxfy.informationaldxn.module.department.domain.repository.DepartmentRepository;
+import com.joy.xxfy.informationaldxn.module.system.domain.entity.DepartmentEntity;
+import com.joy.xxfy.informationaldxn.module.system.domain.enums.DepartmentTypeEnum;
+import com.joy.xxfy.informationaldxn.module.system.domain.repository.DepartmentRepository;
 import com.joy.xxfy.informationaldxn.module.system.domain.entity.SystemConfigEntity;
 import com.joy.xxfy.informationaldxn.module.system.domain.repository.SystemConfigRepository;
 import com.joy.xxfy.informationaldxn.module.system.domain.enums.SystemConfigEnum;
@@ -66,6 +66,7 @@ public class SystemService {
             superCompany.setDepartmentType(DepartmentTypeEnum.CP_GROUP);
             superCompany.setCode("SUPER-COMPANY");
             superCompany.setParentId(DepartmentConstant.COMPANY_PARENT_NODE_ID);
+            superCompany.setPath("");
             DepartmentEntity save = departmentRepository.save(superCompany);
             save.setPath(save.getId() + DepartmentConstant.DEPARTMENT_PATH_SEPARATOR);
             departmentRepository.save(save);

@@ -1,7 +1,7 @@
 package com.joy.xxfy.informationaldxn.module.document.domain.entity;
 
 import com.joy.xxfy.informationaldxn.module.common.domain.entity.BaseEntity;
-import com.joy.xxfy.informationaldxn.module.department.domain.entity.DepartmentEntity;
+import com.joy.xxfy.informationaldxn.module.system.domain.entity.DepartmentEntity;
 import com.joy.xxfy.informationaldxn.module.document.domain.enums.PermissionTypeEnum;
 import com.joy.xxfy.informationaldxn.module.system.domain.entity.UserEntity;
 import lombok.Data;

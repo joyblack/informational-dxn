@@ -2,7 +2,7 @@ package com.joy.xxfy.informationaldxn.module.driving.domain.repository;
 
 import com.joy.xxfy.informationaldxn.module.common.domain.repository.BaseRepository;
 import com.joy.xxfy.informationaldxn.module.common.enums.DailyShiftEnum;
-import com.joy.xxfy.informationaldxn.module.department.domain.entity.DepartmentEntity;
+import com.joy.xxfy.informationaldxn.module.system.domain.entity.DepartmentEntity;
 import com.joy.xxfy.informationaldxn.module.driving.domain.entity.DrivingDailyEntity;
 import com.joy.xxfy.informationaldxn.module.driving.domain.entity.DrivingFaceEntity;
 import com.joy.xxfy.informationaldxn.module.produce.domain.vo.CmStatisticVo;

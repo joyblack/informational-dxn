@@ -1,8 +1,7 @@
 package com.joy.xxfy.informationaldxn.module.staff.domain.enetiy;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
 import com.joy.xxfy.informationaldxn.module.common.domain.entity.BaseEntity;
-import com.joy.xxfy.informationaldxn.module.department.domain.entity.DepartmentEntity;
+import com.joy.xxfy.informationaldxn.module.system.domain.entity.DepartmentEntity;
 import com.joy.xxfy.informationaldxn.module.staff.domain.enums.ReviewStatusEnum;
 import com.joy.xxfy.informationaldxn.module.system.domain.entity.UserEntity;
 import lombok.Data;

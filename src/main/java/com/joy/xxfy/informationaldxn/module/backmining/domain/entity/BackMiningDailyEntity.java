@@ -2,8 +2,7 @@ package com.joy.xxfy.informationaldxn.module.backmining.domain.entity;
 
 import com.joy.xxfy.informationaldxn.module.common.domain.entity.BaseEntity;
 import com.joy.xxfy.informationaldxn.module.common.enums.DailyShiftEnum;
-import com.joy.xxfy.informationaldxn.module.department.domain.entity.DepartmentEntity;
-import com.joy.xxfy.informationaldxn.module.driving.domain.entity.DrivingFaceEntity;
+import com.joy.xxfy.informationaldxn.module.system.domain.entity.DepartmentEntity;
 import lombok.Data;
 import lombok.ToString;
 import org.hibernate.annotations.Where;

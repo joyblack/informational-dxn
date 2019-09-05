@@ -19,6 +19,8 @@ public enum Notice{
     PHONE_ALREADY_EXIST("电话号码已存在", 100006),
     LOGIN_NAME_ALREADY_EXIST("登录名已存在", 100007),
     PASSWORD_ERROR("密码错误", 100008),
+    LOGIN_NAME_PASSWORD_NOT_MATCH("登录名与密码不匹配", 100009),
+
 
 
     // user

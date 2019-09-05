@@ -2,8 +2,8 @@ package com.joy.xxfy.informationaldxn.module.document.service;
 
 import com.joy.xxfy.informationaldxn.module.common.service.BaseService;
 import com.joy.xxfy.informationaldxn.module.common.web.res.FileInfoRes;
-import com.joy.xxfy.informationaldxn.module.department.domain.entity.DepartmentEntity;
-import com.joy.xxfy.informationaldxn.module.department.domain.repository.DepartmentRepository;
+import com.joy.xxfy.informationaldxn.module.system.domain.entity.DepartmentEntity;
+import com.joy.xxfy.informationaldxn.module.system.domain.repository.DepartmentRepository;
 import com.joy.xxfy.informationaldxn.module.document.domain.constant.FileConstant;
 import com.joy.xxfy.informationaldxn.module.document.domain.entity.FileEntity;
 import com.joy.xxfy.informationaldxn.module.document.domain.enums.PermissionTypeEnum;

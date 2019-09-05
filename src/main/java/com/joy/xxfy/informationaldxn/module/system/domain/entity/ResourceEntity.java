@@ -32,7 +32,7 @@ public class ResourceEntity extends BaseEntity {
     private ResourceType resourceType;
 
     /**
-     * 限制用户的类型:只允许集团；只允许部门；亦或是允许所有
+     * 限制用户的类型:只允许集团；只允许煤矿平台；亦或是允许所有
      */
     private UserTypeEnum userType;
 

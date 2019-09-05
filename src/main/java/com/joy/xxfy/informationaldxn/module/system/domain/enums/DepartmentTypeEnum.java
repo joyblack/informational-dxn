@@ -1,4 +1,4 @@
-package com.joy.xxfy.informationaldxn.module.department.domain.enums;
+package com.joy.xxfy.informationaldxn.module.system.domain.enums;
 
 public enum DepartmentTypeEnum {
     // CP = company
