@@ -4,6 +4,8 @@ import com.joy.xxfy.informationaldxn.module.common.web.BaseController;
 import com.joy.xxfy.informationaldxn.module.common.web.req.BasePageReq;
 import com.joy.xxfy.informationaldxn.module.common.web.req.IdReq;
 import com.joy.xxfy.informationaldxn.module.common.web.req.TestReq;
+import com.joy.xxfy.informationaldxn.module.system.web.req.UserAddReq;
+import com.joy.xxfy.informationaldxn.module.system.web.req.UserUpdateReq;
 import com.joy.xxfy.informationaldxn.publish.result.JoyResult;
 import com.joy.xxfy.informationaldxn.publish.result.Notice;
 import com.joy.xxfy.informationaldxn.module.system.domain.entity.UserEntity;
@@ -33,12 +35,12 @@ public class UserController extends BaseController {
     @PostMapping(
             value = "add",
             produces = {"application/json;charset=UTF-8"})
-    public JoyResult add(@RequestBody @Valid UserEntity user, BindingResult bindingResult) {
+    public JoyResult add(@RequestBody @Valid UserAddReq req, BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
             return JoyResult.buildFailedResult(Notice.REQUEST_PARAMETER_IS_ERROR, bindingResult.getFieldError().getDefaultMessage());
         } else {
             // copy
-            return userService.add(user);
+            return userService.add(req);
         }
     }
 
@@ -48,12 +50,12 @@ public class UserController extends BaseController {
     @PostMapping(
             value = "update",
             produces = {"application/json;charset=UTF-8"})
-    public JoyResult update(@RequestBody @Valid UserEntity user, BindingResult bindingResult) {
+    public JoyResult update(@RequestBody @Valid UserUpdateReq req, BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
             return JoyResult.buildFailedResult(Notice.REQUEST_PARAMETER_IS_ERROR, bindingResult.getFieldError().getDefaultMessage());
         } else {
             // copy
-            return userService.update(user);
+            return userService.update(req);
         }
     }
 

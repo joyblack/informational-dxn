@@ -96,7 +96,7 @@ public class UserService {
     /**
      * update
      */
-    public JoyResult add(UserUpdateReq req) {
+    public JoyResult update(UserUpdateReq req) {
         UserEntity info = userRepository.findAllById(req.getId());
         /**
          * 检测密码是否一致
