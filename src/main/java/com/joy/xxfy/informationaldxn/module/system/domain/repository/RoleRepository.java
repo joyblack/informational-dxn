@@ -9,7 +9,9 @@ import org.springframework.data.repository.query.Param;
 
 public interface RoleRepository extends BaseRepository<RoleEntity>, JpaRepository<RoleEntity, Long> {
     /**
-     * 获取平台内同名数据
+     * 平台内获取同名数据
      */
     RoleEntity findFirstByBelongCompanyAndRoleName(@Param("belongCompany")DepartmentEntity belongCompany, @Param("roleName") String roleName);
+
+
 }

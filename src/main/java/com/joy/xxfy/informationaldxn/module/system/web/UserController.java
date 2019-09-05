@@ -1,5 +1,6 @@
 package com.joy.xxfy.informationaldxn.module.system.web;
 
+import com.joy.xxfy.informationaldxn.module.common.web.BaseController;
 import com.joy.xxfy.informationaldxn.module.common.web.req.BasePageReq;
 import com.joy.xxfy.informationaldxn.module.common.web.req.IdReq;
 import com.joy.xxfy.informationaldxn.module.common.web.req.TestReq;
@@ -14,11 +15,12 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
 @RequestMapping("user")
 @RestController
-public class UserController {
+public class UserController extends BaseController {
 
     @Autowired
     private UserService userService;
@@ -61,7 +63,7 @@ public class UserController {
     @PostMapping(
             value = "get",
             produces = {"application/json;charset=UTF-8"})
-    public JoyResult get(@RequestBody @Valid IdReq req, BindingResult bindingResult) {
+    public JoyResult get(@RequestBody @Valid IdReq req, BindingResult bindingResult, HttpServletRequest request) {
         if (bindingResult.hasErrors()) {
             return JoyResult.buildFailedResult(Notice.REQUEST_PARAMETER_IS_ERROR, bindingResult.getFieldError().getDefaultMessage());
         } else {
@@ -91,12 +93,12 @@ public class UserController {
     @RequestMapping(
             value = "getPagerList",
             produces = {"application/json;charset=UTF-8"})
-    public JoyResult getPagerList(@RequestBody @Valid BasePageReq req, BindingResult bindingResult) {
+    public JoyResult getPagerList(@RequestBody @Valid BasePageReq req, BindingResult bindingResult, HttpServletRequest request) {
         if (bindingResult.hasErrors()) {
             return JoyResult.buildFailedResult(Notice.REQUEST_PARAMETER_IS_ERROR, bindingResult.getFieldError().getDefaultMessage());
         } else {
             // copy
-            return userService.getPagerList(req);
+            return userService.getPagerList(req,getLoginUser(request));
         }
     }
 
@@ -106,12 +108,12 @@ public class UserController {
     @RequestMapping(
             value = "getAllList",
             produces = {"application/json;charset=UTF-8"})
-    public JoyResult getAllList(@RequestBody @Valid BasePageReq req, BindingResult bindingResult) {
+    public JoyResult getAllList(@RequestBody @Valid BasePageReq req, BindingResult bindingResult, HttpServletRequest request) {
         if (bindingResult.hasErrors()) {
             return JoyResult.buildFailedResult(Notice.REQUEST_PARAMETER_IS_ERROR, bindingResult.getFieldError().getDefaultMessage());
         } else {
             // copy
-            return userService.getAllList(req);
+            return userService.getAllList(req,getLoginUser(request));
         }
     }
 }

@@ -7,7 +7,9 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 
 public class JpaPagerUtil {
-    // 第一页的代表值为0
+    /**
+     * 第一页: 0
+     */
     public static final int PAGE_OFFSET;
 
     static {

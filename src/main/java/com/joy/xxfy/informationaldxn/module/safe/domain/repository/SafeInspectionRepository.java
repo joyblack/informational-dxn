@@ -16,7 +16,9 @@ import java.util.Date;
 import java.util.List;
 
 public interface SafeInspectionRepository extends BaseRepository<SafeInspectionEntity>, JpaRepository<SafeInspectionEntity, Long> {
-    // 所有未整改的记录若超过截止时间，则都设置为超时状态
+    /**
+     * 所有未整改的记录若超过截止时间，则都设置为超时状态
+     */
     @Query("update SafeInspectionEntity s set s.isOverTime = :isOverTime where s.deadTime < :now and s.rectificationStatus = :rectificationStatus")
     @Modifying
     void updateIsOvertTimeByNowAndRectificationStatus(@Param("isOverTime") CommonYesEnum isOverTime,

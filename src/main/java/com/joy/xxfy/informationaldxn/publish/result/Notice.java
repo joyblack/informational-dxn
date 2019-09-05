@@ -25,6 +25,7 @@ public enum Notice{
     USER_NOT_LOGIN("用户未登录", 101000),
     USER_NOT_EXIST("用户信息不存在", 101001),
     ROLE_NAME_ALREADY_EXIST("角色名称已存在", 102002),
+    ROLE_NOT_EXIST("角色信息不存在", 102003),
 
     // department
     DEPARTMENT_NOT_EXIST("部门信息不存在",102000),
