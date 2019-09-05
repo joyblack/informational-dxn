@@ -20,7 +20,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 /**
- * 登陆拦截
+ * 登陆拦截、权限验证
  */
 @Aspect
 @Component
@@ -58,4 +58,6 @@ public class AuthorizeAspect {
         request.setAttribute(Token.CLAIMS.getName(), claims);
         response.setHeader(Token.AUTHORIZATION.getName(), JwtUtil.createJWT(claims, jwtParamConfig));
     }
+
+
 }

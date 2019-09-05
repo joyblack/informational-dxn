@@ -2,6 +2,7 @@ package com.joy.xxfy.informationaldxn.module.system.domain.entity;
 
 import com.joy.xxfy.informationaldxn.module.common.domain.entity.BaseEntity;
 import com.joy.xxfy.informationaldxn.module.system.domain.enums.ResourceType;
+import com.joy.xxfy.informationaldxn.module.system.domain.enums.UserTypeEnum;
 import lombok.Data;
 import lombok.ToString;
 import org.hibernate.annotations.Where;
@@ -29,6 +30,11 @@ public class ResourceEntity extends BaseEntity {
      */
     @Column(nullable = false)
     private ResourceType resourceType;
+
+    /**
+     * 限制用户的类型:只允许集团；只允许部门；亦或是允许所有
+     */
+    private UserTypeEnum userType;
 
     /**
      * 资源名称

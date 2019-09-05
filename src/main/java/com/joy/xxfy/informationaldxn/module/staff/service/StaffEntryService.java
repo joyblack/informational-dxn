@@ -426,10 +426,6 @@ public class StaffEntryService extends BaseService {
     }
 
     public void exportData(StaffEntryGetListReq req, UserEntity loginUser, HttpServletRequest request, HttpServletResponse response) {
-        // 权限验证
-        if(!hasPermission(loginUser, 0L, LimitUserTypeEnum.ALL)){
-            throw new JoyException(Notice.PERMISSION_FORBIDDEN);
-        }
         // 获取查询结果
         List<StaffEntryEntity> staffEntryEntities = (List<StaffEntryEntity>)getAllList(req, loginUser).getData();
 

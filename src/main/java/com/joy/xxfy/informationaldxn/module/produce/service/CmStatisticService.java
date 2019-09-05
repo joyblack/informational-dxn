@@ -319,10 +319,6 @@ public class CmStatisticService extends BaseService {
 
 
     public void exportData(TimeReq req, UserEntity loginUser, HttpServletRequest request, HttpServletResponse response) {
-        // 权限验证
-        if(!hasPermission(loginUser, 0L, LimitUserTypeEnum.ALL)){
-            throw new JoyException(Notice.PERMISSION_FORBIDDEN);
-        }
         // 日期导出格式
         SimpleDateFormat dateFormat = new SimpleDateFormat(ExportConstant.DATE_FORMAT);
         List<List<String>> rows;

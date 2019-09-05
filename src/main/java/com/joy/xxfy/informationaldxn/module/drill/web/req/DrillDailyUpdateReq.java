@@ -41,7 +41,4 @@ public class DrillDailyUpdateReq extends BaseUpdateReq {
     @NotNull(message = "打钻人数不能为空")
     private Long peopleNumber;
 
-
-
-
 }

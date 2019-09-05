@@ -77,7 +77,7 @@ public class StaffPersonalService extends BaseService {
 
     public JoyResult uploadIdentityPhoto(MultipartFile file) {
         // 保存文件:验证格式为图片
-        JoyResult result = saveModuleFile(file, StoreFilePathConstant.TRAINING_PHOTO, true);
+        JoyResult result = saveModuleFile(file, StoreFilePathConstant.STAFF_IDENTITY_PHOTO, true);
         if(result.getState().equals(Boolean.FALSE)){
             return result;
         }
@@ -96,7 +96,7 @@ public class StaffPersonalService extends BaseService {
 
     public JoyResult uploadOneInchPhoto(MultipartFile file) {
         // 保存文件:验证格式为图片
-        JoyResult result = saveModuleFile(file, StoreFilePathConstant.TRAINING_PHOTO, true);
+        JoyResult result = saveModuleFile(file, StoreFilePathConstant.STAFF_ONE_INCH_PHOTO, true);
         if(result.getState().equals(Boolean.FALSE)){
             return result;
         }

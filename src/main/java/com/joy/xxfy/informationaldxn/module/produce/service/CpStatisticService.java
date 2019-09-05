@@ -39,7 +39,6 @@ import com.joy.xxfy.informationaldxn.publish.utils.excel.ExportUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import com.joy.xxfy.informationaldxn.module.produce.domain.vo.CmStatisticVo;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -88,11 +87,6 @@ public class CpStatisticService extends BaseService {
      * 获取煤矿生产日报服务的所有统计数据
      */
     public JoyResult getData(UserEntity loginUser, Date time) {
-        LogUtil.info("Now user type is : {}", loginUser.getUserType());
-        // 权限验证
-        if(!hasPermission(loginUser, 0L, LimitUserTypeEnum.CP_ADMIN)){
-            throw new JoyException(Notice.PERMISSION_FORBIDDEN);
-        }
         // 返回结果
         List<CpStatisticRes> result = new ArrayList<>();
         // 依次处理每一个煤矿的数据
@@ -347,10 +341,6 @@ public class CpStatisticService extends BaseService {
 
 
     public void exportData(TimeReq req, UserEntity loginUser, HttpServletRequest request, HttpServletResponse response) {
-        // 权限验证
-        if(!hasPermission(loginUser, 0L, LimitUserTypeEnum.CP_ADMIN)){
-            throw new JoyException(Notice.PERMISSION_FORBIDDEN);
-        }
         // 日期导出格式
         SimpleDateFormat dateFormat = new SimpleDateFormat(ExportConstant.DATE_FORMAT);
         // 三段数据

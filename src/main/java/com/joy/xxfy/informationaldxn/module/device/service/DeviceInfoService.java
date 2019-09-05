@@ -1,6 +1,5 @@
 package com.joy.xxfy.informationaldxn.module.device.service;
 
-import com.joy.xxfy.informationaldxn.module.common.enums.LimitUserTypeEnum;
 import com.joy.xxfy.informationaldxn.module.common.service.BaseService;
 import com.joy.xxfy.informationaldxn.module.department.domain.entity.DepartmentEntity;
 import com.joy.xxfy.informationaldxn.module.device.domain.defaults.DeviceInfoDefault;
@@ -14,9 +13,7 @@ import com.joy.xxfy.informationaldxn.module.device.web.req.DeviceInfoAddReq;
 import com.joy.xxfy.informationaldxn.module.device.web.req.DeviceInfoChangeStatusReq;
 import com.joy.xxfy.informationaldxn.module.device.web.req.DeviceInfoGetListReq;
 import com.joy.xxfy.informationaldxn.module.device.web.req.DeviceInfoUpdateReq;
-import com.joy.xxfy.informationaldxn.module.safe.domain.enums.RectificationStatusEnum;
 import com.joy.xxfy.informationaldxn.module.system.domain.entity.UserEntity;
-import com.joy.xxfy.informationaldxn.permission.constant.ResourceIdConfig;
 import com.joy.xxfy.informationaldxn.publish.constant.ResultDataConstant;
 import com.joy.xxfy.informationaldxn.publish.result.JoyResult;
 import com.joy.xxfy.informationaldxn.publish.result.Notice;
@@ -50,9 +47,6 @@ public class DeviceInfoService extends BaseService {
      * 添加
      */
     public JoyResult add(DeviceInfoAddReq req, UserEntity loginUser) {
-        if(!hasPermission(loginUser, ResourceIdConfig.DEVICE_INFO_ADD, LimitUserTypeEnum.CM_ADMIN)){
-            return JoyResult.buildFailedResult(Notice.PERMISSION_FORBIDDEN);
-        }
         DepartmentEntity belongCompany = loginUser.getCompany();
         // 获取设备类型
         DeviceCategoryEntity category = deviceCategoryRepository.findAllById(req.getDeviceCategoryId());
@@ -109,9 +103,6 @@ public class DeviceInfoService extends BaseService {
      * 改
      */
     public JoyResult update(DeviceInfoUpdateReq req, UserEntity loginUser) {
-        if(!hasPermission(loginUser, ResourceIdConfig.DEVICE_INFO_UPDATE, LimitUserTypeEnum.CM_ADMIN)){
-            return JoyResult.buildFailedResult(Notice.PERMISSION_FORBIDDEN);
-        }
         // 信息是否存在
         DeviceInfoEntity info = deviceInfoRepository.findAllById(req.getId());
         if(info == null){
@@ -163,9 +154,6 @@ public class DeviceInfoService extends BaseService {
      * 删除
      */
     public JoyResult delete(Long id, UserEntity loginUser) {
-        if(!hasPermission(loginUser, ResourceIdConfig.DEVICE_INFO_DELETE, LimitUserTypeEnum.CM_ADMIN)){
-            return JoyResult.buildFailedResult(Notice.PERMISSION_FORBIDDEN);
-        }
         DeviceInfoEntity info = deviceInfoRepository.findAllById(id);
         if(info == null){
             return JoyResult.buildFailedResult(Notice.DEVICE_INFO_NOT_EXIST);
@@ -193,9 +181,6 @@ public class DeviceInfoService extends BaseService {
      * 获取分页数据
      */
     public JoyResult getPagerList(DeviceInfoGetListReq req, UserEntity loginUser) {
-        if(!hasPermission(loginUser, ResourceIdConfig.DEVICE_INFO_GET_LIST, LimitUserTypeEnum.CM_ADMIN)){
-            return JoyResult.buildFailedResult(Notice.PERMISSION_FORBIDDEN);
-        }
         return JoyResult.buildSuccessResultWithData(deviceInfoRepository.findAll(getPredicates(req,loginUser), JpaPagerUtil.getPageable(req)));
     }
 
@@ -258,9 +243,6 @@ public class DeviceInfoService extends BaseService {
      * 变更设备状态
      */
     public JoyResult changeDeviceStatus(DeviceInfoChangeStatusReq req, UserEntity loginUser) {
-        if(!hasPermission(loginUser, ResourceIdConfig.DEVICE_INFO_CHANGE_STATUS, LimitUserTypeEnum.CM_ADMIN)){
-            return JoyResult.buildFailedResult(Notice.PERMISSION_FORBIDDEN);
-        }
         List<DeviceInfoEntity> devices = new ArrayList<>();
         // 获取每一条信息
         for (Long id : req.getIds()) {

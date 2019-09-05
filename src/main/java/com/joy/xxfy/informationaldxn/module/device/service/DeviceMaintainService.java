@@ -1,6 +1,5 @@
 package com.joy.xxfy.informationaldxn.module.device.service;
 
-import com.joy.xxfy.informationaldxn.module.common.enums.LimitUserTypeEnum;
 import com.joy.xxfy.informationaldxn.module.common.service.BaseService;
 import com.joy.xxfy.informationaldxn.module.device.domain.entity.DeviceInfoEntity;
 import com.joy.xxfy.informationaldxn.module.device.domain.entity.DeviceMaintainEntity;
@@ -9,9 +8,10 @@ import com.joy.xxfy.informationaldxn.module.device.domain.enums.MaintainStatusEn
 import com.joy.xxfy.informationaldxn.module.device.domain.repository.DeviceCategoryRepository;
 import com.joy.xxfy.informationaldxn.module.device.domain.repository.DeviceInfoRepository;
 import com.joy.xxfy.informationaldxn.module.device.domain.repository.DeviceMaintainRepository;
-import com.joy.xxfy.informationaldxn.module.device.web.req.*;
+import com.joy.xxfy.informationaldxn.module.device.web.req.DeviceMaintainAddReq;
+import com.joy.xxfy.informationaldxn.module.device.web.req.DeviceMaintainGetListReq;
+import com.joy.xxfy.informationaldxn.module.device.web.req.DeviceMaintainUpdateReq;
 import com.joy.xxfy.informationaldxn.module.system.domain.entity.UserEntity;
-import com.joy.xxfy.informationaldxn.permission.constant.ResourceIdConfig;
 import com.joy.xxfy.informationaldxn.publish.constant.ResultDataConstant;
 import com.joy.xxfy.informationaldxn.publish.result.JoyResult;
 import com.joy.xxfy.informationaldxn.publish.result.Notice;
@@ -45,9 +45,6 @@ public class DeviceMaintainService extends BaseService {
      * 添加
      */
     public JoyResult add(DeviceMaintainAddReq req, UserEntity loginUser) {
-        if(!hasPermission(loginUser, ResourceIdConfig.DEVICE_MAINTAIN_ADD, LimitUserTypeEnum.CM_ADMIN)){
-            return JoyResult.buildFailedResult(Notice.PERMISSION_FORBIDDEN);
-        }
         // 设备信息是否存在
         DeviceInfoEntity deviceInfo = deviceInfoRepository.findAllById(req.getDeviceInfoId());
         if(deviceInfo == null){
@@ -88,9 +85,6 @@ public class DeviceMaintainService extends BaseService {
      * 改
      */
     public JoyResult update(DeviceMaintainUpdateReq req, UserEntity loginUser) {
-        if(!hasPermission(loginUser, ResourceIdConfig.DEVICE_MAINTAIN_UPDATE, LimitUserTypeEnum.CM_ADMIN)){
-            return JoyResult.buildFailedResult(Notice.PERMISSION_FORBIDDEN);
-        }
         // 设备信息是否存在
         DeviceMaintainEntity maintainInfo = deviceMaintainRepository.findAllById(req.getId());
         if(maintainInfo == null){
@@ -134,9 +128,6 @@ public class DeviceMaintainService extends BaseService {
      * 删除
      */
     public JoyResult delete(Long id, UserEntity loginUser) {
-        if(!hasPermission(loginUser, ResourceIdConfig.DEVICE_MAINTAIN_DELETE, LimitUserTypeEnum.CM_ADMIN)){
-            return JoyResult.buildFailedResult(Notice.PERMISSION_FORBIDDEN);
-        }
         DeviceMaintainEntity info = deviceMaintainRepository.findAllById(id);
         if(info == null){
             return JoyResult.buildFailedResult(Notice.DEVICE_MAINTAIN_NOT_EXIST);
@@ -159,9 +150,6 @@ public class DeviceMaintainService extends BaseService {
      * 获取分页数据
      */
     public JoyResult getPagerList(DeviceMaintainGetListReq req, UserEntity loginUser) {
-        if(!hasPermission(loginUser, ResourceIdConfig.DEVICE_INFO_GET_LIST, LimitUserTypeEnum.CM_ADMIN)){
-            return JoyResult.buildFailedResult(Notice.PERMISSION_FORBIDDEN);
-        }
         return JoyResult.buildSuccessResultWithData(deviceMaintainRepository.findAll(getPredicates(req,loginUser), JpaPagerUtil.getPageable(req)));
     }
 
