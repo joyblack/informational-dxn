@@ -11,9 +11,9 @@ import java.util.Date;
 @ToString(callSuper = true)
 public class DrillDailyGetListReq extends BasePageReq {
     /**
-     * 钻孔工作名称
+     * 钻孔工作ID
      */
-    private String drillWorkName;
+    private Long drillWorkId;
 
 
     /**

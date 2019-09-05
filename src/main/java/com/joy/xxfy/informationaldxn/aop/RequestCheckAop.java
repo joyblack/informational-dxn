@@ -51,8 +51,8 @@ public class RequestCheckAop {
         long start = System.currentTimeMillis();
         // Get Request URI
         HttpServletRequest request = getRequest(joinPoint);
-        LogUtil.info("----------------------------- 请求开始 -----------------------------");
-        LogUtil.info("请求地址: {}", request.getRequestURI());
+        LogUtil.info("----------------------------- Request start -----------------------------");
+        LogUtil.info("Request url: {}", request.getRequestURI());
         Object[] args = joinPoint.getArgs();
         MethodSignature signature = (MethodSignature)joinPoint.getSignature();
         Method method = signature.getMethod();
@@ -63,7 +63,6 @@ public class RequestCheckAop {
             LogUtil.info("用户信息: ");
             LogUtil.info("登陆状态：未登录");
         }else{
-            LogUtil.info("用户信息: ");
             LogUtil.info("登陆状态：已登录");
             LogUtil.info("登录名：{}", loginUser.getLoginName());
             LogUtil.info("用户类型：{}", loginUser.getUserType());

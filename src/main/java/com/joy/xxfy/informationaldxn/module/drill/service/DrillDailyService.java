@@ -151,9 +151,8 @@ public class DrillDailyService {
         return (Specification<DrillDailyEntity>) (root, query, builder) -> {
             List<Predicate> predicates = new ArrayList<>();
             predicates.add(builder.equal(root.get("drillWork").get("belongCompany"), loginUser.getCompany()));
-            // name like
-            if(!StringUtil.isEmpty(req.getDrillWorkName())){
-                predicates.add(builder.like(root.get("drillWork").get("drillWorkName"), "%" + req.getDrillWorkName() +"%"));
+            if(req.getDrillWorkId() != null){
+                predicates.add(builder.equal(root.get("drillWork").get("drillWorkId"), req.getDrillWorkId()));
             }
             // drill_time between
             if(req.getDailyTimeStart() != null){
