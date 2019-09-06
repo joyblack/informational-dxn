@@ -5,6 +5,7 @@ import com.joy.xxfy.informationaldxn.module.driving.domain.enums.CrossSectionTyp
 import com.joy.xxfy.informationaldxn.module.driving.domain.enums.DrivingTechnologyTypeEnum;
 import com.joy.xxfy.informationaldxn.module.driving.domain.enums.RockCharacterEnum;
 import com.joy.xxfy.informationaldxn.module.driving.domain.enums.SupportMethodEnum;
+import com.joy.xxfy.informationaldxn.validate.annotates.Angle;
 import lombok.Data;
 import lombok.ToString;
 
@@ -55,6 +56,7 @@ public class DrivingFaceAddReq extends BaseAddReq {
     /**
      * 掘进坡度
      */
+    @Angle(message = "坡度不合法，请设置为-360~360之间的值.")
     private BigDecimal drivingSlope;
 
 

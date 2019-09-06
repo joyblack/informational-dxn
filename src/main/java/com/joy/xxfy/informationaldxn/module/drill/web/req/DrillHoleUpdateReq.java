@@ -1,6 +1,7 @@
 package com.joy.xxfy.informationaldxn.module.drill.web.req;
 
 import com.joy.xxfy.informationaldxn.module.common.web.req.BaseUpdateReq;
+import com.joy.xxfy.informationaldxn.validate.annotates.Angle;
 import lombok.Data;
 import lombok.ToString;
 
@@ -34,11 +35,13 @@ public class DrillHoleUpdateReq extends BaseUpdateReq {
     /**
      * 倾角
      */
+    @Angle(message = "倾角不合法，请设置为-360~360之间的值.")
     private BigDecimal dipAngle;
 
     /**
      * 夹角
      */
+    @Angle(message = "夹角不合法，请设置为-360~360之间的值.")
     private BigDecimal intersectionAngle;
 
     /**
@@ -70,8 +73,5 @@ public class DrillHoleUpdateReq extends BaseUpdateReq {
      * 实际煤厚
      */
     private BigDecimal realCoalThickness;
-
-
-
 
 }

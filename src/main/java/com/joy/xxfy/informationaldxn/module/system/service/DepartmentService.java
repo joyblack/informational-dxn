@@ -60,6 +60,7 @@ public class DepartmentService{
         department.setRemarks(req.getRemarks());
         // 父部门信息
         department.setParentId(req.getParentId());
+        department.setPath("");
         DepartmentEntity save = departmentRepository.save(department);
         // 通过ID回写路径信息
         String path = getSuitPath(parent, department);

@@ -11,7 +11,7 @@ public enum Notice{
     DATA_IN_USED_CANT_BE_DELETE("该数据正在使用中，不允许删除。", 299),
 
     // 公共模块
-    REQUEST_PARAMETER_IS_ERROR("请求参数缺失或未空值", 100000),
+    REQUEST_PARAMETER_IS_ERROR("请求参数缺失或为空值", 100000),
     IDENTITY_NUMBER_ERROR("身份证信息错误", 100001),
     PHONE_ERROR("电话号码错误", 100002),
     PASSWORD_AFFIRM_ERROR("确认密码不匹配", 100003),

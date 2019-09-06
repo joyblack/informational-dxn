@@ -7,6 +7,7 @@ import com.joy.xxfy.informationaldxn.module.driving.domain.enums.CrossSectionTyp
 import com.joy.xxfy.informationaldxn.module.driving.domain.enums.DrivingTechnologyTypeEnum;
 import com.joy.xxfy.informationaldxn.module.driving.domain.enums.RockCharacterEnum;
 import com.joy.xxfy.informationaldxn.module.driving.domain.enums.SupportMethodEnum;
+import com.joy.xxfy.informationaldxn.validate.annotates.Angle;
 import lombok.Data;
 import lombok.ToString;
 import org.hibernate.annotations.Where;

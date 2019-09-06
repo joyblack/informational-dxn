@@ -3,6 +3,7 @@ package com.joy.xxfy.informationaldxn.module.backmining.web.req;
 import com.joy.xxfy.informationaldxn.module.common.web.req.BaseUpdateReq;
 import com.joy.xxfy.informationaldxn.module.backmining.domain.enums.BackMiningModeEnum;
 import com.joy.xxfy.informationaldxn.module.backmining.domain.enums.VentilationModeEnum;
+import com.joy.xxfy.informationaldxn.validate.annotates.Angle;
 import lombok.Data;
 import lombok.ToString;
 
@@ -66,6 +67,7 @@ public class BackMiningFaceUpdateReq extends BaseUpdateReq {
     /**
      * 煤层倾角
      */
+    @Angle(message = "煤层倾角不合法，请设置为-360~360之间的值.")
     private BigDecimal coalSeamDipAngle;
 
     /**
