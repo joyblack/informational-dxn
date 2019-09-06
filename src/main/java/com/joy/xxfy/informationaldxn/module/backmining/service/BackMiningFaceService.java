@@ -13,10 +13,7 @@ import com.joy.xxfy.informationaldxn.module.system.domain.entity.UserEntity;
 import com.joy.xxfy.informationaldxn.publish.constant.BigDecimalValueConstant;
 import com.joy.xxfy.informationaldxn.publish.result.JoyResult;
 import com.joy.xxfy.informationaldxn.publish.result.Notice;
-import com.joy.xxfy.informationaldxn.publish.utils.JoyBeanUtil;
-import com.joy.xxfy.informationaldxn.publish.utils.LogUtil;
-import com.joy.xxfy.informationaldxn.publish.utils.RateUtil;
-import com.joy.xxfy.informationaldxn.publish.utils.StringUtil;
+import com.joy.xxfy.informationaldxn.publish.utils.*;
 import com.joy.xxfy.informationaldxn.publish.utils.project.JpaPagerUtil;
 import org.apache.poi.ss.formula.functions.Rate;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,6 +23,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.criteria.Predicate;
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -52,8 +50,14 @@ public class BackMiningFaceService {
         // copy properties
         BackMiningFaceEntity info = new BackMiningFaceEntity();
         JoyBeanUtil.copyPropertiesIgnoreTargetNotNullProperties(req, info);
+
+        BigDecimal doneLength = info.getReturnAirChute().add(info.getTransportChute()).divide(BigDecimalValueConstant.TWO,2, RoundingMode.HALF_UP);
+        if(ComputeUtils.compare(doneLength, info.getSlopeLength()) > 0){
+            return JoyResult.buildFailedResult(Notice.SET_LENGTH_MORE_LEFT_LENGTH);
+        }
+
         // 已采长度：(回风顺槽 + 运输顺槽)/2
-        info.setDoneLength(info.getReturnAirChute().add(info.getTransportChute()).divide(BigDecimalValueConstant.TWO, BigDecimal.ROUND_HALF_UP));
+        info.setDoneLength(info.getReturnAirChute().add(info.getTransportChute()).divide(BigDecimalValueConstant.TWO, 2, RoundingMode.HALF_UP));
         // 剩余长度
         info.setLeftLength(info.getSlopeLength().subtract(info.getDoneLength()));
         // 进度
@@ -79,7 +83,7 @@ public class BackMiningFaceService {
         }
         JoyBeanUtil.copyPropertiesIgnoreSourceNullProperties(req, info);
         // 计算已采长度
-        info.setDoneLength(info.getReturnAirChute().add(info.getTransportChute()).divide(BigDecimalValueConstant.TWO, BigDecimal.ROUND_HALF_UP));
+        info.setDoneLength(info.getReturnAirChute().add(info.getTransportChute()).divide(BigDecimalValueConstant.TWO,2,RoundingMode.HALF_UP));
         // 剩余长度
         info.setLeftLength(info.getSlopeLength().subtract(info.getDoneLength()));
         // 进度

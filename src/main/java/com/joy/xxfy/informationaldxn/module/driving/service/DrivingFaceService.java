@@ -12,10 +12,7 @@ import com.joy.xxfy.informationaldxn.module.driving.web.req.DrivingFaceUpdateReq
 import com.joy.xxfy.informationaldxn.module.system.domain.entity.UserEntity;
 import com.joy.xxfy.informationaldxn.publish.result.JoyResult;
 import com.joy.xxfy.informationaldxn.publish.result.Notice;
-import com.joy.xxfy.informationaldxn.publish.utils.JoyBeanUtil;
-import com.joy.xxfy.informationaldxn.publish.utils.LogUtil;
-import com.joy.xxfy.informationaldxn.publish.utils.RateUtil;
-import com.joy.xxfy.informationaldxn.publish.utils.StringUtil;
+import com.joy.xxfy.informationaldxn.publish.utils.*;
 import com.joy.xxfy.informationaldxn.publish.utils.project.JpaPagerUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.domain.Specification;
@@ -51,6 +48,9 @@ public class DrivingFaceService {
         JoyBeanUtil.copyPropertiesIgnoreTargetNotNullProperties(req, drivingFaceInfo);
         // 长度计算：设计长度-已掘长度
         drivingFaceInfo.setLeftLength(req.getTotalLength().subtract(req.getDoneLength()));
+        if(ComputeUtils.compare(drivingFaceInfo.getDoneLength(), drivingFaceInfo.getTotalLength()) > 0){
+            return JoyResult.buildFailedResult(Notice.SET_LENGTH_MORE_LEFT_LENGTH);
+        }
         // 进度计算
         drivingFaceInfo.setProgress(RateUtil.compute(req.getDoneLength(), req.getTotalLength(), false));
         // save.

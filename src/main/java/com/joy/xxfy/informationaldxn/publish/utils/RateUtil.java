@@ -36,7 +36,7 @@ public class RateUtil {
     public static String compute(BigDecimal var1, BigDecimal val2, boolean withPercent){
         BigDecimal result = BigDecimal.ZERO;
         if(!(val2.compareTo(BigDecimal.ZERO) == 0)){
-            result = var1.divide(val2, RoundingMode.HALF_UP);
+            result = var1.divide(val2,2,RoundingMode.HALF_UP);
         }
         if(withPercent){
             return nf.format(result);
@@ -46,6 +46,7 @@ public class RateUtil {
     }
 
     public static void main(String[] args) {
-        System.out.println(compute(3L,10L, true));
+        System.out.println(compute(new BigDecimal(300),new BigDecimal(100), false));
+        System.out.println(compute(3L,6L, false));
     }
 }

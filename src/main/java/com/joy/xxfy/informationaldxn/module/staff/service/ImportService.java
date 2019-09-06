@@ -43,7 +43,7 @@ public class ImportService {
     /**
      * 导入职工信息
      */
-    public JoyResult importData(List<StaffExcelVo> vos, UserEntity loginUser) {
+    public JoyResult importEntry(List<StaffExcelVo> vos, UserEntity loginUser) {
         DepartmentEntity company = loginUser.getCompany();
         LogUtil.info("Now import staff data coal mine platform name is: {}", company.getDepartmentName());
         List<String> errorMessages = new ArrayList<>();
@@ -51,6 +51,7 @@ public class ImportService {
         for (int i = 0; i < vos.size(); i++) {
             int line = i + 1;
             StaffExcelVo vo = vos.get(i);
+            System.out.println(vo);
             StaffEntryEntity staffEntity = new StaffEntryEntity();
             if (StringUtil.isEmpty(vo.getIdNumber())) {
                 errorMessages.add("第" + line + "行导入失败，职工身份证号为空");

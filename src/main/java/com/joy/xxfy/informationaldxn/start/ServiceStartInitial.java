@@ -1,14 +1,14 @@
-package com.joy.xxfy.informationaldxn.module.system.service;
+package com.joy.xxfy.informationaldxn.start;
 
 import com.joy.xxfy.informationaldxn.module.common.enums.CommonStatusEnum;
 import com.joy.xxfy.informationaldxn.module.system.domain.entity.DepartmentEntity;
-import com.joy.xxfy.informationaldxn.module.system.domain.enums.DepartmentTypeEnum;
-import com.joy.xxfy.informationaldxn.module.system.domain.repository.DepartmentRepository;
 import com.joy.xxfy.informationaldxn.module.system.domain.entity.SystemConfigEntity;
-import com.joy.xxfy.informationaldxn.module.system.domain.repository.SystemConfigRepository;
-import com.joy.xxfy.informationaldxn.module.system.domain.enums.SystemConfigEnum;
 import com.joy.xxfy.informationaldxn.module.system.domain.entity.UserEntity;
+import com.joy.xxfy.informationaldxn.module.system.domain.enums.DepartmentTypeEnum;
+import com.joy.xxfy.informationaldxn.module.system.domain.enums.SystemConfigEnum;
 import com.joy.xxfy.informationaldxn.module.system.domain.enums.UserTypeEnum;
+import com.joy.xxfy.informationaldxn.module.system.domain.repository.DepartmentRepository;
+import com.joy.xxfy.informationaldxn.module.system.domain.repository.SystemConfigRepository;
 import com.joy.xxfy.informationaldxn.module.system.domain.repository.UserRepository;
 import com.joy.xxfy.informationaldxn.publish.constant.DepartmentConstant;
 import com.joy.xxfy.informationaldxn.publish.constant.SystemConstant;
@@ -17,10 +17,17 @@ import com.joy.xxfy.informationaldxn.publish.utils.LogUtil;
 import com.joy.xxfy.informationaldxn.publish.utils.MD5Util;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.stereotype.Service;
+import org.springframework.boot.ApplicationArguments;
+import org.springframework.boot.ApplicationRunner;
+import org.springframework.context.annotation.Bean;
+import org.springframework.stereotype.Component;
 
-@Service
-public class SystemService {
+/**
+ * 系统启动初始化：初始化数据库
+ */
+@Component
+public class ServiceStartInitial implements ApplicationRunner {
+
     @Autowired
     private SystemConfigRepository systemConfigRepository;
 
@@ -86,7 +93,16 @@ public class SystemService {
             superAdmin.setStatus(CommonStatusEnum.START);
             userRepository.save(superAdmin);
         }
-        return JoyResult.buildSuccessResult("初始化完成...");
+        return JoyResult.buildSuccessResult("Environment init completed......");
     }
 
+
+    /**
+     * 初始化操作
+     */
+    @Override
+    public void run(ApplicationArguments args) throws Exception {
+        LogUtil.info("Environment init start...");
+        start();
+    }
 }
