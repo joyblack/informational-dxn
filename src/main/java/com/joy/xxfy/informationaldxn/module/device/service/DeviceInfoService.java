@@ -1,6 +1,7 @@
 package com.joy.xxfy.informationaldxn.module.device.service;
 
 import com.joy.xxfy.informationaldxn.module.common.service.BaseService;
+import com.joy.xxfy.informationaldxn.module.device.web.req.*;
 import com.joy.xxfy.informationaldxn.module.system.domain.entity.DepartmentEntity;
 import com.joy.xxfy.informationaldxn.module.device.domain.defaults.DeviceInfoDefault;
 import com.joy.xxfy.informationaldxn.module.device.domain.entity.DeviceCategoryEntity;
@@ -9,10 +10,6 @@ import com.joy.xxfy.informationaldxn.module.device.domain.entity.DeviceMaintainE
 import com.joy.xxfy.informationaldxn.module.device.domain.repository.DeviceCategoryRepository;
 import com.joy.xxfy.informationaldxn.module.device.domain.repository.DeviceInfoRepository;
 import com.joy.xxfy.informationaldxn.module.device.domain.repository.DeviceMaintainRepository;
-import com.joy.xxfy.informationaldxn.module.device.web.req.DeviceInfoAddReq;
-import com.joy.xxfy.informationaldxn.module.device.web.req.DeviceInfoChangeStatusReq;
-import com.joy.xxfy.informationaldxn.module.device.web.req.DeviceInfoGetListReq;
-import com.joy.xxfy.informationaldxn.module.device.web.req.DeviceInfoUpdateReq;
 import com.joy.xxfy.informationaldxn.module.system.domain.entity.UserEntity;
 import com.joy.xxfy.informationaldxn.publish.constant.ResultDataConstant;
 import com.joy.xxfy.informationaldxn.publish.result.JoyResult;
@@ -265,7 +262,7 @@ public class DeviceInfoService extends BaseService {
         return JoyResult.buildSuccessResultWithData(deviceInfoRepository.saveAll(devices));
     }
 
-    public JoyResult whetherExistSameNameDevice(DeviceInfoAddReq req, UserEntity loginUser) {
+    public JoyResult whetherExistSameNameDevice(WhetherExistSameNameDeviceReq req, UserEntity loginUser) {
         DeviceInfoEntity check = deviceInfoRepository.findFirstByBelongCompanyAndDeviceName(loginUser.getCompany(), req.getDeviceName());
         if(check != null){
             return JoyResult.buildSuccessResultWithData(check, ResultDataConstant.SAME_NAME_DEVICE_EXIST);

@@ -3,10 +3,7 @@ package com.joy.xxfy.informationaldxn.module.device.web;
 import com.joy.xxfy.informationaldxn.module.common.web.BaseController;
 import com.joy.xxfy.informationaldxn.module.common.web.req.IdReq;
 import com.joy.xxfy.informationaldxn.module.device.service.DeviceInfoService;
-import com.joy.xxfy.informationaldxn.module.device.web.req.DeviceInfoAddReq;
-import com.joy.xxfy.informationaldxn.module.device.web.req.DeviceInfoChangeStatusReq;
-import com.joy.xxfy.informationaldxn.module.device.web.req.DeviceInfoGetListReq;
-import com.joy.xxfy.informationaldxn.module.device.web.req.DeviceInfoUpdateReq;
+import com.joy.xxfy.informationaldxn.module.device.web.req.*;
 import com.joy.xxfy.informationaldxn.publish.result.JoyResult;
 import com.joy.xxfy.informationaldxn.publish.result.Notice;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -136,7 +133,7 @@ public class DeviceInfoController extends BaseController {
     @RequestMapping(
             value = "whetherExistSameNameDevice",
             produces = {"application/json;charset=UTF-8"})
-    public JoyResult whetherExistSameNameDevice(@RequestBody @Valid DeviceInfoAddReq req, BindingResult bindingResult, HttpServletRequest request) {
+    public JoyResult whetherExistSameNameDevice(@RequestBody @Valid WhetherExistSameNameDeviceReq req, BindingResult bindingResult, HttpServletRequest request) {
         if (bindingResult.hasErrors()) {
             return JoyResult.buildFailedResult(Notice.REQUEST_PARAMETER_IS_ERROR, bindingResult.getFieldError().getDefaultMessage());
         } else {
