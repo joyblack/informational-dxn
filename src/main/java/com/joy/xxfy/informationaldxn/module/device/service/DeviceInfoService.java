@@ -221,7 +221,7 @@ public class DeviceInfoService extends BaseService {
                 predicates.add(builder.greaterThanOrEqualTo(root.get("manufactureTime"), req.getManufactureTimeStart()));
             }
             if(req.getManufactureTimeEnd() != null){
-                predicates.add(builder.greaterThanOrEqualTo(root.get("manufactureTime"), req.getManufactureTimeEnd()));
+                predicates.add(builder.lessThanOrEqualTo(root.get("manufactureTime"), req.getManufactureTimeEnd()));
             }
             // 使用地点
             if(!StringUtil.isEmpty(req.getUsePlace())){
