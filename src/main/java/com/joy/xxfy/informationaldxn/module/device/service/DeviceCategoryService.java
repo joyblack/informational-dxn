@@ -115,6 +115,13 @@ public class DeviceCategoryService {
         if(check != null){
             return JoyResult.buildFailedResult(Notice.DATA_IN_USED_CANT_BE_DELETE);
         }
+        /**
+         * 有子节点的分类不允许删除
+         */
+        DeviceCategoryEntity child = deviceCategoryRepository.findFirstByParentId(info.getId());
+        if(child != null){
+            return JoyResult.buildFailedResult(Notice.DATA_HAS_CHILD_CANT_BE_DELETE);
+        }
         info.setIsDelete(true);
         info.setUpdateTime(new Date());
         deviceCategoryRepository.save(info);

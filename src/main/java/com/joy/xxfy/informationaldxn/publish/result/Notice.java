@@ -9,6 +9,7 @@ public enum Notice{
     PERMISSION_ONLY_SUPPORT_CP("仅支持集团执行此操作", 237),
     IMPORT_FILE_IS_NULL("导入文件为空", 240),
     DATA_IN_USED_CANT_BE_DELETE("该数据正在使用中，不允许删除。", 299),
+    DATA_HAS_CHILD_CANT_BE_DELETE("该数据拥有子节点数据，不允许删除。", 299),
 
     // 公共模块
     REQUEST_PARAMETER_IS_ERROR("请求参数缺失或为空值", 100000),
