@@ -313,7 +313,7 @@ public class CmStatisticService extends BaseService {
     }
 
 
-    public void exportData(TimeReq req, UserEntity loginUser, HttpServletRequest request, HttpServletResponse response) {
+    public void exportData(Date time, UserEntity loginUser, HttpServletRequest request, HttpServletResponse response) {
         // 日期导出格式
         SimpleDateFormat dateFormat = new SimpleDateFormat(ExportConstant.DATE_FORMAT);
         List<List<String>> rows;
@@ -321,7 +321,7 @@ public class CmStatisticService extends BaseService {
         // 三段数据
         ExcelWriter writer = ExcelUtil.getWriter();
         // 文件名，也是表格的头信息
-        String fileName = loginUser.getCompany().getDepartmentName() + "日报表  " + dateFormat.format(req.getTime());
+        String fileName = loginUser.getCompany().getDepartmentName() + "日报表  " + dateFormat.format(time);
         // 头合并两行
         writer.merge(0,1,0,11, fileName,true);
         writer.setCurrentRow(writer.getCurrentRow() + 2);
@@ -339,7 +339,7 @@ public class CmStatisticService extends BaseService {
         // 添加标题头
         writer.writeRow(CollUtil.newArrayList(ExportConstant.FIELD_CM_PRODUCE));
         // 装配数据部分
-        List<CmStatisticVo> drivingData = getDrivingData(loginUser.getCompany(), req.getTime());
+        List<CmStatisticVo> drivingData = getDrivingData(loginUser.getCompany(), time);
         for (CmStatisticVo d : drivingData) {
             List<String> row = CollUtil.newArrayList(
                     // == 掘进面名称
@@ -378,7 +378,7 @@ public class CmStatisticService extends BaseService {
         // 添加标题头
         writer.writeRow(CollUtil.newArrayList(ExportConstant.FIELD_CM_PRODUCE));
         // 装配数据部分
-        List<CmStatisticVo> backMiningData = getBackMiningData(loginUser.getCompany(), req.getTime());
+        List<CmStatisticVo> backMiningData = getBackMiningData(loginUser.getCompany(), time);
         for (CmStatisticVo d : backMiningData) {
             List<String> row = CollUtil.newArrayList(
                     // == 掘进面名称
@@ -416,7 +416,7 @@ public class CmStatisticService extends BaseService {
         // 添加标题头
         writer.writeRow(CollUtil.newArrayList(ExportConstant.FIELD_CM_PRODUCE_SHORT));
         // 装配数据部分
-        List<CmStatisticVo> drillData = getDrillData(loginUser.getCompany(), req.getTime());
+        List<CmStatisticVo> drillData = getDrillData(loginUser.getCompany(), time);
         for (CmStatisticVo d : drillData) {
             List<String> row = CollUtil.newArrayList(
                     // == 面名称
@@ -434,7 +434,7 @@ public class CmStatisticService extends BaseService {
         // 备注部分
         writer.merge(startRow,writer.getCurrentRow() - 1,6,6,"备注",false);
         CmStatisticRes res = new CmStatisticRes();
-        ProduceCmDailyEntity produceCmDailyEntity = produceCmDailyRepository.findAllByBelongCompanyAndDailyTime(loginUser.getCompany(), req.getTime());
+        ProduceCmDailyEntity produceCmDailyEntity = produceCmDailyRepository.findAllByBelongCompanyAndDailyTime(loginUser.getCompany(), time);
         writer.merge(startRow,writer.getCurrentRow() - 1,7,11, produceCmDailyEntity == null? null: produceCmDailyEntity.getRemarks(),false);
 
         // 设置宽度

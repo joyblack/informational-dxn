@@ -114,9 +114,9 @@ public class DeviceInfoService extends BaseService {
         // 名字是否有变化
         String deviceName = req.getDeviceName();
         int orderNumber = 1;
-        if(!req.getDeviceName().equals(info.getDeviceName())){
+        if(!deviceName.equals(info.getDeviceName())){
             DeviceInfoEntity check = deviceInfoRepository.findFirstByBelongCompanyAndDeviceName(info.getBelongCompany(), req.getDeviceName());
-            if(check != null){
+            while(check != null){
                 orderNumber ++;
                 // 为0则无需添加后缀信息
                 deviceName = req.getDeviceName() + DeviceInfoDefault.DEVICE_NAME_SEPARATE + orderNumber;

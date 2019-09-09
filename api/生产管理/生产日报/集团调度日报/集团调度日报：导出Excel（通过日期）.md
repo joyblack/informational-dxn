@@ -1,27 +1,21 @@
 # 简介
 
 # 访问地址
-produce-cp-statistic/exportData
+produce-cp-statistic/exportData/{日期}
 
 # 请求参数
 
 ## 请求方式
-POST
+GET
 
 ## 请求格式
 JSON
 
 ## 请求数据
-|参数名|类型|必填|说明|
-|-|-|-|-|
-|time|[date]|是|需要进行统计的日期，默认情况下请提交当天时间|
+日期采取URL方式，形式如：2019-08-24
 
 ## 请求示例
-```json
-{
-	"time": "2019-08-24"
-}
-```
+日期采取URL方式，形式如：2019-08-24
 
 # 返回结果
 **成功**

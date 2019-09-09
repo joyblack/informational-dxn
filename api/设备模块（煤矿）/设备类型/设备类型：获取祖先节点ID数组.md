@@ -41,16 +41,6 @@ JSON
 }
 ```
 
-**失败**
-```json
-{
-    "state": false,
-    "message": "父部门信息不存在",
-    "detailMessage": "父部门信息不存在",
-    "data": null,
-    "code": 10201
-}
-```
 
 # 备注
 错误码参见错误码对照表。

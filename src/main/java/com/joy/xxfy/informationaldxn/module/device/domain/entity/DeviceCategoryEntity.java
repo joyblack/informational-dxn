@@ -41,7 +41,7 @@ public class DeviceCategoryEntity extends BaseEntity {
     /**
      * 是否是父节点，父节点不能作为分类值录入
      */
-    private boolean isParent;
+    private Boolean isParent;
 
     /**
      * 路径信息

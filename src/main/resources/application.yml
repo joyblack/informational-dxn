@@ -45,6 +45,8 @@ jwtparam:
 logging:
   level:
       org.hibernate.type.descriptor.sql.BasicBinder: trace
+      org.springframework.web: info
+  file: joy-black.log
 # client config.
 system:
   config:
@@ -59,3 +61,4 @@ system:
     company-name: 大西南矿业集团
     super-admin-default-name: admin
     super-admin-default-password: 123456
+

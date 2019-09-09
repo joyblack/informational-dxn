@@ -8,15 +8,14 @@ import com.joy.xxfy.informationaldxn.publish.result.JoyResult;
 import com.joy.xxfy.informationaldxn.publish.result.Notice;
 import com.joy.xxfy.informationaldxn.publish.utils.jwt.TokenUtil;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
+import java.util.Date;
 
 @RequestMapping("produce-cp-statistic")
 @RestController
@@ -40,13 +39,13 @@ public class CpStatisticController extends BaseController {
     /**
      * 导出
      */
-    @RequestMapping(value = "exportData",produces = {"application/json;charset=UTF-8"})
-    public void update(@RequestBody @Valid TimeReq req, BindingResult bindingResult, HttpServletRequest request, HttpServletResponse response) {
-        if (bindingResult.hasErrors()) {
+    @RequestMapping(value = "exportData/{time}",produces = {"application/json;charset=UTF-8"})
+    public void update(@PathVariable @DateTimeFormat(pattern = "yyyy-MM-dd") Date time, HttpServletRequest request, HttpServletResponse response) {
+        if (time == null) {
             throw new JoyException(Notice.REQUEST_PARAMETER_IS_ERROR);
         } else {
             // copy
-            cpStatisticService.exportData(req, getLoginUser(request), request, response);
+            cpStatisticService.exportData(time, getLoginUser(request), request, response);
         }
     }
 

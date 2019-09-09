@@ -10,8 +10,6 @@ import com.joy.xxfy.informationaldxn.module.backmining.domain.repository.BackMin
 import com.joy.xxfy.informationaldxn.module.cmplatform.domain.entity.CmPlatformEntity;
 import com.joy.xxfy.informationaldxn.module.cmplatform.domain.repository.CmPlatformRepository;
 import com.joy.xxfy.informationaldxn.module.common.service.BaseService;
-import com.joy.xxfy.informationaldxn.module.common.web.req.TimeReq;
-import com.joy.xxfy.informationaldxn.module.system.domain.entity.DepartmentEntity;
 import com.joy.xxfy.informationaldxn.module.drill.domain.entity.DrillDailyEntity;
 import com.joy.xxfy.informationaldxn.module.drill.domain.entity.DrillWorkEntity;
 import com.joy.xxfy.informationaldxn.module.drill.domain.repository.DrillDailyRepository;
@@ -24,6 +22,7 @@ import com.joy.xxfy.informationaldxn.module.produce.domain.entity.ProduceCmDaily
 import com.joy.xxfy.informationaldxn.module.produce.domain.repository.ProduceCmDailyRepository;
 import com.joy.xxfy.informationaldxn.module.produce.domain.vo.*;
 import com.joy.xxfy.informationaldxn.module.produce.web.res.CpStatisticRes;
+import com.joy.xxfy.informationaldxn.module.system.domain.entity.DepartmentEntity;
 import com.joy.xxfy.informationaldxn.module.system.domain.entity.UserEntity;
 import com.joy.xxfy.informationaldxn.publish.constant.BigDecimalValueConstant;
 import com.joy.xxfy.informationaldxn.publish.constant.ExportConstant;
@@ -336,13 +335,13 @@ public class CpStatisticService extends BaseService {
     }
 
 
-    public void exportData(TimeReq req, UserEntity loginUser, HttpServletRequest request, HttpServletResponse response) {
+    public void exportData(Date time, UserEntity loginUser, HttpServletRequest request, HttpServletResponse response) {
         // 日期导出格式
         SimpleDateFormat dateFormat = new SimpleDateFormat(ExportConstant.DATE_FORMAT);
         // 三段数据
         ExcelWriter writer = ExcelUtil.getWriter();
         // 文件名，也是表格的头信息
-        String fileName = loginUser.getCompany().getDepartmentName() + "日报表  " + dateFormat.format(req.getTime());
+        String fileName = loginUser.getCompany().getDepartmentName() + "日报表  " + dateFormat.format(time.getTime());
         // 头合并两行
         writer.merge(0,1,0,16, fileName,true);
         writer.setCurrentRow(writer.getCurrentRow() + 2);
@@ -366,7 +365,7 @@ public class CpStatisticService extends BaseService {
         writer.writeRow(CollUtil.newArrayList(ExportConstant.FIELD_CP_PRODUCE));
 
         // 填充数据
-        List<CpStatisticRes> allData = (List<CpStatisticRes>)(getData(loginUser, req.getTime()).getData());
+        List<CpStatisticRes> allData = (List<CpStatisticRes>)(getData(loginUser, time).getData());
         for(CpStatisticRes data : allData){
             int startRow = writer.getCurrentRow();
             List<List<String>> rows = new ArrayList<>();

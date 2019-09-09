@@ -54,7 +54,7 @@ public class DeviceCategoryService {
 
         // 修改父节点为拥有子节点的节点，不允许再作为类型而存在
         if(parent != null){
-            parent.setParent(true);
+            parent.setIsParent(true);
             parent.setUpdateTime(new Date());
             deviceCategoryRepository.save(parent);
         }
@@ -62,7 +62,7 @@ public class DeviceCategoryService {
         // 装配类型数据
         DeviceCategoryEntity category = new DeviceCategoryEntity();
         category.setParentId(req.getParentId());
-        category.setParent(false);
+        category.setIsParent(false);
         category.setCategoryName(req.getCategoryName());
         category.setBelongCompany(belongCompany);
         category.setRemarks(req.getRemarks());
