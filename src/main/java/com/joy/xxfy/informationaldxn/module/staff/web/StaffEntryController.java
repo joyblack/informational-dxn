@@ -188,7 +188,20 @@ public class StaffEntryController extends BaseController {
      * 导出查询结果的数据
      */
     @RequestMapping("exportData")
-    public void update(@RequestBody @Valid StaffEntryGetListReq req, BindingResult bindingResult, HttpServletRequest request, HttpServletResponse response) {
+    public void exportData(@RequestBody @Valid StaffEntryGetListReq req, BindingResult bindingResult, HttpServletRequest request, HttpServletResponse response) {
+        if (bindingResult.hasErrors()) {
+            throw new JoyException(Notice.REQUEST_PARAMETER_IS_ERROR);
+        } else {
+            // copy
+            staffEntryService.exportData(req, getLoginUser(request), request, response);
+        }
+    }
+
+    /**
+     * 导出查询结果的数据
+     */
+    @RequestMapping("exportData2")
+    public void exportData2(StaffEntryGetListReq req, BindingResult bindingResult, HttpServletRequest request, HttpServletResponse response) {
         if (bindingResult.hasErrors()) {
             throw new JoyException(Notice.REQUEST_PARAMETER_IS_ERROR);
         } else {

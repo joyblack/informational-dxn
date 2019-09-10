@@ -213,7 +213,6 @@ public class DrivingDailyService {
         return JoyResult.buildSuccessResultWithData(drivingDailyRepository.save(info));
     }
 
-
     /**
      * 获取分页数据
      */
