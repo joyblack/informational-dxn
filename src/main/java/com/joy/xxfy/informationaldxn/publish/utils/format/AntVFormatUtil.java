@@ -200,11 +200,11 @@ public class AntVFormatUtil {
      *     "月均降雨量": 23.2
      * },
      */
-    public static List<Map<String, Object>> formatEveryMonthOutput(List<KeyAndValueVo<Integer,BigDecimal>> driving, List<KeyAndValueVo<Integer,BigDecimal>> mining) {
-        List<Map<String, Object>> res = new ArrayList<>();
+    public static Map<String, Object> formatEveryMonthOutput(List<KeyAndValueVo<Integer,BigDecimal>> driving, List<KeyAndValueVo<Integer,BigDecimal>> mining) {
         /**
          * 本年度掘进
          */
+        List<Map<String, Object>> drivingRes = new ArrayList<>();
         for (int month = 1; month <= 12; month++) {
             Map<String, Object> map = new LinkedHashMap<>();
             BigDecimal v = BigDecimal.ZERO;
@@ -218,27 +218,31 @@ public class AntVFormatUtil {
             map.put("name","今年掘进");
             map.put("month", FormatToStringValueUtil.addLeftZero(month) + "月");
             map.put("value", v);
-            res.add(map);
+            drivingRes.add(map);
         }
         /**
          * 本年度回采
          */
+        List<Map<String, Object>> miningRes = new ArrayList<>();
         for (int month = 1; month <= 12; month++) {
             Map<String, Object> map = new LinkedHashMap<>();
             BigDecimal v = BigDecimal.ZERO;
             for (KeyAndValueVo<Integer,BigDecimal> datum : mining) {
                 if(datum.getKey().equals(month)){
                     v = datum.getValue();
-                    driving.remove(datum);
+                    mining.remove(datum);
                     break;
                 }
             }
             map.put("name","今年回采");
             map.put("month", FormatToStringValueUtil.addLeftZero(month) + "月");
             map.put("value", v);
-            res.add(map);
+            miningRes.add(map);
         }
-        return res;
+        Map<String, Object> result = new HashMap<>();
+        result.put("driving", drivingRes);
+        result.put("mining", miningRes);
+        return result;
     }
 
     /**
@@ -261,11 +265,12 @@ public class AntVFormatUtil {
      *     "月均降雨量": 23.2
      * },
      */
-    public static List<Map<String, Object>> formatEveryMonthLength(List<KeyAndValueVo<Integer,BigDecimal>> driving, List<KeyAndValueVo<Integer,BigDecimal>> mining) {
-        List<Map<String, Object>> res = new ArrayList<>();
+    public static Map<String, Object> formatEveryMonthLength(List<KeyAndValueVo<Integer,BigDecimal>> driving, List<KeyAndValueVo<Integer,BigDecimal>> mining) {
+
         /**
          * 本年度掘进
          */
+        List<Map<String, Object>> drivingRes = new ArrayList<>();
         for (int month = 1; month <= 12; month++) {
             Map<String, Object> map = new LinkedHashMap<>();
             BigDecimal v = BigDecimal.ZERO;
@@ -279,11 +284,12 @@ public class AntVFormatUtil {
             map.put("name","今年掘进");
             map.put("month", FormatToStringValueUtil.addLeftZero(month) + "月");
             map.put("value", v);
-            res.add(map);
+            drivingRes.add(map);
         }
         /**
          * 本年度回采
          */
+        List<Map<String, Object>> miningRes = new ArrayList<>();
         for (int month = 1; month <= 12; month++) {
             Map<String, Object> map = new LinkedHashMap<>();
             BigDecimal v = BigDecimal.ZERO;
@@ -297,8 +303,12 @@ public class AntVFormatUtil {
             map.put("name","今年回采");
             map.put("month", FormatToStringValueUtil.addLeftZero(month) + "月");
             map.put("value", v);
-            res.add(map);
+            miningRes.add(map);
         }
-        return res;
+
+        Map<String, Object> result = new HashMap<>();
+        result.put("driving", drivingRes);
+        result.put("mining", miningRes);
+        return result;
     }
 }

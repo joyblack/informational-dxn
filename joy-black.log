@@ -64,3 +64,94 @@
 2019-09-10 08:59:40.788  INFO 7652 --- [Thread-2] j.LocalContainerEntityManagerFactoryBean : Closing JPA EntityManagerFactory for persistence unit 'default'
 2019-09-10 08:59:40.790  INFO 7652 --- [Thread-2] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown initiated...
 2019-09-10 08:59:40.798  INFO 7652 --- [Thread-2] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown completed.
+2019-09-10 09:15:39.331  INFO 12404 --- [main] c.j.x.i.InformationalDxnApplication      : Starting InformationalDxnApplication on DESKTOP-C3BJLCD with PID 12404 (D:\github\informational-dxn\target\classes started by Administrator in D:\github\informational-dxn)
+2019-09-10 09:15:39.334  INFO 12404 --- [main] c.j.x.i.InformationalDxnApplication      : No active profile set, falling back to default profiles: default
+2019-09-10 09:15:43.075  INFO 12404 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data repositories in DEFAULT mode.
+2019-09-10 09:15:43.282  INFO 12404 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 201ms. Found 35 repository interfaces.
+2019-09-10 09:15:43.790  INFO 12404 --- [main] trationDelegate$BeanPostProcessorChecker : Bean 'org.springframework.transaction.annotation.ProxyTransactionManagementConfiguration' of type [org.springframework.transaction.annotation.ProxyTransactionManagementConfiguration$$EnhancerBySpringCGLIB$$b6127b64] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2019-09-10 09:15:44.571  INFO 12404 --- [main] org.eclipse.jetty.util.log               : Logging initialized @7832ms to org.eclipse.jetty.util.log.Slf4jLog
+2019-09-10 09:15:44.716  INFO 12404 --- [main] o.s.b.w.e.j.JettyServletWebServerFactory : Server initialized with port: 8090
+2019-09-10 09:15:44.721  INFO 12404 --- [main] org.eclipse.jetty.server.Server          : jetty-9.4.19.v20190610; built: 2019-06-10T16:30:51.723Z; git: afcf563148970e98786327af5e07c261fda175d3; jvm 1.8.0_121-b13
+2019-09-10 09:15:44.770  INFO 12404 --- [main] o.e.j.s.h.ContextHandler.application     : Initializing Spring embedded WebApplicationContext
+2019-09-10 09:15:44.770  INFO 12404 --- [main] o.s.web.context.ContextLoader            : Root WebApplicationContext: initialization completed in 5369 ms
+2019-09-10 09:15:44.916  INFO 12404 --- [main] org.eclipse.jetty.server.session         : DefaultSessionIdManager workerName=node0
+2019-09-10 09:15:44.916  INFO 12404 --- [main] org.eclipse.jetty.server.session         : No SessionScavenger set, using defaults
+2019-09-10 09:15:44.917  INFO 12404 --- [main] org.eclipse.jetty.server.session         : node0 Scavenging every 600000ms
+2019-09-10 09:15:44.923  INFO 12404 --- [main] o.e.jetty.server.handler.ContextHandler  : Started o.s.b.w.e.j.JettyEmbeddedWebAppContext@2a3040{application,/informational-dxn/v1,[file:///C:/Users/Administrator/AppData/Local/Temp/jetty-docbase.8668938778172730092.8090/],AVAILABLE}
+2019-09-10 09:15:44.923  INFO 12404 --- [main] org.eclipse.jetty.server.Server          : Started @8184ms
+2019-09-10 09:15:45.054  INFO 12404 --- [main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2019-09-10 09:15:45.267  INFO 12404 --- [main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
+2019-09-10 09:15:45.416  INFO 12404 --- [main] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [
+	name: default
+	...]
+2019-09-10 09:15:45.543  INFO 12404 --- [main] org.hibernate.Version                    : HHH000412: Hibernate Core {5.3.10.Final}
+2019-09-10 09:15:45.544  INFO 12404 --- [main] org.hibernate.cfg.Environment            : HHH000206: hibernate.properties not found
+2019-09-10 09:15:45.732  INFO 12404 --- [main] o.hibernate.annotations.common.Version   : HCANN000001: Hibernate Commons Annotations {5.0.4.Final}
+2019-09-10 09:15:45.974  INFO 12404 --- [main] org.hibernate.dialect.Dialect            : HHH000400: Using dialect: org.hibernate.dialect.MySQL5InnoDBDialect
+2019-09-10 09:15:47.921  INFO 12404 --- [main] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2019-09-10 09:15:48.407  INFO 12404 --- [main] o.h.h.i.QueryTranslatorFactoryInitiator  : HHH000397: Using ASTQueryTranslatorFactory
+2019-09-10 09:15:50.587  INFO 12404 --- [main] o.s.s.concurrent.ThreadPoolTaskExecutor  : Initializing ExecutorService 'applicationTaskExecutor'
+2019-09-10 09:15:50.841  INFO 12404 --- [main] o.s.s.c.ThreadPoolTaskScheduler          : Initializing ExecutorService 'taskScheduler'
+2019-09-10 09:15:50.897  INFO 12404 --- [main] o.e.j.s.h.ContextHandler.application     : Initializing Spring DispatcherServlet 'dispatcherServlet'
+2019-09-10 09:15:50.898  INFO 12404 --- [main] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'
+2019-09-10 09:15:50.906  INFO 12404 --- [main] o.s.web.servlet.DispatcherServlet        : Completed initialization in 8 ms
+2019-09-10 09:15:50.929  INFO 12404 --- [main] o.e.jetty.server.AbstractConnector       : Started ServerConnector@1eabaab{HTTP/1.1,[http/1.1]}{0.0.0.0:8090}
+2019-09-10 09:15:50.931  INFO 12404 --- [main] o.s.b.web.embedded.jetty.JettyWebServer  : Jetty started on port(s) 8090 (http/1.1) with context path '/informational-dxn/v1'
+2019-09-10 09:15:50.933  INFO 12404 --- [main] c.j.x.i.InformationalDxnApplication      : Started InformationalDxnApplication in 12.252 seconds (JVM running for 14.194)
+2019-09-10 09:15:50.944  INFO 12404 --- [main] c.j.x.i.publish.utils.LogUtil            : Environment init start...
+2019-09-10 09:15:50.990 TRACE 12404 --- [main] o.h.type.descriptor.sql.BasicBinder      : binding parameter [1] as [VARCHAR] - [USER_DEFAULT_PASSWORD]
+2019-09-10 09:15:51.015 TRACE 12404 --- [main] o.h.type.descriptor.sql.BasicBinder      : binding parameter [1] as [BIGINT] - [0]
+2019-09-10 09:15:51.015 TRACE 12404 --- [main] o.h.type.descriptor.sql.BasicBinder      : binding parameter [2] as [VARCHAR] - [大西南矿业集团]
+2019-09-10 09:16:21.226  INFO 12404 --- [qtp18320725-19] c.j.x.i.publish.utils.LogUtil            : 用户未登录
+2019-09-10 09:16:29.881  INFO 12404 --- [qtp18320725-18] c.j.x.i.publish.utils.LogUtil            : ----------------------------- Request start -----------------------------
+2019-09-10 09:16:29.882  INFO 12404 --- [qtp18320725-18] c.j.x.i.publish.utils.LogUtil            : (joy) Request url: /informational-dxn/v1/login/login
+2019-09-10 09:16:29.883  INFO 12404 --- [qtp18320725-18] c.j.x.i.publish.utils.LogUtil            : (joy)请求方法: com.joy.xxfy.informationaldxn.module.login.web.LoginController.login
+2019-09-10 09:16:29.884  INFO 12404 --- [qtp18320725-18] c.j.x.i.publish.utils.LogUtil            : (joy)args=LoginReq(loginName=123, password=123456)
+2019-09-10 09:16:29.884  INFO 12404 --- [qtp18320725-18] c.j.x.i.publish.utils.LogUtil            : 用户信息: 
+2019-09-10 09:16:29.884  INFO 12404 --- [qtp18320725-18] c.j.x.i.publish.utils.LogUtil            : 登陆状态：未登录
+2019-09-10 09:16:29.904 TRACE 12404 --- [qtp18320725-18] o.h.type.descriptor.sql.BasicBinder      : binding parameter [1] as [VARCHAR] - [123]
+2019-09-10 09:16:29.905 TRACE 12404 --- [qtp18320725-18] o.h.type.descriptor.sql.BasicBinder      : binding parameter [2] as [VARCHAR] - [e10adc3949ba59abbe56e057f20f883e]
+2019-09-10 09:16:29.911 TRACE 12404 --- [qtp18320725-18] o.h.type.descriptor.sql.BasicBinder      : binding parameter [1] as [BIGINT] - [5]
+2019-09-10 09:16:30.051  INFO 12404 --- [qtp18320725-18] c.j.x.i.publish.utils.LogUtil            : (joy) 返回结果: {"code":200,"data":"eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJhdWQiOiI1NDFiZWU3ZDJhOTIyY2MwYTgxZmY0Y2EzYzIzZjRhZiIsIm5iZiI6MTU2ODA3ODE4OSwiaXNzIjoiZWM4YjYzYzA1Zjk5OWExNWE4Yzg1NjcwMDJhNTYwYTgiLCJVU0VSIjp7ImlkIjo1LCJpc0RlbGV0ZSI6ZmFsc2UsImNyZWF0ZVRpbWUiOjE1Njc3MzEzOTgwMDAsInVwZGF0ZVRpbWUiOjE1Njc3MzEzOTgwMDAsInJlbWFya3MiOm51bGwsImlkTnVtYmVyIjoiIiwibG9naW5OYW1lIjoiMTIzIiwicGhvbmUiOiIxNTUyMzQ1MjM0NSIsInBhc3N3b3JkIjoiZTEwYWRjMzk0OWJhNTlhYmJlNTZlMDU3ZjIwZjg4M2UiLCJhZmZpcm1QYXNzd29yZCI6bnVsbCwidXNlcm5hbWUiOm51bGwsInVzZXJUeXBlIjoiQ01fQURNSU4iLCJzdGF0dXMiOiJTVEFSVCIsInBlcm1pc3Npb25zIjpudWxsLCJkZXBhcnRtZW50Ijp7ImlkIjo1LCJpc0RlbGV0ZSI6ZmFsc2UsImNyZWF0ZVRpbWUiOjE1Njc3MzEzOTgwMDAsInVwZGF0ZVRpbWUiOjE1Njc3MzEzOTgwMDAsInJlbWFya3MiOm51bGwsImRlcGFydG1lbnROYW1lIjoiMeWPt-eFpOefvyIsImNvZGUiOiIiLCJwYXJlbnRJZCI6MCwicmVzcG9uc2VVc2VyIjpudWxsLCJwaG9uZSI6IjE1NTIzNDUyMzQ1IiwiZGVwYXJ0bWVudFR5cGUiOiJDTV9QTEFURk9STSIsInBhdGgiOiI1LSIsImNoaWxkcmVuIjpbXX0sImNvbXBhbnkiOnsiaWQiOjUsImlzRGVsZXRlIjpmYWxzZSwiY3JlYXRlVGltZSI6MTU2NzczMTM5ODAwMCwidXBkYXRlVGltZSI6MTU2NzczMTM5ODAwMCwicmVtYXJrcyI6bnVsbCwiZGVwYXJ0bWVudE5hbWUiOiIx5Y-354Wk55-_IiwiY29kZSI6IiIsInBhcmVudElkIjowLCJyZXNwb25zZVVzZXIiOm51bGwsInBob25lIjoiMTU1MjM0NTIzNDUiLCJkZXBhcnRtZW50VHlwZSI6IkNNX1BMQVRGT1JNIiwicGF0aCI6IjUtIiwiY2hpbGRyZW4iOltdfX0sImV4cCI6MTU2ODQzODE4OX0.K_vECB1HTqrxFqnbkzf05B8aAItAJ_a3FF1rwPoNuSk","detailMessage":"","message":"操作成功","state":true}
+2019-09-10 09:16:30.051  INFO 12404 --- [qtp18320725-18] c.j.x.i.publish.utils.LogUtil            : (joy) 耗费时间: 170ms
+2019-09-10 09:16:30.051  INFO 12404 --- [qtp18320725-18] c.j.x.i.publish.utils.LogUtil            : ----------------------------- 请求结束 -----------------------------
+2019-09-10 09:16:37.867  INFO 12404 --- [qtp18320725-19] c.j.x.i.publish.utils.LogUtil            : ----------------------------- Request start -----------------------------
+2019-09-10 09:16:37.867  INFO 12404 --- [qtp18320725-19] c.j.x.i.publish.utils.LogUtil            : (joy) Request url: /informational-dxn/v1/statistic-output/getEveryMonth
+2019-09-10 09:16:37.868  INFO 12404 --- [qtp18320725-19] c.j.x.i.publish.utils.LogUtil            : (joy)请求方法: com.joy.xxfy.informationaldxn.module.statistic.web.StatisticOutputController.getEveryMonth
+2019-09-10 09:16:37.868  INFO 12404 --- [qtp18320725-19] c.j.x.i.publish.utils.LogUtil            : (joy)args=Request(POST //localhost:8090/informational-dxn/v1/statistic-output/getEveryMonth)@17898b4
+2019-09-10 09:16:37.961  INFO 12404 --- [qtp18320725-19] c.j.x.i.publish.utils.LogUtil            : 登陆状态：已登录
+2019-09-10 09:16:37.961  INFO 12404 --- [qtp18320725-19] c.j.x.i.publish.utils.LogUtil            : (joy) 登录名：123
+2019-09-10 09:16:37.961  INFO 12404 --- [qtp18320725-19] c.j.x.i.publish.utils.LogUtil            : (joy) 用户类型：CM_ADMIN
+2019-09-10 09:16:37.962  INFO 12404 --- [qtp18320725-19] c.j.x.i.publish.utils.LogUtil            : (joy) 用户权限：null
+2019-09-10 09:16:37.962  INFO 12404 --- [qtp18320725-19] c.j.x.i.publish.utils.LogUtil            : (joy) 资源URL：statistic-output/getEveryMonth
+2019-09-10 09:16:37.967 TRACE 12404 --- [qtp18320725-19] o.h.type.descriptor.sql.BasicBinder      : binding parameter [1] as [VARCHAR] - [statistic-output/getEveryMonth]
+2019-09-10 09:16:37.970  INFO 12404 --- [qtp18320725-19] c.j.x.i.publish.utils.LogUtil            : 权限认证结果：系统还未配置该资源的信息，允许访问.
+2019-09-10 09:16:37.990 TRACE 12404 --- [qtp18320725-19] o.h.type.descriptor.sql.BasicBinder      : binding parameter [1] as [BIGINT] - [5]
+2019-09-10 09:16:37.991 TRACE 12404 --- [qtp18320725-19] o.h.type.descriptor.sql.BasicBinder      : binding parameter [2] as [TIMESTAMP] - [Tue Jan 01 00:00:00 CST 2019]
+2019-09-10 09:16:37.992 TRACE 12404 --- [qtp18320725-19] o.h.type.descriptor.sql.BasicBinder      : binding parameter [3] as [TIMESTAMP] - [Tue Dec 31 23:59:59 CST 2019]
+2019-09-10 09:16:38.016 TRACE 12404 --- [qtp18320725-19] o.h.type.descriptor.sql.BasicBinder      : binding parameter [1] as [BIGINT] - [5]
+2019-09-10 09:16:38.017 TRACE 12404 --- [qtp18320725-19] o.h.type.descriptor.sql.BasicBinder      : binding parameter [2] as [TIMESTAMP] - [Tue Jan 01 00:00:00 CST 2019]
+2019-09-10 09:16:38.017 TRACE 12404 --- [qtp18320725-19] o.h.type.descriptor.sql.BasicBinder      : binding parameter [3] as [TIMESTAMP] - [Tue Dec 31 23:59:59 CST 2019]
+2019-09-10 09:16:38.024  INFO 12404 --- [qtp18320725-19] c.j.x.i.publish.utils.LogUtil            : (joy) 返回结果: {"code":200,"data":{"driving":[{"name":"今年掘进","month":"01月","value":0},{"name":"今年掘进","month":"02月","value":0},{"name":"今年掘进","month":"03月","value":0},{"name":"今年掘进","month":"04月","value":0},{"name":"今年掘进","month":"05月","value":0},{"name":"今年掘进","month":"06月","value":0},{"name":"今年掘进","month":"07月","value":0},{"name":"今年掘进","month":"08月","value":0},{"name":"今年掘进","month":"09月","value":0},{"name":"今年掘进","month":"10月","value":0},{"name":"今年掘进","month":"11月","value":0},{"name":"今年掘进","month":"12月","value":0}],"mining":[{"name":"今年回采","month":"01月","value":0},{"name":"今年回采","month":"02月","value":0},{"name":"今年回采","month":"03月","value":0},{"name":"今年回采","month":"04月","value":0},{"name":"今年回采","month":"05月","value":0},{"name":"今年回采","month":"06月","value":0},{"name":"今年回采","month":"07月","value":0},{"name":"今年回采","month":"08月","value":0},{"name":"今年回采","month":"09月","value":0},{"name":"今年回采","month":"10月","value":0},{"name":"今年回采","month":"11月","value":0},{"name":"今年回采","month":"12月","value":0}]},"detailMessage":"","message":"操作成功","state":true}
+2019-09-10 09:16:38.024  INFO 12404 --- [qtp18320725-19] c.j.x.i.publish.utils.LogUtil            : (joy) 耗费时间: 157ms
+2019-09-10 09:16:38.025  INFO 12404 --- [qtp18320725-19] c.j.x.i.publish.utils.LogUtil            : ----------------------------- 请求结束 -----------------------------
+2019-09-10 09:17:31.179  INFO 12404 --- [qtp18320725-19] c.j.x.i.publish.utils.LogUtil            : ----------------------------- Request start -----------------------------
+2019-09-10 09:17:31.180  INFO 12404 --- [qtp18320725-19] c.j.x.i.publish.utils.LogUtil            : (joy) Request url: /informational-dxn/v1/statistic-length/getEveryMonth
+2019-09-10 09:17:31.180  INFO 12404 --- [qtp18320725-19] c.j.x.i.publish.utils.LogUtil            : (joy)请求方法: com.joy.xxfy.informationaldxn.module.statistic.web.StatisticLengthController.getEveryMonth
+2019-09-10 09:17:31.180  INFO 12404 --- [qtp18320725-19] c.j.x.i.publish.utils.LogUtil            : (joy)args=Request(POST //localhost:8090/informational-dxn/v1/statistic-length/getEveryMonth)@1bc4916
+2019-09-10 09:17:31.181  INFO 12404 --- [qtp18320725-19] c.j.x.i.publish.utils.LogUtil            : 登陆状态：已登录
+2019-09-10 09:17:31.181  INFO 12404 --- [qtp18320725-19] c.j.x.i.publish.utils.LogUtil            : (joy) 登录名：123
+2019-09-10 09:17:31.182  INFO 12404 --- [qtp18320725-19] c.j.x.i.publish.utils.LogUtil            : (joy) 用户类型：CM_ADMIN
+2019-09-10 09:17:31.182  INFO 12404 --- [qtp18320725-19] c.j.x.i.publish.utils.LogUtil            : (joy) 用户权限：null
+2019-09-10 09:17:31.182  INFO 12404 --- [qtp18320725-19] c.j.x.i.publish.utils.LogUtil            : (joy) 资源URL：statistic-length/getEveryMonth
+2019-09-10 09:17:31.185 TRACE 12404 --- [qtp18320725-19] o.h.type.descriptor.sql.BasicBinder      : binding parameter [1] as [VARCHAR] - [statistic-length/getEveryMonth]
+2019-09-10 09:17:31.189  INFO 12404 --- [qtp18320725-19] c.j.x.i.publish.utils.LogUtil            : 权限认证结果：系统还未配置该资源的信息，允许访问.
+2019-09-10 09:17:31.194 TRACE 12404 --- [qtp18320725-19] o.h.type.descriptor.sql.BasicBinder      : binding parameter [1] as [BIGINT] - [5]
+2019-09-10 09:17:31.195 TRACE 12404 --- [qtp18320725-19] o.h.type.descriptor.sql.BasicBinder      : binding parameter [2] as [TIMESTAMP] - [Tue Jan 01 00:00:00 CST 2019]
+2019-09-10 09:17:31.195 TRACE 12404 --- [qtp18320725-19] o.h.type.descriptor.sql.BasicBinder      : binding parameter [3] as [TIMESTAMP] - [Tue Dec 31 23:59:59 CST 2019]
+2019-09-10 09:17:31.200 TRACE 12404 --- [qtp18320725-19] o.h.type.descriptor.sql.BasicBinder      : binding parameter [1] as [BIGINT] - [5]
+2019-09-10 09:17:31.201 TRACE 12404 --- [qtp18320725-19] o.h.type.descriptor.sql.BasicBinder      : binding parameter [2] as [TIMESTAMP] - [Tue Jan 01 00:00:00 CST 2019]
+2019-09-10 09:17:31.201 TRACE 12404 --- [qtp18320725-19] o.h.type.descriptor.sql.BasicBinder      : binding parameter [3] as [TIMESTAMP] - [Tue Dec 31 23:59:59 CST 2019]
+2019-09-10 09:17:31.205  INFO 12404 --- [qtp18320725-19] c.j.x.i.publish.utils.LogUtil            : (joy) 返回结果: {"code":200,"data":{"driving":[{"name":"今年掘进","month":"01月","value":0},{"name":"今年掘进","month":"02月","value":0},{"name":"今年掘进","month":"03月","value":0},{"name":"今年掘进","month":"04月","value":0},{"name":"今年掘进","month":"05月","value":0},{"name":"今年掘进","month":"06月","value":0},{"name":"今年掘进","month":"07月","value":0},{"name":"今年掘进","month":"08月","value":0},{"name":"今年掘进","month":"09月","value":0},{"name":"今年掘进","month":"10月","value":0},{"name":"今年掘进","month":"11月","value":0},{"name":"今年掘进","month":"12月","value":0}],"mining":[{"name":"今年回采","month":"01月","value":0},{"name":"今年回采","month":"02月","value":0},{"name":"今年回采","month":"03月","value":0},{"name":"今年回采","month":"04月","value":0},{"name":"今年回采","month":"05月","value":0},{"name":"今年回采","month":"06月","value":0},{"name":"今年回采","month":"07月","value":0},{"name":"今年回采","month":"08月","value":0},{"name":"今年回采","month":"09月","value":0},{"name":"今年回采","month":"10月","value":0},{"name":"今年回采","month":"11月","value":0},{"name":"今年回采","month":"12月","value":0}]},"detailMessage":"","message":"操作成功","state":true}
+2019-09-10 09:17:31.206  INFO 12404 --- [qtp18320725-19] c.j.x.i.publish.utils.LogUtil            : (joy) 耗费时间: 27ms
+2019-09-10 09:17:31.206  INFO 12404 --- [qtp18320725-19] c.j.x.i.publish.utils.LogUtil            : ----------------------------- 请求结束 -----------------------------
