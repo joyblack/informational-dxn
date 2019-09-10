@@ -192,7 +192,7 @@ public class DeviceMaintainService extends BaseService {
                 predicates.add(builder.greaterThanOrEqualTo(root.get("maintainTime"), req.getMaintainTimeStart()));
             }
             if(req.getMaintainTimeEnd() != null){
-                predicates.add(builder.greaterThanOrEqualTo(root.get("maintainTime"), req.getMaintainTimeEnd()));
+                predicates.add(builder.lessThanOrEqualTo(root.get("maintainTime"), req.getMaintainTimeEnd()));
             }
             // 维保类型
             if(req.getMaintainType() != null){

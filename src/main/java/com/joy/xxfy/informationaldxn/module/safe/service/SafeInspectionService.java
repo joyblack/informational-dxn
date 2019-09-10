@@ -53,7 +53,7 @@ public class SafeInspectionService {
             return JoyResult.buildFailedResult(Notice.DEPARTMENT_NOT_EXIST);
         }
         // 装配数据
-        Date now = new Date();
+        Date now = DateUtil.getDateJustYMD();
         SafeInspectionEntity info = new SafeInspectionEntity();
         JoyBeanUtil.copyPropertiesIgnoreSourceNullProperties(req, info);
         info.setInspectCompany(inspectCompany);

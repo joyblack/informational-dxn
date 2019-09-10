@@ -21,7 +21,7 @@ public class JpaPagerUtil {
             return null;
         }else{
             if(StringUtil.isEmpty(t.getSort())){
-                return PageRequest.of(t.getPage() - PAGE_OFFSET, t.getSize());
+                return PageRequest.of(t.getPage() - PAGE_OFFSET, t.getSize(), new Sort(Sort.Direction.DESC,"createTime"));
             }else{
                 return PageRequest.of(t.getPage() - PAGE_OFFSET, t.getSize(), new Sort(t.getOrder(),t.getSort()));
             }

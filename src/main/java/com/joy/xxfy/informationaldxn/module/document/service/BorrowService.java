@@ -42,7 +42,12 @@ public class BorrowService {
         // 所属平台
         borrowInfo.setBelongCompany(loginUser.getCompany());
         // 是否超时
-        borrowInfo.setIsOverTime(CommonYesEnum.NO);
+        Date now = DateUtil.getDateJustYMD();
+        if(DateUtil.compare(now,borrowInfo.getDeadTime()) > 0){
+            borrowInfo.setIsOverTime(CommonYesEnum.YES);
+        }else{
+            borrowInfo.setIsOverTime(CommonYesEnum.NO);
+        }
         // 是否归还
         borrowInfo.setReturnStatus(ReturnStatusEnum.RETURN_STATUS_NO);
         // save.
