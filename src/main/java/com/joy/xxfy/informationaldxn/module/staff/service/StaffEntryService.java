@@ -197,7 +197,7 @@ public class StaffEntryService extends BaseService {
                                 .replaceAll(StaffTemplate.TMP_DEPARTMENT_NAME, entry.getDepartment().getDepartmentName())
                                 .replaceAll(StaffTemplate.TMP_POSITION_NAME, entry.getPosition().getPositionName()));
                         // last not need add br.
-                        if(i != entryList.size()){
+                        if(i != entryList.size() - 1){
                             reviewReasonBuilder.append(StaffTemplate.ALREADY_ENTRY_BR);
                         }
                     }
