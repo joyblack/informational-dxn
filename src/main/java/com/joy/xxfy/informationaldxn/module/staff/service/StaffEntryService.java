@@ -191,15 +191,19 @@ public class StaffEntryService extends BaseService {
                 List<StaffEntryEntity> entryList = staffEntryRepository.findAllByStaffPersonal(personalCheck);
                 if(entryList.size() > 0){
                     // 重复部门校验
-                    for (StaffEntryEntity entry : entryList) {
+                    for (int i = 0; i < entryList.size(); i++) {
+                        StaffEntryEntity entry = entryList.get(i);
                         reviewReasonBuilder.append(StaffTemplate.ALREADY_ENTRY
                                 .replaceAll(StaffTemplate.TMP_DEPARTMENT_NAME, entry.getDepartment().getDepartmentName())
                                 .replaceAll(StaffTemplate.TMP_POSITION_NAME, entry.getPosition().getPositionName()));
+                        // last not need add br.
+                        if(i != entryList.size()){
+                            reviewReasonBuilder.append(StaffTemplate.ALREADY_ENTRY_BR);
+                        }
                     }
                     // 设置审核状态（等待审核）、原因等信息
                     entryInfo.setReviewReasons(reviewReasonBuilder.toString());
                     entryInfo.setReviewStatus(ReviewStatusEnum.WAIT);
-
                 }else{
                     // 说明已经没有任何职位了，不必审核
                     entryInfo.setReviewStatus(ReviewStatusEnum.PASS);

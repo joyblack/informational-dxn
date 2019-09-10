@@ -17,6 +17,10 @@ public class ExcelTests {
 
     @Test
     public void excel() {
+        String s = "   <br><br> 1";
+        System.out.println(s.lastIndexOf("<br>"));
+        String s1 = s.substring(0, s.lastIndexOf("<br>"));
+        System.out.println(s1);
 //        // 日期导出格式
 //        SimpleDateFormat dateFormat = new SimpleDateFormat(ExportConstant.DATE_FORMAT);
 //        List<List<String>> rows = new ArrayList<List<String>>();
