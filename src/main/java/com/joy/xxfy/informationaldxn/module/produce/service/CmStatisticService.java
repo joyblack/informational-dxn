@@ -161,6 +161,8 @@ public class CmStatisticService extends BaseService {
             amount.setShiftTotalLength(amount.getMorningLength().add(amount.getNoonLength()).add(amount.getEveningLength()));
             amount.setShiftTotalPeople(amount.getMorningPeople() + amount.getNoonPeople() + amount.getEveningPeople());
 
+            amount.setDayOutput(amount.getDayOutput().add(vo.getDayOutput()));
+
             amount.setMonthLength(amount.getMonthLength().add(vo.getMonthLength()));
             amount.setMonthOutput(amount.getMonthOutput().add(vo.getMonthOutput()));
         }
@@ -236,6 +238,8 @@ public class CmStatisticService extends BaseService {
             amount.setShiftTotalLength(amount.getMorningLength().add(amount.getNoonLength()).add(amount.getEveningLength()));
             amount.setShiftTotalPeople(amount.getMorningPeople() + amount.getNoonPeople() + amount.getEveningPeople());
 
+            amount.setDayOutput(amount.getDayOutput().add(vo.getDayOutput()));
+git
             amount.setMonthLength(amount.getMonthLength().add(vo.getMonthLength()));
             amount.setMonthOutput(amount.getMonthOutput().add(vo.getMonthOutput()));
         }
