@@ -1,7 +1,7 @@
 # 简介
 
 # 访问地址
-produce-cm-statistic/exportData/{日期}
+produce-cm-statistic/exportData?time=2019-08-24
 
 # 请求参数
 
@@ -9,7 +9,7 @@ produce-cm-statistic/exportData/{日期}
 POST
 
 ## 请求格式
-JSON
+URL
 
 ## 请求数据
 日期采取URL方式，形式如：2019-08-24
