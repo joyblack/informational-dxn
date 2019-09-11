@@ -17,8 +17,4 @@ public interface DeviceInfoRepository extends BaseRepository<DeviceInfoEntity>, 
 
     // 获取一个具有指定类型的设备信息
     DeviceInfoEntity findFirstByDeviceCategory(DeviceCategoryEntity deviceCategoryEntity);
-
-    // 获取需要提示维保的设备信息
-    @Query("select d from DeviceInfoEntity d where d.tipStartTime is not null and d.tipStartTime <= :now ")
-    List<DeviceInfoEntity> getApproach(@Param("now") Date now);
 }

@@ -1,8 +1,7 @@
 package com.joy.xxfy.informationaldxn.module.safe.service;
 
 import com.joy.xxfy.informationaldxn.module.common.enums.CommonYesEnum;
-import com.joy.xxfy.informationaldxn.module.system.domain.entity.DepartmentEntity;
-import com.joy.xxfy.informationaldxn.module.system.domain.repository.DepartmentRepository;
+import com.joy.xxfy.informationaldxn.module.common.web.req.BasePageReq;
 import com.joy.xxfy.informationaldxn.module.safe.domain.entity.SafeInspectionEntity;
 import com.joy.xxfy.informationaldxn.module.safe.domain.enums.RectificationStatusEnum;
 import com.joy.xxfy.informationaldxn.module.safe.domain.repository.SafeInspectionRepository;
@@ -10,7 +9,9 @@ import com.joy.xxfy.informationaldxn.module.safe.domain.vo.PerMonthTotalCountVo;
 import com.joy.xxfy.informationaldxn.module.safe.domain.vo.RectificationStatusCountVo;
 import com.joy.xxfy.informationaldxn.module.safe.web.req.*;
 import com.joy.xxfy.informationaldxn.module.safe.web.res.ThisMonthStatusCountRes;
+import com.joy.xxfy.informationaldxn.module.system.domain.entity.DepartmentEntity;
 import com.joy.xxfy.informationaldxn.module.system.domain.entity.UserEntity;
+import com.joy.xxfy.informationaldxn.module.system.domain.repository.DepartmentRepository;
 import com.joy.xxfy.informationaldxn.publish.constant.ResultDataConstant;
 import com.joy.xxfy.informationaldxn.publish.result.JoyResult;
 import com.joy.xxfy.informationaldxn.publish.result.Notice;
@@ -25,7 +26,10 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Predicate;
+import javax.persistence.criteria.Root;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -292,11 +296,31 @@ public class SafeInspectionService {
     }
 
     public JoyResult getApproachRectificationNum(UserEntity loginUser) {
-        return JoyResult.buildSuccessResultWithData(safeInspectionRepository.getAllApproach(RectificationStatusEnum.RECTIFICATION_NO, new Date(),loginUser.getCompany()).size());
+        return JoyResult.buildSuccessResultWithData(safeInspectionRepository.findAll(getApproachPredicates(loginUser)).size());
     }
 
     public JoyResult getApproachRectification(UserEntity loginUser) {
-        return JoyResult.buildSuccessResultWithData(safeInspectionRepository.getAllApproach(RectificationStatusEnum.RECTIFICATION_NO, new Date(),loginUser.getCompany()));
+        return JoyResult.buildSuccessResultWithData(safeInspectionRepository.findAll(getApproachPredicates(loginUser)));
+    }
+
+    public JoyResult getPagerApproachRectification(BasePageReq req, UserEntity loginUser) {
+        return JoyResult.buildSuccessResultWithData(safeInspectionRepository.findAll(getApproachPredicates(loginUser),JpaPagerUtil.getPageable(req)));
+    }
+
+    /**
+     * 获取临近整改的谓词条件
+     */
+    private Specification<SafeInspectionEntity> getApproachPredicates( UserEntity loginUser){
+        return (Specification<SafeInspectionEntity>) (root, query, builder) -> {
+            List<Predicate> predicates = new ArrayList<>();
+            // 整改状态为否
+            predicates.add(builder.equal(root.get("rectificationStatus"),RectificationStatusEnum.RECTIFICATION_NO));
+            // 提示日期小于或等于当前时间
+            predicates.add(builder.lessThanOrEqualTo(root.get("tipStartTime"), DateUtil.now()));
+            // 所属公司一致
+            predicates.add(builder.equal(root.get("inspectCompany"), loginUser.getCompany()));
+            return builder.and(predicates.toArray(new Predicate[predicates.size()]));
+        };
     }
 
 

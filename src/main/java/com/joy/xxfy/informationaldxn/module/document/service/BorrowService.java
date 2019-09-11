@@ -1,6 +1,7 @@
 package com.joy.xxfy.informationaldxn.module.document.service;
 
 import com.joy.xxfy.informationaldxn.module.common.enums.CommonYesEnum;
+import com.joy.xxfy.informationaldxn.module.common.web.req.BasePageReq;
 import com.joy.xxfy.informationaldxn.module.document.domain.entity.BorrowEntity;
 import com.joy.xxfy.informationaldxn.module.document.domain.enums.ReturnStatusEnum;
 import com.joy.xxfy.informationaldxn.module.document.domain.repository.BorrowRepository;
@@ -168,11 +169,29 @@ public class BorrowService {
     }
 
     public JoyResult getNotReturnNum(UserEntity loginUser) {
-        // 是否超时、是否未归还
-        return JoyResult.buildSuccessResultWithData(borrowRepository.getNotReturn(CommonYesEnum.YES, ReturnStatusEnum.RETURN_STATUS_NO, loginUser.getCompany()).size());
+        return JoyResult.buildSuccessResultWithData(borrowRepository.findAll(notReturnPredicates(loginUser)).size());
     }
 
     public JoyResult getNotReturn(UserEntity loginUser) {
-        return JoyResult.buildSuccessResultWithData(borrowRepository.getNotReturn(CommonYesEnum.YES, ReturnStatusEnum.RETURN_STATUS_NO, loginUser.getCompany()));
+        return JoyResult.buildSuccessResultWithData(borrowRepository.findAll(notReturnPredicates(loginUser)));
+    }
+
+    public JoyResult getPagerNotReturn(BasePageReq req, UserEntity loginUser) {
+        return JoyResult.buildSuccessResultWithData(borrowRepository.findAll(notReturnPredicates(loginUser), JpaPagerUtil.getPageable(req)));
+    }
+
+    /**
+     * 获取未归还查询的谓词条件
+     */
+    private Specification<BorrowEntity> notReturnPredicates(UserEntity loginUser){
+        return (Specification<BorrowEntity>) (root, query, builder) -> {
+            List<Predicate> predicates = new ArrayList<>();
+            predicates.add(builder.equal(root.get("belongCompany"),loginUser.getCompany()));
+            // 归还状态：未归还
+            predicates.add(builder.equal(root.get("returnStatus"), ReturnStatusEnum.RETURN_STATUS_NO));
+            // 超时：是
+            predicates.add(builder.equal(root.get("isOverTime"), CommonYesEnum.YES));
+            return builder.and(predicates.toArray(new Predicate[predicates.size()]));
+        };
     }
 }

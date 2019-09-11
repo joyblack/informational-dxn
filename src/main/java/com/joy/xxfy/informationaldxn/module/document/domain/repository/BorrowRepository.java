@@ -25,15 +25,4 @@ public interface BorrowRepository extends BaseRepository<BorrowEntity>, JpaRepos
     void updateIsOvertTimeByNowAndReturnStatus(@Param("isOverTimeNo") CommonYesEnum isOverTimeNo,
                                                       @Param("now") Date now,
                                                       @Param("returnStatusNo") ReturnStatusEnum returnStatusNo);
-
-    /**
-     * 获取超时未归还
-     * 是否超时
-     * 是否未归还
-     * 所属公司/工台
-     */
-    @Query("select b from BorrowEntity b where b.isOverTime = :isOverTimeYes and b.returnStatus = :returnStatusNo and b.belongCompany = :belongCompany")
-    List<BorrowEntity> getNotReturn(@Param("isOverTimeYes") CommonYesEnum isOverTimeYes,
-                                     @Param("returnStatusNo") ReturnStatusEnum returnStatusNo,
-                                     @Param("belongCompany") DepartmentEntity belongCompany);
 }

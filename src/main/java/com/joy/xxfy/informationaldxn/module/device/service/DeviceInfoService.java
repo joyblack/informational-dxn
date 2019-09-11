@@ -1,6 +1,8 @@
 package com.joy.xxfy.informationaldxn.module.device.service;
 
+import cn.hutool.core.util.PageUtil;
 import com.joy.xxfy.informationaldxn.module.common.service.BaseService;
+import com.joy.xxfy.informationaldxn.module.common.web.req.BasePageReq;
 import com.joy.xxfy.informationaldxn.module.device.web.req.*;
 import com.joy.xxfy.informationaldxn.module.system.domain.entity.DepartmentEntity;
 import com.joy.xxfy.informationaldxn.module.device.domain.defaults.DeviceInfoDefault;
@@ -23,7 +25,10 @@ import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Predicate;
+import javax.persistence.criteria.Root;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -272,10 +277,27 @@ public class DeviceInfoService extends BaseService {
     }
 
     public JoyResult getApproachNum(UserEntity loginUser) {
-        return JoyResult.buildSuccessResultWithData(deviceInfoRepository.getApproach(new Date()).size());
+        return JoyResult.buildSuccessResultWithData(deviceInfoRepository.findAll(getAppoachPredicates(loginUser)).size());
     }
 
     public JoyResult getApproach(UserEntity loginUser) {
-        return JoyResult.buildSuccessResultWithData(deviceInfoRepository.getApproach(new Date()));
+        return JoyResult.buildSuccessResultWithData(deviceInfoRepository.findAll(getAppoachPredicates(loginUser)));
+    }
+
+    public JoyResult getPagerApproach(BasePageReq req, UserEntity loginUser) {
+        return JoyResult.buildSuccessResultWithData(deviceInfoRepository.findAll(getAppoachPredicates(loginUser),JpaPagerUtil.getPageable(req)));
+    }
+
+    /**
+     * 获取临近维保的设备的谓词条件
+     */
+    private Specification<DeviceInfoEntity> getAppoachPredicates(UserEntity loginUser){
+        return (Specification<DeviceInfoEntity>) (root, query, builder) -> {
+            List<Predicate> predicates = new ArrayList<>();
+            predicates.add(builder.equal(root.get("belongCompany"),loginUser.getCompany()));
+            predicates.add(builder.isNotNull(root.get("tipStartTime")));
+            predicates.add(builder.lessThanOrEqualTo(root.get("tipStartTime"), DateUtil.now()));
+            return builder.and(predicates.toArray(new Predicate[predicates.size()]));
+        };
     }
 }

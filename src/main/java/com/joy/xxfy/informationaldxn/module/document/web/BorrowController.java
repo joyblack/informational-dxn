@@ -1,6 +1,7 @@
 package com.joy.xxfy.informationaldxn.module.document.web;
 
 import com.joy.xxfy.informationaldxn.module.common.web.BaseController;
+import com.joy.xxfy.informationaldxn.module.common.web.req.BasePageReq;
 import com.joy.xxfy.informationaldxn.module.common.web.req.IdReq;
 import com.joy.xxfy.informationaldxn.module.device.service.DeviceInfoService;
 import com.joy.xxfy.informationaldxn.module.device.web.req.DeviceInfoAddReq;
@@ -147,6 +148,16 @@ public class BorrowController extends BaseController {
             produces = {"application/json;charset=UTF-8"})
     public JoyResult getNotReturn(HttpServletRequest req) {
         return borrowService.getNotReturn(getLoginUser(req));
+    }
+
+    /**
+     * 获取到底未归还信息
+     */
+    @PostMapping(
+            value = "/getPagerNotReturn",
+            produces = {"application/json;charset=UTF-8"})
+    public JoyResult getPagerNotReturn(BasePageReq req, HttpServletRequest request) {
+        return borrowService.getPagerNotReturn(req, getLoginUser(request));
     }
 
 

@@ -7,6 +7,7 @@ import com.joy.xxfy.informationaldxn.module.safe.domain.entity.SafeInspectionEnt
 import com.joy.xxfy.informationaldxn.module.safe.domain.enums.RectificationStatusEnum;
 import com.joy.xxfy.informationaldxn.module.safe.domain.vo.PerMonthTotalCountVo;
 import com.joy.xxfy.informationaldxn.module.safe.domain.vo.RectificationStatusCountVo;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
@@ -24,15 +25,6 @@ public interface SafeInspectionRepository extends BaseRepository<SafeInspectionE
     void updateIsOvertTimeByNowAndRectificationStatus(@Param("isOverTime") CommonYesEnum isOverTime,
                                 @Param("now") Date now,
                                 @Param("rectificationStatus")RectificationStatusEnum rectificationStatus);
-
-    /**
-     * 获取所有待提醒项，即当前时间大于提醒时间，且未完成的
-     * rectificationStatus = No
-     */
-    @Query("select s from SafeInspectionEntity s where s.rectificationStatus = :rectificationStatus and s.tipStartTime <= :now and s.inspectCompany = :inspectCompany")
-    List<SafeInspectionEntity> getAllApproach(@Param("rectificationStatus") RectificationStatusEnum rectificationStatus,
-                                              @Param("now") Date now,
-                                              @Param("inspectCompany") DepartmentEntity inspectCompany);
 
     /**
      * 统计本月，按是否整改进行数量的分组统计

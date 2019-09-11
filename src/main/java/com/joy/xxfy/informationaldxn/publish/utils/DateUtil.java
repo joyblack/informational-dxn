@@ -107,6 +107,20 @@ public class DateUtil {
     }
 
     /**
+     * 获得当前日期的零点时间
+     */
+    public static Date now(){
+        Calendar ca = Calendar.getInstance();
+        ca.setTime(new Date());
+        ca.set(Calendar.HOUR_OF_DAY, 0);
+        ca.set(Calendar.MINUTE, 0);
+        ca.set(Calendar.SECOND, 0);
+        // 一定要将微妙置为0
+        ca.set(Calendar.MILLISECOND,0);
+        return ca.getTime();
+    }
+
+    /**
      * 获得指定日期年初时间
      */
     public static Date getDateYearStart(Date currentTime){

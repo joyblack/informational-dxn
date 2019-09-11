@@ -1,6 +1,7 @@
 package com.joy.xxfy.informationaldxn.module.device.web;
 
 import com.joy.xxfy.informationaldxn.module.common.web.BaseController;
+import com.joy.xxfy.informationaldxn.module.common.web.req.BasePageReq;
 import com.joy.xxfy.informationaldxn.module.common.web.req.IdReq;
 import com.joy.xxfy.informationaldxn.module.device.service.DeviceInfoService;
 import com.joy.xxfy.informationaldxn.module.device.web.req.*;
@@ -160,5 +161,15 @@ public class DeviceInfoController extends BaseController {
             produces = {"application/json;charset=UTF-8"})
     public JoyResult getApproach(HttpServletRequest req) {
         return deviceInfoService.getApproach(getLoginUser(req));
+    }
+
+    /**
+     * 获取临近截止维保日期的设备信息（分页）
+     */
+    @PostMapping(
+            value = "/getPagerApproach",
+            produces = {"application/json;charset=UTF-8"})
+    public JoyResult getPagerApproach(BasePageReq req, HttpServletRequest request) {
+        return deviceInfoService.getPagerApproach(req, getLoginUser(request));
     }
 }

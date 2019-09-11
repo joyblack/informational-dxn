@@ -1,6 +1,7 @@
 package com.joy.xxfy.informationaldxn.module.safe.web;
 
 import com.joy.xxfy.informationaldxn.module.common.web.BaseController;
+import com.joy.xxfy.informationaldxn.module.common.web.req.BasePageReq;
 import com.joy.xxfy.informationaldxn.module.common.web.req.IdReq;
 import com.joy.xxfy.informationaldxn.module.safe.service.SafeInspectionService;
 import com.joy.xxfy.informationaldxn.module.safe.web.req.*;
@@ -161,6 +162,16 @@ public class SafeInspectionController extends BaseController {
             produces = {"application/json;charset=UTF-8"})
     public JoyResult getApproachRectification(HttpServletRequest req) {
         return safeInspectionService.getApproachRectification(getLoginUser(req));
+    }
+
+    /**
+     * 获取临近截止日期的项目信息（分页）
+     */
+    @PostMapping(
+            value = "/getPagerApproachRectification",
+            produces = {"application/json;charset=UTF-8"})
+    public JoyResult getPagerApproachRectification(BasePageReq req, HttpServletRequest request) {
+        return safeInspectionService.getPagerApproachRectification(req, getLoginUser( request));
     }
 
     /**
