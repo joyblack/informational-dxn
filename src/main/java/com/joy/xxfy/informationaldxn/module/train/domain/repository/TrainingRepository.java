@@ -8,4 +8,3 @@ import org.springframework.data.jpa.repository.JpaRepository;
 public interface TrainingRepository extends BaseRepository<TrainingEntity>, JpaRepository<TrainingEntity, Long> {
     TrainingEntity findFirstByTrainingName(String trainingName);
 }
-.class
