@@ -54,7 +54,7 @@ public class CmPlatformService extends BaseService {
             return JoyResult.buildFailedResult(Notice.CM_PLATFORM_NAME_ALREADY_EXIST);
         }
         // 检测登录名称是否重复
-        UserEntity checkUser = userRepository.findAllByLoginName(addCmPlatformReq.getLoginName());
+        UserEntity checkUser = userRepository.findFirstByLoginName(addCmPlatformReq.getLoginName());
         if(checkUser != null){
             return JoyResult.buildFailedResult(Notice.LOGIN_NAME_ALREADY_EXIST);
         }
@@ -336,7 +336,7 @@ public class CmPlatformService extends BaseService {
             return recommendPassword;
         }else{
             // 获取密码
-            return systemConfigRepository.findAllByConfigName(SystemConfigEnum.USER_DEFAULT_PASSWORD.name()).getConfigValue();
+            return systemConfigRepository.findFirstByConfigName(SystemConfigEnum.USER_DEFAULT_PASSWORD.name()).getConfigValue();
         }
     }
 

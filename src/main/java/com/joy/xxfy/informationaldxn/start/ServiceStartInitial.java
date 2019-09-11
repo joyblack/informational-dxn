@@ -56,7 +56,7 @@ public class ServiceStartInitial implements ApplicationRunner {
     public JoyResult start(){
         // == 配置默认
         // 1.添加默认密码配置项,判断是否存在
-        SystemConfigEntity config1 = systemConfigRepository.findAllByConfigName(SystemConfigEnum.USER_DEFAULT_PASSWORD.name());
+        SystemConfigEntity config1 = systemConfigRepository.findFirstByConfigName(SystemConfigEnum.USER_DEFAULT_PASSWORD.name());
         if(config1 == null){
             LogUtil.info("Now I will create a config: DEFAULT_PASSWORD");
             SystemConfigEntity info = new SystemConfigEntity();
@@ -65,7 +65,7 @@ public class ServiceStartInitial implements ApplicationRunner {
             systemConfigRepository.save(info);
         }
         // 2. 添加集团部门
-        DepartmentEntity superCompany = departmentRepository.findAllByParentIdAndDepartmentName(DepartmentConstant.COMPANY_PARENT_NODE_ID, companyName);
+        DepartmentEntity superCompany = departmentRepository.findFirstByParentIdAndDepartmentName(DepartmentConstant.COMPANY_PARENT_NODE_ID, companyName);
         if(superCompany == null){
             LogUtil.info("Now I will create super company: {}", companyName);
             superCompany = new DepartmentEntity();
@@ -87,7 +87,7 @@ public class ServiceStartInitial implements ApplicationRunner {
             superAdmin.setDepartment(superCompany);
             superAdmin.setPhone("13535565497");
             superAdmin.setUsername(SystemConstant.SUPER_ADMIN_USER_NAME);
-            superAdmin.setRemarks("This is a created by sysytem super admin user, it belong to super company, don't delete it!");
+            superAdmin.setRemarks("This is a created by system super admin user, it belong to super company, don't delete it!");
             // 超管的访问权限：superAdmin.setPermissions();
             superAdmin.setUserType(UserTypeEnum.CP_ADMIN);
             superAdmin.setStatus(CommonStatusEnum.START);

@@ -30,7 +30,7 @@ public class LoginService {
     public JoyResult login(LoginReq loginReq) {
         String md5Password = MD5Util.encode(loginReq.getPassword());
         // 登录名查询
-        UserEntity user = userRepository.findAllByLoginNameAndPassword(loginReq.getLoginName(),md5Password);
+        UserEntity user = userRepository.findFirstByLoginNameAndPassword(loginReq.getLoginName(),md5Password);
         if(user != null){
             Map<String, Object> claims = new HashMap<String, Object>();
             claims.put(Token.USER.getName(), user);

@@ -154,7 +154,7 @@ public class ImportService {
              */
 
             // 队组/部门(以及所属平台/公司)：目前假设部门都位于顶级公司层级之下，之后这里可能要一级一级的查询。
-            DepartmentEntity departmentEntity = departmentRepository.findAllByParentIdAndDepartmentName(company.getId(),vo.getDepartment());
+            DepartmentEntity departmentEntity = departmentRepository.findFirstByParentIdAndDepartmentName(company.getId(),vo.getDepartment());
             if (null == departmentEntity) {
                 errorMessages.add("第" + line + "行导入失败，职工部门/队组信息不存在");
                 continue;

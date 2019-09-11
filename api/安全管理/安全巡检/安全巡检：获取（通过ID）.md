@@ -1,7 +1,7 @@
 # 简介
 
 # 访问地址
-train-training/get
+safe-inspection/get
 
 # 请求参数
 

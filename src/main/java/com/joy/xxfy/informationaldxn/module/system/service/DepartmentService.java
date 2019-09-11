@@ -40,7 +40,7 @@ public class DepartmentService{
             return JoyResult.buildFailedResult(Notice.DEPARTMENT_PARENT_NOT_EXIST);
         }
         // check same name on common level.
-        DepartmentEntity checkDepartment = departmentRepository.findAllByParentIdAndDepartmentName(req.getParentId(), req.getDepartmentName());
+        DepartmentEntity checkDepartment = departmentRepository.findFirstByParentIdAndDepartmentName(req.getParentId(), req.getDepartmentName());
         if(checkDepartment != null){
             return JoyResult.buildFailedResult(Notice.DEPARTMENT_NAME_ALREADY_EXIST);
         }
@@ -84,7 +84,7 @@ public class DepartmentService{
             return JoyResult.buildFailedResult(Notice.DEPARTMENT_PARENT_NOT_EXIST);
         }
         // 检查是否有重名部门
-        DepartmentEntity checkDepartment = departmentRepository.findAllByParentIdAndDepartmentNameAndIdNot(req.getParentId(), req.getDepartmentName(),req.getId());
+        DepartmentEntity checkDepartment = departmentRepository.findFirstByParentIdAndDepartmentNameAndIdNot(req.getParentId(), req.getDepartmentName(),req.getId());
         if(checkDepartment != null){
             return JoyResult.buildFailedResult(Notice.DEPARTMENT_NAME_ALREADY_EXIST);
         }

@@ -45,7 +45,7 @@ public class UserService {
         /**
          * 校验登录名
          */
-        UserEntity checkUser = userRepository.findAllByLoginName(req.getLoginName());;
+        UserEntity checkUser = userRepository.findFirstByLoginName(req.getLoginName());;
         if(null != checkUser){
             return JoyResult.buildFailedResult(Notice.LOGIN_NAME_ALREADY_EXIST);
         }
@@ -107,7 +107,7 @@ public class UserService {
         /**
          * 校验登录名
          */
-        UserEntity checkUser = userRepository.findAllByLoginName(req.getLoginName());;
+        UserEntity checkUser = userRepository.findFirstByLoginName(req.getLoginName());;
         if(null != checkUser && !info.getId().equals(checkUser.getId())){
             return JoyResult.buildFailedResult(Notice.LOGIN_NAME_ALREADY_EXIST);
         }

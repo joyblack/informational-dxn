@@ -6,5 +6,5 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface SystemConfigRepository extends BaseRepository<SystemConfigEntity>, JpaRepository<SystemConfigEntity, Long> {
     // 根据配置名称获取配置信息
-    SystemConfigEntity findAllByConfigName(String configName);
+    SystemConfigEntity findFirstByConfigName(String configName);
 }
