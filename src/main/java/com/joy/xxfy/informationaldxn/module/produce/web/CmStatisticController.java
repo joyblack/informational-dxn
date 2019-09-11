@@ -56,12 +56,11 @@ public class CmStatisticController extends BaseController {
     /**
      * 导出
      */
-    @RequestMapping(value = "exportData/{time}",produces = {"application/json;charset=UTF-8"})
-    public void update(@PathVariable @DateTimeFormat(pattern = "yyyy-MM-dd") Date time, HttpServletRequest request, HttpServletResponse response) {
+    @RequestMapping(value = "exportData",produces = {"application/json;charset=UTF-8"})
+    public void exportData(Date time, HttpServletRequest request, HttpServletResponse response) {
         if (time == null) {
             throw new JoyException(Notice.REQUEST_PARAMETER_IS_ERROR);
         } else {
-            // copy
             cmStatisticService.exportData(time, getLoginUser(request), request, response);
         }
     }

@@ -131,7 +131,7 @@ public class StaffPersonalService extends BaseService {
         if(!IdNumberUtil.isIDNumber(idNumber)){
             return JoyResult.buildFailedResult(Notice.IDENTITY_NUMBER_ERROR);
         }
-        // 是否在系统不存在
+        // 是否在系统
         StaffPersonalEntity personal = staffPersonalRepository.findAllByIdNumber(idNumber);
         if(personal == null){
             return JoyResult.buildSuccessResultWithData(PersonalStatusEnum.NEVER);

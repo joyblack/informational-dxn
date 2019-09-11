@@ -24,7 +24,7 @@ public interface BorrowRepository extends BaseRepository<BorrowEntity>, JpaRepos
     @Modifying
     void updateIsOvertTimeByNowAndReturnStatus(@Param("isOverTimeNo") CommonYesEnum isOverTimeNo,
                                                       @Param("now") Date now,
-                                                      @Param("returnStatus") ReturnStatusEnum returnStatusNo);
+                                                      @Param("returnStatusNo") ReturnStatusEnum returnStatusNo);
 
     /**
      * 获取超时未归还
