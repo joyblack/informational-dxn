@@ -128,7 +128,7 @@ public class BorrowService {
                 predicates.add(builder.greaterThanOrEqualTo(root.get("deadTime"), req.getDeadTimeStart()));
             }
             if(req.getDeadTimeEnd() != null){
-                predicates.add(builder.greaterThanOrEqualTo(root.get("deadTime"), req.getDeadTimeEnd()));
+                predicates.add(builder.lessThanOrEqualTo(root.get("deadTime"), req.getDeadTimeEnd()));
             }
             // 归还状态
             if(req.getReturnStatus() != null){

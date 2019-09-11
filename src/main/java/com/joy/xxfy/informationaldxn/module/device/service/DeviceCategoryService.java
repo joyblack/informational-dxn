@@ -78,7 +78,6 @@ public class DeviceCategoryService {
      * 更新
      */
     public JoyResult update(DeviceCategoryUpdateReq req, UserEntity loginUser) {
-        DepartmentEntity belongCompany = loginUser.getCompany();
         // 获取信息
         DeviceCategoryEntity info = deviceCategoryRepository.findAllById(req.getId());
         if(info == null){

@@ -133,7 +133,7 @@ public class ThreeViolationService {
                 predicates.add(builder.greaterThanOrEqualTo(root.get("violationTime"), req.getViolationTimeStart()));
             }
             if(req.getViolationTimeEnd() != null){
-                predicates.add(builder.greaterThanOrEqualTo(root.get("violationTime"), req.getViolationTimeEnd()));
+                predicates.add(builder.lessThanOrEqualTo(root.get("violationTime"), req.getViolationTimeEnd()));
             }
             // people
             if(!StringUtil.isEmpty(req.getViolationPeople())){
