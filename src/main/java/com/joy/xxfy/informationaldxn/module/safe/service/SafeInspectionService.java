@@ -23,6 +23,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.StringUtils;
 
 import javax.persistence.criteria.Predicate;
 import java.util.ArrayList;
@@ -199,14 +200,14 @@ public class SafeInspectionService {
                 predicates.add(builder.greaterThanOrEqualTo(root.get("inspectTime"), req.getInspectTimeStart()));
             }
             if(req.getInspectTimeEnd() != null){
-                predicates.add(builder.greaterThanOrEqualTo(root.get("inspectTime"), req.getInspectTimeEnd()));
+                predicates.add(builder.lessThanOrEqualTo(root.get("inspectTime"), req.getInspectTimeEnd()));
             }
             // deadTime
             if(req.getDeadTimeStart() != null){
                 predicates.add(builder.greaterThanOrEqualTo(root.get("deadTime"), req.getDeadTimeStart()));
             }
             if(req.getInspectTimeEnd() != null){
-                predicates.add(builder.greaterThanOrEqualTo(root.get("deadTime"), req.getDeadTimeEnd()));
+                predicates.add(builder.lessThanOrEqualTo(root.get("deadTime"), req.getDeadTimeEnd()));
             }
             // inspectCompany
             if(req.getInspectCompanyId() != null){
@@ -220,19 +221,23 @@ public class SafeInspectionService {
             if(req.getInspectType() != null){
                 predicates.add(builder.equal(root.get("inspectType"), req.getInspectType()));
             }
-            // rectificationStatus
-            if(req.getInspectType() != null){
-                predicates.add(builder.equal(root.get("rectificationStatus"), req.getRectificationStatus()));
+            // inspectPlace
+            if(req.getInspectPlace() != null){
+                predicates.add(builder.like(root.get("inspectPlace"), "%" + req.getInspectPlace() + "%"));
             }
-
             // overTime
             if(req.getIsOverTime() != null){
                 predicates.add(builder.equal(root.get("isOverTime"), req.getIsOverTime()));
             }
 
-            // rectificationPeople
-            if(req.getRectificationPeople() != null){
-                predicates.add(builder.equal(root.get("rectificationPeople"), req.getRectificationPeople()));
+            // 整改状态
+            if(req.getRectificationStatus() != null){
+                predicates.add(builder.equal(root.get("rectificationStatus"), req.getRectificationStatus()));
+            }
+
+            // 整改人
+            if(!StringUtils.isEmpty(req.getRectificationPeople())){
+                predicates.add(builder.like(root.get("rectificationPeople"), "%" + req.getRectificationPeople() + "%"));
             }
 
             return builder.and(predicates.toArray(new Predicate[predicates.size()]));

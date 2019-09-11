@@ -25,8 +25,8 @@ public class SafeInspectionGetListReq extends BasePageReq {
     /**
      * 整改期限截止
      */
-    private CommonYesEnum deadTimeStart;
-    private CommonYesEnum deadTimeEnd;
+    private Date deadTimeStart;
+    private Date deadTimeEnd;
 
 
     /**
