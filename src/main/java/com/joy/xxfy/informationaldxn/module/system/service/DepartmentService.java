@@ -148,6 +148,10 @@ public class DepartmentService{
     // 获取部门树
     public JoyResult getTree(Long parentId,UserEntity loginUser) {
         DepartmentEntity department = departmentRepository.findAllById(parentId);
+        // 若为0，则要根据用户的角色进行获取，若是集团不做限制，若是平台，则只获取相关
+        if(parentId.equals(0L) && loginUser.getUserType().equals(UserTypeEnum.CM_ADMIN)){
+            department = loginUser.getCompany();
+        }
         String path = department == null? SystemConstant.EMPTY_VALUE : department.getPath();
         List<DepartmentEntity> children = departmentRepository.findAllByPathStartingWith(path);
         return JoyResult.buildSuccessResultWithData(TreeUtil.getDeptTree(children, department == null ? 0 : department.getId()));
@@ -158,7 +162,6 @@ public class DepartmentService{
     public JoyResult getCompanyTree(UserEntity loginUser){
         DepartmentEntity company = loginUser.getCompany();
         List<DepartmentEntity> children = departmentRepository.findAllByPathStartingWith(company.getPath());
-        System.out.println(children);
         return JoyResult.buildSuccessResultWithData(TreeUtil.getDeptTree(children, company.getId()));
     }
 
