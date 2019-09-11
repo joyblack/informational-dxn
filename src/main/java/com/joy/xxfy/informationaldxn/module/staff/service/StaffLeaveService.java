@@ -91,10 +91,8 @@ public class StaffLeaveService {
 
         // 参保信息处理，若设置并存在修改，则进行更新
         if(req.getInsured() != null){
-            if(!personalInfo.getInsured().equals(req.getInsured())){
-                personalInfo.setInsured(req.getInsured());
-                staffPersonalRepository.save(personalInfo);
-            }
+            personalInfo.setInsured(req.getInsured());
+            staffPersonalRepository.save(personalInfo);
         }
 
         // 黑名单处理
