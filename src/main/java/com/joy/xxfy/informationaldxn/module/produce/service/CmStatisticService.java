@@ -324,7 +324,7 @@ public class CmStatisticService extends BaseService {
         // 三段数据
         ExcelWriter writer = ExcelUtil.getWriter();
         // 文件名，也是表格的头信息
-        String fileName = loginUser.getCompany().getDepartmentName() + "日报表  " + dateFormat.format(time);
+        String fileName = loginUser.getCompany().getDepartmentName() + "日报表-" + dateFormat.format(time);
         // 头合并两行
         writer.merge(0,1,0,11, fileName,true);
         writer.setCurrentRow(writer.getCurrentRow() + 2);
