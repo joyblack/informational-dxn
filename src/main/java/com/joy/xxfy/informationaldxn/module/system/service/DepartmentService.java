@@ -36,7 +36,7 @@ public class DepartmentService{
     public JoyResult add(DepartmentAddReq req) {
         // check parent dept info.
         DepartmentEntity parent = departmentRepository.findAllById(req.getParentId());
-        if(!req.getParentId().equals(DepartmentConstant.COMPANY_PARENT_NODE_ID) && parent == null){
+        if(parent == null){
             return JoyResult.buildFailedResult(Notice.DEPARTMENT_PARENT_NOT_EXIST);
         }
         // check same name on common level.
@@ -80,7 +80,7 @@ public class DepartmentService{
         }
         // check parent dept info.
         DepartmentEntity parent = departmentRepository.findAllById(req.getParentId());
-        if(!req.getParentId().equals(DepartmentConstant.COMPANY_PARENT_NODE_ID) && parent == null){
+        if(parent == null){
             return JoyResult.buildFailedResult(Notice.DEPARTMENT_PARENT_NOT_EXIST);
         }
         // 检查是否有重名部门
@@ -154,7 +154,7 @@ public class DepartmentService{
         }
         String path = department == null? SystemConstant.EMPTY_VALUE : department.getPath();
         List<DepartmentEntity> children = departmentRepository.findAllByPathStartingWith(path);
-        return JoyResult.buildSuccessResultWithData(TreeUtil.getDeptTree(children, department == null ? 0 : department.getId()));
+        return JoyResult.buildSuccessResultWithData(TreeUtil.getDeptTree(children, department == null ? 0 : department.getParentId()));
     }
 
 

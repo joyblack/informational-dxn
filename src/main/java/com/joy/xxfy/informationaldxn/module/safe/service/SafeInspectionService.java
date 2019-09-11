@@ -210,7 +210,7 @@ public class SafeInspectionService {
             if(req.getDeadTimeStart() != null){
                 predicates.add(builder.greaterThanOrEqualTo(root.get("deadTime"), req.getDeadTimeStart()));
             }
-            if(req.getInspectTimeEnd() != null){
+            if(req.getDeadTimeEnd() != null){
                 predicates.add(builder.lessThanOrEqualTo(root.get("deadTime"), req.getDeadTimeEnd()));
             }
             // inspectCompany
