@@ -11,12 +11,12 @@ public interface ResourceRepository extends BaseRepository<ResourceEntity>, JpaR
     /**
      * 根据parentId&name获取信息
      */
-    ResourceEntity findAllByParentIdAndResourceName(Long parentId, String name);
+    ResourceEntity findFirstByParentIdAndResourceName(Long parentId, String name);
 
     /**
      * 根据parentId&name&!id 获取部门信息
      */
-    ResourceEntity findAllByParentIdAndResourceNameAndIdNot(Long parentId, String name, Long id);
+    ResourceEntity findFirstByParentIdAndResourceNameAndIdNot(Long parentId, String name, Long id);
 
     /**
      * 根据父节点ID获取子节点信息

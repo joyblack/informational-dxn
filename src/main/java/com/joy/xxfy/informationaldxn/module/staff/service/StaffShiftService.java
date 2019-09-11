@@ -55,7 +55,7 @@ public class StaffShiftService {
             return JoyResult.buildFailedResult(Notice.IDENTITY_NUMBER_ERROR);
         }
         // 个人信息验证
-        StaffPersonalEntity personalInfo = staffPersonalRepository.findAllByIdNumber(req.getIdNumber());
+        StaffPersonalEntity personalInfo = staffPersonalRepository.findFirstByIdNumber(req.getIdNumber());
         if(personalInfo == null){
             return JoyResult.buildFailedResult(Notice.STAFF_PERSONAL_INFO_NOT_EXIST);
         }

@@ -12,8 +12,9 @@ import java.util.Date;
 import java.util.List;
 
 public interface DrillWorkRepository extends BaseRepository<DrillWorkEntity>, JpaRepository<DrillWorkEntity, Long> {
-    DrillWorkEntity findAllByDrillWorkName(String drillWorkName);
-    DrillWorkEntity findAllByDrillWorkNameAndIdNot(String drillWorkName, Long id);
+    DrillWorkEntity findFirstByDrillWorkName(String drillWorkName);
+
+    DrillWorkEntity findFirstByDrillWorkNameAndIdNot(String drillWorkName, Long id);
 
     // 获取属于某平台的所有钻孔工作: belong_company_id = ?
     List<DrillWorkEntity> findAllByBelongCompany(DepartmentEntity company);

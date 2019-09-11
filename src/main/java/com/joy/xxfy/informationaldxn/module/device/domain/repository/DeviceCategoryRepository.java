@@ -12,7 +12,7 @@ public interface DeviceCategoryRepository extends BaseRepository<DeviceCategoryE
     /**
      * 通过（所属平台、父ID、类型名称）获取类型信息
      */
-    DeviceCategoryEntity findAllByBelongCompanyAndParentIdAndCategoryName(DepartmentEntity company, Long parentId, String categoryName);
+    DeviceCategoryEntity findFirstByBelongCompanyAndParentIdAndCategoryName(DepartmentEntity company, Long parentId, String categoryName);
 
     /**
      * 通过（所属平台、父ID）获取下一级子列表

@@ -55,7 +55,7 @@ public class StaffLeaveService {
         List<Long> entryIds = req.getEntries();
         // 获取员工个人信息
         String idNumber = req.getIdNumber();
-        StaffPersonalEntity personalInfo = staffPersonalRepository.findAllByIdNumber(idNumber);
+        StaffPersonalEntity personalInfo = staffPersonalRepository.findFirstByIdNumber(idNumber);
         if(personalInfo == null){
             return JoyResult.buildFailedResult(Notice.STAFF_PERSONAL_INFO_NOT_EXIST);
         }

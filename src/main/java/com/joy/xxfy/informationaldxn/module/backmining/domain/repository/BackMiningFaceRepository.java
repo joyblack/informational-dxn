@@ -12,13 +12,15 @@ import java.util.Date;
 import java.util.List;
 
 public interface BackMiningFaceRepository extends BaseRepository<BackMiningFaceEntity>, JpaRepository<BackMiningFaceEntity, Long> {
-    // back_mining_face_name = ?
-    BackMiningFaceEntity findAllByBackMiningFaceName(String name);
-    // id != and name = ?
-    BackMiningFaceEntity findAllByBackMiningFaceNameAndIdNot(String name, Long id);
+    /**
+     * back_mining_face_name = ?
+     */
+    BackMiningFaceEntity findFirstByBackMiningFaceName(String name);
 
-    // belong_company_id = ?
-    List<BackMiningFaceEntity> findAllByBelongCompany(DepartmentEntity company);
+    /**
+     * id != and name = ?
+     */
+    BackMiningFaceEntity findFirstByBackMiningFaceNameAndIdNot(String name, Long id);
 
     @Query("select distinct(d.backMiningFace) from BackMiningDailyEntity d where d.dailyTime = :dailyTime and d.backMiningFace.belongCompany = :belongCompany")
     List<BackMiningFaceEntity> findAllByDailyTimeAndBelongCompany(@Param("dailyTime") Date dailyTime, @Param("belongCompany") DepartmentEntity company);

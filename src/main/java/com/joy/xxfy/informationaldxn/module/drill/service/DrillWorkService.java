@@ -50,7 +50,7 @@ public class DrillWorkService {
      */
     public JoyResult add(DrillWorkAddReq req, UserEntity loginUser) {
         // 验证名称是否重复
-        DrillWorkEntity drillWorkInfo = drillWorkRepository.findAllByDrillWorkName(req.getDrillWorkName());
+        DrillWorkEntity drillWorkInfo = drillWorkRepository.findFirstByDrillWorkName(req.getDrillWorkName());
         if(drillWorkInfo != null){
             return JoyResult.buildFailedResult(Notice.DRILL_WORK_NAME_ALREADY_EXIST);
         }
@@ -92,7 +92,7 @@ public class DrillWorkService {
             return JoyResult.buildFailedResult(Notice.DRILL_WORK_NOT_EXIST);
         }
         // 名称合法
-        DrillWorkEntity checkRepeat = drillWorkRepository.findAllByDrillWorkNameAndIdNot(req.getDrillWorkName(), req.getId());
+        DrillWorkEntity checkRepeat = drillWorkRepository.findFirstByDrillWorkNameAndIdNot(req.getDrillWorkName(), req.getId());
         if(checkRepeat != null){
             return JoyResult.buildFailedResult(Notice.DRILL_WORK_NAME_ALREADY_EXIST);
         }
@@ -150,7 +150,7 @@ public class DrillWorkService {
      */
     public JoyResult getByName(String name) {
         DrillWorkRes res = new DrillWorkRes();
-        DrillWorkEntity info = drillWorkRepository.findAllByDrillWorkName(name);
+        DrillWorkEntity info = drillWorkRepository.findFirstByDrillWorkName(name);
         if(info != null){
             JoyBeanUtil.copyProperties(info, res);
             // 获取详细信息

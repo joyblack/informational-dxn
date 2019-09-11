@@ -20,12 +20,9 @@ public interface StaffEntryRepository extends BaseRepository<StaffEntryEntity>, 
 
 
     //查找同部门同职位是否有重复的用户出现
-    StaffEntryEntity findAllByStaffPersonalAndDepartmentAndPosition(StaffPersonalEntity staffPersonalEntity,
+    StaffEntryEntity findFirstByStaffPersonalAndDepartmentAndPosition(StaffPersonalEntity staffPersonalEntity,
                                                                     DepartmentEntity departmentEntity,
                                                                     PositionEntity positionEntity);
-
-    // 查找同部门同职位是否有重复的用户出现,排除指定ID
-    StaffEntryEntity findAllByStaffPersonalAndDepartmentAndPositionAndIdNot(StaffPersonalEntity staffPersonal, DepartmentEntity department, PositionEntity position, Long id);
 
     // 通过个人信息查找所有入职信息
     List<StaffEntryEntity> findAllByStaffPersonal(StaffPersonalEntity staffPersonalEntity);

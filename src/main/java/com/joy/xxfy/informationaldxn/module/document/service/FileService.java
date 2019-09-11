@@ -51,7 +51,7 @@ public class FileService extends BaseService {
     public JoyResult mkdir(MkdirReq req, UserEntity loginUser) {
         // 获取父文件夹信息
         Long parentId = req.getParentId();
-        FileEntity parentFolder = fileRepository.findAllByIdAndIsFolder(parentId, true);
+        FileEntity parentFolder = fileRepository.findFirstByIdAndIsFolder(parentId, true);
         if(parentFolder == null && !parentId.equals(FileConstant.TOP_NODE_ID)){
             return JoyResult.buildFailedResult(Notice.PAN_PARENT_FOLDER_NOT_EXIST);
         }
@@ -108,7 +108,7 @@ public class FileService extends BaseService {
      */
     public JoyResult upload(MultipartFile file, Long parentId, UserEntity loginUser) {
         // 获取父文件夹信息
-        FileEntity parentFolder = fileRepository.findAllByIdAndIsFolder(parentId, true);
+        FileEntity parentFolder = fileRepository.findFirstByIdAndIsFolder(parentId, true);
         if(parentFolder == null){
             return JoyResult.buildFailedResult(Notice.PAN_PARENT_FOLDER_NOT_EXIST);
         }

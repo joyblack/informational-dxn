@@ -43,7 +43,7 @@ public class BackMiningFaceService {
      */
     public JoyResult add(BackMiningFaceAddReq req, UserEntity loginUser) {
         // 验证名称是否重复
-        BackMiningFaceEntity backMiningFaceName = backMiningFaceRepository.findAllByBackMiningFaceName(req.getBackMiningFaceName());
+        BackMiningFaceEntity backMiningFaceName = backMiningFaceRepository.findFirstByBackMiningFaceName(req.getBackMiningFaceName());
         if(backMiningFaceName != null){
             return JoyResult.buildFailedResult(Notice.BACK_MINING_NAME_ALREADY_EXIST);
         }
@@ -77,7 +77,7 @@ public class BackMiningFaceService {
             return JoyResult.buildFailedResult(Notice.BACK_MINING_NOT_EXIST);
         }
         // 名称合法
-        BackMiningFaceEntity checkRepeat = backMiningFaceRepository.findAllByBackMiningFaceNameAndIdNot(req.getBackMiningFaceName(), req.getId());
+        BackMiningFaceEntity checkRepeat = backMiningFaceRepository.findFirstByBackMiningFaceNameAndIdNot(req.getBackMiningFaceName(), req.getId());
         if(checkRepeat != null){
             return JoyResult.buildFailedResult(Notice.BACK_MINING_NAME_ALREADY_EXIST);
         }
@@ -125,7 +125,7 @@ public class BackMiningFaceService {
      * 获取数据(name)
      */
     public JoyResult getByName(String name) {
-        return JoyResult.buildSuccessResultWithData(backMiningFaceRepository.findAllByBackMiningFaceName(name));
+        return JoyResult.buildSuccessResultWithData(backMiningFaceRepository.findFirstByBackMiningFaceName(name));
     }
 
 

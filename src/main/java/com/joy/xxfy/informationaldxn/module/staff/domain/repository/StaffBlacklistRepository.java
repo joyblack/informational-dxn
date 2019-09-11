@@ -18,11 +18,6 @@ public interface StaffBlacklistRepository extends BaseRepository<StaffBlacklistE
     StaffBlacklistEntity findFirstByStaffPersonal(StaffPersonalEntity staffPersonalEntity);
 
     /**
-     * 通过个人信息获取黑名单列表
-     */
-    List<StaffBlacklistEntity> findAllByStaffPersonal(StaffPersonalEntity staffPersonalEntity);
-
-    /**
      * 通过个人信息删除黑名单
      */
     @Modifying

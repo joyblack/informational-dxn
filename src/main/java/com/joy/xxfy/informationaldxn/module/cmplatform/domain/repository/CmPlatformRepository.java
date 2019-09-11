@@ -5,9 +5,14 @@ import com.joy.xxfy.informationaldxn.module.common.domain.repository.BaseReposit
 import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface CmPlatformRepository extends BaseRepository<CmPlatformEntity>, JpaRepository<CmPlatformEntity, Long> {
-    // Where cmName = #{cmName}
-    CmPlatformEntity findAllByCmName(String cmName);
-    // Where name = #{cmName} And id != #{id}
-    CmPlatformEntity findAllByCmNameAndIdNot(String cmName, Long id);
+    /**
+     * Where cmName = #{cmName}
+     */
+    CmPlatformEntity findFirstByCmName(String cmName);
+
+    /**
+     * Where name = #{cmName} And id != #{id}
+     */
+    CmPlatformEntity findFirstByCmNameAndIdNot(String cmName, Long id);
 
 }

@@ -161,7 +161,7 @@ public class StaffEntryService extends BaseService {
 
 
         // 查看用户是否在系统中
-        StaffPersonalEntity personalCheck= staffPersonalRepository.findAllByIdNumber(personalInfo.getIdNumber());
+        StaffPersonalEntity personalCheck= staffPersonalRepository.findFirstByIdNumber(personalInfo.getIdNumber());
         if(personalCheck == null){
             LogUtil.info("Personal information first login in system.");
             // 新增个人信息
@@ -171,7 +171,7 @@ public class StaffEntryService extends BaseService {
         }else{
             LogUtil.info("System already have this personal information: {}", personalCheck);
             // 检测该用户是否同部门同职位出现，这是不合法的
-            StaffEntryEntity checkStaff = staffEntryRepository.findAllByStaffPersonalAndDepartmentAndPosition(personalCheck,
+            StaffEntryEntity checkStaff = staffEntryRepository.findFirstByStaffPersonalAndDepartmentAndPosition(personalCheck,
                     entryInfo.getDepartment(),
                     entryInfo.getPosition());
             if(checkStaff != null){

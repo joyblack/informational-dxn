@@ -9,7 +9,7 @@ import java.util.List;
 
 public interface StaffPersonalRepository extends BaseRepository<StaffPersonalEntity>, JpaRepository<StaffPersonalEntity, Long> {
     // id_number = ?
-    StaffPersonalEntity findAllByIdNumber(String idNumber);
+    StaffPersonalEntity findFirstByIdNumber(String idNumber);
 
     // username = ?
     List<StaffPersonalEntity> findAllByUsername(String username);

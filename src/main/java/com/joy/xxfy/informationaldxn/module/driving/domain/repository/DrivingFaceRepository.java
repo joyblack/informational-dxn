@@ -13,13 +13,13 @@ import java.util.List;
 
 public interface DrivingFaceRepository extends BaseRepository<DrivingFaceEntity>, JpaRepository<DrivingFaceEntity, Long> {
     // driving_face_name = ?
-    DrivingFaceEntity findAllByDrivingFaceName(String drivingFaceName);
+    DrivingFaceEntity findFirstByDrivingFaceName(String drivingFaceName);
 
     // driving_face_name like %?% and belong_company = ?
-    DrivingFaceEntity findAllByBelongCompanyAndDrivingFaceNameContaining(DepartmentEntity departmentEntity, String drivingFaceName);
+    DrivingFaceEntity findFirstByBelongCompanyAndDrivingFaceNameContaining(DepartmentEntity departmentEntity, String drivingFaceName);
 
     // name = ? and id != ?
-    DrivingFaceEntity findAllByDrivingFaceNameAndIdNot(String drivingFaceName, Long id);
+    DrivingFaceEntity findFirstByDrivingFaceNameAndIdNot(String drivingFaceName, Long id);
 
     // belong_company = ?
     List<DrivingFaceEntity> findAllByBelongCompany(DepartmentEntity departmentEntity);

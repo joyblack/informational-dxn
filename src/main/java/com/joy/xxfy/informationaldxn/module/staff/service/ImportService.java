@@ -65,7 +65,7 @@ public class ImportService {
              * - 若存在，直接入入职信息，此时需要检测是否重复录入（相同部门、相同职位）；
              * - 若不存在，则先添加个人信息，再录入入职信息，此时无需检测重复。
              */
-            StaffPersonalEntity personalEntity = staffPersonalRepository.findAllByIdNumber(vo.getIdNumber());
+            StaffPersonalEntity personalEntity = staffPersonalRepository.findFirstByIdNumber(vo.getIdNumber());
             /**
              * 处理个人信息
              */
@@ -170,7 +170,7 @@ public class ImportService {
             }
             staffEntity.setPosition(positionEntity);
             // 检测该用户是否同部门同职位出现，这是不合法的
-            StaffEntryEntity checkStaff = staffEntryRepository.findAllByStaffPersonalAndDepartmentAndPosition(personalEntity,
+            StaffEntryEntity checkStaff = staffEntryRepository.findFirstByStaffPersonalAndDepartmentAndPosition(personalEntity,
                     staffEntity.getDepartment(),
                     staffEntity.getPosition());
             if(checkStaff != null){

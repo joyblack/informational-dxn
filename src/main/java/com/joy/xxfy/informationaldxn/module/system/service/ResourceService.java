@@ -36,7 +36,7 @@ public class ResourceService extends BaseService {
             return JoyResult.buildFailedResult(Notice.DEPARTMENT_PARENT_NOT_EXIST);
         }
         // check same name on common level.
-        ResourceEntity check = resourceRepository.findAllByParentIdAndResourceName(req.getParentId(), req.getResourceName());
+        ResourceEntity check = resourceRepository.findFirstByParentIdAndResourceName(req.getParentId(), req.getResourceName());
         if(check != null){
             return JoyResult.buildFailedResult(Notice.RESOURCE_NAME_ALREADY_EXIST);
         }
@@ -71,7 +71,7 @@ public class ResourceService extends BaseService {
             return JoyResult.buildFailedResult(Notice.RESOURCE_NOT_EXIST);
         }
         // check same name on common level.
-        ResourceEntity check = resourceRepository.findAllByParentIdAndResourceNameAndIdNot(info.getParentId(), req.getResourceName(),info.getId());
+        ResourceEntity check = resourceRepository.findFirstByParentIdAndResourceNameAndIdNot(info.getParentId(), req.getResourceName(),info.getId());
         if(check != null){
             return JoyResult.buildFailedResult(Notice.RESOURCE_NAME_ALREADY_EXIST);
         }

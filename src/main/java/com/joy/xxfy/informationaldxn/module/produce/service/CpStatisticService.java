@@ -139,7 +139,7 @@ public class CpStatisticService extends BaseService {
             res.setStatisticData(statisticData);
 
             // == 填充备注信息部分，在数据库中查询
-            ProduceCmDailyEntity produceCmDailyEntity = produceCmDailyRepository.findAllByBelongCompanyAndDailyTime(company, time);
+            ProduceCmDailyEntity produceCmDailyEntity = produceCmDailyRepository.findFirstByBelongCompanyAndDailyTime(company, time);
             if(produceCmDailyEntity != null){
                 // 说明有备注信息，设置备注信息
                 res.setRemarks(produceCmDailyEntity.getRemarks());

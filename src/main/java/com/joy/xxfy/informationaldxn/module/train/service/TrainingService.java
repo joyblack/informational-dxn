@@ -48,7 +48,7 @@ public class TrainingService {
     public JoyResult add(TrainingAddReq req) {
         TrainingEntity addTrainingInfo = new TrainingEntity();
 //        // 验证名称
-//        TrainingEntity checkInfo = trainingRepository.findAllByTrainingName(req.getTrainingName());
+//        TrainingEntity checkInfo = trainingRepository.findFirstByTrainingName(req.getTrainingName());
 //        if(checkInfo != null){
 //            return JoyResult.buildFailedResult(Notice.TRAINING_NAME_ALREADY_EXIST);
 //        }
@@ -83,7 +83,7 @@ public class TrainingService {
             return JoyResult.buildFailedResult(Notice.TRAINING_NOT_EXIST);
         }
 //        // 验证名称
-//        TrainingEntity checkInfo = trainingRepository.findAllByTrainingNameAndIdNot(req.getTrainingName(), req.getId());
+//        TrainingEntity checkInfo = trainingRepository.findFirstByTrainingNameAndIdNot(req.getTrainingName(), req.getId());
 //        if(checkInfo != null){
 //            return JoyResult.buildFailedResult(Notice.TRAINING_NAME_ALREADY_EXIST);
 //        }
@@ -142,7 +142,7 @@ public class TrainingService {
      */
     public JoyResult getByName(String name) {
         TrainingRes res = new TrainingRes();
-        TrainingEntity trainingEntity = trainingRepository.findAllByTrainingName(name);
+        TrainingEntity trainingEntity = trainingRepository.findFirstByTrainingName(name);
         if(trainingEntity != null){
             JoyBeanUtil.copyProperties(trainingEntity, res);
             res.setTrainingAttachments(trainingAttachmentRepository.findAllByTraining(trainingEntity));

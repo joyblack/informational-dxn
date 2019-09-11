@@ -47,7 +47,7 @@ public class DeviceCategoryService {
         }
 
         // 检测名字是否重复
-        DeviceCategoryEntity checkRepeat = deviceCategoryRepository.findAllByBelongCompanyAndParentIdAndCategoryName(belongCompany, req.getParentId(), req.getCategoryName());
+        DeviceCategoryEntity checkRepeat = deviceCategoryRepository.findFirstByBelongCompanyAndParentIdAndCategoryName(belongCompany, req.getParentId(), req.getCategoryName());
         if(checkRepeat != null){
             return JoyResult.buildFailedResult(Notice.DEVICE_CATEGORY_ALREADY_EXIST);
         }
@@ -85,7 +85,7 @@ public class DeviceCategoryService {
             return JoyResult.buildFailedResult(Notice.DEVICE_CATEGORY_NOT_EXIST);
         }
         // 检测名字是否重复
-        DeviceCategoryEntity checkRepeat = deviceCategoryRepository.findAllByBelongCompanyAndParentIdAndCategoryName(info.getBelongCompany(), info.getParentId(), req.getCategoryName());
+        DeviceCategoryEntity checkRepeat = deviceCategoryRepository.findFirstByBelongCompanyAndParentIdAndCategoryName(info.getBelongCompany(), info.getParentId(), req.getCategoryName());
         if(checkRepeat != null && !checkRepeat.getId().equals(info.getId())){
             return JoyResult.buildFailedResult(Notice.DEVICE_CATEGORY_NAME_EXIST);
         }

@@ -84,7 +84,7 @@ public class CmStatisticService extends BaseService {
         LogUtil.info("Start statistic company: {}", company.getDepartmentName());
         // 返回结果
         CmStatisticRes res = new CmStatisticRes();
-        ProduceCmDailyEntity produceCmDailyEntity = produceCmDailyRepository.findAllByBelongCompanyAndDailyTime(company, time);
+        ProduceCmDailyEntity produceCmDailyEntity = produceCmDailyRepository.findFirstByBelongCompanyAndDailyTime(company, time);
         if(produceCmDailyEntity != null){
             JoyBeanUtil.copyPropertiesIgnoreSourceNullProperties(produceCmDailyEntity,res);
         }
@@ -305,7 +305,7 @@ public class CmStatisticService extends BaseService {
 
     public JoyResult setRemarks(SetRemarkReq req, UserEntity loginUser) {
         // 查询是否具有这条数据
-        ProduceCmDailyEntity produceCmDailyEntity = produceCmDailyRepository.findAllByBelongCompanyAndDailyTime(loginUser.getCompany(), req.getTime());
+        ProduceCmDailyEntity produceCmDailyEntity = produceCmDailyRepository.findFirstByBelongCompanyAndDailyTime(loginUser.getCompany(), req.getTime());
         if(produceCmDailyEntity == null){
             produceCmDailyEntity = new ProduceCmDailyEntity();
         }
@@ -437,7 +437,7 @@ public class CmStatisticService extends BaseService {
         // 备注部分
         writer.merge(startRow,writer.getCurrentRow() - 1,6,6,"备注",false);
         CmStatisticRes res = new CmStatisticRes();
-        ProduceCmDailyEntity produceCmDailyEntity = produceCmDailyRepository.findAllByBelongCompanyAndDailyTime(loginUser.getCompany(), time);
+        ProduceCmDailyEntity produceCmDailyEntity = produceCmDailyRepository.findFirstByBelongCompanyAndDailyTime(loginUser.getCompany(), time);
         writer.merge(startRow,writer.getCurrentRow() - 1,7,11, produceCmDailyEntity == null? null: produceCmDailyEntity.getRemarks(),false);
 
         // 设置宽度

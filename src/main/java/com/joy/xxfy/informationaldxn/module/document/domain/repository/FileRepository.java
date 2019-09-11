@@ -10,7 +10,7 @@ import java.util.List;
 
 public interface FileRepository  extends BaseRepository<FileEntity>, JpaRepository<FileEntity, Long> {
     // 父文件夹ID并且是文件夹
-    FileEntity findAllByIdAndIsFolder(Long id, Boolean isFolder);
+    FileEntity findFirstByIdAndIsFolder(Long id, Boolean isFolder);
 
     // 查找同名文件
     FileEntity findFirstByPermissionTypeAndBelongCompanyAndParentIdAndFileName(PermissionTypeEnum permissionType, DepartmentEntity belongCompany, Long parentId, String filename);

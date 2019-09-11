@@ -49,7 +49,7 @@ public class CmPlatformService extends BaseService {
 
     public JoyResult add(AddCmPlatformReq addCmPlatformReq,UserEntity loginUser) {
         // 检测煤矿名称是否重复.
-        CmPlatformEntity check = cmPlatformRepository.findAllByCmName(addCmPlatformReq.getCmName());
+        CmPlatformEntity check = cmPlatformRepository.findFirstByCmName(addCmPlatformReq.getCmName());
         if(check != null){
             return JoyResult.buildFailedResult(Notice.CM_PLATFORM_NAME_ALREADY_EXIST);
         }
@@ -111,7 +111,7 @@ public class CmPlatformService extends BaseService {
             return JoyResult.buildFailedResult(Notice.CM_PLATFORM_NOT_EXIST);
         }
 
-        CmPlatformEntity checkData = cmPlatformRepository.findAllByCmNameAndIdNot(req.getCmName(), req.getId());
+        CmPlatformEntity checkData = cmPlatformRepository.findFirstByCmNameAndIdNot(req.getCmName(), req.getId());
         if(checkData != null){
             return JoyResult.buildFailedResult(Notice.CM_PLATFORM_NAME_ALREADY_EXIST);
         }

@@ -53,7 +53,7 @@ public class DrillDailyDetailService {
         }
         // 验证是否是重复的记录：（一个日报仅允许添加一条钻孔信息，这样的信息只允许存在一条）
         // 日报固定的情况下：班次、日期、队伍都固定了。
-        DrillDailyDetailEntity exist = drillDailyDetailRepository.findAllByDrillDailyAndDrillHole(drillDaily, drillHole);
+        DrillDailyDetailEntity exist = drillDailyDetailRepository.findFirstByDrillDailyAndDrillHole(drillDaily, drillHole);
         if(exist != null){
             return JoyResult.buildFailedResult(Notice.DAILY_ALREADY_EXIST);
         }

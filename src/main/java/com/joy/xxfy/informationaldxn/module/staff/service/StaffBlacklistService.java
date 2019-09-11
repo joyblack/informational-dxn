@@ -52,7 +52,7 @@ public class StaffBlacklistService {
             return JoyResult.buildFailedResult(Notice.IDENTITY_NUMBER_ERROR);
         }
         // 个人信息验证
-        StaffPersonalEntity personalInfo = staffPersonalRepository.findAllByIdNumber(req.getIdNumber());
+        StaffPersonalEntity personalInfo = staffPersonalRepository.findFirstByIdNumber(req.getIdNumber());
         if(personalInfo == null){
             return JoyResult.buildFailedResult(Notice.STAFF_PERSONAL_INFO_NOT_EXIST);
         }
@@ -140,7 +140,6 @@ public class StaffBlacklistService {
      * 通过身份证获取数据
      */
     public JoyResult getByIdNumber(String idNumber) {
-        // get older
         return JoyResult.buildSuccessResultWithData(staffBlacklistRepository.findAllByIdNumber(idNumber));
     }
 

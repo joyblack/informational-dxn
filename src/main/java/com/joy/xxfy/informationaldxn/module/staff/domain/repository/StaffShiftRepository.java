@@ -10,5 +10,5 @@ public interface StaffShiftRepository extends BaseRepository<StaffShiftEntity>, 
     /**
      * 通过个人信息查找调动信息
      */
-    StaffShiftEntity findAllByStaffPersonal(StaffPersonalEntity staffPersonalEntity);
+    StaffShiftEntity findFirstByStaffPersonal(StaffPersonalEntity staffPersonalEntity);
 }

@@ -48,7 +48,7 @@ public class StaffPersonalService extends BaseService {
      * 通过身份证获取个人信息
      */
     public JoyResult getPersonalByIdNumber(String idNumber) {
-        return JoyResult.buildSuccessResultWithData(staffPersonalRepository.findAllByIdNumber(idNumber));
+        return JoyResult.buildSuccessResultWithData(staffPersonalRepository.findFirstByIdNumber(idNumber));
     }
 
     /**
@@ -132,7 +132,7 @@ public class StaffPersonalService extends BaseService {
             return JoyResult.buildFailedResult(Notice.IDENTITY_NUMBER_ERROR);
         }
         // 是否在系统
-        StaffPersonalEntity personal = staffPersonalRepository.findAllByIdNumber(idNumber);
+        StaffPersonalEntity personal = staffPersonalRepository.findFirstByIdNumber(idNumber);
         if(personal == null){
             return JoyResult.buildSuccessResultWithData(PersonalStatusEnum.NEVER);
         }

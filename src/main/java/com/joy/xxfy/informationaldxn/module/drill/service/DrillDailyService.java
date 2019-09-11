@@ -56,7 +56,7 @@ public class DrillDailyService {
             return JoyResult.buildFailedResult(Notice.DEPARTMENT_NOT_EXIST);
         }
         // 验证是否重复的日报信息（打钻工作、日期、班次、打钻队伍联合唯一）
-        DrillDailyEntity checkRepeat = drillDailyRepository.findAllByDrillWorkAndDrillTeamAndDailyTimeAndShifts(drillWorkInfo,
+        DrillDailyEntity checkRepeat = drillDailyRepository.findFirstByDrillWorkAndDrillTeamAndDailyTimeAndShifts(drillWorkInfo,
                 drillTeam, req.getDailyTime(), req.getShifts());
         if(checkRepeat != null){
             return JoyResult.buildFailedResult(Notice.DAILY_ALREADY_EXIST, ResultDataConstant.MESSAGE_DAILY_DETAIL_REPEAT);

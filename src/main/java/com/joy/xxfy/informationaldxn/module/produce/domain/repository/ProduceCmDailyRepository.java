@@ -9,6 +9,6 @@ import java.util.Date;
 
 public interface ProduceCmDailyRepository extends BaseRepository<ProduceCmDailyEntity>, JpaRepository<ProduceCmDailyEntity, Long> {
    // 获取某平台/某日的日报信息：belong_company_id = ? and daily_time = ?
-   ProduceCmDailyEntity findAllByBelongCompanyAndDailyTime(DepartmentEntity company, Date dailyTime);
+   ProduceCmDailyEntity findFirstByBelongCompanyAndDailyTime(DepartmentEntity company, Date dailyTime);
 
 }

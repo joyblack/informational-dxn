@@ -39,7 +39,7 @@ public class DrivingFaceService {
      */
     public JoyResult add(DrivingFaceAddReq req, UserEntity loginUser) {
         // 验证名称是否重复
-        DrivingFaceEntity checkInfo = drivingFaceRepository.findAllByDrivingFaceName(req.getDrivingFaceName());
+        DrivingFaceEntity checkInfo = drivingFaceRepository.findFirstByDrivingFaceName(req.getDrivingFaceName());
         if(checkInfo != null){
             return JoyResult.buildFailedResult(Notice.DRIVING_FACE_NAME_ALREADY_EXIST);
         }
@@ -67,7 +67,7 @@ public class DrivingFaceService {
             return JoyResult.buildFailedResult(Notice.DRIVING_FACE_NOT_EXIST);
         }
         // 名称合法
-        DrivingFaceEntity checkRepeat = drivingFaceRepository.findAllByDrivingFaceNameAndIdNot(req.getDrivingFaceName(), req.getId());
+        DrivingFaceEntity checkRepeat = drivingFaceRepository.findFirstByDrivingFaceNameAndIdNot(req.getDrivingFaceName(), req.getId());
         if(checkRepeat != null){
             return JoyResult.buildFailedResult(Notice.DRIVING_FACE_NAME_ALREADY_EXIST);
         }
@@ -112,7 +112,7 @@ public class DrivingFaceService {
      */
     public JoyResult getByName(String name, UserEntity loginUser) {
         // get older
-        return JoyResult.buildSuccessResultWithData(drivingFaceRepository.findAllByBelongCompanyAndDrivingFaceNameContaining(loginUser.getCompany(), name));
+        return JoyResult.buildSuccessResultWithData(drivingFaceRepository.findFirstByBelongCompanyAndDrivingFaceNameContaining(loginUser.getCompany(), name));
     }
 
 
