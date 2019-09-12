@@ -4,6 +4,7 @@ import com.joy.xxfy.informationaldxn.module.common.web.BaseController;
 import com.joy.xxfy.informationaldxn.module.common.web.req.BasePageReq;
 import com.joy.xxfy.informationaldxn.module.common.web.req.IdReq;
 import com.joy.xxfy.informationaldxn.module.common.web.req.TestReq;
+import com.joy.xxfy.informationaldxn.module.system.web.req.SetPermissionReq;
 import com.joy.xxfy.informationaldxn.module.system.web.req.UserAddReq;
 import com.joy.xxfy.informationaldxn.module.system.web.req.UserUpdateReq;
 import com.joy.xxfy.informationaldxn.publish.result.JoyResult;
@@ -71,6 +72,21 @@ public class UserController extends BaseController {
         } else {
             // copy
             return userService.get(req.getId());
+        }
+    }
+
+    /**
+     * 设置权限
+     */
+    @PostMapping(
+            value = "getPermission",
+            produces = {"application/json;charset=UTF-8"})
+    public JoyResult getPermission(@RequestBody @Valid SetPermissionReq req, BindingResult bindingResult, HttpServletRequest request) {
+        if (bindingResult.hasErrors()) {
+            return JoyResult.buildFailedResult(Notice.REQUEST_PARAMETER_IS_ERROR, bindingResult.getFieldError().getDefaultMessage());
+        } else {
+            // copy
+            return userService.setPermission(req);
         }
     }
 

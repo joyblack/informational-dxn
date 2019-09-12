@@ -1,6 +1,7 @@
 package com.joy.xxfy.informationaldxn.module.common.domain.entity;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.joy.xxfy.informationaldxn.publish.utils.DateUtil;
 import lombok.Data;
 import lombok.ToString;
 
@@ -32,7 +33,7 @@ public class BaseEntity {
     @Temporal(TemporalType.TIMESTAMP)
     @Column(nullable = false, name = "create_time")
     @NotNull(message = "创建日期不能为空")
-    private Date createTime = new Date();
+    private Date createTime = DateUtil.now();
 
     /**
      * 修改时间
@@ -40,7 +41,7 @@ public class BaseEntity {
     @Temporal(TemporalType.TIMESTAMP)
     @Column(nullable = false, name = "update_time")
     @NotNull(message = "修改日期不能为空")
-    private Date updateTime = new Date();
+    private Date updateTime = new Date();""
     /**
      * 备注
      **/

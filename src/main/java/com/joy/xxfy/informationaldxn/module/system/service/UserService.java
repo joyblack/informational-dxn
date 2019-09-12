@@ -7,6 +7,7 @@ import com.joy.xxfy.informationaldxn.module.system.domain.repository.DepartmentR
 import com.joy.xxfy.informationaldxn.module.system.domain.entity.UserEntity;
 import com.joy.xxfy.informationaldxn.module.system.domain.enums.UserTypeEnum;
 import com.joy.xxfy.informationaldxn.module.system.domain.repository.UserRepository;
+import com.joy.xxfy.informationaldxn.module.system.web.req.SetPermissionReq;
 import com.joy.xxfy.informationaldxn.module.system.web.req.UserAddReq;
 import com.joy.xxfy.informationaldxn.module.system.web.req.UserUpdateReq;
 import com.joy.xxfy.informationaldxn.publish.constant.DepartmentConstant;
@@ -196,4 +197,12 @@ public class UserService {
     }
 
 
+    public JoyResult setPermission(SetPermissionReq req) {
+        UserEntity user = userRepository.findAllById(req.getId());
+        if(user == null){
+            return JoyResult.buildFailedResult(Notice.USER_NOT_EXIST);
+        }
+        user.setPermissions(req.getPermission());
+        return JoyResult.buildSuccessResultWithData(userRepository.save(user));
+    }
 }
