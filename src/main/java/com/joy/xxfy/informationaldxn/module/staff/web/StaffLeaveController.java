@@ -34,7 +34,7 @@ public class StaffLeaveController extends BaseController {
         if (bindingResult.hasErrors()) {
             return JoyResult.buildFailedResult(Notice.REQUEST_PARAMETER_IS_ERROR, bindingResult.getFieldError().getDefaultMessage());
         } else {
-            // copy
+
             return staffLeaveService.add(req);
         }
     }
@@ -49,7 +49,7 @@ public class StaffLeaveController extends BaseController {
         if (bindingResult.hasErrors()) {
             return JoyResult.buildFailedResult(Notice.REQUEST_PARAMETER_IS_ERROR, bindingResult.getFieldError().getDefaultMessage());
         } else {
-            // copy
+
             return staffLeaveService.update(req);
         }
     }
@@ -64,7 +64,7 @@ public class StaffLeaveController extends BaseController {
         if (bindingResult.hasErrors()) {
             return JoyResult.buildFailedResult(Notice.REQUEST_PARAMETER_IS_ERROR, bindingResult.getFieldError().getDefaultMessage());
         } else {
-            // copy
+
             return staffLeaveService.delete(req.getId());
         }
     }
@@ -79,7 +79,7 @@ public class StaffLeaveController extends BaseController {
         if (bindingResult.hasErrors()) {
             return JoyResult.buildFailedResult(Notice.REQUEST_PARAMETER_IS_ERROR, bindingResult.getFieldError().getDefaultMessage());
         } else {
-            // copy
+
             return staffLeaveService.get(req.getId());
         }
     }
@@ -94,7 +94,7 @@ public class StaffLeaveController extends BaseController {
 //        if (bindingResult.hasErrors()) {
 //            return JoyResult.buildFailedResult(Notice.REQUEST_PARAMETER_IS_ERROR, bindingResult.getFieldError().getDefaultMessage());
 //        } else {
-//            // copy
+//
 //            return staffLeaveService.update(staffEntry);
 //        }
 //    }
@@ -109,7 +109,7 @@ public class StaffLeaveController extends BaseController {
         if (bindingResult.hasErrors()) {
             return JoyResult.buildFailedResult(Notice.REQUEST_PARAMETER_IS_ERROR, bindingResult.getFieldError().getDefaultMessage());
         } else {
-            // copy
+
             return staffLeaveService.getPagerList(req,getLoginUser(request));
         }
     }
@@ -124,7 +124,7 @@ public class StaffLeaveController extends BaseController {
         if (bindingResult.hasErrors()) {
             return JoyResult.buildFailedResult(Notice.REQUEST_PARAMETER_IS_ERROR, bindingResult.getFieldError().getDefaultMessage());
         } else {
-            // copy
+
             return staffLeaveService.getAllList(req, getLoginUser(request));
         }
     }

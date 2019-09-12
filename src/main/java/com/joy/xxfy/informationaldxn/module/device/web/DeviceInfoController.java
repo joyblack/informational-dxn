@@ -34,7 +34,7 @@ public class DeviceInfoController extends BaseController {
         if (bindingResult.hasErrors()) {
             return JoyResult.buildFailedResult(Notice.REQUEST_PARAMETER_IS_ERROR, bindingResult.getFieldError().getDefaultMessage());
         } else {
-            // copy
+
             return deviceInfoService.add(req, getLoginUser(request));
         }
     }
@@ -49,7 +49,7 @@ public class DeviceInfoController extends BaseController {
         if (bindingResult.hasErrors()) {
             return JoyResult.buildFailedResult(Notice.REQUEST_PARAMETER_IS_ERROR, bindingResult.getFieldError().getDefaultMessage());
         } else {
-            // copy
+
             return deviceInfoService.update(req, getLoginUser(request));
         }
     }
@@ -64,7 +64,7 @@ public class DeviceInfoController extends BaseController {
         if (bindingResult.hasErrors()) {
             return JoyResult.buildFailedResult(Notice.REQUEST_PARAMETER_IS_ERROR, bindingResult.getFieldError().getDefaultMessage());
         } else {
-            // copy
+
             return deviceInfoService.delete(idRequest.getId(), getLoginUser(request));
         }
     }
@@ -79,7 +79,7 @@ public class DeviceInfoController extends BaseController {
         if (bindingResult.hasErrors()) {
             return JoyResult.buildFailedResult(Notice.REQUEST_PARAMETER_IS_ERROR, bindingResult.getFieldError().getDefaultMessage());
         } else {
-            // copy
+
             return deviceInfoService.get(idRequest.getId(), getLoginUser(request));
         }
     }
@@ -94,7 +94,7 @@ public class DeviceInfoController extends BaseController {
         if (bindingResult.hasErrors()) {
             return JoyResult.buildFailedResult(Notice.REQUEST_PARAMETER_IS_ERROR, bindingResult.getFieldError().getDefaultMessage());
         } else {
-            // copy
+
             return deviceInfoService.getAllList(req, getLoginUser(request));
         }
     }
@@ -109,7 +109,7 @@ public class DeviceInfoController extends BaseController {
         if (bindingResult.hasErrors()) {
             return JoyResult.buildFailedResult(Notice.REQUEST_PARAMETER_IS_ERROR, bindingResult.getFieldError().getDefaultMessage());
         } else {
-            // copy
+
             return deviceInfoService.getPagerList(req, getLoginUser(request));
         }
     }
@@ -138,7 +138,7 @@ public class DeviceInfoController extends BaseController {
         if (bindingResult.hasErrors()) {
             return JoyResult.buildFailedResult(Notice.REQUEST_PARAMETER_IS_ERROR, bindingResult.getFieldError().getDefaultMessage());
         } else {
-            // copy
+
             return deviceInfoService.whetherExistSameNameDevice(req, getLoginUser(request));
         }
     }

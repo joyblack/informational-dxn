@@ -1,12 +1,12 @@
 package com.joy.xxfy.informationaldxn.module.backmining.web;
 
-import com.joy.xxfy.informationaldxn.module.common.web.BaseController;
-import com.joy.xxfy.informationaldxn.module.common.web.req.IdReq;
-import com.joy.xxfy.informationaldxn.module.common.web.req.NameReq;
 import com.joy.xxfy.informationaldxn.module.backmining.service.BackMiningFaceService;
 import com.joy.xxfy.informationaldxn.module.backmining.web.req.BackMiningFaceAddReq;
 import com.joy.xxfy.informationaldxn.module.backmining.web.req.BackMiningFaceGetListReq;
 import com.joy.xxfy.informationaldxn.module.backmining.web.req.BackMiningFaceUpdateReq;
+import com.joy.xxfy.informationaldxn.module.common.web.BaseController;
+import com.joy.xxfy.informationaldxn.module.common.web.req.IdReq;
+import com.joy.xxfy.informationaldxn.module.common.web.req.NameReq;
 import com.joy.xxfy.informationaldxn.publish.result.JoyResult;
 import com.joy.xxfy.informationaldxn.publish.result.Notice;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,7 +36,7 @@ public class BackMiningFaceController extends BaseController {
         if (bindingResult.hasErrors()) {
             return JoyResult.buildFailedResult(Notice.REQUEST_PARAMETER_IS_ERROR, bindingResult.getFieldError().getDefaultMessage());
         } else {
-            // copy
+
             return backMiningFaceService.add(req,getLoginUser(request));
         }
     }
@@ -51,7 +51,7 @@ public class BackMiningFaceController extends BaseController {
         if (bindingResult.hasErrors()) {
             return JoyResult.buildFailedResult(Notice.REQUEST_PARAMETER_IS_ERROR, bindingResult.getFieldError().getDefaultMessage());
         } else {
-            // copy
+
             return backMiningFaceService.delete(req.getId());
         }
     }
@@ -66,7 +66,7 @@ public class BackMiningFaceController extends BaseController {
         if (bindingResult.hasErrors()) {
             return JoyResult.buildFailedResult(Notice.REQUEST_PARAMETER_IS_ERROR, bindingResult.getFieldError().getDefaultMessage());
         } else {
-            // copy
+
             return backMiningFaceService.get(req.getId());
         }
     }
@@ -81,7 +81,7 @@ public class BackMiningFaceController extends BaseController {
         if (bindingResult.hasErrors()) {
             return JoyResult.buildFailedResult(Notice.REQUEST_PARAMETER_IS_ERROR, bindingResult.getFieldError().getDefaultMessage());
         } else {
-            // copy
+
             return backMiningFaceService.getByName(req.getName());
         }
     }
@@ -96,7 +96,7 @@ public class BackMiningFaceController extends BaseController {
         if (bindingResult.hasErrors()) {
             return JoyResult.buildFailedResult(Notice.REQUEST_PARAMETER_IS_ERROR, bindingResult.getFieldError().getDefaultMessage());
         } else {
-            // copy
+
             return backMiningFaceService.update(req);
         }
     }
@@ -138,4 +138,6 @@ public class BackMiningFaceController extends BaseController {
     public JoyResult getWorkProgress(HttpServletRequest request) {
         return backMiningFaceService.getWorkProgress(getLoginUser(request));
     }
+
+
 }

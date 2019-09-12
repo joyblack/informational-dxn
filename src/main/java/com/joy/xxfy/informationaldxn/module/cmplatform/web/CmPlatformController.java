@@ -37,7 +37,7 @@ public class CmPlatformController extends BaseController {
         if (bindingResult.hasErrors()) {
             return JoyResult.buildFailedResult(Notice.REQUEST_PARAMETER_IS_ERROR, bindingResult.getFieldError().getDefaultMessage());
         } else {
-            // copy
+
             return cmPlatformService.add(addRequest,getLoginUser(request));
         }
     }
@@ -52,7 +52,7 @@ public class CmPlatformController extends BaseController {
         if (bindingResult.hasErrors()) {
             return JoyResult.buildFailedResult(Notice.REQUEST_PARAMETER_IS_ERROR, bindingResult.getFieldError().getDefaultMessage());
         } else {
-            // copy
+
             return cmPlatformService.update(updateUserReq,getLoginUser(request));
         }
     }
@@ -67,7 +67,7 @@ public class CmPlatformController extends BaseController {
         if (bindingResult.hasErrors()) {
             return JoyResult.buildFailedResult(Notice.REQUEST_PARAMETER_IS_ERROR, bindingResult.getFieldError().getDefaultMessage());
         } else {
-            // copy
+
             return cmPlatformService.delete(req.getId(),getLoginUser(request));
         }
     }
@@ -82,7 +82,7 @@ public class CmPlatformController extends BaseController {
         if (bindingResult.hasErrors()) {
             return JoyResult.buildFailedResult(Notice.REQUEST_PARAMETER_IS_ERROR, bindingResult.getFieldError().getDefaultMessage());
         } else {
-            // copy
+
             return cmPlatformService.get(idRequest.getId(),getLoginUser(request));
         }
     }
@@ -97,7 +97,7 @@ public class CmPlatformController extends BaseController {
         if (bindingResult.hasErrors()) {
             return JoyResult.buildFailedResult(Notice.REQUEST_PARAMETER_IS_ERROR, bindingResult.getFieldError().getDefaultMessage());
         } else {
-            // copy
+
             return cmPlatformService.getAllList(req,getLoginUser(request));
         }
     }
@@ -112,7 +112,7 @@ public class CmPlatformController extends BaseController {
         if (bindingResult.hasErrors()) {
             return JoyResult.buildFailedResult(Notice.REQUEST_PARAMETER_IS_ERROR, bindingResult.getFieldError().getDefaultMessage());
         } else {
-            // copy
+
             return cmPlatformService.getPagerList(req,getLoginUser(request));
         }
     }
@@ -129,7 +129,7 @@ public class CmPlatformController extends BaseController {
         if (bindingResult.hasErrors()) {
             return JoyResult.buildFailedResult(Notice.REQUEST_PARAMETER_IS_ERROR, bindingResult.getFieldError().getDefaultMessage());
         } else {
-            // copy
+
             return cmPlatformService.enable(idRequest.getId(),getLoginUser(request));
         }
     }
@@ -144,7 +144,7 @@ public class CmPlatformController extends BaseController {
         if (bindingResult.hasErrors()) {
             return JoyResult.buildFailedResult(Notice.REQUEST_PARAMETER_IS_ERROR, bindingResult.getFieldError().getDefaultMessage());
         } else {
-            // copy
+
             return cmPlatformService.disable(idRequest.getId(),getLoginUser(request));
         }
     }
@@ -159,7 +159,7 @@ public class CmPlatformController extends BaseController {
         if (bindingResult.hasErrors()) {
             return JoyResult.buildFailedResult(Notice.REQUEST_PARAMETER_IS_ERROR, bindingResult.getFieldError().getDefaultMessage());
         } else {
-            // copy
+
             return cmPlatformService.resetPassword(idRequest.getId(),getLoginUser(request));
         }
     }
@@ -174,7 +174,7 @@ public class CmPlatformController extends BaseController {
         if (bindingResult.hasErrors()) {
             return JoyResult.buildFailedResult(Notice.REQUEST_PARAMETER_IS_ERROR, bindingResult.getFieldError().getDefaultMessage());
         } else {
-            // copy
+
             return cmPlatformService.changePassword(req,getLoginUser(request));
         }
     }
@@ -189,7 +189,7 @@ public class CmPlatformController extends BaseController {
         if (bindingResult.hasErrors()) {
             return JoyResult.buildFailedResult(Notice.REQUEST_PARAMETER_IS_ERROR, bindingResult.getFieldError().getDefaultMessage());
         } else {
-            // copy
+
             return cmPlatformService.updatePermission(req,getLoginUser(request));
         }
     }

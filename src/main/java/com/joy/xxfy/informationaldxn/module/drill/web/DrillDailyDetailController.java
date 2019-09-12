@@ -31,7 +31,6 @@ public class DrillDailyDetailController {
         if (bindingResult.hasErrors()) {
             return JoyResult.buildFailedResult(Notice.REQUEST_PARAMETER_IS_ERROR, bindingResult.getFieldError().getDefaultMessage());
         } else {
-            // copy
             return drillDailyDetailService.add(req);
         }
     }
@@ -46,7 +45,7 @@ public class DrillDailyDetailController {
         if (bindingResult.hasErrors()) {
             return JoyResult.buildFailedResult(Notice.REQUEST_PARAMETER_IS_ERROR, bindingResult.getFieldError().getDefaultMessage());
         } else {
-            // copy
+
             return drillDailyDetailService.delete(req.getId());
         }
     }
@@ -61,7 +60,7 @@ public class DrillDailyDetailController {
         if (bindingResult.hasErrors()) {
             return JoyResult.buildFailedResult(Notice.REQUEST_PARAMETER_IS_ERROR, bindingResult.getFieldError().getDefaultMessage());
         } else {
-            // copy
+
             return drillDailyDetailService.get(req.getId());
         }
     }
@@ -77,7 +76,7 @@ public class DrillDailyDetailController {
         if (bindingResult.hasErrors()) {
             return JoyResult.buildFailedResult(Notice.REQUEST_PARAMETER_IS_ERROR, bindingResult.getFieldError().getDefaultMessage());
         } else {
-            // copy
+
             return drillDailyDetailService.update(req);
         }
     }

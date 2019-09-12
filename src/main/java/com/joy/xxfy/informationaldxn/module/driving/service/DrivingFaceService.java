@@ -44,7 +44,6 @@ public class DrivingFaceService {
         if(checkInfo != null){
             return JoyResult.buildFailedResult(Notice.DRIVING_FACE_NAME_ALREADY_EXIST);
         }
-        // copy properties
         DrivingFaceEntity drivingFaceInfo = new DrivingFaceEntity();
         JoyBeanUtil.copyPropertiesIgnoreTargetNotNullProperties(req, drivingFaceInfo);
         // 长度计算：设计长度-已掘长度

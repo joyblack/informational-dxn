@@ -74,7 +74,7 @@ public class StaffEntryController extends BaseController {
         if (bindingResult.hasErrors()) {
             return JoyResult.buildFailedResult(Notice.REQUEST_PARAMETER_IS_ERROR, bindingResult.getFieldError().getDefaultMessage());
         } else {
-            // copy
+
             return staffEntryService.get(req.getId());
         }
     }
@@ -89,7 +89,7 @@ public class StaffEntryController extends BaseController {
         if (bindingResult.hasErrors()) {
             return JoyResult.buildFailedResult(Notice.REQUEST_PARAMETER_IS_ERROR, bindingResult.getFieldError().getDefaultMessage());
         } else {
-            // copy
+
             return staffEntryService.getByIdNumber(req.getIdNumber());
         }
     }
@@ -104,7 +104,7 @@ public class StaffEntryController extends BaseController {
         if (bindingResult.hasErrors()) {
             return JoyResult.buildFailedResult(Notice.REQUEST_PARAMETER_IS_ERROR, bindingResult.getFieldError().getDefaultMessage());
         } else {
-            // copy
+
             return staffEntryService.getPassListByIdNumber(req.getIdNumber());
         }
     }
@@ -119,7 +119,7 @@ public class StaffEntryController extends BaseController {
         if (bindingResult.hasErrors()) {
             return JoyResult.buildFailedResult(Notice.REQUEST_PARAMETER_IS_ERROR, bindingResult.getFieldError().getDefaultMessage());
         } else {
-            // copy
+
             return staffEntryService.getPagerList(req, getLoginUser(request));
         }
     }
@@ -134,7 +134,7 @@ public class StaffEntryController extends BaseController {
         if (bindingResult.hasErrors()) {
             return JoyResult.buildFailedResult(Notice.REQUEST_PARAMETER_IS_ERROR, bindingResult.getFieldError().getDefaultMessage());
         } else {
-            // copy
+
             return staffEntryService.getAllList(req, getLoginUser(request));
         }
     }
@@ -149,7 +149,7 @@ public class StaffEntryController extends BaseController {
         if (bindingResult.hasErrors()) {
             return JoyResult.buildFailedResult(Notice.REQUEST_PARAMETER_IS_ERROR, bindingResult.getFieldError().getDefaultMessage());
         } else {
-            // copy
+
             return staffEntryService.add(req);
         }
     }
@@ -164,7 +164,7 @@ public class StaffEntryController extends BaseController {
         if (bindingResult.hasErrors()) {
             return JoyResult.buildFailedResult(Notice.REQUEST_PARAMETER_IS_ERROR, bindingResult.getFieldError().getDefaultMessage());
         } else {
-            // copy
+
             return staffEntryService.update(req);
         }
     }
@@ -179,7 +179,7 @@ public class StaffEntryController extends BaseController {
         if (bindingResult.hasErrors()) {
             return JoyResult.buildFailedResult(Notice.REQUEST_PARAMETER_IS_ERROR, bindingResult.getFieldError().getDefaultMessage());
         } else {
-            // copy
+
             return staffEntryService.delete(req.getId());
         }
     }
@@ -192,7 +192,7 @@ public class StaffEntryController extends BaseController {
         if (bindingResult.hasErrors()) {
             throw new JoyException(Notice.REQUEST_PARAMETER_IS_ERROR);
         } else {
-            // copy
+
             staffEntryService.exportData(req, getLoginUser(request), request, response);
         }
     }
@@ -205,7 +205,7 @@ public class StaffEntryController extends BaseController {
         if (bindingResult.hasErrors()) {
             throw new JoyException(Notice.REQUEST_PARAMETER_IS_ERROR);
         } else {
-            // copy
+
             staffEntryService.exportData(req, getLoginUser(request), request, response);
         }
     }

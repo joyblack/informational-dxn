@@ -1,6 +1,7 @@
 package com.joy.xxfy.informationaldxn.module.driving.domain.repository;
 
 import com.joy.xxfy.informationaldxn.module.common.domain.repository.BaseRepository;
+import com.joy.xxfy.informationaldxn.module.common.domain.vo.DateVo;
 import com.joy.xxfy.informationaldxn.module.common.enums.DailyShiftEnum;
 import com.joy.xxfy.informationaldxn.module.system.domain.entity.DepartmentEntity;
 import com.joy.xxfy.informationaldxn.module.driving.domain.entity.DrivingDailyEntity;
@@ -16,6 +17,7 @@ import org.springframework.data.repository.query.Param;
 import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
+import java.util.Set;
 
 public interface DrivingDailyRepository extends BaseRepository<DrivingDailyEntity>, JpaRepository<DrivingDailyEntity, Long> {
 
@@ -112,4 +114,11 @@ public interface DrivingDailyRepository extends BaseRepository<DrivingDailyEntit
      */
     @Query("select new com.joy.xxfy.informationaldxn.module.statistic.domain.vo.KeyAndValueVo(month(d.dailyTime), sum(d.doneLength)) from DrivingDailyEntity d where d.drivingFace.belongCompany = :belongCompany and d.dailyTime between :start and :end group by month(d.dailyTime)")
     List<KeyAndValueVo<Integer,BigDecimal>> statisticEveryMonthLengthByTimeZone(@Param("belongCompany") DepartmentEntity belongCompany, @Param("start") Date start, @Param("end") Date end);
+
+
+    /**
+     * 统计时间区间内，填写了日报的时间
+     */
+    @Query("select new com.joy.xxfy.informationaldxn.module.common.domain.vo.DateVo(d.dailyTime) from DrivingDailyEntity d where d.dailyTime between :startDate and :endDate and d.drivingFace.belongCompany = :belongCompany")
+    Set<DateVo> findAllFillDate(Date startDate, Date endDate, DepartmentEntity belongCompany);
 }

@@ -3,6 +3,7 @@ package com.joy.xxfy.informationaldxn.module.driving.web;
 import com.joy.xxfy.informationaldxn.module.common.web.BaseController;
 import com.joy.xxfy.informationaldxn.module.common.web.req.IdReq;
 import com.joy.xxfy.informationaldxn.module.common.web.req.NameReq;
+import com.joy.xxfy.informationaldxn.module.common.web.req.TimeReq;
 import com.joy.xxfy.informationaldxn.module.driving.service.DrivingDailyService;
 import com.joy.xxfy.informationaldxn.module.driving.service.DrivingFaceService;
 import com.joy.xxfy.informationaldxn.module.driving.web.req.*;
@@ -34,7 +35,7 @@ public class DrivingDailyController extends BaseController {
         if (bindingResult.hasErrors()) {
             return JoyResult.buildFailedResult(Notice.REQUEST_PARAMETER_IS_ERROR, bindingResult.getFieldError().getDefaultMessage());
         } else {
-            // copy
+
             return drivingDailyService.add(req, getLoginUser(request));
         }
     }
@@ -49,7 +50,7 @@ public class DrivingDailyController extends BaseController {
         if (bindingResult.hasErrors()) {
             return JoyResult.buildFailedResult(Notice.REQUEST_PARAMETER_IS_ERROR, bindingResult.getFieldError().getDefaultMessage());
         } else {
-            // copy
+
             return drivingDailyService.delete(req.getId(), getLoginUser(request));
         }
     }
@@ -64,7 +65,7 @@ public class DrivingDailyController extends BaseController {
         if (bindingResult.hasErrors()) {
             return JoyResult.buildFailedResult(Notice.REQUEST_PARAMETER_IS_ERROR, bindingResult.getFieldError().getDefaultMessage());
         } else {
-            // copy
+
             return drivingDailyService.get(req.getId(), getLoginUser(request));
         }
     }
@@ -80,7 +81,7 @@ public class DrivingDailyController extends BaseController {
         if (bindingResult.hasErrors()) {
             return JoyResult.buildFailedResult(Notice.REQUEST_PARAMETER_IS_ERROR, bindingResult.getFieldError().getDefaultMessage());
         } else {
-            // copy
+
             return drivingDailyService.update(req, getLoginUser(request));
         }
     }
@@ -110,6 +111,20 @@ public class DrivingDailyController extends BaseController {
             return JoyResult.buildFailedResult(Notice.REQUEST_PARAMETER_IS_ERROR, bindingResult.getFieldError().getDefaultMessage());
         } else {
             return drivingDailyService.getAllList(req, getLoginUser(request));
+        }
+    }
+
+    /**
+     * 获取指定时间所在月份内月份的填报状态
+     */
+    @PostMapping(
+            value = "/getMonthFillStatus",
+            produces = {"application/json;charset=UTF-8"})
+    public JoyResult getMonthFillStatus(@RequestBody @Valid TimeReq req, BindingResult bindingResult, HttpServletRequest request) {
+        if (bindingResult.hasErrors()) {
+            return JoyResult.buildFailedResult(Notice.REQUEST_PARAMETER_IS_ERROR, bindingResult.getFieldError().getDefaultMessage());
+        } else {
+            return drivingDailyService.getMonthFillStatus(req, getLoginUser(request));
         }
     }
 }

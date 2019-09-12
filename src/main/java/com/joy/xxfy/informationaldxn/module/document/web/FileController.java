@@ -85,7 +85,7 @@ public class FileController extends BaseController {
         if (bindingResult.hasErrors()) {
             return JoyResult.buildFailedResult(Notice.REQUEST_PARAMETER_IS_ERROR, bindingResult.getFieldError().getDefaultMessage());
         } else {
-            // copy
+
             return fileService.delete(req.getId(), getLoginUser(request));
         }
     }
@@ -100,7 +100,7 @@ public class FileController extends BaseController {
         if (bindingResult.hasErrors()) {
             return JoyResult.buildFailedResult(Notice.REQUEST_PARAMETER_IS_ERROR, bindingResult.getFieldError().getDefaultMessage());
         } else {
-            // copy
+
             return fileService.get(req.getId(),getLoginUser(request));
         }
     }

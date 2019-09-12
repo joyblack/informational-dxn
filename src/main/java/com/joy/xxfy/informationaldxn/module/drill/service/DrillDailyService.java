@@ -1,5 +1,10 @@
 package com.joy.xxfy.informationaldxn.module.drill.service;
 
+import cn.hutool.core.date.DateTime;
+import com.joy.xxfy.informationaldxn.module.common.domain.vo.DateVo;
+import com.joy.xxfy.informationaldxn.module.common.enums.FillDailyStatusEnum;
+import com.joy.xxfy.informationaldxn.module.common.web.req.TimeReq;
+import com.joy.xxfy.informationaldxn.module.common.web.res.FillResultRes;
 import com.joy.xxfy.informationaldxn.module.system.domain.entity.DepartmentEntity;
 import com.joy.xxfy.informationaldxn.module.system.domain.repository.DepartmentRepository;
 import com.joy.xxfy.informationaldxn.module.drill.domain.entity.DrillDailyEntity;
@@ -13,6 +18,7 @@ import com.joy.xxfy.informationaldxn.module.system.domain.entity.UserEntity;
 import com.joy.xxfy.informationaldxn.publish.constant.ResultDataConstant;
 import com.joy.xxfy.informationaldxn.publish.result.JoyResult;
 import com.joy.xxfy.informationaldxn.publish.result.Notice;
+import com.joy.xxfy.informationaldxn.publish.utils.DateUtil;
 import com.joy.xxfy.informationaldxn.publish.utils.JoyBeanUtil;
 import com.joy.xxfy.informationaldxn.publish.utils.project.JpaPagerUtil;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,8 +28,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.criteria.Predicate;
 import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 @Transactional
 @Service
@@ -168,6 +173,27 @@ public class DrillDailyService {
             }
             return builder.and(predicates.toArray(new Predicate[predicates.size()]));
         };
+    }
+
+    public JoyResult getMonthFillStatus(TimeReq req, UserEntity loginUser) {
+        Date start = DateUtil.getMonthFirstDay(req.getTime());
+        Date end = DateUtil.getMonthLastDay(req.getTime());
+        Set<DateVo> allFillDate = drillDailyRepository.findAllFillDate(start, end, loginUser.getCompany());
+        List<FillResultRes> result = new ArrayList<>();
+        while(DateUtil.compare(start, end) <= 0){
+            FillResultRes res = new FillResultRes();
+            res.setDate(DateUtil.format(start));
+            // 查询本日是否存在日报信息
+            if(allFillDate.contains(new DateVo(start))){
+                res.setInfo(FillDailyStatusEnum.FILL_YES);
+                allFillDate.remove(start);
+            }else{
+                res.setInfo(FillDailyStatusEnum.FILL_NO);
+            }
+            start = DateUtil.addDay(start, 1);
+            result.add(res);
+        }
+        return JoyResult.buildSuccessResultWithData(result);
     }
 
 }

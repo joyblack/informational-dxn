@@ -10,6 +10,6 @@ import java.util.Date;
 @Data
 @ToString
 public class TimeReq {
-    @NotNull(message = "时间不能为空")
+    @NotNull(message = "日期不能为空")
     private Date time;
 }

@@ -4,6 +4,7 @@ import com.joy.xxfy.informationaldxn.module.backmining.web.req.*;
 import com.joy.xxfy.informationaldxn.module.common.web.BaseController;
 import com.joy.xxfy.informationaldxn.module.common.web.req.IdReq;
 import com.joy.xxfy.informationaldxn.module.backmining.service.BackMiningDailyService;
+import com.joy.xxfy.informationaldxn.module.common.web.req.TimeReq;
 import com.joy.xxfy.informationaldxn.publish.result.JoyResult;
 import com.joy.xxfy.informationaldxn.publish.result.Notice;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,7 +33,7 @@ public class BackMiningDailyController extends BaseController {
         if (bindingResult.hasErrors()) {
             return JoyResult.buildFailedResult(Notice.REQUEST_PARAMETER_IS_ERROR, bindingResult.getFieldError().getDefaultMessage());
         } else {
-            // copy
+
             return backMiningDailyService.add(req);
         }
     }
@@ -47,7 +48,7 @@ public class BackMiningDailyController extends BaseController {
         if (bindingResult.hasErrors()) {
             return JoyResult.buildFailedResult(Notice.REQUEST_PARAMETER_IS_ERROR, bindingResult.getFieldError().getDefaultMessage());
         } else {
-            // copy
+
             return backMiningDailyService.delete(req.getId());
         }
     }
@@ -62,7 +63,7 @@ public class BackMiningDailyController extends BaseController {
         if (bindingResult.hasErrors()) {
             return JoyResult.buildFailedResult(Notice.REQUEST_PARAMETER_IS_ERROR, bindingResult.getFieldError().getDefaultMessage());
         } else {
-            // copy
+
             return backMiningDailyService.get(req.getId());
         }
     }
@@ -77,7 +78,7 @@ public class BackMiningDailyController extends BaseController {
         if (bindingResult.hasErrors()) {
             return JoyResult.buildFailedResult(Notice.REQUEST_PARAMETER_IS_ERROR, bindingResult.getFieldError().getDefaultMessage());
         } else {
-            // copy
+
             return backMiningDailyService.update(req);
         }
     }
@@ -107,6 +108,20 @@ public class BackMiningDailyController extends BaseController {
             return JoyResult.buildFailedResult(Notice.REQUEST_PARAMETER_IS_ERROR, bindingResult.getFieldError().getDefaultMessage());
         } else {
             return backMiningDailyService.getAllList(req,getLoginUser(request));
+        }
+    }
+
+    /**
+     * 获取指定时间所在月份内月份的填报状态
+     */
+    @PostMapping(
+            value = "/getMonthFillStatus",
+            produces = {"application/json;charset=UTF-8"})
+    public JoyResult getMonthFillStatus(@RequestBody @Valid TimeReq req, BindingResult bindingResult, HttpServletRequest request) {
+        if (bindingResult.hasErrors()) {
+            return JoyResult.buildFailedResult(Notice.REQUEST_PARAMETER_IS_ERROR, bindingResult.getFieldError().getDefaultMessage());
+        } else {
+            return backMiningDailyService.getMonthFillStatus(req, getLoginUser(request));
         }
     }
 }

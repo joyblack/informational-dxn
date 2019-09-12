@@ -105,7 +105,7 @@ public class DeviceCategoryController extends BaseController {
         if (bindingResult.hasErrors()) {
             return JoyResult.buildFailedResult(Notice.REQUEST_PARAMETER_IS_ERROR, bindingResult.getFieldError().getDefaultMessage());
         } else {
-            // copy
+
             return deviceCategoryService.getTree(req.getId(), getLoginUser(request));
         }
     }
@@ -118,7 +118,7 @@ public class DeviceCategoryController extends BaseController {
         if (bindingResult.hasErrors()) {
             return JoyResult.buildFailedResult(Notice.REQUEST_PARAMETER_IS_ERROR, bindingResult.getFieldError().getDefaultMessage());
         } else {
-            // copy
+
             return deviceCategoryService.getParentNodes(req.getId());
         }
     }
@@ -131,7 +131,7 @@ public class DeviceCategoryController extends BaseController {
         if (bindingResult.hasErrors()) {
             return JoyResult.buildFailedResult(Notice.REQUEST_PARAMETER_IS_ERROR, bindingResult.getFieldError().getDefaultMessage());
         } else {
-            // copy
+
             return deviceCategoryService.getParentNodesJustIds(req.getId());
         }
     }

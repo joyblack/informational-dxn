@@ -54,7 +54,6 @@ public class DrillWorkService {
         if(drillWorkInfo != null){
             return JoyResult.buildFailedResult(Notice.DRILL_WORK_NAME_ALREADY_EXIST);
         }
-        // copy properties
         DrillWorkEntity info = new DrillWorkEntity();
         JoyBeanUtil.copyPropertiesIgnoreTargetNotNullProperties(req, info);
         LogUtil.info("Last info is: {}", info);

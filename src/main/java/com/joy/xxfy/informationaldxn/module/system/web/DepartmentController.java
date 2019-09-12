@@ -33,7 +33,7 @@ public class DepartmentController extends BaseController {
         if (bindingResult.hasErrors()) {
             return JoyResult.buildFailedResult(Notice.REQUEST_PARAMETER_IS_ERROR, bindingResult.getFieldError().getDefaultMessage());
         } else {
-            // copy
+
             return departmentService.get(req.getId());
         }
     }
@@ -49,7 +49,7 @@ public class DepartmentController extends BaseController {
         if (bindingResult.hasErrors()) {
             return JoyResult.buildFailedResult(Notice.REQUEST_PARAMETER_IS_ERROR, bindingResult.getFieldError().getDefaultMessage());
         } else {
-            // copy
+
             return departmentService.add(req);
         }
     }
@@ -64,7 +64,7 @@ public class DepartmentController extends BaseController {
         if (bindingResult.hasErrors()) {
             return JoyResult.buildFailedResult(Notice.REQUEST_PARAMETER_IS_ERROR, bindingResult.getFieldError().getDefaultMessage());
         } else {
-            // copy
+
             return departmentService.update(req);
         }
     }
@@ -79,7 +79,7 @@ public class DepartmentController extends BaseController {
         if (bindingResult.hasErrors()) {
             return JoyResult.buildFailedResult(Notice.REQUEST_PARAMETER_IS_ERROR, bindingResult.getFieldError().getDefaultMessage());
         } else {
-            // copy
+
             return departmentService.delete(req.getId());
         }
     }
@@ -94,7 +94,7 @@ public class DepartmentController extends BaseController {
         if (bindingResult.hasErrors()) {
             return JoyResult.buildFailedResult(Notice.REQUEST_PARAMETER_IS_ERROR, bindingResult.getFieldError().getDefaultMessage());
         } else {
-            // copy
+
             return departmentService.getChildren(req.getId());
         }
     }
@@ -109,7 +109,7 @@ public class DepartmentController extends BaseController {
         if (bindingResult.hasErrors()) {
             return JoyResult.buildFailedResult(Notice.REQUEST_PARAMETER_IS_ERROR, bindingResult.getFieldError().getDefaultMessage());
         } else {
-            // copy
+
             return departmentService.getTree(req.getId(), getLoginUser(request));
         }
     }
@@ -144,7 +144,7 @@ public class DepartmentController extends BaseController {
         if (bindingResult.hasErrors()) {
             return JoyResult.buildFailedResult(Notice.REQUEST_PARAMETER_IS_ERROR, bindingResult.getFieldError().getDefaultMessage());
         } else {
-            // copy
+
             return departmentService.getParentNodes(req.getId());
         }
     }
@@ -157,7 +157,7 @@ public class DepartmentController extends BaseController {
         if (bindingResult.hasErrors()) {
             return JoyResult.buildFailedResult(Notice.REQUEST_PARAMETER_IS_ERROR, bindingResult.getFieldError().getDefaultMessage());
         } else {
-            // copy
+
             return departmentService.getParentNodesJustIds(req.getId());
         }
     }

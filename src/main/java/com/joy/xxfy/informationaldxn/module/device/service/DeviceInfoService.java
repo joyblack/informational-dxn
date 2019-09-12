@@ -129,7 +129,7 @@ public class DeviceInfoService extends BaseService {
             }
         }
 
-        // copy
+
         JoyBeanUtil.copyPropertiesIgnoreSourceNullProperties(req, info);
         // 名字
         info.setDeviceName(deviceName);

@@ -32,7 +32,7 @@ public class ThreeViolationController {
         if (bindingResult.hasErrors()) {
             return JoyResult.buildFailedResult(Notice.REQUEST_PARAMETER_IS_ERROR, bindingResult.getFieldError().getDefaultMessage());
         } else {
-            // copy
+
             return threeViolationService.add(req);
         }
     }
@@ -47,7 +47,7 @@ public class ThreeViolationController {
         if (bindingResult.hasErrors()) {
             return JoyResult.buildFailedResult(Notice.REQUEST_PARAMETER_IS_ERROR, bindingResult.getFieldError().getDefaultMessage());
         } else {
-            // copy
+
             return threeViolationService.update(req);
         }
     }
@@ -62,7 +62,7 @@ public class ThreeViolationController {
         if (bindingResult.hasErrors()) {
             return JoyResult.buildFailedResult(Notice.REQUEST_PARAMETER_IS_ERROR, bindingResult.getFieldError().getDefaultMessage());
         } else {
-            // copy
+
             return threeViolationService.delete(idRequest.getId());
         }
     }
@@ -77,7 +77,7 @@ public class ThreeViolationController {
         if (bindingResult.hasErrors()) {
             return JoyResult.buildFailedResult(Notice.REQUEST_PARAMETER_IS_ERROR, bindingResult.getFieldError().getDefaultMessage());
         } else {
-            // copy
+
             return threeViolationService.get(idRequest.getId());
         }
     }
@@ -92,7 +92,7 @@ public class ThreeViolationController {
         if (bindingResult.hasErrors()) {
             return JoyResult.buildFailedResult(Notice.REQUEST_PARAMETER_IS_ERROR, bindingResult.getFieldError().getDefaultMessage());
         } else {
-            // copy
+
             return threeViolationService.getAllList(req);
         }
     }
@@ -107,7 +107,7 @@ public class ThreeViolationController {
         if (bindingResult.hasErrors()) {
             return JoyResult.buildFailedResult(Notice.REQUEST_PARAMETER_IS_ERROR, bindingResult.getFieldError().getDefaultMessage());
         } else {
-            // copy
+
             return threeViolationService.getPagerList(req);
         }
     }

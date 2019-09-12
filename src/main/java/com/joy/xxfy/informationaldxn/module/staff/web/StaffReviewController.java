@@ -32,7 +32,7 @@ public class StaffReviewController extends BaseController {
         if (bindingResult.hasErrors()) {
             return JoyResult.buildFailedResult(Notice.REQUEST_PARAMETER_IS_ERROR, bindingResult.getFieldError().getDefaultMessage());
         } else {
-            // copy
+
             return staffReviewService.getPagerList(req, getLoginUser(request));
         }
     }
@@ -47,7 +47,7 @@ public class StaffReviewController extends BaseController {
         if (bindingResult.hasErrors()) {
             return JoyResult.buildFailedResult(Notice.REQUEST_PARAMETER_IS_ERROR, bindingResult.getFieldError().getDefaultMessage());
         } else {
-            // copy
+
             return staffReviewService.getAllList(req, getLoginUser(request));
         }
     }
@@ -62,7 +62,7 @@ public class StaffReviewController extends BaseController {
         if (bindingResult.hasErrors()) {
             return JoyResult.buildFailedResult(Notice.REQUEST_PARAMETER_IS_ERROR, bindingResult.getFieldError().getDefaultMessage());
         } else {
-            // copy
+
             return staffReviewService.review(req, getLoginUser(request));
         }
     }

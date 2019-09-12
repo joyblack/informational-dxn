@@ -34,7 +34,7 @@ public class DeviceMaintainController extends BaseController {
         if (bindingResult.hasErrors()) {
             return JoyResult.buildFailedResult(Notice.REQUEST_PARAMETER_IS_ERROR, bindingResult.getFieldError().getDefaultMessage());
         } else {
-            // copy
+
             return deviceMaintainService.add(req, getLoginUser(request));
         }
     }
@@ -49,7 +49,7 @@ public class DeviceMaintainController extends BaseController {
         if (bindingResult.hasErrors()) {
             return JoyResult.buildFailedResult(Notice.REQUEST_PARAMETER_IS_ERROR, bindingResult.getFieldError().getDefaultMessage());
         } else {
-            // copy
+
             return deviceMaintainService.update(req, getLoginUser(request));
         }
     }
@@ -64,7 +64,7 @@ public class DeviceMaintainController extends BaseController {
         if (bindingResult.hasErrors()) {
             return JoyResult.buildFailedResult(Notice.REQUEST_PARAMETER_IS_ERROR, bindingResult.getFieldError().getDefaultMessage());
         } else {
-            // copy
+
             return deviceMaintainService.delete(idRequest.getId(), getLoginUser(request));
         }
     }
@@ -79,7 +79,7 @@ public class DeviceMaintainController extends BaseController {
         if (bindingResult.hasErrors()) {
             return JoyResult.buildFailedResult(Notice.REQUEST_PARAMETER_IS_ERROR, bindingResult.getFieldError().getDefaultMessage());
         } else {
-            // copy
+
             return deviceMaintainService.get(idRequest.getId(), getLoginUser(request));
         }
     }
@@ -94,7 +94,7 @@ public class DeviceMaintainController extends BaseController {
         if (bindingResult.hasErrors()) {
             return JoyResult.buildFailedResult(Notice.REQUEST_PARAMETER_IS_ERROR, bindingResult.getFieldError().getDefaultMessage());
         } else {
-            // copy
+
             return deviceMaintainService.getAllList(req, getLoginUser(request));
         }
     }
@@ -109,7 +109,7 @@ public class DeviceMaintainController extends BaseController {
         if (bindingResult.hasErrors()) {
             return JoyResult.buildFailedResult(Notice.REQUEST_PARAMETER_IS_ERROR, bindingResult.getFieldError().getDefaultMessage());
         } else {
-            // copy
+
             return deviceMaintainService.getPagerList(req, getLoginUser(request));
         }
     }

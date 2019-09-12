@@ -32,7 +32,6 @@ public class DrillHoleController {
         if (bindingResult.hasErrors()) {
             return JoyResult.buildFailedResult(Notice.REQUEST_PARAMETER_IS_ERROR, bindingResult.getFieldError().getDefaultMessage());
         } else {
-            // copy
             return drillHoleService.add(req);
         }
     }
@@ -47,7 +46,7 @@ public class DrillHoleController {
         if (bindingResult.hasErrors()) {
             return JoyResult.buildFailedResult(Notice.REQUEST_PARAMETER_IS_ERROR, bindingResult.getFieldError().getDefaultMessage());
         } else {
-            // copy
+
             return drillHoleService.delete(req.getId());
         }
     }
@@ -62,7 +61,7 @@ public class DrillHoleController {
         if (bindingResult.hasErrors()) {
             return JoyResult.buildFailedResult(Notice.REQUEST_PARAMETER_IS_ERROR, bindingResult.getFieldError().getDefaultMessage());
         } else {
-            // copy
+
             return drillHoleService.get(req.getId());
         }
     }
@@ -77,7 +76,7 @@ public class DrillHoleController {
         if (bindingResult.hasErrors()) {
             return JoyResult.buildFailedResult(Notice.REQUEST_PARAMETER_IS_ERROR, bindingResult.getFieldError().getDefaultMessage());
         } else {
-            // copy
+
             return drillHoleService.getAllByDrillWorkId(req.getId());
         }
     }
@@ -92,7 +91,7 @@ public class DrillHoleController {
         if (bindingResult.hasErrors()) {
             return JoyResult.buildFailedResult(Notice.REQUEST_PARAMETER_IS_ERROR, bindingResult.getFieldError().getDefaultMessage());
         } else {
-            // copy
+
             return drillHoleService.getNotCompleteByDrillWorkId(req.getId());
         }
     }
@@ -108,7 +107,7 @@ public class DrillHoleController {
         if (bindingResult.hasErrors()) {
             return JoyResult.buildFailedResult(Notice.REQUEST_PARAMETER_IS_ERROR, bindingResult.getFieldError().getDefaultMessage());
         } else {
-            // copy
+
             return drillHoleService.update(req);
         }
     }

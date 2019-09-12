@@ -35,7 +35,7 @@ public class LicenceService {
     public JoyResult add(LicenceAddReq req, UserEntity loginUser) {
         // 装配数据
         LicenceEntity info = new LicenceEntity();
-        // copy
+
         JoyBeanUtil.copyPropertiesIgnoreSourceNullProperties(req, info);
 
         // 获取所属平台信息
@@ -87,7 +87,7 @@ public class LicenceService {
         }
         // 检查证件信息是否已经存在
         LicenceEntity check = licenceRepository.findFirstByBelongCompanyAndLicenceType(belongCompany, req.getLicenceType());
-        // copy
+
         JoyBeanUtil.copyPropertiesIgnoreSourceNullProperties(req, info);
         // 获取所属平台信息
         System.out.println(info);

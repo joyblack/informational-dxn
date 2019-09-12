@@ -7,6 +7,11 @@ import java.util.Date;
 public class DateUtil {
 
     public static final SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+
+    public static String format(Date time){
+        return format.format(time);
+    }
+
     /**
      * 获取指定时间月初
      */

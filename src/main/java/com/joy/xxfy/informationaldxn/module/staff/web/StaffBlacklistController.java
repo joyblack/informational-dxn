@@ -30,7 +30,7 @@ public class StaffBlacklistController {
         if (bindingResult.hasErrors()) {
             return JoyResult.buildFailedResult(Notice.REQUEST_PARAMETER_IS_ERROR, bindingResult.getFieldError().getDefaultMessage());
         } else {
-            // copy
+
             return staffBlacklistService.add(req);
         }
     }
@@ -45,7 +45,7 @@ public class StaffBlacklistController {
         if (bindingResult.hasErrors()) {
             return JoyResult.buildFailedResult(Notice.REQUEST_PARAMETER_IS_ERROR, bindingResult.getFieldError().getDefaultMessage());
         } else {
-            // copy
+
             return staffBlacklistService.delete(req.getId());
         }
     }
@@ -60,7 +60,7 @@ public class StaffBlacklistController {
         if (bindingResult.hasErrors()) {
             return JoyResult.buildFailedResult(Notice.REQUEST_PARAMETER_IS_ERROR, bindingResult.getFieldError().getDefaultMessage());
         } else {
-            // copy
+
             return staffBlacklistService.get(req.getId());
         }
     }
@@ -75,7 +75,7 @@ public class StaffBlacklistController {
         if (bindingResult.hasErrors()) {
             return JoyResult.buildFailedResult(Notice.REQUEST_PARAMETER_IS_ERROR, bindingResult.getFieldError().getDefaultMessage());
         } else {
-            // copy
+
             return staffBlacklistService.getByIdNumber(req.getIdNumber());
         }
     }
@@ -90,7 +90,7 @@ public class StaffBlacklistController {
         if (bindingResult.hasErrors()) {
             return JoyResult.buildFailedResult(Notice.REQUEST_PARAMETER_IS_ERROR, bindingResult.getFieldError().getDefaultMessage());
         } else {
-            // copy
+
             return staffBlacklistService.update(req);
         }
     }

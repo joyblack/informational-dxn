@@ -35,7 +35,7 @@ public class DrillWorkController extends BaseController {
         if (bindingResult.hasErrors()) {
             return JoyResult.buildFailedResult(Notice.REQUEST_PARAMETER_IS_ERROR, bindingResult.getFieldError().getDefaultMessage());
         } else {
-            // copy
+
             return drillWorkService.add(req, getLoginUser(request));
         }
     }
@@ -50,7 +50,7 @@ public class DrillWorkController extends BaseController {
         if (bindingResult.hasErrors()) {
             return JoyResult.buildFailedResult(Notice.REQUEST_PARAMETER_IS_ERROR, bindingResult.getFieldError().getDefaultMessage());
         } else {
-            // copy
+
             return drillWorkService.delete(req.getId());
         }
     }
@@ -65,7 +65,7 @@ public class DrillWorkController extends BaseController {
         if (bindingResult.hasErrors()) {
             return JoyResult.buildFailedResult(Notice.REQUEST_PARAMETER_IS_ERROR, bindingResult.getFieldError().getDefaultMessage());
         } else {
-            // copy
+
             return drillWorkService.get(req.getId());
         }
     }
@@ -80,7 +80,7 @@ public class DrillWorkController extends BaseController {
         if (bindingResult.hasErrors()) {
             return JoyResult.buildFailedResult(Notice.REQUEST_PARAMETER_IS_ERROR, bindingResult.getFieldError().getDefaultMessage());
         } else {
-            // copy
+
             return drillWorkService.getByName(req.getName());
         }
     }
@@ -95,7 +95,7 @@ public class DrillWorkController extends BaseController {
         if (bindingResult.hasErrors()) {
             return JoyResult.buildFailedResult(Notice.REQUEST_PARAMETER_IS_ERROR, bindingResult.getFieldError().getDefaultMessage());
         } else {
-            // copy
+
             return drillWorkService.update(req);
         }
     }

@@ -35,7 +35,7 @@ public class DrivingFaceController extends BaseController {
         if (bindingResult.hasErrors()) {
             return JoyResult.buildFailedResult(Notice.REQUEST_PARAMETER_IS_ERROR, bindingResult.getFieldError().getDefaultMessage());
         } else {
-            // copy
+
             return drivingFaceService.add(req, getLoginUser(request));
         }
     }
@@ -50,7 +50,7 @@ public class DrivingFaceController extends BaseController {
         if (bindingResult.hasErrors()) {
             return JoyResult.buildFailedResult(Notice.REQUEST_PARAMETER_IS_ERROR, bindingResult.getFieldError().getDefaultMessage());
         } else {
-            // copy
+
             return drivingFaceService.delete(req.getId(), getLoginUser(request));
         }
     }
@@ -65,7 +65,7 @@ public class DrivingFaceController extends BaseController {
         if (bindingResult.hasErrors()) {
             return JoyResult.buildFailedResult(Notice.REQUEST_PARAMETER_IS_ERROR, bindingResult.getFieldError().getDefaultMessage());
         } else {
-            // copy
+
             return drivingFaceService.get(req.getId(), getLoginUser(request));
         }
     }
@@ -80,7 +80,7 @@ public class DrivingFaceController extends BaseController {
         if (bindingResult.hasErrors()) {
             return JoyResult.buildFailedResult(Notice.REQUEST_PARAMETER_IS_ERROR, bindingResult.getFieldError().getDefaultMessage());
         } else {
-            // copy
+
             return drivingFaceService.getByName(req.getName(),getLoginUser(request));
         }
     }
@@ -95,7 +95,7 @@ public class DrivingFaceController extends BaseController {
         if (bindingResult.hasErrors()) {
             return JoyResult.buildFailedResult(Notice.REQUEST_PARAMETER_IS_ERROR, bindingResult.getFieldError().getDefaultMessage());
         } else {
-            // copy
+
             return drivingFaceService.update(req,getLoginUser(request));
         }
     }

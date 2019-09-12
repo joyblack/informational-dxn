@@ -1,5 +1,9 @@
 package com.joy.xxfy.informationaldxn.module.driving.service;
 
+import com.joy.xxfy.informationaldxn.module.common.domain.vo.DateVo;
+import com.joy.xxfy.informationaldxn.module.common.enums.FillDailyStatusEnum;
+import com.joy.xxfy.informationaldxn.module.common.web.req.TimeReq;
+import com.joy.xxfy.informationaldxn.module.common.web.res.FillResultRes;
 import com.joy.xxfy.informationaldxn.module.system.domain.entity.DepartmentEntity;
 import com.joy.xxfy.informationaldxn.module.system.domain.repository.DepartmentRepository;
 import com.joy.xxfy.informationaldxn.module.driving.domain.entity.DrivingDailyEntity;
@@ -13,6 +17,7 @@ import com.joy.xxfy.informationaldxn.module.system.domain.entity.UserEntity;
 import com.joy.xxfy.informationaldxn.publish.constant.ResultDataConstant;
 import com.joy.xxfy.informationaldxn.publish.result.JoyResult;
 import com.joy.xxfy.informationaldxn.publish.result.Notice;
+import com.joy.xxfy.informationaldxn.publish.utils.DateUtil;
 import com.joy.xxfy.informationaldxn.publish.utils.RateUtil;
 import com.joy.xxfy.informationaldxn.publish.utils.project.JpaPagerUtil;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,6 +30,7 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Set;
 
 import static com.joy.xxfy.informationaldxn.publish.utils.ComputeUtils.less;
 import static com.joy.xxfy.informationaldxn.publish.utils.ComputeUtils.more;
@@ -255,4 +261,24 @@ public class DrivingDailyService {
     }
 
 
+    public JoyResult getMonthFillStatus(TimeReq req, UserEntity loginUser) {
+        Date start = DateUtil.getMonthFirstDay(req.getTime());
+        Date end = DateUtil.getMonthLastDay(req.getTime());
+        Set<DateVo> allFillDate = drivingDailyRepository.findAllFillDate(start, end, loginUser.getCompany());
+        List<FillResultRes> result = new ArrayList<>();
+        while(DateUtil.compare(start, end) <= 0){
+            FillResultRes res = new FillResultRes();
+            res.setDate(DateUtil.format(start));
+            // 查询本日是否存在日报信息
+            if(allFillDate.contains(new DateVo(start))){
+                res.setInfo(FillDailyStatusEnum.FILL_YES);
+                allFillDate.remove(start);
+            }else{
+                res.setInfo(FillDailyStatusEnum.FILL_NO);
+            }
+            start = DateUtil.addDay(start, 1);
+            result.add(res);
+        }
+        return JoyResult.buildSuccessResultWithData(result);
+    }
 }

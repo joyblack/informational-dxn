@@ -15,7 +15,6 @@ import com.joy.xxfy.informationaldxn.publish.result.JoyResult;
 import com.joy.xxfy.informationaldxn.publish.result.Notice;
 import com.joy.xxfy.informationaldxn.publish.utils.*;
 import com.joy.xxfy.informationaldxn.publish.utils.project.JpaPagerUtil;
-import org.apache.poi.ss.formula.functions.Rate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
@@ -47,7 +46,6 @@ public class BackMiningFaceService {
         if(backMiningFaceName != null){
             return JoyResult.buildFailedResult(Notice.BACK_MINING_NAME_ALREADY_EXIST);
         }
-        // copy properties
         BackMiningFaceEntity info = new BackMiningFaceEntity();
         JoyBeanUtil.copyPropertiesIgnoreTargetNotNullProperties(req, info);
 
@@ -191,4 +189,6 @@ public class BackMiningFaceService {
         }
         return JoyResult.buildSuccessResultWithData(result);
     }
+
+
 }

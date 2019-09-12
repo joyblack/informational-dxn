@@ -64,7 +64,7 @@ public class BorrowService {
         if(info == null){
             return JoyResult.buildFailedResult(Notice.BORROW_INFO_NOT_EXIST);
         }
-        // copy
+
         JoyBeanUtil.copyPropertiesIgnoreSourceNullProperties(req, info);
         info.setUpdateTime(new Date());
         // save.

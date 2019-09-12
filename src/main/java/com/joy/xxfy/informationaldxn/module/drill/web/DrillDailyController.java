@@ -2,6 +2,7 @@ package com.joy.xxfy.informationaldxn.module.drill.web;
 
 import com.joy.xxfy.informationaldxn.module.common.web.BaseController;
 import com.joy.xxfy.informationaldxn.module.common.web.req.IdReq;
+import com.joy.xxfy.informationaldxn.module.common.web.req.TimeReq;
 import com.joy.xxfy.informationaldxn.module.drill.service.DrillDailyService;
 import com.joy.xxfy.informationaldxn.module.drill.web.req.*;
 import com.joy.xxfy.informationaldxn.publish.result.JoyResult;
@@ -32,7 +33,6 @@ public class DrillDailyController extends BaseController {
         if (bindingResult.hasErrors()) {
             return JoyResult.buildFailedResult(Notice.REQUEST_PARAMETER_IS_ERROR, bindingResult.getFieldError().getDefaultMessage());
         } else {
-            // copy
             return drillDailyService.add(req);
         }
     }
@@ -47,7 +47,7 @@ public class DrillDailyController extends BaseController {
         if (bindingResult.hasErrors()) {
             return JoyResult.buildFailedResult(Notice.REQUEST_PARAMETER_IS_ERROR, bindingResult.getFieldError().getDefaultMessage());
         } else {
-            // copy
+
             return drillDailyService.delete(req.getId());
         }
     }
@@ -62,7 +62,7 @@ public class DrillDailyController extends BaseController {
         if (bindingResult.hasErrors()) {
             return JoyResult.buildFailedResult(Notice.REQUEST_PARAMETER_IS_ERROR, bindingResult.getFieldError().getDefaultMessage());
         } else {
-            // copy
+
             return drillDailyService.get(req.getId());
         }
     }
@@ -78,7 +78,7 @@ public class DrillDailyController extends BaseController {
         if (bindingResult.hasErrors()) {
             return JoyResult.buildFailedResult(Notice.REQUEST_PARAMETER_IS_ERROR, bindingResult.getFieldError().getDefaultMessage());
         } else {
-            // copy
+
             return drillDailyService.update(req);
         }
     }
@@ -108,6 +108,20 @@ public class DrillDailyController extends BaseController {
             return JoyResult.buildFailedResult(Notice.REQUEST_PARAMETER_IS_ERROR, bindingResult.getFieldError().getDefaultMessage());
         } else {
             return drillDailyService.getAllList(req, getLoginUser(request));
+        }
+    }
+
+    /**
+     * 获取指定时间所在月份内月份的填报状态
+     */
+    @PostMapping(
+            value = "/getMonthFillStatus",
+            produces = {"application/json;charset=UTF-8"})
+    public JoyResult getMonthFillStatus(@RequestBody @Valid TimeReq req, BindingResult bindingResult, HttpServletRequest request) {
+        if (bindingResult.hasErrors()) {
+            return JoyResult.buildFailedResult(Notice.REQUEST_PARAMETER_IS_ERROR, bindingResult.getFieldError().getDefaultMessage());
+        } else {
+            return drillDailyService.getMonthFillStatus(req, getLoginUser(request));
         }
     }
 }

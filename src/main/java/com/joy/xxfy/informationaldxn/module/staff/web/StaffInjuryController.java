@@ -30,7 +30,7 @@ public class StaffInjuryController {
         if (bindingResult.hasErrors()) {
             return JoyResult.buildFailedResult(Notice.REQUEST_PARAMETER_IS_ERROR, bindingResult.getFieldError().getDefaultMessage());
         } else {
-            // copy
+
             return staffInjuryService.add(req);
         }
     }
@@ -45,7 +45,7 @@ public class StaffInjuryController {
         if (bindingResult.hasErrors()) {
             return JoyResult.buildFailedResult(Notice.REQUEST_PARAMETER_IS_ERROR, bindingResult.getFieldError().getDefaultMessage());
         } else {
-            // copy
+
             return staffInjuryService.delete(req.getId());
         }
     }
@@ -60,7 +60,7 @@ public class StaffInjuryController {
         if (bindingResult.hasErrors()) {
             return JoyResult.buildFailedResult(Notice.REQUEST_PARAMETER_IS_ERROR, bindingResult.getFieldError().getDefaultMessage());
         } else {
-            // copy
+
             return staffInjuryService.get(req.getId());
         }
     }
@@ -75,7 +75,7 @@ public class StaffInjuryController {
         if (bindingResult.hasErrors()) {
             return JoyResult.buildFailedResult(Notice.REQUEST_PARAMETER_IS_ERROR, bindingResult.getFieldError().getDefaultMessage());
         } else {
-            // copy
+
             return staffInjuryService.update(req);
         }
     }

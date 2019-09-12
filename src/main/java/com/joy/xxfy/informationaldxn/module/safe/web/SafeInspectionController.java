@@ -34,7 +34,7 @@ public class SafeInspectionController extends BaseController {
         if (bindingResult.hasErrors()) {
             return JoyResult.buildFailedResult(Notice.REQUEST_PARAMETER_IS_ERROR, bindingResult.getFieldError().getDefaultMessage());
         } else {
-            // copy
+
             return safeInspectionService.add(req);
         }
     }
@@ -49,7 +49,7 @@ public class SafeInspectionController extends BaseController {
         if (bindingResult.hasErrors()) {
             return JoyResult.buildFailedResult(Notice.REQUEST_PARAMETER_IS_ERROR, bindingResult.getFieldError().getDefaultMessage());
         } else {
-            // copy
+
             return safeInspectionService.add(req);
         }
     }
@@ -64,7 +64,7 @@ public class SafeInspectionController extends BaseController {
         if (bindingResult.hasErrors()) {
             return JoyResult.buildFailedResult(Notice.REQUEST_PARAMETER_IS_ERROR, bindingResult.getFieldError().getDefaultMessage());
         } else {
-            // copy
+
             return safeInspectionService.update(req);
         }
     }
@@ -79,7 +79,7 @@ public class SafeInspectionController extends BaseController {
         if (bindingResult.hasErrors()) {
             return JoyResult.buildFailedResult(Notice.REQUEST_PARAMETER_IS_ERROR, bindingResult.getFieldError().getDefaultMessage());
         } else {
-            // copy
+
             return safeInspectionService.delete(idRequest.getId());
         }
     }
@@ -94,7 +94,7 @@ public class SafeInspectionController extends BaseController {
         if (bindingResult.hasErrors()) {
             return JoyResult.buildFailedResult(Notice.REQUEST_PARAMETER_IS_ERROR, bindingResult.getFieldError().getDefaultMessage());
         } else {
-            // copy
+
             return safeInspectionService.get(idRequest.getId());
         }
     }
@@ -109,7 +109,7 @@ public class SafeInspectionController extends BaseController {
         if (bindingResult.hasErrors()) {
             return JoyResult.buildFailedResult(Notice.REQUEST_PARAMETER_IS_ERROR, bindingResult.getFieldError().getDefaultMessage());
         } else {
-            // copy
+
             return safeInspectionService.getAllList(req);
         }
     }
@@ -124,7 +124,7 @@ public class SafeInspectionController extends BaseController {
         if (bindingResult.hasErrors()) {
             return JoyResult.buildFailedResult(Notice.REQUEST_PARAMETER_IS_ERROR, bindingResult.getFieldError().getDefaultMessage());
         } else {
-            // copy
+
             return safeInspectionService.getPagerList(req);
         }
     }
@@ -139,7 +139,7 @@ public class SafeInspectionController extends BaseController {
         if (bindingResult.hasErrors()) {
             return JoyResult.buildFailedResult(Notice.REQUEST_PARAMETER_IS_ERROR, bindingResult.getFieldError().getDefaultMessage());
         } else {
-            // copy
+
             return safeInspectionService.changeRectificationStatus(req);
         }
     }

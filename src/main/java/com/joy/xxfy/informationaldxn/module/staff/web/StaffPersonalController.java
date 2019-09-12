@@ -30,7 +30,7 @@ public class StaffPersonalController {
         if (bindingResult.hasErrors()) {
             return JoyResult.buildFailedResult(Notice.REQUEST_PARAMETER_IS_ERROR, bindingResult.getFieldError().getDefaultMessage());
         } else {
-            // copy
+
             return staffPersonalService.explainIdNumber(req.getIdNumber());
         }
     }
@@ -45,7 +45,7 @@ public class StaffPersonalController {
         if (bindingResult.hasErrors()) {
             return JoyResult.buildFailedResult(Notice.REQUEST_PARAMETER_IS_ERROR, bindingResult.getFieldError().getDefaultMessage());
         } else {
-            // copy
+
             return staffPersonalService.getPersonalByIdNumber(req.getIdNumber());
         }
     }
@@ -60,7 +60,7 @@ public class StaffPersonalController {
         if (bindingResult.hasErrors()) {
             return JoyResult.buildFailedResult(Notice.REQUEST_PARAMETER_IS_ERROR, bindingResult.getFieldError().getDefaultMessage());
         } else {
-            // copy
+
             return staffPersonalService.get(req.getId());
         }
     }
@@ -75,7 +75,7 @@ public class StaffPersonalController {
         if (bindingResult.hasErrors()) {
             return JoyResult.buildFailedResult(Notice.REQUEST_PARAMETER_IS_ERROR, bindingResult.getFieldError().getDefaultMessage());
         } else {
-            // copy
+
             return staffPersonalService.getByUsername(req.getUsername());
         }
     }
@@ -90,7 +90,7 @@ public class StaffPersonalController {
         if (bindingResult.hasErrors()) {
             return JoyResult.buildFailedResult(Notice.REQUEST_PARAMETER_IS_ERROR, bindingResult.getFieldError().getDefaultMessage());
         } else {
-            // copy
+
             return staffPersonalService.getStatusByIdNumber(req.getIdNumber());
         }
     }

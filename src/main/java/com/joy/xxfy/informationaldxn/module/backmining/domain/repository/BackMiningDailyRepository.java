@@ -3,6 +3,7 @@ package com.joy.xxfy.informationaldxn.module.backmining.domain.repository;
 import com.joy.xxfy.informationaldxn.module.backmining.domain.entity.BackMiningDailyEntity;
 import com.joy.xxfy.informationaldxn.module.backmining.domain.entity.BackMiningFaceEntity;
 import com.joy.xxfy.informationaldxn.module.common.domain.repository.BaseRepository;
+import com.joy.xxfy.informationaldxn.module.common.domain.vo.DateVo;
 import com.joy.xxfy.informationaldxn.module.common.enums.DailyShiftEnum;
 import com.joy.xxfy.informationaldxn.module.system.domain.entity.DepartmentEntity;
 import com.joy.xxfy.informationaldxn.module.produce.domain.vo.CmStatisticVo;
@@ -15,6 +16,7 @@ import org.springframework.data.repository.query.Param;
 import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
+import java.util.Set;
 
 public interface BackMiningDailyRepository extends BaseRepository<BackMiningDailyEntity>, JpaRepository<BackMiningDailyEntity, Long> {
 
@@ -109,4 +111,10 @@ public interface BackMiningDailyRepository extends BaseRepository<BackMiningDail
      */
     @Query("select new com.joy.xxfy.informationaldxn.module.statistic.domain.vo.SingleValueVo(sum(d.doneLength)) from BackMiningDailyEntity d where d.dailyTime between :start and :end and d.backMiningFace.belongCompany = :belongCompany")
     SingleValueVo<BigDecimal> statisticThisMonthLength(@Param("belongCompany") DepartmentEntity belongCompany, @Param("start") Date start, @Param("end") Date end);
+
+    /**
+     * 统计时间区间内，填写了日报的时间
+     */
+    @Query("select new com.joy.xxfy.informationaldxn.module.common.domain.vo.DateVo(d.dailyTime) from BackMiningDailyEntity d where d.dailyTime between :startDate and :endDate and d.backMiningFace.belongCompany = :belongCompany")
+    Set<DateVo> findAllFillDate(Date startDate, Date endDate, DepartmentEntity belongCompany);
 }
