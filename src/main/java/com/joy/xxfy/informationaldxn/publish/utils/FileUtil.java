@@ -31,7 +31,7 @@ public class FileUtil {
 
 
     /**
-     * By zhaoyi. 下载文件
+     * 下载文件
      */
     public static void downloadFile(String fileName, String path, HttpServletRequest request, HttpServletResponse response) {
             File file = new File(path);
