@@ -6,7 +6,7 @@ import com.joy.xxfy.informationaldxn.publish.result.JoyResult;
 import com.joy.xxfy.informationaldxn.publish.result.Notice;
 import com.joy.xxfy.informationaldxn.publish.utils.StringUtil;
 import com.joy.xxfy.informationaldxn.publish.utils.project.JpaPagerUtil;
-import com.joy.xxfy.informationaldxn.module.staff.domain.enetiy.StaffEntryEntity;
+import com.joy.xxfy.informationaldxn.module.staff.domain.entity.StaffEntryEntity;
 import com.joy.xxfy.informationaldxn.module.staff.domain.enums.ReviewStatusEnum;
 import com.joy.xxfy.informationaldxn.module.staff.domain.repository.StaffEntryRepository;
 import com.joy.xxfy.informationaldxn.module.staff.web.req.ReviewReq;

@@ -1,7 +1,8 @@
-package com.joy.xxfy.informationaldxn.module.staff.domain.enetiy;
+package com.joy.xxfy.informationaldxn.module.staff.domain.entity;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.joy.xxfy.informationaldxn.module.common.domain.entity.BaseEntity;
+import com.joy.xxfy.informationaldxn.module.system.domain.entity.DepartmentEntity;
 import lombok.Data;
 import lombok.ToString;
 import org.hibernate.annotations.Where;
@@ -11,14 +12,14 @@ import javax.validation.constraints.NotNull;
 import java.util.Date;
 
 /**
- * 工伤
+ * 职位调动
  */
 @Entity
 @Data
 @ToString(callSuper = true)
-@Table(name = "staff_injury")
+@Table(name = "staff_shift")
 @Where(clause = "is_delete = 0")
-public class StaffInjuryEntity extends BaseEntity {
+public class StaffShiftEntity extends BaseEntity {
     /**
      * 全局的个人信息
      */
@@ -28,34 +29,29 @@ public class StaffInjuryEntity extends BaseEntity {
     private StaffPersonalEntity staffPersonal;
 
     /**
-     * 工伤原因
+     * 调动时间
      */
-    @Lob
-    @Column(nullable = false)
-    private String injuryReasons;
-
-    /**
-     * 工伤时间
-     */
-    @Column(nullable = false)
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
-    private Date injuryTime;
+    private Date shiftTime;
 
     /**
-     * 工伤描述
+     * 调入的煤矿信息
      */
-    @Lob
-    private String injuryDescribes;
-
-
-    /**
-     * 主治医院
-     */
-    private String hospital;
+    @ManyToOne(cascade = {}, fetch = FetchType.EAGER)
+    @JoinColumn(name = "target_company_id")
+    private DepartmentEntity targetCompany;
 
     /**
-     * 医治时间
+     * 调入的煤矿部门
      */
-    private Date treatTime;
+    @ManyToOne(cascade = {}, fetch = FetchType.EAGER)
+    @JoinColumn(name = "target_department_id")
+    private DepartmentEntity targetDepartment;
+
+    /**
+     * 调到的职务/工种
+     */
+    @ManyToOne(cascade = {}, fetch = FetchType.EAGER)
+    private PositionEntity targetPosition;
 
 }

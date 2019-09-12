@@ -1,4 +1,4 @@
-package com.joy.xxfy.informationaldxn.module.staff.domain.enetiy;
+package com.joy.xxfy.informationaldxn.module.staff.domain.entity;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.joy.xxfy.informationaldxn.module.common.domain.entity.BaseEntity;

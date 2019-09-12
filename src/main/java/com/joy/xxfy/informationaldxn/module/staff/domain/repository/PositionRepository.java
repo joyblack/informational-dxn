@@ -1,7 +1,7 @@
 package com.joy.xxfy.informationaldxn.module.staff.domain.repository;
 
 import com.joy.xxfy.informationaldxn.module.common.domain.repository.BaseRepository;
-import com.joy.xxfy.informationaldxn.module.staff.domain.enetiy.PositionEntity;
+import com.joy.xxfy.informationaldxn.module.staff.domain.entity.PositionEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface PositionRepository extends BaseRepository<PositionEntity>, JpaRepository<PositionEntity, Long> {

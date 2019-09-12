@@ -10,6 +10,7 @@ import com.joy.xxfy.informationaldxn.module.driving.web.req.DrivingFaceAddReq;
 import com.joy.xxfy.informationaldxn.module.driving.web.req.DrivingFaceGetListReq;
 import com.joy.xxfy.informationaldxn.module.driving.web.req.DrivingFaceUpdateReq;
 import com.joy.xxfy.informationaldxn.module.system.domain.entity.UserEntity;
+import com.joy.xxfy.informationaldxn.publish.constant.ResultDataConstant;
 import com.joy.xxfy.informationaldxn.publish.result.JoyResult;
 import com.joy.xxfy.informationaldxn.publish.result.Notice;
 import com.joy.xxfy.informationaldxn.publish.utils.*;
@@ -94,9 +95,8 @@ public class DrivingFaceService {
         if(daily != null){
             return JoyResult.buildFailedResult(Notice.DAILY_EXIST_CANT_DELETE);
         }
-        drivingFaceInfo.setUpdateTime(new Date());
-        drivingFaceInfo.setIsDelete(true);
-        return JoyResult.buildSuccessResultWithData(drivingFaceRepository.save(drivingFaceInfo));
+        drivingFaceRepository.deleteById(id);
+        return JoyResult.buildSuccessResult(ResultDataConstant.MESSAGE_DELETE_SUCCESS);
     }
 
     /**

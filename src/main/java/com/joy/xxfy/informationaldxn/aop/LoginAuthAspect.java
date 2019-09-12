@@ -24,7 +24,7 @@ import javax.servlet.http.HttpServletResponse;
  */
 @Aspect
 @Component
-public class AuthorizeAspect {
+public class LoginAuthAspect {
 
     @Autowired
     private JwtParamConfig jwtParamConfig;

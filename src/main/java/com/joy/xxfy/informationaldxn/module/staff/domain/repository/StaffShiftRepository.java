@@ -2,8 +2,8 @@ package com.joy.xxfy.informationaldxn.module.staff.domain.repository;
 
 
 import com.joy.xxfy.informationaldxn.module.common.domain.repository.BaseRepository;
-import com.joy.xxfy.informationaldxn.module.staff.domain.enetiy.StaffPersonalEntity;
-import com.joy.xxfy.informationaldxn.module.staff.domain.enetiy.StaffShiftEntity;
+import com.joy.xxfy.informationaldxn.module.staff.domain.entity.StaffPersonalEntity;
+import com.joy.xxfy.informationaldxn.module.staff.domain.entity.StaffShiftEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface StaffShiftRepository extends BaseRepository<StaffShiftEntity>, JpaRepository<StaffShiftEntity, Long> {

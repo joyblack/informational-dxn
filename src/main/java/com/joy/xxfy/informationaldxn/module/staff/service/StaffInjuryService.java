@@ -1,7 +1,7 @@
 package com.joy.xxfy.informationaldxn.module.staff.service;
 
-import com.joy.xxfy.informationaldxn.module.staff.domain.enetiy.StaffInjuryEntity;
-import com.joy.xxfy.informationaldxn.module.staff.domain.enetiy.StaffPersonalEntity;
+import com.joy.xxfy.informationaldxn.module.staff.domain.entity.StaffInjuryEntity;
+import com.joy.xxfy.informationaldxn.module.staff.domain.entity.StaffPersonalEntity;
 import com.joy.xxfy.informationaldxn.module.staff.domain.repository.StaffInjuryRepository;
 import com.joy.xxfy.informationaldxn.module.staff.domain.repository.StaffPersonalRepository;
 import com.joy.xxfy.informationaldxn.module.staff.web.req.StaffInjuryAddReq;

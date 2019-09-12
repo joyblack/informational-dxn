@@ -33,11 +33,13 @@ import org.springframework.web.context.request.ServletRequestAttributes;
 import javax.servlet.http.HttpServletRequest;
 import java.lang.reflect.Method;
 import java.util.Arrays;
+import java.util.List;
 
 // Request and ResponseLogger.
 @Component
 @Aspect
-public class RequestCheckAop {
+public class PermissionAuthAop {
+
 
     private String projectPrefix = "/informational-dxn/v1/";
 
@@ -116,23 +118,25 @@ public class RequestCheckAop {
         if(StringUtil.isEmpty(requestUrl)){
             return true;
         }
+        // 手动检测限制用户类型访问的资源列表
+        if(!userTypePermissionCheck(user,requestUrl)){
+            LogUtil.info("权限认证结果：禁止。原因：不允许类型为【{}】的用户访问资源【{}】", user.getUserType(), requestUrl);
+            return false;
+        }
         /**
          * 获取资源ID
          */
         ResourceEntity resource = resourceRepository.findFirstByResourceUrl(requestUrl);
+
         if(resource == null){
-            LogUtil.info("权限认证结果：系统还未配置该资源的信息，允许访问.");
+            LogUtil.info("权限认证结果：允许。原因：系统还未配置该资源的信息，允许访问.");
             return true;
         }else{
-            // 是否限制用户类型
-            if(!user.getUserType().equals(resource.getUserType()) && !resource.getUserType().equals(UserTypeEnum.ALL)){
-                LogUtil.info("权限认证结果：只允许类型为 {} 的用户，禁止访问", resource.getUserType());
-                return false;
-            }
 
             // 检测资源:为空代表拥有所有权限
             if(StringUtil.isEmpty(user.getPermissions())){
-                LogUtil.info("权限认证结果：用户资源配置为空（未配置），允许访问");
+                LogUtil.info("权限认证结果：允许。" +
+                        "用户资源配置为空（未配置），允许访问");
                 return true;
             }
             if(Arrays.asList(user.getPermissions().split("-")).contains(resource.getId().toString())){
@@ -141,6 +145,37 @@ public class RequestCheckAop {
             }
         }
         return false;
+    }
+
+    /**
+     * 优先禁止，一些菜单项是不允许某类成员进入的
+     */
+    public boolean userTypePermissionCheck(UserEntity user, String requestUrl){
+        /**
+         * 煤矿不允许访问的列表
+         * 生产管理：集团调度日报
+         * 人事管理：入职审核
+         * 设置： 创建煤矿平台
+         */
+        if(user.getUserType().equals(UserTypeEnum.CM_ADMIN)  && (
+                   requestUrl.startsWith("produce-cp-statistic")
+                || requestUrl.startsWith("staff-review")
+                || requestUrl.startsWith("cm-platform")))
+            return false;
+
+        /**
+         * 集团不允许访问的列表
+         * 设备管理：所有
+         * 生产管理：基础资料、日报、煤矿生产日报
+         */
+        if(user.getUserType().equals(UserTypeEnum.CP_ADMIN)  && (
+                   requestUrl.startsWith("device-")
+                || requestUrl.startsWith("produce-drill-")
+                || requestUrl.startsWith("produce-driving-")
+                || requestUrl.startsWith("produce-back-mining-")
+                || requestUrl.startsWith("produce-cm-statistic")))
+            return false;
+        return true;
     }
 
 }

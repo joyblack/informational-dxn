@@ -2,7 +2,7 @@ package com.joy.xxfy.informationaldxn.module.staff.service;
 
 import com.joy.xxfy.informationaldxn.module.system.domain.entity.DepartmentEntity;
 import com.joy.xxfy.informationaldxn.module.system.domain.repository.DepartmentRepository;
-import com.joy.xxfy.informationaldxn.module.staff.domain.enetiy.PositionEntity;
+import com.joy.xxfy.informationaldxn.module.staff.domain.entity.PositionEntity;
 import com.joy.xxfy.informationaldxn.module.staff.domain.repository.PositionRepository;
 import com.joy.xxfy.informationaldxn.publish.result.JoyResult;
 import com.joy.xxfy.informationaldxn.publish.result.Notice;
@@ -10,7 +10,7 @@ import com.joy.xxfy.informationaldxn.publish.utils.LogUtil;
 import com.joy.xxfy.informationaldxn.publish.utils.StringUtil;
 import com.joy.xxfy.informationaldxn.publish.utils.identity.IdNumberUtil;
 import com.joy.xxfy.informationaldxn.publish.utils.project.JpaPagerUtil;
-import com.joy.xxfy.informationaldxn.module.staff.domain.enetiy.*;
+import com.joy.xxfy.informationaldxn.module.staff.domain.entity.*;
 import com.joy.xxfy.informationaldxn.module.staff.domain.repository.*;
 import com.joy.xxfy.informationaldxn.module.staff.web.req.*;
 import org.springframework.beans.BeanUtils;

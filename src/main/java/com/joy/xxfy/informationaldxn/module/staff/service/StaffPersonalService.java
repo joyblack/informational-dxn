@@ -2,7 +2,7 @@ package com.joy.xxfy.informationaldxn.module.staff.service;
 
 import com.joy.xxfy.informationaldxn.module.common.service.BaseService;
 import com.joy.xxfy.informationaldxn.module.common.web.res.FileInfoRes;
-import com.joy.xxfy.informationaldxn.module.staff.domain.enetiy.*;
+import com.joy.xxfy.informationaldxn.module.staff.domain.entity.*;
 import com.joy.xxfy.informationaldxn.module.staff.domain.enums.PersonalStatusEnum;
 import com.joy.xxfy.informationaldxn.module.staff.domain.enums.ReviewStatusEnum;
 import com.joy.xxfy.informationaldxn.module.staff.domain.repository.*;

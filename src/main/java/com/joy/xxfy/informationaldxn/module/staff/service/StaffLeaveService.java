@@ -6,10 +6,10 @@ import com.joy.xxfy.informationaldxn.publish.result.JoyResult;
 import com.joy.xxfy.informationaldxn.publish.result.Notice;
 import com.joy.xxfy.informationaldxn.publish.utils.*;
 import com.joy.xxfy.informationaldxn.publish.utils.project.JpaPagerUtil;
-import com.joy.xxfy.informationaldxn.module.staff.domain.enetiy.StaffBlacklistEntity;
-import com.joy.xxfy.informationaldxn.module.staff.domain.enetiy.StaffEntryEntity;
-import com.joy.xxfy.informationaldxn.module.staff.domain.enetiy.StaffLeaveEntity;
-import com.joy.xxfy.informationaldxn.module.staff.domain.enetiy.StaffPersonalEntity;
+import com.joy.xxfy.informationaldxn.module.staff.domain.entity.StaffBlacklistEntity;
+import com.joy.xxfy.informationaldxn.module.staff.domain.entity.StaffEntryEntity;
+import com.joy.xxfy.informationaldxn.module.staff.domain.entity.StaffLeaveEntity;
+import com.joy.xxfy.informationaldxn.module.staff.domain.entity.StaffPersonalEntity;
 import com.joy.xxfy.informationaldxn.module.staff.domain.repository.StaffBlacklistRepository;
 import com.joy.xxfy.informationaldxn.module.staff.domain.repository.StaffEntryRepository;
 import com.joy.xxfy.informationaldxn.module.staff.domain.repository.StaffLeaveRepository;
@@ -26,7 +26,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.criteria.Predicate;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 @Service

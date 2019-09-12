@@ -1,9 +1,9 @@
 package com.joy.xxfy.informationaldxn.module.staff.service;
 
 import com.joy.xxfy.informationaldxn.module.common.web.req.BasePageReq;
-import com.joy.xxfy.informationaldxn.module.staff.domain.enetiy.PositionEntity;
-import com.joy.xxfy.informationaldxn.module.staff.domain.enetiy.StaffEntryEntity;
-import com.joy.xxfy.informationaldxn.module.staff.domain.enetiy.StaffLeaveEntity;
+import com.joy.xxfy.informationaldxn.module.staff.domain.entity.PositionEntity;
+import com.joy.xxfy.informationaldxn.module.staff.domain.entity.StaffEntryEntity;
+import com.joy.xxfy.informationaldxn.module.staff.domain.entity.StaffLeaveEntity;
 import com.joy.xxfy.informationaldxn.module.staff.domain.repository.PositionRepository;
 import com.joy.xxfy.informationaldxn.module.staff.domain.repository.StaffEntryRepository;
 import com.joy.xxfy.informationaldxn.module.staff.domain.repository.StaffLeaveRepository;
