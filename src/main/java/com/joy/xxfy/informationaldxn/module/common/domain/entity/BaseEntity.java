@@ -41,7 +41,7 @@ public class BaseEntity {
     @Temporal(TemporalType.TIMESTAMP)
     @Column(nullable = false, name = "update_time")
     @NotNull(message = "修改日期不能为空")
-    private Date updateTime = new Date();""
+    private Date updateTime = new Date();
     /**
      * 备注
      **/
