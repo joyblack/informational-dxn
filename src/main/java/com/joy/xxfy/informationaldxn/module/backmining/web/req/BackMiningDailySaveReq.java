@@ -1,29 +1,30 @@
-package com.joy.xxfy.informationaldxn.module.driving.web.req;
+package com.joy.xxfy.informationaldxn.module.backmining.web.req;
 
 import com.joy.xxfy.informationaldxn.module.common.enums.DailyShiftEnum;
 import com.joy.xxfy.informationaldxn.module.common.web.req.BaseAddReq;
+import com.joy.xxfy.informationaldxn.module.common.web.req.BaseSaveReq;
 import lombok.Data;
 import lombok.ToString;
 
-import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import java.math.BigDecimal;
 import java.util.Date;
 
 @Data
 @ToString(callSuper = true)
-public class DrivingDailyAddReq extends BaseAddReq {
+public class BackMiningDailySaveReq extends BaseSaveReq {
     /**
-     * 关联的掘进工作面信息
+     * 关联的工作面信息
      */
-    @NotNull(message = "掘进工作面信息不能为空")
-    private Long drivingFaceId;
+    @NotNull(message = "工作面信息不能为空")
+    private Long backMiningFaceId;
 
     /**
      * 日期
      */
     @NotNull(message = "日期不能为空")
     private Date dailyTime;
+
 
     /**
      * 班次
@@ -34,8 +35,8 @@ public class DrivingDailyAddReq extends BaseAddReq {
     /**
      * 队伍
      */
-    @NotNull(message = "掘进队伍不能为空")
-    private Long drivingTeamId;
+    @NotNull(message = "回采队伍不能为空")
+    private Long teamId;
 
     /**
      * 人数
@@ -45,8 +46,7 @@ public class DrivingDailyAddReq extends BaseAddReq {
     /**
      * 进尺
      */
-    @NotNull(message = "进尺不能为空")
-    @Min(value = 0,message = "进尺不能小于0")
+    @NotNull(message = "推进都不能为空")
     private BigDecimal doneLength;
 
     /**

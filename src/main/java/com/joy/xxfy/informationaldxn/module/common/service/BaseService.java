@@ -1,9 +1,12 @@
 package com.joy.xxfy.informationaldxn.module.common.service;
 
+import com.joy.xxfy.informationaldxn.module.common.web.req.BaseAddReq;
+import com.joy.xxfy.informationaldxn.module.common.web.req.BaseSaveReq;
 import com.joy.xxfy.informationaldxn.module.common.web.res.FileInfoRes;
 import com.joy.xxfy.informationaldxn.publish.result.JoyResult;
 import com.joy.xxfy.informationaldxn.publish.result.Notice;
 import com.joy.xxfy.informationaldxn.publish.utils.FileUtil;
+import com.joy.xxfy.informationaldxn.validate.ValidList;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -64,4 +67,7 @@ public class BaseService {
             return JoyResult.buildFailedResult(Notice.UPLOAD_FILE_ERROR);
         }
     }
+
+
+
 }

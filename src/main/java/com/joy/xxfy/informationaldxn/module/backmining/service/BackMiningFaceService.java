@@ -11,6 +11,7 @@ import com.joy.xxfy.informationaldxn.module.common.domain.vo.WorkProgressVo;
 import com.joy.xxfy.informationaldxn.module.common.web.res.WorkProgressRes;
 import com.joy.xxfy.informationaldxn.module.system.domain.entity.UserEntity;
 import com.joy.xxfy.informationaldxn.publish.constant.BigDecimalValueConstant;
+import com.joy.xxfy.informationaldxn.publish.constant.ResultDataConstant;
 import com.joy.xxfy.informationaldxn.publish.result.JoyResult;
 import com.joy.xxfy.informationaldxn.publish.result.Notice;
 import com.joy.xxfy.informationaldxn.publish.utils.*;
@@ -105,11 +106,8 @@ public class BackMiningFaceService {
         if(daily != null){
             return JoyResult.buildFailedResult(Notice.DAILY_EXIST_CANT_DELETE);
         }
-        // 修改时间
-        info.setUpdateTime(new Date());
-        // 设置删除状态
-        info.setIsDelete(true);
-        return JoyResult.buildSuccessResultWithData(backMiningFaceRepository.save(info));
+        backMiningFaceRepository.deleteById(id);
+        return JoyResult.buildSuccessResult(ResultDataConstant.MESSAGE_DELETE_SUCCESS);
     }
 
     /**

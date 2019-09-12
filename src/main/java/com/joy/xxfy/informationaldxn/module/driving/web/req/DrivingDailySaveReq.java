@@ -2,6 +2,7 @@ package com.joy.xxfy.informationaldxn.module.driving.web.req;
 
 import com.joy.xxfy.informationaldxn.module.common.enums.DailyShiftEnum;
 import com.joy.xxfy.informationaldxn.module.common.web.req.BaseAddReq;
+import com.joy.xxfy.informationaldxn.module.common.web.req.BaseSaveReq;
 import lombok.Data;
 import lombok.ToString;
 
@@ -12,7 +13,8 @@ import java.util.Date;
 
 @Data
 @ToString(callSuper = true)
-public class DrivingDailyAddReq extends BaseAddReq {
+public class DrivingDailySaveReq extends BaseSaveReq {
+
     /**
      * 关联的掘进工作面信息
      */

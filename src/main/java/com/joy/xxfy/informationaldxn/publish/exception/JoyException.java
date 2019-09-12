@@ -28,10 +28,13 @@ public class JoyException extends RuntimeException {
         errorMessage.setDetailMessage(cause.getMessage());
     }
 
+
+
     public JoyException(String message) {
         super(message);
         this.errorMessage = JoyResult.buildFailedResult(message);
     }
+
 
     public JoyException(Notice notice) {
         super(notice.getMessage());

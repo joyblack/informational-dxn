@@ -6,6 +6,7 @@ import com.joy.xxfy.informationaldxn.module.backmining.domain.repository.BackMin
 import com.joy.xxfy.informationaldxn.module.backmining.domain.repository.BackMiningFaceRepository;
 import com.joy.xxfy.informationaldxn.module.backmining.web.req.BackMiningDailyAddReq;
 import com.joy.xxfy.informationaldxn.module.backmining.web.req.BackMiningDailyGetListReq;
+import com.joy.xxfy.informationaldxn.module.backmining.web.req.BackMiningDailySaveReq;
 import com.joy.xxfy.informationaldxn.module.backmining.web.req.BackMiningDailyUpdateReq;
 import com.joy.xxfy.informationaldxn.module.common.domain.vo.DateVo;
 import com.joy.xxfy.informationaldxn.module.common.enums.FillDailyStatusEnum;
@@ -15,11 +16,14 @@ import com.joy.xxfy.informationaldxn.module.system.domain.entity.DepartmentEntit
 import com.joy.xxfy.informationaldxn.module.system.domain.repository.DepartmentRepository;
 import com.joy.xxfy.informationaldxn.module.system.domain.entity.UserEntity;
 import com.joy.xxfy.informationaldxn.publish.constant.ResultDataConstant;
+import com.joy.xxfy.informationaldxn.publish.exception.JoyException;
 import com.joy.xxfy.informationaldxn.publish.result.JoyResult;
 import com.joy.xxfy.informationaldxn.publish.result.Notice;
 import com.joy.xxfy.informationaldxn.publish.utils.DateUtil;
 import com.joy.xxfy.informationaldxn.publish.utils.RateUtil;
 import com.joy.xxfy.informationaldxn.publish.utils.project.JpaPagerUtil;
+import com.joy.xxfy.informationaldxn.publish.utils.project.SaveReqUtil;
+import com.joy.xxfy.informationaldxn.validate.ValidList;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
@@ -110,6 +114,158 @@ public class BackMiningDailyService {
         // 备注信息
         info.setRemarks(req.getRemarks());
         return JoyResult.buildSuccessResultWithData(backMiningDailyRepository.save(info));
+    }
+
+    /**
+     * 上报（批量）
+     */
+    public JoyResult batchSave(ValidList<BackMiningDailySaveReq> reqs) {
+        SaveReqUtil.sort(reqs);
+        for (BackMiningDailySaveReq req : reqs) {
+            if(req.getId() == null || req.getId().equals(0L)){ // new
+                // 初始化某些值
+                req.setPeopleNumber(req.getPeopleNumber() == null ? 0L: req.getPeopleNumber());
+                req.setOutput(req.getOutput() == null? BigDecimal.ZERO: req.getOutput());
+                // 验证工作面信息是否存在
+                BackMiningFaceEntity backMiningFace = backMiningFaceRepository.findAllById(req.getBackMiningFaceId());
+                if(backMiningFace == null){
+                    throw new JoyException(Notice.BACK_MINING_NOT_EXIST);
+                }
+                // 验证队伍是否存在
+                DepartmentEntity team = departmentRepository.findAllById(req.getTeamId());
+                if(team == null){
+                    throw new JoyException(Notice.DEPARTMENT_NOT_EXIST);
+                }
+                // 验证该记录是否重复(同工作面、日期、同队伍、同班次)
+                BackMiningDailyEntity repeat = backMiningDailyRepository.findFirstByBackMiningFaceAndDailyTimeAndTeamAndShifts(backMiningFace, req.getDailyTime(), team, req.getShifts());
+                if(repeat != null){
+                    throw new JoyException(Notice.DAILY_ALREADY_EXIST);
+                }
+                // 若提交的长度需要小0
+                if(less(req.getDoneLength(), BigDecimal.ZERO)){
+                    throw new JoyException(Notice.LENGTH_SHOULD_MORE_ZERO);
+                }
+                // 若当前提交的长度大于剩余长度，不合法
+                if(more(req.getDoneLength(), backMiningFace.getLeftLength())){
+                    throw new JoyException(Notice.SET_LENGTH_MORE_LEFT_LENGTH.getMessage() + ":" + ResultDataConstant.MESSAGE_LEFT_LENGTH + backMiningFace.getLeftLength());
+                }
+                // == 修改工作面信息
+                // 已掘长度：oldDoneLength + doneLength
+                backMiningFace.setDoneLength(backMiningFace.getDoneLength().add(req.getDoneLength()));
+                // 剩余长度
+                backMiningFace.setLeftLength(backMiningFace.getSlopeLength().subtract(backMiningFace.getDoneLength()));
+                // 进度
+                backMiningFace.setProgress(RateUtil.compute(backMiningFace.getDoneLength(),backMiningFace.getSlopeLength(),false));
+                // 更新时间
+                backMiningFace.setUpdateTime(new Date());
+
+                // 装配实体：日报信息
+                BackMiningDailyEntity info = new BackMiningDailyEntity();
+                // 日期
+                info.setDailyTime(req.getDailyTime());
+                // 工作面信息
+                info.setBackMiningFace(backMiningFace);
+                // 班次
+                info.setShifts(req.getShifts());
+                // 掘进队伍
+                info.setTeam(team);
+                // 人数
+                info.setPeopleNumber(req.getPeopleNumber());
+                // 进尺(工作长度)
+                info.setDoneLength(req.getDoneLength());
+                // 产量
+                info.setOutput(req.getOutput());
+                // 其他工作内容
+                info.setWorkContent(req.getWorkContent());
+                // 备注信息
+                info.setRemarks(req.getRemarks());
+                // 保存
+                backMiningDailyRepository.save(info);
+            }else if(req.getId() > 0){ // update
+                // 获取日报信息
+                BackMiningDailyEntity info = backMiningDailyRepository.findAllById(req.getId());
+                if(info == null){
+                    throw new JoyException(Notice.DAILY_NOT_EXIST);
+                }
+                // 验证队伍是否存在
+                DepartmentEntity team = departmentRepository.findAllById(req.getTeamId());
+                if(team == null){
+                    throw new JoyException(Notice.DEPARTMENT_NOT_EXIST);
+                }
+                // 验证该记录是否重复(同工作面、日期、同队伍、同班次)
+
+                BackMiningDailyEntity repeat = backMiningDailyRepository.findFirstByBackMiningFaceAndDailyTimeAndTeamAndShifts(info.getBackMiningFace(), info.getDailyTime(), team, req.getShifts());
+                if(repeat != null && !repeat.getId().equals(info.getId())){
+                    throw new JoyException(Notice.DAILY_ALREADY_EXIST);
+                }
+                // 若提交的长度需要大于0
+                if(less(req.getDoneLength(), BigDecimal.ZERO)){
+                    throw new JoyException(Notice.LENGTH_SHOULD_MORE_ZERO);
+                }
+                // 初始化某些值
+                req.setPeopleNumber(req.getPeopleNumber() == null ? 0L: req.getPeopleNumber());
+                req.setOutput(req.getOutput() == null? BigDecimal.ZERO: req.getOutput());
+
+                // 变化值
+                BigDecimal offsetDoneLength = req.getDoneLength().subtract(info.getDoneLength());
+
+                // 若差值大于剩余长度，不合法
+                BackMiningFaceEntity backMiningFace = info.getBackMiningFace();
+                if(more(offsetDoneLength, backMiningFace.getLeftLength())){
+                    throw new JoyException(Notice.SET_LENGTH_MORE_LEFT_LENGTH.getMessage() + ":" + ResultDataConstant.MESSAGE_LEFT_LENGTH + backMiningFace.getLeftLength());
+                }
+
+                // 装配信息
+                // 班次
+                info.setShifts(req.getShifts());
+                // 掘进队伍
+                info.setTeam(team);
+                // 人数
+                info.setPeopleNumber(req.getPeopleNumber());
+                // 进尺(工作长度)
+                info.setDoneLength(req.getDoneLength());
+                // 产量
+                info.setOutput(req.getOutput());
+                // 其他工作内容
+                info.setWorkContent(req.getWorkContent());
+                // 备注信息
+                info.setRemarks(req.getRemarks());
+
+                // == 修改工作面信息
+                // 修改已掘长度
+                backMiningFace.setDoneLength(backMiningFace.getDoneLength().add(offsetDoneLength));
+                // 剩余长度
+                backMiningFace.setLeftLength(backMiningFace.getSlopeLength().subtract(backMiningFace.getDoneLength()));
+                // 修改进度
+                backMiningFace.setProgress(RateUtil.compute(backMiningFace.getDoneLength(),backMiningFace.getSlopeLength(),false));
+                // 修改时间
+                backMiningFace.setUpdateTime(new Date());
+                // save.
+                backMiningDailyRepository.save(info);
+            }else{// delete
+                // 获取日报信息
+                Long id = Math.abs(req.getId());
+                BackMiningDailyEntity info = backMiningDailyRepository.findAllById(id);
+                if(info == null){
+                    return JoyResult.buildFailedResult(Notice.DAILY_NOT_EXIST);
+                }
+                // == 修改工作面信息
+                BackMiningFaceEntity backMiningFace = info.getBackMiningFace();
+                // 修改已掘长度
+                backMiningFace.setDoneLength(backMiningFace.getDoneLength().subtract(info.getDoneLength()));
+                // 剩余长度
+                backMiningFace.setLeftLength(backMiningFace.getSlopeLength().subtract(backMiningFace.getDoneLength()));
+                // 修改进度
+                backMiningFace.setProgress(RateUtil.compute(backMiningFace.getDoneLength(),backMiningFace.getSlopeLength(),false));
+                // 修改时间
+                backMiningFace.setUpdateTime(new Date());
+                // 保存工作面信息
+                backMiningFaceRepository.save(backMiningFace);
+                // 删除日报信息
+                backMiningDailyRepository.deleteById(id);
+            }
+        }
+        return JoyResult.buildSuccessResult(ResultDataConstant.MESSAGE_ADD_SUCCESS);
     }
 
 
@@ -282,5 +438,6 @@ public class BackMiningDailyService {
         }
         return JoyResult.buildSuccessResultWithData(result);
     }
+
 
 }

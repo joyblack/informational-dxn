@@ -2,13 +2,12 @@ package com.joy.xxfy.informationaldxn.module.driving.web;
 
 import com.joy.xxfy.informationaldxn.module.common.web.BaseController;
 import com.joy.xxfy.informationaldxn.module.common.web.req.IdReq;
-import com.joy.xxfy.informationaldxn.module.common.web.req.NameReq;
 import com.joy.xxfy.informationaldxn.module.common.web.req.TimeReq;
 import com.joy.xxfy.informationaldxn.module.driving.service.DrivingDailyService;
-import com.joy.xxfy.informationaldxn.module.driving.service.DrivingFaceService;
 import com.joy.xxfy.informationaldxn.module.driving.web.req.*;
 import com.joy.xxfy.informationaldxn.publish.result.JoyResult;
 import com.joy.xxfy.informationaldxn.publish.result.Notice;
+import com.joy.xxfy.informationaldxn.validate.ValidList;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -35,8 +34,21 @@ public class DrivingDailyController extends BaseController {
         if (bindingResult.hasErrors()) {
             return JoyResult.buildFailedResult(Notice.REQUEST_PARAMETER_IS_ERROR, bindingResult.getFieldError().getDefaultMessage());
         } else {
-
             return drivingDailyService.add(req, getLoginUser(request));
+        }
+    }
+
+    /**
+     * 批量保存
+     */
+    @PostMapping(
+            value = "/batchSave",
+            produces = {"application/json;charset=UTF-8"})
+    public JoyResult batchSave(@RequestBody @Valid ValidList<DrivingDailySaveReq> req, BindingResult bindingResult, HttpServletRequest request) {
+        if (bindingResult.hasErrors()) {
+            return JoyResult.buildFailedResult(Notice.REQUEST_PARAMETER_IS_ERROR, bindingResult.getFieldError().getDefaultMessage());
+        } else {
+            return drivingDailyService.batchSave(req, getLoginUser(request));
         }
     }
 

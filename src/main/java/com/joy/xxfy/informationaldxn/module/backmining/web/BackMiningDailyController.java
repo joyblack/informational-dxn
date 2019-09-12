@@ -7,6 +7,7 @@ import com.joy.xxfy.informationaldxn.module.backmining.service.BackMiningDailySe
 import com.joy.xxfy.informationaldxn.module.common.web.req.TimeReq;
 import com.joy.xxfy.informationaldxn.publish.result.JoyResult;
 import com.joy.xxfy.informationaldxn.publish.result.Notice;
+import com.joy.xxfy.informationaldxn.validate.ValidList;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -35,6 +36,20 @@ public class BackMiningDailyController extends BaseController {
         } else {
 
             return backMiningDailyService.add(req);
+        }
+    }
+
+    /**
+     * 上报（批量）
+     */
+    @PostMapping(
+            value = "/batchSave",
+            produces = {"application/json;charset=UTF-8"})
+    public JoyResult batchSave(@RequestBody @Valid ValidList<BackMiningDailySaveReq> req, BindingResult bindingResult) {
+        if (bindingResult.hasErrors()) {
+            return JoyResult.buildFailedResult(Notice.REQUEST_PARAMETER_IS_ERROR, bindingResult.getFieldError().getDefaultMessage());
+        } else {
+            return backMiningDailyService.batchSave(req);
         }
     }
 
