@@ -272,7 +272,10 @@ public class CmPlatformService extends BaseService {
         if(cmPlatform == null){
             return JoyResult.buildFailedResult(Notice.CM_PLATFORM_NOT_EXIST);
         }
-        String permissions = PermissionUtil.transToString(req.getPermission());
+        String permissions = "";
+        if(req.getPermission() != null && req.getPermission().size() > 0){
+            permissions = PermissionUtil.transToString(req.getPermission());
+        }
         LogUtil.info("The generated permissions string is: {}", permissions);
         // update to db.
         cmPlatform.getUser().setPermissions(permissions);

@@ -1,13 +1,13 @@
 package com.joy.xxfy.informationaldxn.module.system.service;
 
 import com.joy.xxfy.informationaldxn.module.common.web.req.BasePageReq;
+import com.joy.xxfy.informationaldxn.module.common.web.req.BasePermissionReq;
 import com.joy.xxfy.informationaldxn.module.system.domain.entity.DepartmentEntity;
-import com.joy.xxfy.informationaldxn.module.system.domain.enums.DepartmentTypeEnum;
-import com.joy.xxfy.informationaldxn.module.system.domain.repository.DepartmentRepository;
 import com.joy.xxfy.informationaldxn.module.system.domain.entity.UserEntity;
+import com.joy.xxfy.informationaldxn.module.system.domain.enums.DepartmentTypeEnum;
 import com.joy.xxfy.informationaldxn.module.system.domain.enums.UserTypeEnum;
+import com.joy.xxfy.informationaldxn.module.system.domain.repository.DepartmentRepository;
 import com.joy.xxfy.informationaldxn.module.system.domain.repository.UserRepository;
-import com.joy.xxfy.informationaldxn.module.system.web.req.SetPermissionReq;
 import com.joy.xxfy.informationaldxn.module.system.web.req.UserAddReq;
 import com.joy.xxfy.informationaldxn.module.system.web.req.UserUpdateReq;
 import com.joy.xxfy.informationaldxn.publish.constant.DepartmentConstant;
@@ -16,6 +16,7 @@ import com.joy.xxfy.informationaldxn.publish.result.JoyResult;
 import com.joy.xxfy.informationaldxn.publish.result.Notice;
 import com.joy.xxfy.informationaldxn.publish.utils.JoyBeanUtil;
 import com.joy.xxfy.informationaldxn.publish.utils.MD5Util;
+import com.joy.xxfy.informationaldxn.publish.utils.PermissionUtil;
 import com.joy.xxfy.informationaldxn.publish.utils.StringUtil;
 import com.joy.xxfy.informationaldxn.publish.utils.project.JpaPagerUtil;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -197,12 +198,16 @@ public class UserService {
     }
 
 
-    public JoyResult setPermission(SetPermissionReq req) {
+    public JoyResult updatePermission(BasePermissionReq req) {
         UserEntity user = userRepository.findAllById(req.getId());
         if(user == null){
             return JoyResult.buildFailedResult(Notice.USER_NOT_EXIST);
         }
-        user.setPermissions(req.getPermission());
+        String permissions = "";
+        if(req.getPermission() != null && req.getPermission().size() > 0){
+            permissions = PermissionUtil.transToString(req.getPermission());
+        }
+        user.setPermissions(permissions);
         return JoyResult.buildSuccessResultWithData(userRepository.save(user));
     }
 }

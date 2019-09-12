@@ -2,15 +2,13 @@ package com.joy.xxfy.informationaldxn.module.system.web;
 
 import com.joy.xxfy.informationaldxn.module.common.web.BaseController;
 import com.joy.xxfy.informationaldxn.module.common.web.req.BasePageReq;
+import com.joy.xxfy.informationaldxn.module.common.web.req.BasePermissionReq;
 import com.joy.xxfy.informationaldxn.module.common.web.req.IdReq;
-import com.joy.xxfy.informationaldxn.module.common.web.req.TestReq;
-import com.joy.xxfy.informationaldxn.module.system.web.req.SetPermissionReq;
+import com.joy.xxfy.informationaldxn.module.system.service.UserService;
 import com.joy.xxfy.informationaldxn.module.system.web.req.UserAddReq;
 import com.joy.xxfy.informationaldxn.module.system.web.req.UserUpdateReq;
 import com.joy.xxfy.informationaldxn.publish.result.JoyResult;
 import com.joy.xxfy.informationaldxn.publish.result.Notice;
-import com.joy.xxfy.informationaldxn.module.system.domain.entity.UserEntity;
-import com.joy.xxfy.informationaldxn.module.system.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -79,14 +77,13 @@ public class UserController extends BaseController {
      * 设置权限
      */
     @PostMapping(
-            value = "getPermission",
+            value = "updatePermission",
             produces = {"application/json;charset=UTF-8"})
-    public JoyResult getPermission(@RequestBody @Valid SetPermissionReq req, BindingResult bindingResult, HttpServletRequest request) {
+    public JoyResult updatePermission(@RequestBody @Valid BasePermissionReq req, BindingResult bindingResult, HttpServletRequest request) {
         if (bindingResult.hasErrors()) {
             return JoyResult.buildFailedResult(Notice.REQUEST_PARAMETER_IS_ERROR, bindingResult.getFieldError().getDefaultMessage());
         } else {
-            // copy
-            return userService.setPermission(req);
+            return userService.updatePermission(req);
         }
     }
 
