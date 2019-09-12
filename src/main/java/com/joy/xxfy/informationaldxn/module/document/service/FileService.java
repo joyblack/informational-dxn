@@ -168,7 +168,7 @@ public class FileService extends BaseService {
      */
     public void download(Long id, HttpServletRequest req, HttpServletResponse resp) {
         FileEntity file = fileRepository.findAllById(id);
-        FileUtil.downloadFile(file.getFileName(),file.getStorePath() + file.getFileName(), req, resp);
+        FileUtil.downloadFile(file.getFileName(),file.getStorePath() + File.separator + file.getFileName(), req, resp);
     }
 
     /**
