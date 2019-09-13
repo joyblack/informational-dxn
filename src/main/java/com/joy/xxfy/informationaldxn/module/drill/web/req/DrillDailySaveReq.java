@@ -2,16 +2,17 @@ package com.joy.xxfy.informationaldxn.module.drill.web.req;
 
 import com.joy.xxfy.informationaldxn.module.common.enums.DailyShiftEnum;
 import com.joy.xxfy.informationaldxn.module.common.web.req.BaseAddReq;
-import com.joy.xxfy.informationaldxn.module.common.web.req.BaseSaveReq;
 import lombok.Data;
 import lombok.ToString;
 
+import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 import java.util.Date;
+import java.util.List;
 
 @Data
 @ToString(callSuper = true)
-public class DrillDailySaveReq extends BaseSaveReq {
+public class DrillDailySaveReq extends BaseAddReq {
     /**
      * 关联的钻孔工作ID
      */
@@ -25,24 +26,10 @@ public class DrillDailySaveReq extends BaseSaveReq {
     private Date dailyTime;
 
     /**
-     * 班次
+     * 详情
      */
-    @NotNull(message = "班次不能为空")
-    private DailyShiftEnum shifts;
-
-    /**
-     * 打钻队伍
-     */
-    @NotNull(message = "打钻队伍不能为空")
-    private Long drillTeamId;
-
-    /**
-     * 打钻的人数
-     */
-    @NotNull(message = "打钻人数不能为空")
-    private Long peopleNumber;
-
-
-
+    @NotNull(message = "日志列表不能为空")
+    @Valid
+    private List<DrillDailySaveItem> items;
 
 }

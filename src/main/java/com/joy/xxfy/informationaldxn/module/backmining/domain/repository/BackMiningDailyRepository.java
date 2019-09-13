@@ -5,11 +5,12 @@ import com.joy.xxfy.informationaldxn.module.backmining.domain.entity.BackMiningF
 import com.joy.xxfy.informationaldxn.module.common.domain.repository.BaseRepository;
 import com.joy.xxfy.informationaldxn.module.common.domain.vo.DateVo;
 import com.joy.xxfy.informationaldxn.module.common.enums.DailyShiftEnum;
-import com.joy.xxfy.informationaldxn.module.system.domain.entity.DepartmentEntity;
 import com.joy.xxfy.informationaldxn.module.produce.domain.vo.CmStatisticVo;
 import com.joy.xxfy.informationaldxn.module.statistic.domain.vo.KeyAndValueVo;
 import com.joy.xxfy.informationaldxn.module.statistic.domain.vo.SingleValueVo;
+import com.joy.xxfy.informationaldxn.module.system.domain.entity.DepartmentEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
@@ -117,4 +118,16 @@ public interface BackMiningDailyRepository extends BaseRepository<BackMiningDail
      */
     @Query("select new com.joy.xxfy.informationaldxn.module.common.domain.vo.DateVo(d.dailyTime) from BackMiningDailyEntity d where d.dailyTime between :startDate and :endDate and d.backMiningFace.belongCompany = :belongCompany")
     Set<DateVo> findAllFillDate(Date startDate, Date endDate, DepartmentEntity belongCompany);
+
+    /**
+     * 统计指定工作面具体某一天的总进尺
+     */
+    @Query("select new com.joy.xxfy.informationaldxn.module.statistic.domain.vo.SingleValueVo(sum(d.doneLength)) from BackMiningDailyEntity d where d.backMiningFace = :backMiningFace and d.dailyTime = :dailyTime")
+    SingleValueVo<BigDecimal> statisticDoneLength(BackMiningFaceEntity backMiningFace, Date dailyTime);
+
+    /**
+     * 通过工作面信息、日期，删除日报
+     */
+    @Modifying
+    void deleteAllByBackMiningFaceAndDailyTime(BackMiningFaceEntity backMiningFace, Date dailyTime);
 }

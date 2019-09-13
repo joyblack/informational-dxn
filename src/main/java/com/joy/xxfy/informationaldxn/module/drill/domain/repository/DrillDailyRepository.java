@@ -11,6 +11,7 @@ import com.joy.xxfy.informationaldxn.module.produce.domain.vo.DrillStatisticVo;
 import com.joy.xxfy.informationaldxn.module.statistic.domain.vo.KeyAndValueVo;
 import com.joy.xxfy.informationaldxn.module.statistic.domain.vo.SingleValueVo;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
@@ -20,6 +21,12 @@ import java.util.List;
 import java.util.Set;
 
 public interface DrillDailyRepository extends BaseRepository<DrillDailyEntity>, JpaRepository<DrillDailyEntity, Long> {
+    /**
+     * 删除工作面关联的在指定日期的日报信息
+     */
+    @Modifying
+    void deleteAllByDrillWorkAndDailyTime(DrillWorkEntity drillWork, Date dailyTime);
+
     /**
      * 打钻工作、日期、班次、打钻队伍 获取日报信息: drill_work_id = ? and daily_time = ? and team = ? and shifts = ?
      */

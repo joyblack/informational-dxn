@@ -11,6 +11,7 @@ import com.joy.xxfy.informationaldxn.module.produce.domain.vo.DrivingStatisticVo
 import com.joy.xxfy.informationaldxn.module.statistic.domain.vo.KeyAndValueVo;
 import com.joy.xxfy.informationaldxn.module.statistic.domain.vo.SingleValueVo;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
@@ -49,6 +50,13 @@ public interface DrivingDailyRepository extends BaseRepository<DrivingDailyEntit
     @Query("select new com.joy.xxfy.informationaldxn.module.produce.domain.vo.DrivingStatisticVo(sum(d.doneLength)) " +
             " from DrivingDailyEntity d where d.drivingFace = :face and concat(year(d.dailyTime),month(d.dailyTime)) = :ym")
     DrivingStatisticVo statisticDoneLength(@Param("face") DrivingFaceEntity drivingFace, @Param("ym")String ym);
+
+
+    /**
+     * 统计指定工作面具体某一天的总进尺
+     */
+    @Query("select new com.joy.xxfy.informationaldxn.module.statistic.domain.vo.SingleValueVo(sum(d.doneLength)) from DrivingDailyEntity d where d.drivingFace = :drivingFace and d.dailyTime = :dailyTime")
+    SingleValueVo<BigDecimal> statisticDoneLength(DrivingFaceEntity drivingFace, Date dailyTime);
 
 
     /**
@@ -121,4 +129,10 @@ public interface DrivingDailyRepository extends BaseRepository<DrivingDailyEntit
      */
     @Query("select new com.joy.xxfy.informationaldxn.module.common.domain.vo.DateVo(d.dailyTime) from DrivingDailyEntity d where d.dailyTime between :startDate and :endDate and d.drivingFace.belongCompany = :belongCompany")
     Set<DateVo> findAllFillDate(Date startDate, Date endDate, DepartmentEntity belongCompany);
+
+    /**
+     * 通过工作面信息、日期，删除日报信息
+     */
+    @Modifying
+    void deleteAllByDrivingFaceAndDailyTime(DrivingFaceEntity drivingFace, Date dailyTime);
 }

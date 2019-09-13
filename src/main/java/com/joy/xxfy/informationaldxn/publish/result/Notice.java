@@ -97,7 +97,7 @@ public enum Notice{
     SET_LENGTH_MORE_LEFT_LENGTH("设置工作长度大于剩余长度", 111004),
     LENGTH_SHOULD_MORE_ZERO("长度不能小于等于0", 111005),
     DAILY_NOT_EXIST("日报信息不存在", 111006),
-    DAILY_ALREADY_EXIST("日报信息已存在", 111007),
+    DAILY_ALREADY_EXIST("日报信息已存在，添加了重复的日报信息", 111007),
     DAILY_EXIST_CANT_DELETE("已有关联的日报信息，不允许删除", 111010),
     DAILY_EXIST_CANT_EDIT_LENGTH("已有关联的日报信息，不允许修改设计长度", 111011),
 

@@ -40,6 +40,7 @@ public class DrivingDailyAddReq extends BaseAddReq {
     /**
      * 人数
      */
+    @Min(value = 0,message = "人数不能小于0")
     private Long peopleNumber;
 
     /**
@@ -52,6 +53,7 @@ public class DrivingDailyAddReq extends BaseAddReq {
     /**
      * 产量(t)
      */
+    @Min(value = 0,message = "产量不能小于0")
     private BigDecimal output;
 
     /**

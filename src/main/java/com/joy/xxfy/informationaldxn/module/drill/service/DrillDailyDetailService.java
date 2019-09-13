@@ -57,11 +57,6 @@ public class DrillDailyDetailService {
         if(exist != null){
             return JoyResult.buildFailedResult(Notice.DAILY_ALREADY_EXIST);
         }
-        // 验证打孔长度是否超标，获取钻孔的剩余长度
-        // 若提交的长度需要小0
-        if(less(req.getDoneLength(), BigDecimal.ZERO)){
-            return JoyResult.buildFailedResult(Notice.LENGTH_SHOULD_MORE_ZERO);
-        }
         // 若当前提交的长度大于钻孔的剩余长度，不合法
         if(more(req.getDoneLength(),drillHole.getLeftLength())){
             return JoyResult.buildFailedResult(Notice.SET_LENGTH_MORE_LEFT_LENGTH,
@@ -97,6 +92,8 @@ public class DrillDailyDetailService {
         drillWork.setNotCompletedDrillHoleNumber(drillWork.getTotalDrillHoleNumber() - drillWork.getCompletedDrillHoleNumber());
         // 未打总量：钻孔总量 - 已打总量
         drillWork.setTotalLeftLength(drillWork.getTotalLength().subtract(drillWork.getTotalDoneLength()));
+        // 进度
+        drillWork.setProgress(RateUtil.compute(drillWork.getTotalDoneLength(), drillWork.getTotalLength(),false));
 
         // == 添加钻孔日报详情
         DrillDailyDetailEntity detail = new DrillDailyDetailEntity();
@@ -212,7 +209,7 @@ public class DrillDailyDetailService {
             // 关联的工作的已完成数 - 1
             drillWork.setCompletedDrillHoleNumber(drillWork.getCompletedDrillHoleNumber() - LongValueConstant.ONE);
             // 重新计算剩余数量
-            drillWork.setCompletedDrillHoleNumber(drillWork.getTotalDrillHoleNumber() - drillWork.getCompletedDrillHoleNumber());
+            drillWork.setNotCompletedDrillHoleNumber(drillWork.getTotalDrillHoleNumber() - drillWork.getCompletedDrillHoleNumber());
         }
 
         // == 打钻日报

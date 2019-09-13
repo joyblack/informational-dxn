@@ -1,18 +1,18 @@
 package com.joy.xxfy.informationaldxn.module.driving.web.req;
 
 import com.joy.xxfy.informationaldxn.module.common.enums.DailyShiftEnum;
-import com.joy.xxfy.informationaldxn.module.common.web.req.BaseUpdateReq;
+import com.joy.xxfy.informationaldxn.module.common.web.req.BaseAddReq;
 import lombok.Data;
 import lombok.ToString;
 
-import javax.persistence.Column;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import java.math.BigDecimal;
+import java.util.Date;
 
 @Data
 @ToString(callSuper = true)
-public class DrivingDailyUpdateReq extends BaseUpdateReq {
+public class DrivingDailySaveItem extends BaseAddReq {
     /**
      * 班次
      */

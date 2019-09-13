@@ -9,6 +9,7 @@ import com.joy.xxfy.informationaldxn.validate.annotates.Angle;
 import lombok.Data;
 import lombok.ToString;
 
+import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import java.math.BigDecimal;
@@ -36,6 +37,7 @@ public class DrivingFaceAddReq extends BaseAddReq {
      * 已掘长度
      */
     @NotNull(message = "已掘长度不能为空")
+    @Min(value = 0,message = "已掘长度不能小于0")
     private BigDecimal doneLength;
 
     /**

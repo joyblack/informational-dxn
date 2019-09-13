@@ -5,6 +5,7 @@ import com.joy.xxfy.informationaldxn.module.common.web.req.BaseAddReq;
 import lombok.Data;
 import lombok.ToString;
 
+import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import java.math.BigDecimal;
 import java.util.Date;
@@ -40,17 +41,20 @@ public class BackMiningDailyAddReq extends BaseAddReq {
     /**
      * 人数
      */
+    @Min(value = 0,message = "人数不能小于0")
     private Long peopleNumber;
 
     /**
      * 进尺
      */
-    @NotNull(message = "推进都不能为空")
+    @Min(value = 0,message = "推进度不能小于0")
+    @NotNull(message = "推进度不能为空")
     private BigDecimal doneLength;
 
     /**
      * 产量(t)
      */
+    @Min(value = 0,message = "产量不能小于0")
     private BigDecimal output;
 
     /**

@@ -5,6 +5,7 @@ import com.joy.xxfy.informationaldxn.module.common.web.req.IdReq;
 import com.joy.xxfy.informationaldxn.module.common.web.req.TimeReq;
 import com.joy.xxfy.informationaldxn.module.drill.service.DrillDailyService;
 import com.joy.xxfy.informationaldxn.module.drill.web.req.*;
+import com.joy.xxfy.informationaldxn.module.driving.web.req.DrivingDailySaveReq;
 import com.joy.xxfy.informationaldxn.publish.result.JoyResult;
 import com.joy.xxfy.informationaldxn.publish.result.Notice;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,6 +35,20 @@ public class DrillDailyController extends BaseController {
             return JoyResult.buildFailedResult(Notice.REQUEST_PARAMETER_IS_ERROR, bindingResult.getFieldError().getDefaultMessage());
         } else {
             return drillDailyService.add(req);
+        }
+    }
+
+    /**
+     * 批量保存
+     */
+    @PostMapping(
+            value = "/batchSave",
+            produces = {"application/json;charset=UTF-8"})
+    public JoyResult batchSave(@RequestBody @Valid DrillDailySaveReq req, BindingResult bindingResult, HttpServletRequest request) {
+        if (bindingResult.hasErrors()) {
+            return JoyResult.buildFailedResult(Notice.REQUEST_PARAMETER_IS_ERROR, bindingResult.getFieldError().getDefaultMessage());
+        } else {
+            return drillDailyService.batchSave(req);
         }
     }
 

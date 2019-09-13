@@ -44,7 +44,7 @@ public class DrivingDailyController extends BaseController {
     @PostMapping(
             value = "/batchSave",
             produces = {"application/json;charset=UTF-8"})
-    public JoyResult batchSave(@RequestBody @Valid ValidList<DrivingDailySaveReq> req, BindingResult bindingResult, HttpServletRequest request) {
+    public JoyResult batchSave(@RequestBody @Valid DrivingDailySaveReq req, BindingResult bindingResult, HttpServletRequest request) {
         if (bindingResult.hasErrors()) {
             return JoyResult.buildFailedResult(Notice.REQUEST_PARAMETER_IS_ERROR, bindingResult.getFieldError().getDefaultMessage());
         } else {
